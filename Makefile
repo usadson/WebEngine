@@ -35,6 +35,7 @@ bin/logger.so: src/logger.cpp src/logger.hpp
 
 bin/net/connection_info.so: src/net/connection_info.cpp \
 	src/net/connection_info.hpp \
+	src/ccompat.hpp \
 	src/logger.hpp
 	$(CXX) $(CFLAGS) -c -o $@ src/net/connection_info.cpp
 

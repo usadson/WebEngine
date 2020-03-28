@@ -18,11 +18,8 @@ namespace Net {
 		if (Socket != 0) {
 			if (close(Socket) == -1) {
 				int errorCode = errno;
-				std::vector<char> errorString(256);
-				strerror_s(errorCode, errorString.data(), 256);
-				std::cout << errorString.data() << std::endl;
 				std::stringstream information;
-				information << "Error on close() socket: " << std::string(errorString.data());
+				information << "Error on close() socket: " << CCompat::GetErrnoName(errorCode) << " (" << errorCode << ")";
 				Logger::Warning("Net::ConnectionInfo", information.str());
 			}
 			Socket = 0;
