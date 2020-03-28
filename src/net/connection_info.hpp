@@ -1,5 +1,6 @@
 #pragma once
 
+#include <optional>
 #include <string>
 
 #include <cstdint>
@@ -40,6 +41,7 @@ namespace Net {
 
 		bool Connect();
 		bool Read(char *data, size_t length);
+		std::optional<char> ReadChar();
 		bool ResolveHostName();
 		bool Write(const char *data, size_t length);
 	};

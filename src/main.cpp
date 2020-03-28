@@ -74,7 +74,8 @@ void RunNetTest(void) {
 	Net::ConnectionInfo connectInfo("duck.com", 80);
 	Net::HTTP::HTTPConnection connection(connectInfo);
 	Net::HTTP::HTTPResponseInfo response;
-	connection.RequestNavigation(&response, "/");
+	Net::HTTP::HTTPConnectionError error = connection.RequestNavigation(&response, "/");
+	std::cout << "Error: " << error << "\nVersion: " << response.HTTPVersion << "\nStatusCode: " << response.StatusCode << "\nReasonPhrase: " << response.ReasonPhrase << std::endl;
 }
 
 int main(void) {

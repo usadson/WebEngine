@@ -132,6 +132,13 @@ namespace Net {
 		}
 	}
 
+	std::optional<char> ConnectionInfo::ReadChar() {
+		char character;
+		if (read(Socket, &character, 1) == -1)
+			return std::optional<char>();
+		return std::optional<char>(character);
+	}
+
 	bool ConnectionInfo::Read(char *buf, size_t len) {
 		if (Secure) {
 			// TLS not implemented yet
