@@ -9,6 +9,7 @@
 #include <iostream>
 #include <vector>
 
+#include "net/http/http_connection.hpp"
 #include "parser/html/tokenizer.hpp"
 
 const char TestDocument[] = "<!doctype html>\n\
@@ -67,9 +68,16 @@ inline void RunDocumentTest(void) {
 	tokenizer.Run(VectorizeString(TestDocument, sizeof(TestDocument)-1));
 }
 
+void RunNetTest(void) {
+	Net::ConnectionInfo connectInfo("sub.thewoosh.me", 80);
+	Net::HTTP::HTTPConnection connection(connectInfo);
+	connection.Request("/");
+}
+
 int main(void) {
 	// RunDoctypeTests();
-	RunDocumentTest();
+	// RunDocumentTest();
+	RunNetTest();
 
 	return EXIT_SUCCESS;
 }
