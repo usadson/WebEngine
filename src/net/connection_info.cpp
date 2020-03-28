@@ -29,7 +29,6 @@ namespace Net {
 		}
 	}
 
-	
 	std::string FormatTime(std::chrono::duration<int32_t, std::nano> nanoDuration) {
 		std::stringstream durationStream;
 		if (nanoDuration.count() > 1e6) {
@@ -111,5 +110,45 @@ namespace Net {
 
 		// Other settings? Such as tls?
 		return true;
+	}
+
+	bool ConnectionInfo::Write(const char *buf, size_t len) {
+		if (Secure) {
+			// TLS not implemented yet
+			return false;
+		} else {
+			ssize_t ret;
+			while (len > 0) {
+				ret = write(Socket, buf, len);
+
+				if (ret == -1)
+					return false;
+
+				buf += ret;
+				len -= ret;
+			}
+
+			return true;
+		}
+	}
+
+	bool ConnectionInfo::Read(char *buf, size_t len) {
+		if (Secure) {
+			// TLS not implemented yet
+			return false;
+		} else {
+			ssize_t ret;
+			while (len > 0) {
+				ret = read(Socket, buf, len);
+
+				if (ret == -1)
+					return false;
+
+				buf += ret;
+				len -= ret;
+			}
+
+			return true;
+		}
 	}
 }

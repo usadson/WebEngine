@@ -1,5 +1,9 @@
 #pragma once
 
+#include <string>
+
+#include <cstdint>
+
 namespace Net {
 	namespace HTTP {
 		class HTTPResponseInfo {

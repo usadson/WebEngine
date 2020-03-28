@@ -73,7 +73,8 @@ inline void RunDocumentTest(void) {
 void RunNetTest(void) {
 	Net::ConnectionInfo connectInfo("duck.com", 80);
 	Net::HTTP::HTTPConnection connection(connectInfo);
-	connection.Request("/");
+	Net::HTTP::HTTPResponseInfo response;
+	connection.RequestNavigation(&response, "/");
 }
 
 int main(void) {

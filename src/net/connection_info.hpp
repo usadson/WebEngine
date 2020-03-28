@@ -25,7 +25,6 @@ namespace Net {
 
 		/* The time it took to connect to the currently-connnected-to server. */
 		std::string TimingConnect;
-
 	private: // Private Properties
 		int Socket;
 	public: // Methods
@@ -39,7 +38,9 @@ namespace Net {
 
 		~ConnectionInfo();
 
-		bool ResolveHostName();
 		bool Connect();
+		bool Read(char *data, size_t length);
+		bool ResolveHostName();
+		bool Write(const char *data, size_t length);
 	};
 }
