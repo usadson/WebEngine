@@ -34,9 +34,10 @@ namespace HTML {
 		// Should really just create a mapped table with function pointers...
 		switch (inToken.Type) {
 			case  HTML::Tokenizer::TokenType::DOCTYPE:
+				std::cout << "\033[1;31m -> DOCTYPE TYPE!!!\033[1;0m" << std::endl;
 				break;
 			default:
-				std::cout << " -> UnknownType" << std::endl;
+				// std::cout << " -> UnknownType: " << inToken.Type << std::endl;
 				break;
 		}
 	}

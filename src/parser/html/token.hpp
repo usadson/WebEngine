@@ -15,8 +15,22 @@ namespace HTML {
 			ENDTAG,
 			EOF_TYPE,
 			INVALID,
-			STARTTAG,
+			STARTTAG
 		};
+		
+		static std::map<TokenType, std::string> TokenTypeNames = {
+			{ TokenType::CHARACTER, "CHARACTER" },
+			{ TokenType::COMMENT, "COMMENT" },
+			{ TokenType::DOCTYPE, "DOCTYPE" },
+			{ TokenType::ENDTAG, "ENDTAG" },
+			{ TokenType::EOF_TYPE, "EOF_TYPE" },
+			{ TokenType::INVALID, "EOF_TYPE" },
+			{ TokenType::STARTTAG, "STARTTAG" }
+		};
+
+		inline std::ostream &operator<<(std::ostream &stream, const TokenType &type) {
+			return stream << TokenTypeNames[type];
+		}
 
 		struct Token {
 			TokenType Type;
