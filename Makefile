@@ -15,7 +15,8 @@ CFLAGS = -Isrc -g -Wall -std=c++17 -O0
 CXX = c++
 LDFLAGS = 
 
-BINARIES = bin/logger.so \
+BINARIES = bin/ccompat.so \
+	   bin/logger.so \
 	   bin/net/connection_info.so \
 	   bin/net/http/http_connection.so \
 	   bin/parser/html/context.so \
@@ -29,6 +30,9 @@ engine: src/main.cpp \
 	src/parser/html/state.hpp \
 	$(BINARIES)
 	$(CXX) $(CFLAGS) -o $@ src/main.cpp $(LDFLAGS) $(BINARIES)
+
+bin/ccompat.so: src/ccompat.cpp src/ccompat.hpp
+	$(CXX) $(CFLAGS) -c -o $@ src/ccompat.cpp
 
 bin/logger.so: src/logger.cpp src/logger.hpp
 	$(CXX) $(CFLAGS) -c -o $@ src/logger.cpp

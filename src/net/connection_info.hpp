@@ -10,6 +10,9 @@ namespace Net {
 		std::string HostName;
 		uint16_t Port;
 		bool Secure;
+
+		std::string TimingDNS;
+		std::string TimingConnect;
 	private: // Private Properties
 		int Socket;
 	public: // Methods
@@ -23,6 +26,7 @@ namespace Net {
 
 		~ConnectionInfo();
 
+		bool ResolveHostName();
 		bool Connect();
 	};
 }

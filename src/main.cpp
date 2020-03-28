@@ -9,6 +9,8 @@
 #include <iostream>
 #include <vector>
 
+
+#include "ccompat.hpp"
 #include "net/http/http_connection.hpp"
 #include "parser/html/tokenizer.hpp"
 
@@ -69,7 +71,7 @@ inline void RunDocumentTest(void) {
 }
 
 void RunNetTest(void) {
-	Net::ConnectionInfo connectInfo("sub.thewoosh.me", 80);
+	Net::ConnectionInfo connectInfo("duck.com", 80);
 	Net::HTTP::HTTPConnection connection(connectInfo);
 	connection.Request("/");
 }
@@ -79,5 +81,8 @@ int main(void) {
 	// RunDocumentTest();
 	RunNetTest();
 
+	
+	// Just for valgrind:
+	CCompat::CloseStandardIO();
 	return EXIT_SUCCESS;
 }
