@@ -71,10 +71,10 @@ inline void RunDocumentTest(void) {
 	tokenizer.Run(VectorizeString(TestDocument, sizeof(TestDocument)-1));
 }
 
-void RunNetTest(void) {
+void RunNetTest(const char *name) {
 	Net::Global::SetupTLS();
 
-	Net::ConnectionInfo connectInfo("duck.com", 443, true);
+	Net::ConnectionInfo connectInfo(name, 443, true);
 	Net::HTTP::HTTPConnection connection(connectInfo);
 	Net::HTTP::HTTPResponseInfo response;
 	Net::HTTP::HTTPConnectionError error = connection.RequestNavigation(&response, "/");
@@ -95,12 +95,15 @@ void RunNetTest(void) {
 	Net::Global::DestroyTLS();
 }
 
-int main(void) {
+int main(int argc, char *argv[]) {
+	if (argc == 1) {
+		std::cerr << "Please specify a domain!" << std::endl;
+		return EXIT_FAILURE;
+	}
 	// RunDoctypeTests();
 	// RunDocumentTest();
-	RunNetTest();
+	RunNetTest(argv[1]);
 
-	
 	// Just for valgrind:
 	CCompat::CloseStandardIO();
 	return EXIT_SUCCESS;
