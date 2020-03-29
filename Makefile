@@ -19,6 +19,7 @@ BINARIES = bin/ccompat.so \
 	   bin/logger.so \
 	   bin/net/connection_info.so \
 	   bin/net/http/http_connection.so \
+	   bin/net/http/http_response_info.so \
 	   bin/parser/html/context.so \
 	   bin/parser/html/error.so \
 	   bin/parser/html/token.so \
@@ -49,6 +50,11 @@ bin/net/http/http_connection.so: src/net/http/http_connection.cpp \
 	src/net/http/http_response_info.hpp \
 	src/net/connection_info.hpp
 	$(CXX) $(CFLAGS) -c -o $@ src/net/http/http_connection.cpp
+
+bin/net/http/http_response_info.so: src/net/http/http_response_info.cpp \
+	src/net/http/http_response_info.hpp \
+	src/net/http/http_header_field.hpp
+	$(CXX) $(CFLAGS) -c -o $@ src/net/http/http_response_info.cpp
 
 bin/parser/html/context.so: src/parser/html/context.cpp \
 	src/parser/html/context.hpp

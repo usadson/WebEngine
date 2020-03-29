@@ -1,5 +1,6 @@
 #pragma once
 
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -16,6 +17,10 @@ namespace Net {
 			std::string ReasonPhrase;
 
 			std::vector<HTTPHeaderField> Headers;
+			std::vector<char> MessageBody;
+		public: // Methods
+			std::optional<const char *> GetHeader(const char *name) const;
+			std::optional<size_t> GetHeaderUnsigned(const char *name) const;
 		};
 	}
 }
