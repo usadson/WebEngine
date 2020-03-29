@@ -18,6 +18,9 @@
 
 namespace Net {
 	ConnectionInfo::~ConnectionInfo() {
+		if (IsAuthenticated)
+			TLSDestroy();
+
 		if (Socket != 0) {
 			if (close(Socket) == -1) {
 				int errorCode = errno;
@@ -106,16 +109,27 @@ namespace Net {
 			return false;
 		}
 
-		Logger::Debug("Net::ConnectionInfo::Connect", "Timings:\n\tDNS Resolving:             " + TimingDNS + "\n\tPinging other hosts:       " + TimingPing + "\n\tConnection Establishment:  " + TimingConnect);
+		if (Secure) {
+			auto startTLS = std::chrono::high_resolution_clock::now();
+			IsAuthenticated = TLSSetup();
+			TimingTLS = FormatTime(std::chrono::high_resolution_clock::now() - startTLS);
 
-		// Other settings? Such as tls?
+			if (IsAuthenticated) {
+				TimingTLS += " (failed)";
+				Logger::Warning("Net::ConnectionInfo::Connect", "Failed to setup TLS!");
+				return false;
+			}
+		} else {
+			TimingTLS = "";
+		}
+
+		Logger::Debug("Net::ConnectionInfo::Connect", "Timings:\n\tDNS Resolving:             " + TimingDNS + "\n\tPinging other hosts:       " + TimingPing + "\n\tConnection Establishment:  " + TimingConnect + "\n\tTLS Handshake:             " + TimingTLS);
 		return true;
 	}
 
 	bool ConnectionInfo::Write(const char *buf, size_t len) {
 		if (Secure) {
-			// TLS not implemented yet
-			return false;
+			return TLSWrite(buf, len);
 		} else {
 			ssize_t ret;
 			while (len > 0) {
@@ -133,6 +147,9 @@ namespace Net {
 	}
 
 	std::optional<char> ConnectionInfo::ReadChar() {
+		if (Secure)
+			return TLSReadChar();
+
 		char character;
 		if (read(Socket, &character, 1) == -1)
 			return std::optional<char>();
@@ -141,8 +158,7 @@ namespace Net {
 
 	bool ConnectionInfo::Read(char *buf, size_t len) {
 		if (Secure) {
-			// TLS not implemented yet
-			return false;
+			return TLSRead(buf, len);
 		} else {
 			ssize_t ret;
 			while (len > 0) {

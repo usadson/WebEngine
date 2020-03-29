@@ -13,11 +13,12 @@
 
 CFLAGS = -Isrc -g -Wall -std=c++17 -O0
 CXX = c++
-LDFLAGS = 
+LDFLAGS = `pkg-config --static --libs libtls`
 
 BINARIES = bin/ccompat.so \
 	   bin/logger.so \
 	   bin/net/connection_info.so \
+	   bin/net/connection_info_libtls.so \
 	   bin/net/http/http_connection.so \
 	   bin/net/http/http_response_info.so \
 	   bin/parser/html/context.so \
@@ -30,7 +31,7 @@ engine: src/main.cpp \
 	src/parser/html/error.hpp \
 	src/parser/html/state.hpp \
 	$(BINARIES)
-	$(CXX) $(CFLAGS) -o $@ src/main.cpp $(LDFLAGS) $(BINARIES)
+	$(CXX) $(CFLAGS) -o $@ src/main.cpp $(BINARIES) $(LDFLAGS)
 
 bin/ccompat.so: src/ccompat.cpp src/ccompat.hpp
 	$(CXX) $(CFLAGS) -c -o $@ src/ccompat.cpp
@@ -43,6 +44,11 @@ bin/net/connection_info.so: src/net/connection_info.cpp \
 	src/ccompat.hpp \
 	src/logger.hpp
 	$(CXX) $(CFLAGS) -c -o $@ src/net/connection_info.cpp
+
+bin/net/connection_info_libtls.so: src/net/connection_info_libtls.cpp \
+	src/net/connection_info.hpp \
+	src/logger.hpp
+	$(CXX) $(CFLAGS) -c -o $@ src/net/connection_info_libtls.cpp
 
 bin/net/http/http_connection.so: src/net/http/http_connection.cpp \
 	src/net/http/http_connection.hpp \
