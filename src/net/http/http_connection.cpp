@@ -305,6 +305,17 @@ namespace Net {
 					return subroutineError;
 			} while (true);
 
+			/* Consume message-body */
+			std::optional<size_t> contentLength = response->GetHeaderUnsigned("content-length");
+			if (contentLength.has_value()) {
+				/* Make space in HTTPResponseInfo::MessageBody */
+				response->MessageBody.resize(contentLength.value());
+
+				if (!ConnectionInfo.Read(response->MessageBody.data(), contentLength.value())) {
+					return HTTPConnectionError::FAILED_READ_MESSAGE_BODY;
+				}
+			}
+
 			return HTTPConnectionError::NO_ERROR;
 		}
 

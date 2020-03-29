@@ -84,6 +84,10 @@ void RunNetTest(void) {
 	for (const auto &headerField : response.Headers) {
 		std::cout << "\t\"" << headerField.FieldName << "\" = \"" << headerField.FieldValue << '\"' << std::endl;
 	}
+	std::cout << "MessageBodySize: " << response.MessageBody.size() << std::endl;
+	std::string start = "============ Message Body ============";
+	std::string end   = "======================================";
+	std::cout << start << std::string(response.MessageBody.data(), response.MessageBody.size()) << '\n' << end << std::endl;
 }
 
 int main(void) {
