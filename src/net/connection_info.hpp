@@ -14,6 +14,10 @@ namespace Net {
 		/* The port it's connected to (usually 443 or 80). */
 		uint16_t Port;
 
+		/* Has a connection been established? (Note that r/w calls can still
+		 * fail!) */
+		bool Connected;
+
 		/* Should the connection be wrapped in TLS? */
 		bool Secure;
 
@@ -38,11 +42,11 @@ namespace Net {
 		void *TLSContext;
 	public: // Methods
 		ConnectionInfo(std::string hostName, uint16_t port)
-			: HostName(hostName), Port(port), Secure(false), Socket(0) {
+			: HostName(hostName), Port(port), Connected(false), Secure(false), IsAuthenticated(false), Socket(0) {
 		}
 
 		ConnectionInfo(std::string hostName, uint16_t port, bool secure)
-			: HostName(hostName), Port(port), Secure(secure), Socket(0) {
+			: HostName(hostName), Port(port), Connected(false), Secure(secure), IsAuthenticated(false), Socket(0) {
 		}
 
 		~ConnectionInfo();

@@ -9,11 +9,18 @@
 
 #include "global.hpp"
 #include "logger.hpp"
+#include "options.hpp"
 
 namespace Net {
 
 	namespace Global {
+
 		struct tls_config *TLSConfiguration;
+
+		bool ConfigureSecure() {
+			/* LibreSSL already configures secure protocols. */
+			return true;
+		}
 
 		bool SetupTLS() {
 			TLSConfiguration = tls_config_new();
@@ -23,16 +30,25 @@ namespace Net {
 				return false;
 			}
 
+			std::string &securityLevel = Options::Get(Options::Type::TLS_SECURITY_LEVEL);
+			if (securityLevel == "secure") {
+				ConfigureSecure();						 
+			} else {
+				Logger::Error("Net::Global::SetupTLS", "Unrecognised TLS_SECURITY_LEVEL: " + securityLevel);
+			}
+
 			return true;
 		}
 
 		void DestroyTLS() {
+			Logger::Debug(__PRETTY_FUNCTION__, "Destroy called");
 			tls_config_free(TLSConfiguration);
 		}
 	}
 
 	void ConnectionInfo::TLSDestroy() {
 		tls_close((struct tls *) TLSContext);
+		tls_free((struct tls *) TLSContext);
 		TLSContext = nullptr;
 	}
 
@@ -72,22 +88,36 @@ namespace Net {
 		if (tls_configure(context, Global::TLSConfiguration) == -1) {
 			const char *error = tls_error(context);
 			Logger::Severe("ConnectionInfo::TLSSetup[libtls]", std::string("Failed to configure TLS context: ") + error);
+			tls_free(context);
 			return false;
 		}
 
 		if (tls_connect_socket(context, Socket, HostName.c_str()) == -1) {
 			const char *error = tls_error(context);
 			Logger::Warning("ConnectionInfo::TLSSetup[libtls]", std::string("Failed to setup secure connection with ") + HostName + ": " + error);
+			tls_free(context);
 			return false;
 		}
 
 		if (tls_handshake(context) == -1) {
 			const char *error = tls_error(context);
 			Logger::Warning("ConnectionInfo::TLSSetup[libtls]", std::string("Failed to setup secure connection (handshake) with ") + HostName + ": " + error);
+			tls_free(context);
 			return false;
 		}
 
+		std::cout << "TLS Information:"
+				  << "\nTLSVersion=" << tls_conn_version(context)
+				  << "\nCipher=" << tls_conn_cipher(context)
+				  << "\nCipherStrength=" << tls_conn_cipher_strength(context)
+				  << "\nServerName=" << tls_conn_servername(context)
+				  << "\nCertificateIssuer=" << tls_peer_cert_issuer(context)
+				  << "\nCertificateSubject=" << tls_peer_cert_subject(context)
+				  << "\nCertificateHash=" << tls_peer_cert_hash(context)
+				  << std::endl;
+
 		TLSContext = context;
+		IsAuthenticated = true;
 		return true;
 	}
 

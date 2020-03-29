@@ -25,6 +25,7 @@ namespace Net {
 			INCORRECT_REASON_PHRASE,
 			INCORRECT_START_LINE,
 			NO_ERROR,
+			NOT_CONNECTED,
 		};
 
 		static std::map<HTTPConnectionError, std::string> HTTPConnectionErrorNames = {
@@ -43,6 +44,7 @@ namespace Net {
 			{ HTTPConnectionError::INCORRECT_REASON_PHRASE, "INCORRECT_REASON_PHRASE" },
 			{ HTTPConnectionError::INCORRECT_START_LINE, "INCORRECT_START_LINE" },
 			{ HTTPConnectionError::NO_ERROR, "NO_ERROR" },
+			{ HTTPConnectionError::NOT_CONNECTED, "NOT_CONNECTED" },
 		};
 
 		inline std::ostream &operator<<(std::ostream &stream, const HTTPConnectionError &type) {

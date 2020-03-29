@@ -232,6 +232,11 @@ namespace Net {
 		}
 
 		HTTPConnectionError HTTPConnection::Request(HTTPResponseInfo *response, std::string method, std::string path) {
+			if (!ConnectionInfo.Connected ||
+				(ConnectionInfo.Secure && !ConnectionInfo.IsAuthenticated)) {
+				return HTTPConnectionError::NOT_CONNECTED;
+			}
+
 			std::optional<char> singleCharacter;
 			std::stringstream request;
 			HTTPConnectionError subroutineError;

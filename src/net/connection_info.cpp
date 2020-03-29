@@ -109,6 +109,8 @@ namespace Net {
 			return false;
 		}
 
+		Connected = true;
+
 		if (Secure) {
 			auto startTLS = std::chrono::high_resolution_clock::now();
 			IsAuthenticated = TLSSetup();
