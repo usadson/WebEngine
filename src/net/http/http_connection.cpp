@@ -1,3 +1,5 @@
+/* TODO Implement vector max-lengths? */
+
 #include "http_connection.hpp" 
 
 #include <iostream>
@@ -110,6 +112,125 @@ namespace Net {
 			return HTTPConnectionError::FAILED_READ_REASON_PHRASE;
 		}
 
+		HTTPConnectionError HTTPConnection::ConsumeHeaderField(HTTPResponseInfo *response, char firstCharacter) {
+			std::vector<char> fieldName;
+			std::vector<char> fieldValue;
+			std::optional<char> character;
+			char *nullCharacterPosition;
+
+			/* Consume field-name */
+			fieldName.push_back(firstCharacter);
+			bool endName = false;
+			while (!endName) {
+				character = ConnectionInfo.ReadChar();
+
+				if (!character.has_value())
+					return HTTPConnectionError::FAILED_READ_HEADER_FIELD_NAME;
+
+				/*
+				 * field-name = token
+				 * token = 1*tchar
+				 * tchar = "!" / "#" / "$" / "%" / "&" / "'" / "*" / "+" / "-"
+				 * / "." / "^" / "_" / "`" / "|" / "~" / DIGIT / ALPHA 
+				 */
+				switch (character.value()) {
+					case ':':
+						endName = true;
+						break;
+					case '!':
+					case '#':
+					case '$':
+					case '%':
+					case '&':
+					case '\'':
+					case '*':
+					case '+':
+					case '-':
+					case '.':
+					case '^':
+					case '_':
+					case '`':
+					case '|':
+					case '~':
+						fieldName.push_back(character.value());
+						break;
+					default:
+						if ((character.value() >= 0x30 && character.value() <= 0x39) || // DIGIT
+							(character.value() >= 0x41 && character.value() <= 0x5A) || // ALPHA (UPPER)
+							(character.value() >= 0x61 && character.value() <= 0x7A)) { // ALPHA (LOWER)
+							fieldName.push_back(character.value());
+						} else {
+							return HTTPConnectionError::INCORRECT_HEADER_FIELD_NAME;
+						}
+						break;
+				}
+			}
+
+			/* Consume OWS (Optional Whitespaces) */
+			while (true) {
+				character = ConnectionInfo.ReadChar();
+
+				if (!character.has_value())
+					return HTTPConnectionError::FAILED_READ_HEADER_FIELD_GENERIC;
+
+				if (character != ' ' && character != '\t')
+					break;
+			}
+
+			/* Consume header-value */
+			/* obs-fold (optional line folding) isn't supported. */
+			do {
+				if (character == '\r') {
+					character = ConnectionInfo.ReadChar();
+					if (!character.has_value())
+						return HTTPConnectionError::FAILED_READ_HEADER_FIELD_GENERIC;
+					if (character != '\n')
+						return HTTPConnectionError::INCORRECT_HEADER_FIELD_GENERIC;
+					break;
+				}
+
+				if ((character >= 0x21 && character <= 0x7E) || // VCHAR
+					(character >= 0x80 && character <= 0xFF) || // obs-text
+					 character == ' '  ||                       // SP
+					 character == '\t')                         // HTAB
+					fieldValue.push_back(character.value());
+				else
+					return HTTPConnectionError::INCORRECT_HEADER_FIELD_VALUE;
+
+				/* Set next character */
+				character = ConnectionInfo.ReadChar();
+
+				if (!character.has_value())
+					return HTTPConnectionError::FAILED_READ_HEADER_FIELD_VALUE;
+			} while (true);
+
+			/* Store in strings */
+			fieldName.push_back('\0');
+			fieldValue.push_back('\0');
+
+			/* Trim end of OWS's. */
+			char *fieldValueString = fieldValue.data();
+			char *lastSpace = (char *) strrchr(fieldValueString, ' ');
+			char *lastHTab = (char *) strrchr(fieldValueString, '\t');
+
+			if (lastSpace != NULL)
+				if (lastHTab != NULL)
+					if (lastHTab > lastSpace)
+						nullCharacterPosition = lastSpace;
+					else
+						nullCharacterPosition = lastHTab;
+				else
+					nullCharacterPosition = lastSpace;
+			else if (lastHTab != NULL)
+				nullCharacterPosition = lastHTab;
+			else
+				nullCharacterPosition = fieldValueString + fieldValue.size() - 1;
+			*nullCharacterPosition = 0;
+
+			response->Headers.push_back({ std::string(fieldName.data()), std::string(fieldValueString) });
+			return HTTPConnectionError::NO_ERROR;
+		}
+
 		HTTPConnectionError HTTPConnection::Request(HTTPResponseInfo *response, std::string method, std::string path) {
 			std::optional<char> singleCharacter;
 			std::stringstream request;
@@ -119,6 +240,7 @@ namespace Net {
 			// we use a vector for performance reasons?
 			request << method << ' ' << path << " HTTP/1.1\r\n";
 			request << "Host: " << ConnectionInfo.HostName << "\r\n";
+			request << "TE: Trailers\r\n";
 			request << "\r\n";
 
 			std::string str = request.str();
@@ -165,6 +287,23 @@ namespace Net {
 			if (singleCharacter.value() != '\n')
 				return HTTPConnectionError::INCORRECT_START_LINE;
 
+			do {
+				singleCharacter = ConnectionInfo.ReadChar();
+				if (!singleCharacter.has_value())
+					return HTTPConnectionError::FAILED_READ_GENERIC;
+
+				if (singleCharacter.value() == '\r') {
+					singleCharacter = ConnectionInfo.ReadChar();
+					if (!singleCharacter.has_value() || singleCharacter != '\n')
+						Logger::Warning("HTTPConnection::Request", "Incorrect CRLF");
+					break;
+				}
+
+				subroutineError = ConsumeHeaderField(response, singleCharacter.value());
+
+				if (subroutineError != HTTPConnectionError::NO_ERROR)
+					return subroutineError;
+			} while (true);
 
 			return HTTPConnectionError::NO_ERROR;
 		}

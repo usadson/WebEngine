@@ -75,7 +75,15 @@ void RunNetTest(void) {
 	Net::HTTP::HTTPConnection connection(connectInfo);
 	Net::HTTP::HTTPResponseInfo response;
 	Net::HTTP::HTTPConnectionError error = connection.RequestNavigation(&response, "/");
-	std::cout << "Error: " << error << "\nVersion: " << response.HTTPVersion << "\nStatusCode: " << response.StatusCode << "\nReasonPhrase: " << response.ReasonPhrase << std::endl;
+	std::cout << "Error: " << error
+			  << "\nVersion: " << response.HTTPVersion
+			  << "\nStatusCode: " << response.StatusCode
+			  << "\nReasonPhrase: " << response.ReasonPhrase 
+			  << "\nHeaders: " << response.Headers.size()
+			  << std::endl;
+	for (const auto &headerField : response.Headers) {
+		std::cout << "\t\"" << headerField.FieldName << "\" = \"" << headerField.FieldValue << '\"' << std::endl;
+	}
 }
 
 int main(void) {
