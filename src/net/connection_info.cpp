@@ -114,7 +114,7 @@ namespace Net {
 			IsAuthenticated = TLSSetup();
 			TimingTLS = FormatTime(std::chrono::high_resolution_clock::now() - startTLS);
 
-			if (IsAuthenticated) {
+			if (!IsAuthenticated) {
 				TimingTLS += " (failed)";
 				Logger::Warning("Net::ConnectionInfo::Connect", "Failed to setup TLS!");
 				return false;

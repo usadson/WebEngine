@@ -7,14 +7,33 @@
 
 #include <tls.h>
 
+#include "global.hpp"
 #include "logger.hpp"
 
 namespace Net {
 
-	static struct tls_config *TLSConfiguration;
+	namespace Global {
+		struct tls_config *TLSConfiguration;
+
+		bool SetupTLS() {
+			TLSConfiguration = tls_config_new();
+
+			if (!TLSConfiguration) {
+				Logger::Severe("ConnectionInfo::TLSSetup[libtls]", "Failed to create configuration! (Out of memory!)");
+				return false;
+			}
+
+			return true;
+		}
+
+		void DestroyTLS() {
+			tls_config_free(TLSConfiguration);
+		}
+	}
 
 	void ConnectionInfo::TLSDestroy() {
-		
+		tls_close((struct tls *) TLSContext);
+		TLSContext = nullptr;
 	}
 
 	bool ConnectionInfo::TLSRead(char *buf, size_t len) {
@@ -35,26 +54,23 @@ namespace Net {
 	}
 
 	std::optional<char> ConnectionInfo::TLSReadChar() {
-		return std::optional<char>();
+		char character;
+
+		if (tls_read((struct tls *) TLSContext, &character, 1) == -1)
+			return std::optional<char>();
+
+		return std::optional<char>(character);
 	}
 
 	bool ConnectionInfo::TLSSetup() {
-		if (!TLSConfiguration) {
-			TLSConfiguration = tls_config_new();
-			if (!TLSConfiguration) {
-				Logger::Severe("ConnectionInfo::TLSSetup[libtls]", "Failed to create configuration! (Out of memory!)");
-				return false;
-			}
-		}
-
 		struct tls *context = tls_client();
 		if (!context) {
 			Logger::Severe("ConnectionInfo::TLSSetup[libtls]", "Failed to create tls_client (Out of memory!)");
 			return false;
 		}
 
-		if (tls_configure(context, TLSConfiguration) == -1) {
-			const char *error = tls_config_error(TLSConfiguration);
+		if (tls_configure(context, Global::TLSConfiguration) == -1) {
+			const char *error = tls_error(context);
 			Logger::Severe("ConnectionInfo::TLSSetup[libtls]", std::string("Failed to configure TLS context: ") + error);
 			return false;
 		}

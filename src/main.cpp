@@ -11,6 +11,7 @@
 
 
 #include "ccompat.hpp"
+#include "net/global.hpp"
 #include "net/http/http_connection.hpp"
 #include "parser/html/tokenizer.hpp"
 
@@ -71,7 +72,9 @@ inline void RunDocumentTest(void) {
 }
 
 void RunNetTest(void) {
-	Net::ConnectionInfo connectInfo("duck.com", 80);
+	Net::Global::SetupTLS();
+
+	Net::ConnectionInfo connectInfo("duck.com", 443, true);
 	Net::HTTP::HTTPConnection connection(connectInfo);
 	Net::HTTP::HTTPResponseInfo response;
 	Net::HTTP::HTTPConnectionError error = connection.RequestNavigation(&response, "/");
@@ -88,6 +91,8 @@ void RunNetTest(void) {
 	std::string start = "============ Message Body ============";
 	std::string end   = "======================================";
 	std::cout << start << std::string(response.MessageBody.data(), response.MessageBody.size()) << '\n' << end << std::endl;
+
+	Net::Global::DestroyTLS();
 }
 
 int main(void) {
