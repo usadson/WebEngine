@@ -17,6 +17,7 @@ LDFLAGS = `pkg-config --static --libs libtls`
 
 BINARIES = bin/ccompat.so \
 	   bin/logger.so \
+	   bin/data/encoding/utf8.so \
 	   bin/net/connection_info.so \
 	   bin/net/connection_info_libtls.so \
 	   bin/net/http/http_connection.so \
@@ -38,6 +39,11 @@ bin/ccompat.so: src/ccompat.cpp src/ccompat.hpp
 
 bin/logger.so: src/logger.cpp src/logger.hpp
 	$(CXX) $(CFLAGS) -c -o $@ src/logger.cpp
+
+bin/data/encoding/utf8.so: src/data/encoding/utf8.cpp \
+	src/data/encoding/utf8.hpp \
+	src/data/encoding/encoding.hpp
+	$(CXX) $(CFLAGS) -c -o $@ src/data/encoding/utf8.cpp
 
 bin/net/connection_info.so: src/net/connection_info.cpp \
 	src/net/connection_info.hpp \

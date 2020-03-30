@@ -9,8 +9,8 @@
 #include <iostream>
 #include <vector>
 
-
 #include "ccompat.hpp"
+#include "data/encoding/utf8.hpp"
 #include "net/global.hpp"
 #include "net/http/http_connection.hpp"
 #include "parser/html/tokenizer.hpp"
@@ -31,39 +31,6 @@ const char TestDocument[] = "<!doctype html>\n\
 
 inline std::vector<char> VectorizeString(const char *text, size_t size) noexcept {
 	return std::vector<char>(text, text + size);
-}
-
-void RunDoctypeTests() {
-
-	std::vector<std::string> strings = {
-		/*
-		"<!-- Good comment -->",
-		"<!-- Bad comment --!>",
-		"<!-- <!-- nested --> -->",
-		*/
-		"<!DOCTYPE html>",
-		"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">",
-		"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">",
-		"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\" \"http://www.w3.org/TR/html4/frameset.dtd\">",
-		"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">",
-		"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">",
-		"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Frameset//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\">",
-		"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">", 
-		"<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\">",
-		"<!DOCTYPE html PUBLIC \"GOOD\">",
-		"<!DOCTYPE html PUBLIC \"\" \"http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd\">",
-		"<!DOCTYPE test>",
-		"<hr />",
-		// Error cases:
-		"<!DOCTYPE html SYSTEM http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">",
-		"<!DOCTYPE html PUBLIC \"-//IETF//DTD HTML//\">",
-	};
-
-	for (auto &string : strings) {
-		HTML::Tokenizer::Tokenizer tokenizer;
-		std::cout << "================ New Sequence ================" << std::endl;
-		tokenizer.Run(VectorizeString(string.c_str(), string.length()));
-	}
 }
 
 inline void RunDocumentTest(void) {
@@ -95,14 +62,36 @@ void RunNetTest(const char *name) {
 	Net::Global::DestroyTLS();
 }
 
+void RunEncodingTest() {
+	std::vector<std::string> strings = {
+		"κόσμε",
+		"🧒",
+		"اَلْعَرَبِيَّةُ",	
+	};
+
+	TextEncoding::UTF8 utf8Encoding;
+	for (const auto &string : strings) {
+		std::vector<char> vector = VectorizeString(string.c_str(), string.length());
+		bool result = utf8Encoding.Decode(vector.data(), vector.size());
+		std::cout << "Result=" << (result ? "passed" : "failed") << ": ";
+		for (const auto &c : utf8Encoding.Output) {
+			std::cout << std::hex << "U+" << c << ' ';
+		}
+		std::cout << std::endl;
+	}
+}
+
 int main(int argc, char *argv[]) {
+	/*
 	if (argc == 1) {
 		std::cerr << "Please specify a domain!" << std::endl;
 		return EXIT_FAILURE;
 	}
-	// RunDoctypeTests();
-	// RunDocumentTest();
-	RunNetTest(argv[1]);
+	*/
+// 	RunDoctypeTests();
+// 	RunDocumentTest();
+// 	RunNetTest(argv[1]);
+	RunEncodingTest();
 
 	// Just for valgrind:
 	CCompat::CloseStandardIO();
