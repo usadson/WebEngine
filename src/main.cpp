@@ -85,7 +85,7 @@ inline void RunDocumentTest(void) {
 	Resources::DocumentResource document;
 	document.Mime = { "text/html", { { "charset", "utf-8" } } };
 
-	if (!DecodeText(document, VectorizeString(TestDocument, sizeof(TestDocument) / sizeof(TestDocument[0])))) {
+	if (!DecodeText(document, VectorizeString(TestDocument, sizeof(TestDocument) / sizeof(TestDocument[0]) - 1))) {
 		Logger::Error("RunDocumentTest", "Failed to decode text");
 		return;
 	}
