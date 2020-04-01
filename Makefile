@@ -29,11 +29,18 @@ BINARIES = bin/ccompat.so \
 	   bin/parser/html/tokenizer.so \
 	   bin/parser/html/tree_constructor.so
 
-engine: src/main.cpp \
+engine: bin/test.txt \
+	src/main.cpp \
 	src/parser/html/error.hpp \
 	src/parser/html/state.hpp \
 	$(BINARIES)
 	$(CXX) $(CFLAGS) -o $@ src/main.cpp $(BINARIES) $(LDFLAGS)
+
+bin/test.txt:
+	@mkdir -p bin/data/text/encoding
+	@mkdir -p bin/net/http
+	@mkdir -p bin/parser/html
+	@touch bin/test.txt
 
 bin/ccompat.so: src/ccompat.cpp src/ccompat.hpp
 	$(CXX) $(CFLAGS) -c -o $@ src/ccompat.cpp

@@ -9,7 +9,7 @@
 
 namespace Unicode {
 	class UString {
-	private: // Private Properties
+	public: // Private Properties (don't change)
 		std::vector<Unicode::CodePoint> Data;
 	public: // Constructor Methods
 		UString();
@@ -29,7 +29,6 @@ namespace Unicode {
 		}
 
 		UString &operator+=(const Unicode::CodePoint character);
-		const bool operator<(const UString &other) const;
 		UString operator+(const UString &other) const;
 
 		/* Only for ASCII characters: */
@@ -45,4 +44,6 @@ namespace Unicode {
 	};
 
 	std::ostream &operator<<(std::ostream &stream, const UString &string);
+	int CompareStatic(const UString &lhs, const UString &rhs);
+	bool operator<(const UString &lhs, const UString &rhs);
 }

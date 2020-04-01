@@ -38,25 +38,29 @@ namespace Unicode {
 
 	// Transformed from https://stackoverflow.com/a/12136398
 	// See https://stackoverflow.com/help/licensing
-	int UString::Compare(const UString &other) const {
-		const Unicode::CodePoint *p1 = other.Data.data();
-		const Unicode::CodePoint *p2 = other.Data.data();
+	int CompareStatic(const UString &lhs, const UString &rhs) {
+		const Unicode::CodePoint *p1 = lhs.Data.data();
+		const Unicode::CodePoint *p2 = rhs.Data.data();
 
 		size_t i = 0;
-		while (i++ != Data.size()) {
-			if (other.Data.size() == i)	return 1;
-			if (*p2 > *p1)				return -1;
-			if (*p1 > *p2)				return  1;
+		while (i++ != lhs.Data.size()) {
+			if (rhs.Data.size() == i - 1)	return  1;
+			if (*p2 > *p1)					return -1;
+			if (*p1 > *p2)					return  1;
 
 			p1++;
 			p2++;
 		}
 
-		return i != other.Data.size() ? -1 : 0;
+		return i-1 != rhs.Data.size() ? -1 : 0;
 	}
 
-	const bool UString::operator<(const UString &other) const {
-		return Compare(other) < 0;
+	int UString::Compare(const UString &other) const {
+		return CompareStatic(*this, other);
+	}
+
+	bool operator<(const UString &lhs, const UString &rhs) {
+		return CompareStatic(lhs, rhs) < 0;
 	}
 
 	UString &UString::operator+=(const UString other) {
@@ -80,10 +84,7 @@ namespace Unicode {
 	}
 
 	bool UString::EqualsIgnoreCaseAL(size_t index, const char *ascii, size_t length) {
-		Logger::Debug("EqualsIgnoreCaseAL", "Called");
 		if (index + length >= Data.size()) {
-			Logger::Info("EqualsIgnoreCaseAL", "index+length is too big");
-			std::cout << "size=" << Data.size() << " index=" << index << " length=" << length << std::endl;
 			return false;
 		}
 
@@ -102,9 +103,6 @@ namespace Unicode {
 				acharacter += 0x20;
 
 			if (acharacter != ucharacter) {
-				Logger::Info("EqualsIgnoreCaseAL", "acharacter != ucharacter");
-				printf("i=%zu ucharacter=%hhu acharacter[i]=%hhu\n", i, ucharacter, acharacter);
-				printf("%c != %c\n", ucharacter, acharacter);
 				return false;
 			}
 		}
