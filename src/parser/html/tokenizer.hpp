@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "resources/document.hpp"
 #include "context.hpp"
 #include "error.hpp"
 #include "state.hpp"
@@ -19,7 +20,7 @@ namespace HTML {
 				: Context(), TreeConstructor(Context) {
 			}
 
-			void Run(std::vector<char> inputData);
+			void Run(Resources::DocumentResource &document);
 		};
 	}
 }

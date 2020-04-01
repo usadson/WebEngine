@@ -4,6 +4,8 @@
 #include <optional>
 #include <string>
 
+#include "data/text/unicode.hpp"
+#include "data/text/ustring.hpp"
 #include "context.hpp"
 
 namespace HTML {
@@ -41,9 +43,9 @@ namespace HTML {
 		// DOCTYPE, start tag, end tag, comment, character, end-of-file
 		struct DoctypeToken : public Token {
 			// Initial state is missing
-			std::optional<std::string> Name;
-			std::optional<std::string> PublicIdentifier;
-			std::optional<std::string> SystemIdentifier;
+			std::optional<Unicode::UString> Name;
+			std::optional<Unicode::UString> PublicIdentifier;
+			std::optional<Unicode::UString> SystemIdentifier;
 			// Initial state is off (= false)
 			bool ForceQuirks = false;
 
@@ -52,12 +54,12 @@ namespace HTML {
 		};
 		/* Don't use the following, its just for conveniance */
 		struct AmbiguousTagToken : public Token {
-			std::string TagName;
+			Unicode::UString TagName;
 			bool SelfClosing = false;
-			std::map<std::string, std::string> Attributes;
+			std::map<Unicode::UString, Unicode::UString> Attributes;
 			// For the tokenizer:
-			std::string AttributeName;
-			std::string AttributeValue;
+			Unicode::UString AttributeName;
+			Unicode::UString AttributeValue;
 			
 			inline AmbiguousTagToken(TokenType type) : Token(type) {
 			}
@@ -80,18 +82,18 @@ namespace HTML {
 			static const EndTagToken INVALID_TYPE;
 		};
 		struct CommentToken : public Token {
-			std::string Contents;
+			Unicode::UString Contents;
 
-			inline CommentToken(std::string contents) : Token(TokenType::COMMENT), Contents(contents) {
+			inline CommentToken(Unicode::UString contents) : Token(TokenType::COMMENT), Contents(contents) {
 			}
 
 			static const CommentToken INVALID_TYPE;
 		};
 
 		struct CharacterToken : public Token {
-			char Character;
+			Unicode::CodePoint Character;
 
-			inline CharacterToken(char character) : Token(TokenType::CHARACTER), Character(character) {
+			inline CharacterToken(Unicode::CodePoint character) : Token(TokenType::CHARACTER), Character(character) {
 			}
 		};
 

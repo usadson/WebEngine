@@ -9,11 +9,13 @@
 #include <iostream>
 #include <vector>
 
-#include "ccompat.hpp"
-#include "data/encoding/utf8.hpp"
+#include "data/text/encoding/utf8.hpp"
 #include "net/global.hpp"
 #include "net/http/http_connection.hpp"
 #include "parser/html/tokenizer.hpp"
+#include "resources/document.hpp"
+#include "ccompat.hpp"
+#include "logger.hpp"
 
 const char TestDocument[] = "<!doctype html>\n\
 <html>\n\
@@ -31,11 +33,6 @@ const char TestDocument[] = "<!doctype html>\n\
 
 inline std::vector<char> VectorizeString(const char *text, size_t size) noexcept {
 	return std::vector<char>(text, text + size);
-}
-
-inline void RunDocumentTest(void) {
-	HTML::Tokenizer::Tokenizer tokenizer;
-	tokenizer.Run(VectorizeString(TestDocument, sizeof(TestDocument)-1));
 }
 
 void RunNetTest(const char *name) {
@@ -60,6 +57,41 @@ void RunNetTest(const char *name) {
 	std::cout << start << std::string(response.MessageBody.data(), response.MessageBody.size()) << '\n' << end << std::endl;
 
 	Net::Global::DestroyTLS();
+}
+
+inline bool DecodeText(Resources::DocumentResource &documentResource, std::vector<char> inputData) {
+	auto charset = documentResource.Mime.Parameters.find("charset");
+	if (charset == documentResource.Mime.Parameters.end()) {
+		Logger::Warning("TextDecoder", "TODO: Add charset/encoding sniffing.");
+		return false;
+	}
+
+	// Labels: https://encoding.spec.whatwg.org/#names-and-labels
+	if (charset->second == "utf-8" || charset->second == "utf8" || charset->second == "unicode-1-1-utf-8") {
+		TextEncoding::UTF8 utf8Encoding;
+		if (!utf8Encoding.Decode(inputData.data(), inputData.size())) {
+			Logger::Warning("TextDecoder", "Failed to decode text!");
+			return false;
+		}
+		documentResource.Data = utf8Encoding.Output;
+		return true;
+	}
+
+	Logger::Warning("TextDecoder", "Unknown charset: " + charset->second);
+	return false;
+}
+
+inline void RunDocumentTest(void) {
+	Resources::DocumentResource document;
+	document.Mime = { "text/html", { { "charset", "utf-8" } } };
+
+	if (!DecodeText(document, VectorizeString(TestDocument, sizeof(TestDocument) / sizeof(TestDocument[0])))) {
+		Logger::Error("RunDocumentTest", "Failed to decode text");
+		return;
+	}
+
+	HTML::Tokenizer::Tokenizer tokenizer;
+	tokenizer.Run(document);
 }
 
 void RunEncodingTest() {

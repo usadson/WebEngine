@@ -7,13 +7,15 @@
 #include "logger.hpp"
 
 namespace TextEncoding {
-	/*
-	 * TextEncoding::UnicodeCodePoint CodePoint;
-	 * size_t BytesSeen;
-	 * uint8_fast_t BytesNeeded;
-	 * uint8_fast_t LowerBoundary;
-	 * uint8_fast_t UpperBoundary;
-	 */
+	std::vector<Unicode::CodePoint> UTF8::ASCIIDecode(const char *data, size_t size) {
+		std::vector<Unicode::CodePoint> result(size);
+		size_t i;
+
+		for (i = 0; i < size; i++)
+			result.push_back((Unicode::CodePoint) data[i]);
+
+		return result;
+	}
 
 	bool UTF8::Decode(const char *data, size_t size) {
 		uint8_t currentByte;

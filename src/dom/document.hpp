@@ -2,6 +2,5 @@
 
 namespace DOM {
 	class Document {
-		
 	};
 }

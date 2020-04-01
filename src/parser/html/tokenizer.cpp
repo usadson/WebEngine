@@ -8,8 +8,6 @@
 #include <cstring>
 #include "strings.h"
 
-#include "parser/characters.hpp"
-
 #include "context.hpp"
 #include "error.hpp"
 #include "state.hpp"
@@ -24,7 +22,7 @@ bool CheckCaseInsensitive(const char *a, const char *b, size_t length) {
 	return strncasecmp(a, b, length) == 0;
 }
 
-void HTML::Tokenizer::Tokenizer::Run(std::vector<char> inputData) {
+void HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 	HTML::Tokenizer::Context context;
 	HTML::TreeConstructor treeConstructor(context);
 
@@ -33,7 +31,8 @@ void HTML::Tokenizer::Tokenizer::Run(std::vector<char> inputData) {
 	// At what character position in the line is the tokenizer?
 	context.LinePosition = 0;
 
-	std::cout << "InputDataSize: " << inputData.size() << std::endl;
+	const size_t documentSize = document.Data.length();
+	std::cout << "InputDataSize: " << documentSize << std::endl;
 
 	// Don't use 'character' if eof is true.
 	char character;
@@ -50,20 +49,20 @@ void HTML::Tokenizer::Tokenizer::Run(std::vector<char> inputData) {
 	size_t i;
 	bool reconsume = false;
 	size_t toConsumeNext = 0;
-	for (i = 0; i <= inputData.size(); i++) {
+	for (i = 0; i <= documentSize; i++) {
 		if (reconsume) {
 			i--;
 			reconsume = false;
 		}
 
-		if (i == inputData.size()) {
+		if (i == documentSize) {
 			eof = true;
 			context.LinePosition += 1;
 		} else {
 			bool repeatLineCheckLoop = true;
 			while (repeatLineCheckLoop) {
 				repeatLineCheckLoop = false;
-				character = inputData[i];
+				character = document.Data[i];
 
 				if (character == '\n') {
 					context.LineCount += 1;
@@ -131,7 +130,7 @@ void HTML::Tokenizer::Tokenizer::Run(std::vector<char> inputData) {
 								reconsume = true;
 								context.State = HTML::Tokenizer::ParserState::TAG_NAME;
 							} else {
-								std::cout << "DEBUG: Unexpected character: " << character << inputData[i+1] << inputData[i+2] << std::endl;
+								std::cout << "DEBUG: Unexpected character: " << character << document.Data[i+1] << document.Data[i+2] << std::endl;
 								context.LogError(HTML::Tokenizer::ParserError::INVALID_FIRST_CHARACTER_OF_TAG_NAME);
 								reconsume = true;
 								treeConstructor.EmitCharacterToken('>');
@@ -189,7 +188,7 @@ void HTML::Tokenizer::Tokenizer::Run(std::vector<char> inputData) {
 							break;
 						case '\0':
 							context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
-							tagToken.TagName += Characters::REPLACEMENT_CHARACTER;
+							tagToken.TagName += Unicode::REPLACEMENT_CHARACTER;
 							break;
 						default:
 							if (character >= 0x41 && character <= 0x5A) {// Is uppercase
@@ -261,7 +260,7 @@ void HTML::Tokenizer::Tokenizer::Run(std::vector<char> inputData) {
 					tagToken.AttributeName += (char)(character + 0x20);
 				} else if (character == '\0') {
 					context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
-					tagToken.AttributeName += Characters::REPLACEMENT_CHARACTER;
+					tagToken.AttributeName += Unicode::REPLACEMENT_CHARACTER;
 				} else {
 					if (character == '"' ||
 						   character == '\'' ||
@@ -362,7 +361,7 @@ void HTML::Tokenizer::Tokenizer::Run(std::vector<char> inputData) {
 							break;
 						case '\0':
 							context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
-							tagToken.AttributeValue += Characters::REPLACEMENT_CHARACTER;
+							tagToken.AttributeValue += Unicode::REPLACEMENT_CHARACTER;
 							break;
 						default:
 							tagToken.AttributeValue += character;
@@ -386,7 +385,7 @@ void HTML::Tokenizer::Tokenizer::Run(std::vector<char> inputData) {
 							break;
 						case '\0':
 							context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
-							tagToken.AttributeValue += Characters::REPLACEMENT_CHARACTER;
+							tagToken.AttributeValue += Unicode::REPLACEMENT_CHARACTER;
 							break;
 						default:
 							tagToken.AttributeValue += character;
@@ -422,7 +421,7 @@ void HTML::Tokenizer::Tokenizer::Run(std::vector<char> inputData) {
 							break;
 						case '\0':
 							context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
-							tagToken.AttributeValue += Characters::REPLACEMENT_CHARACTER;
+							tagToken.AttributeValue += Unicode::REPLACEMENT_CHARACTER;
 							break;
 						case '"':
 						case '\'':
@@ -490,24 +489,24 @@ void HTML::Tokenizer::Tokenizer::Run(std::vector<char> inputData) {
 			// -- jump to MARKUP_DECLARATION_OPEN
 			case HTML::Tokenizer::ParserState::MARKUP_DECLARATION_OPEN:
 				if (!eof) {
-					if (i + 1 < inputData.size()
+					if (i + 1 < documentSize
 						&& character == '-'
-						&& inputData[i+1] == '-') {
+						&& document.Data[i+1] == '-') {
 						toConsumeNext = 1;
 
 						commentToken = HTML::Tokenizer::CommentToken("");
 						context.State = HTML::Tokenizer::ParserState::COMMENT_START;
 						continue;
 					}
-					if (i + 6 < inputData.size()) {
-						if (CheckCaseInsensitive(inputData.data()+i, "DOCTYPE", 7)) {
+					if (i + 6 < documentSize) {
+						if (document.Data.EqualsIgnoreCaseAL(i, "DOCTYPE", 7)) {
 							toConsumeNext = 6;
 							context.State = HTML::Tokenizer::ParserState::DOCTYPE;
 							continue;
 						}
 						if (character == '['
-							&& strncmp(inputData.data()+i+1, "CDATA", 5) // Case-sensitive!
-							&& inputData[i + 6] == ']') {
+							&& document.Data.EqualsAL(i + 1, "CDATA", 5) // Case-sensitive!
+							&& document.Data[i + 6] == ']') {
 							toConsumeNext = 6;
 							// TODO ?
 							throw std::runtime_error("TODO in MARKUP_DECLARATION_OPEN / CDATA");
@@ -567,7 +566,7 @@ void HTML::Tokenizer::Tokenizer::Run(std::vector<char> inputData) {
 						context.State = HTML::Tokenizer::ParserState::COMMENT_END_DASH;
 					} else if (character == '\0') {
 						context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
-						commentToken.Contents += Characters::REPLACEMENT_CHARACTER;
+						commentToken.Contents += Unicode::REPLACEMENT_CHARACTER;
 					} else {
 						commentToken.Contents += character;
 					}
@@ -707,7 +706,7 @@ void HTML::Tokenizer::Tokenizer::Run(std::vector<char> inputData) {
 						} break;
 						case '\0': {
 							context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
-							doctypeToken.Name.emplace(Characters::REPLACEMENT_CHARACTER);
+							doctypeToken.Name.emplace(Unicode::REPLACEMENT_CHARACTER);
 							context.State = HTML::Tokenizer::ParserState::DOCTYPE_NAME;
 						} break;
 						default:
@@ -745,7 +744,7 @@ void HTML::Tokenizer::Tokenizer::Run(std::vector<char> inputData) {
 							break;
 						case '\0':
 							context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
-							doctypeToken.Name = doctypeToken.Name.value() + Characters::REPLACEMENT_CHARACTER;
+							doctypeToken.Name = doctypeToken.Name.value() + Unicode::REPLACEMENT_CHARACTER;
 							break;
 						default:
 							if (character >= 0x41 && character <= 0x5A) {// Is uppercase
@@ -776,12 +775,12 @@ void HTML::Tokenizer::Tokenizer::Run(std::vector<char> inputData) {
 							context.State = HTML::Tokenizer::ParserState::DATA;
 							break;
 						default:
-							if (i + 5 < inputData.size()) { // 5 or 6 ? not sure..
-								if (CheckCaseInsensitive(inputData.data() + i, "PUBLIC", 6)) {
+							if (i + 5 < documentSize) { // 5 or 6 ? not sure..
+								if (document.Data.EqualsIgnoreCaseAL(i, "PUBLIC", 6)) {
 									toConsumeNext = 5;
 									context.State = HTML::Tokenizer::ParserState::AFTER_DOCTYPE_PUBLIC_KEYWORD;
 									break;
-								} else if (CheckCaseInsensitive(inputData.data() + i, "SYSTEM", 6)) {
+								} else if (document.Data.EqualsIgnoreCaseAL(i, "SYSTEM", 6)) {
 									toConsumeNext = 5;
 									context.State = HTML::Tokenizer::ParserState::AFTER_DOCTYPE_SYSTEM_KEYWORD;
 									break;
@@ -885,7 +884,7 @@ void HTML::Tokenizer::Tokenizer::Run(std::vector<char> inputData) {
 							break;
 						case '\0':
 							context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
-							doctypeToken.PublicIdentifier = doctypeToken.PublicIdentifier.value() + Characters::REPLACEMENT_CHARACTER;
+							doctypeToken.PublicIdentifier = doctypeToken.PublicIdentifier.value() + Unicode::REPLACEMENT_CHARACTER;
 							break;
 						case '>':
 							context.LogError(HTML::Tokenizer::ParserError::ABRUBT_DOCTYPE_PUBLIC_IDENTIFIER);
@@ -912,7 +911,7 @@ void HTML::Tokenizer::Tokenizer::Run(std::vector<char> inputData) {
 							break;
 						case '\0':
 							context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
-							doctypeToken.PublicIdentifier = doctypeToken.PublicIdentifier.value() + Characters::REPLACEMENT_CHARACTER;
+							doctypeToken.PublicIdentifier = doctypeToken.PublicIdentifier.value() + Unicode::REPLACEMENT_CHARACTER;
 							break;
 						case '>':
 							context.LogError(HTML::Tokenizer::ParserError::ABRUBT_DOCTYPE_PUBLIC_IDENTIFIER);
@@ -1088,7 +1087,7 @@ void HTML::Tokenizer::Tokenizer::Run(std::vector<char> inputData) {
 							break;
 						case '\0':
 							context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
-							doctypeToken.SystemIdentifier = doctypeToken.SystemIdentifier.value() + Characters::REPLACEMENT_CHARACTER;
+							doctypeToken.SystemIdentifier = doctypeToken.SystemIdentifier.value() + Unicode::REPLACEMENT_CHARACTER;
 							break;
 						case '>':
 							context.LogError(HTML::Tokenizer::ParserError::ABRUBT_DOCTYPE_SYSTEM_IDENTIFIER);
@@ -1115,7 +1114,7 @@ void HTML::Tokenizer::Tokenizer::Run(std::vector<char> inputData) {
 							break;
 						case '\0':
 							context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
-							doctypeToken.SystemIdentifier = doctypeToken.SystemIdentifier.value() + Characters::REPLACEMENT_CHARACTER;
+							doctypeToken.SystemIdentifier = doctypeToken.SystemIdentifier.value() + Unicode::REPLACEMENT_CHARACTER;
 							break;
 						case '>':
 							context.LogError(HTML::Tokenizer::ParserError::ABRUBT_DOCTYPE_SYSTEM_IDENTIFIER);
