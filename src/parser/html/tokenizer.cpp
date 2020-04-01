@@ -14,14 +14,6 @@
 #include "token.hpp"
 #include "tree_constructor.hpp"
 
-bool CharacterIsASCIIAlpha(uint8_t character) {
-	return (character >= 0x41 && character <= 0x5A) || (character >= 0x61 && character <= 0x7A);
-}
-
-bool CheckCaseInsensitive(const char *a, const char *b, size_t length) {
-	return strncasecmp(a, b, length) == 0;
-}
-
 void HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 	HTML::Tokenizer::Context context;
 	HTML::TreeConstructor treeConstructor(context);
@@ -35,7 +27,7 @@ void HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 	std::cout << "InputDataSize: " << documentSize << std::endl;
 
 	// Don't use 'character' if eof is true.
-	char character;
+	Unicode::CodePoint character;
 	bool eof = false;
 
 	HTML::Tokenizer::CommentToken commentToken = HTML::Tokenizer::CommentToken::INVALID_TYPE;
@@ -50,6 +42,7 @@ void HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 	bool reconsume = false;
 	size_t toConsumeNext = 0;
 	for (i = 0; i <= documentSize; i++) {
+// 		std::cout << "index=" << i << " state=" << context.State << std::endl;
 		if (reconsume) {
 			i--;
 			reconsume = false;
@@ -124,7 +117,7 @@ void HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_QUESTION_MARK_INSTEAD_OF_TAG_NAME);
 							break;
 						default:
-							if (CharacterIsASCIIAlpha(character)) {
+							if (Unicode::IsASCIIAlpha(character)) {
 								isEndTag = false;
 								startTagToken = HTML::Tokenizer::StartTagToken();
 								reconsume = true;
@@ -150,7 +143,7 @@ void HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 					if (character == '>') {
 						context.LogError(HTML::Tokenizer::ParserError::MISSING_END_TAG_NAME);
 						context.State = HTML::Tokenizer::ParserState::DATA;
-					} else if (CharacterIsASCIIAlpha(character)) {
+					} else if (Unicode::IsASCIIAlpha(character)) {
 						isEndTag = true;
 						endTagToken = HTML::Tokenizer::EndTagToken();
 						reconsume = true;
@@ -498,6 +491,7 @@ void HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 						context.State = HTML::Tokenizer::ParserState::COMMENT_START;
 						continue;
 					}
+
 					if (i + 6 < documentSize) {
 						if (document.Data.EqualsIgnoreCaseAL(i, "DOCTYPE", 7)) {
 							toConsumeNext = 6;
@@ -514,6 +508,7 @@ void HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 						}
 					}
 				}
+
 				context.LogError(HTML::Tokenizer::ParserError::INCORRECTLY_OPENED_COMMENT);
 				commentToken = HTML::Tokenizer::CommentToken("");
 				i--; // Don't consume anything

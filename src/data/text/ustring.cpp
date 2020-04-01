@@ -1,6 +1,9 @@
 #include "ustring.hpp"
 
+#include <iostream>
+
 #include "encoding/utf8.hpp"
+#include "logger.hpp"
 
 namespace Unicode {
 	UString::UString()
@@ -33,23 +36,27 @@ namespace Unicode {
 		return result;
 	}
 
-	const bool UString::operator<(const UString &other) const {
+	// Transformed from https://stackoverflow.com/a/12136398
+	// See https://stackoverflow.com/help/licensing
+	int UString::Compare(const UString &other) const {
+		const Unicode::CodePoint *p1 = other.Data.data();
+		const Unicode::CodePoint *p2 = other.Data.data();
+
 		size_t i = 0;
+		while (i++ != Data.size()) {
+			if (other.Data.size() == i)	return 1;
+			if (*p2 > *p1)				return -1;
+			if (*p1 > *p2)				return  1;
 
-		while (i < Data.size() && i < other.Data.size()) {
-			
+			p1++;
+			p2++;
 		}
 
-		/*
-		int i = 0;
-		while ((str[i] != 0) && (rhs.str[i] != 0) && (str[i] == rhs.str[i])) {
-		++i;
-		}
-		if ((str[i] == 0) && (rhs.str[i] == 0)) return false;
-		if (str[i] == 0) return true;
-		if (str[i] < rhs.str[i]) return true;
-		*/
-		return false;
+		return i != other.Data.size() ? -1 : 0;
+	}
+
+	const bool UString::operator<(const UString &other) const {
+		return Compare(other) < 0;
 	}
 
 	UString &UString::operator+=(const UString other) {
@@ -73,20 +80,33 @@ namespace Unicode {
 	}
 
 	bool UString::EqualsIgnoreCaseAL(size_t index, const char *ascii, size_t length) {
-		if (index + length >= Data.size())
+		Logger::Debug("EqualsIgnoreCaseAL", "Called");
+		if (index + length >= Data.size()) {
+			Logger::Info("EqualsIgnoreCaseAL", "index+length is too big");
+			std::cout << "size=" << Data.size() << " index=" << index << " length=" << length << std::endl;
 			return false;
+		}
 
 		size_t i;
-		uint8_t character;
+		uint8_t ucharacter;
+		uint8_t acharacter;
 
-		for (i = index; i < index + length; i++) {
-			character = (uint8_t) Data[i];
+		for (i = 0; i < length; i++) {
+			ucharacter = (uint8_t) Data[index + i];
+			acharacter = (uint8_t) ascii[i];
 
-			if (character >= 0x41 && character <= 0x5A)
-				character -= 0x20;
+			if (ucharacter >= 0x41 && ucharacter <= 0x5A)
+				ucharacter += 0x20;
 
-			if (character != ascii[i])
+			if (acharacter >= 0x41 && acharacter <= 0x5A)
+				acharacter += 0x20;
+
+			if (acharacter != ucharacter) {
+				Logger::Info("EqualsIgnoreCaseAL", "acharacter != ucharacter");
+				printf("i=%zu ucharacter=%hhu acharacter[i]=%hhu\n", i, ucharacter, acharacter);
+				printf("%c != %c\n", ucharacter, acharacter);
 				return false;
+			}
 		}
 
 		return true;
@@ -99,17 +119,42 @@ namespace Unicode {
 		size_t i;
 		uint8_t character;
 
-		for (i = index; i < index + length; i++) {
-			character = (uint8_t) Data[i];
+		for (i = 0; i < length; i++) {
+			character = (uint8_t) Data[index + i];
 
-			if (character != ascii[i])
+			if (character != ascii[i]) {
 				return false;
+			}
 		}
 
 		return true;
 	}
 
+	bool UString::EqualsA(const char *ascii) {
+		size_t length = strlen(ascii);
+		if (length >= Data.size())
+			return false;
+
+		size_t i;
+
+		for (i = 0; i < length; i++)
+			if ((uint8_t) Data[i] != ascii[i])
+				return false;
+
+		return true;
+	}
+
 	std::ostream &operator<<(std::ostream &stream, const UString &string) {
-		return stream;// << error.Name;
+		size_t i;
+		Unicode::CodePoint character;
+
+		for (i = 0; i < string.length(); i++) {
+			character = string[i];
+			if (character < 0x80)
+				stream << (char)character;
+			else // TODO Export non-ascii characters
+				stream << '?';
+		}
+		return stream;
 	}
 }

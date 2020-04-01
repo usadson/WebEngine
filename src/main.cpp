@@ -121,9 +121,9 @@ int main(int argc, char *argv[]) {
 	}
 	*/
 // 	RunDoctypeTests();
-// 	RunDocumentTest();
+	RunDocumentTest();
 // 	RunNetTest(argv[1]);
-	RunEncodingTest();
+// 	RunEncodingTest();
 
 	// Just for valgrind:
 	CCompat::CloseStandardIO();

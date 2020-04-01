@@ -9,12 +9,12 @@
 
 namespace HTML {
 
-	const std::vector<std::string> quirkyPublicIdentifiersMissingSystem = {
+	const std::vector<const char *> quirkyPublicIdentifiersMissingSystem = {
 		"-//W3C//DTD HTML 4.01 Frameset//",
 		"-//W3C//DTD HTML 4.01 Transitional//"
 	};
 
-	const std::vector<std::string> quirkyPublicIdentifiers = {
+	const std::vector<const char *> quirkyPublicIdentifiers = {
 		"-//W3O//DTD W3 HTML Strict 3.0//EN//",
 		"-/W3C/DTD HTML 4.0 Transitional/EN",
 		"HTML",
@@ -82,28 +82,25 @@ namespace HTML {
 		if (!token->Name.has_value())
 			return true;
 
-		if (strcmp(token->Name.value().c_str(), "html") != 0)
+		if (token->Name.value().EqualsA("html"))
 			return true;
 
 		if (token->SystemIdentifier.has_value()) {
-			if (strcmp(token->SystemIdentifier.value().c_str(), "http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd") == 0) {
+			if (token->Name.value().EqualsA("html"))
+			if (token->SystemIdentifier.value().EqualsA("http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd")) {
 				return true;
 			}
 		} else if (token->PublicIdentifier.has_value()) {
-			const char *publicIdentifier = token->PublicIdentifier.value().c_str();
-			const size_t length = token->PublicIdentifier.value().length();
 			for (const auto &string : quirkyPublicIdentifiersMissingSystem) {
-				if (string.length() >= length && strncmp(string.c_str(), publicIdentifier, length) == 0) {
+				if (token->PublicIdentifier.value().EqualsA(string)) {
 					return true;
 				}
 			}
 		}
 
 		if (token->PublicIdentifier.has_value()) {
-			const char *publicIdentifier = token->PublicIdentifier.value().c_str();
-			const size_t length = token->PublicIdentifier.value().length();
 			for (const auto &string : quirkyPublicIdentifiers) {
-				if (string.length() >= length && strncmp(string.c_str(), publicIdentifier, length) == 0) {
+				if (token->PublicIdentifier.value().EqualsA(string)) {
 					return true;
 				}
 			}

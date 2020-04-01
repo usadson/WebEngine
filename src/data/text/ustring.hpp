@@ -24,7 +24,7 @@ namespace Unicode {
 			return Data[index];
 		}
 
-		inline size_t length() {
+		inline size_t length() const {
 			return Data.size();
 		}
 
@@ -40,6 +40,8 @@ namespace Unicode {
 		bool EqualsIgnoreCaseAL(size_t index, const char *ascii, size_t length);
 		/* Equals Ignore-case ASCII + length */
 		bool EqualsAL(size_t index, const char *ascii, size_t length);
+		bool EqualsA(const char *ascii);
+		int Compare(const UString &other) const;
 	};
 
 	std::ostream &operator<<(std::ostream &stream, const UString &string);
