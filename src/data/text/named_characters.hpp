@@ -1,13 +1,14 @@
 #pragma once
 
 #include <map>
+#include <memory>
 
 #include "unicode.hpp"
 #include "ustring.hpp"
 
 namespace NamedCharacters {
 
-	const std::map<Unicode::UString, Unicode::CodePoint> GlobalMap = {
+	const std::map<const char *, Unicode::CodePoint> GlobalMap = {
 		{ "Aacute", 0x000 },
 		{ "Aacute", 0x000 },
 		{ "aacute", 0x000 },
@@ -2244,64 +2245,92 @@ namespace NamedCharacters {
 	struct NCNode {
 		bool HasValue;
 		Unicode::CodePoint Value;
-		std::map<uint8_t, NCNode> Children;
+		std::map<uint8_t, std::shared_ptr<NCNode>> Children;
 	};
 
+	enum class NCStatus {
+		// The node has a value and the amount of paths taken == strlen but the
+		// node has children, e.g. Find("int", ...), because 'int' is a value,
+		// but 'integer' too, and 'int' has a child [e].
+		AMBIGUOUS,
+		// The node has a value and the amount of paths taken == strlen
+		FOUND,
+		// The node has children but the string doesn't have more characters,
+		// and the last node doesn't have a value.
+		INCOMPLETE,
+		// Named character references may only consist of ASCII characters.
+		INVALID_STRING,
+		// The string hasn't ended but a child with the a character of the
+		// string doesn't exists.
+		NOT_FOUND
+	};
+
+	const std::shared_ptr<NCNode> RootNode = std::shared_ptr<NCNode>(new NCNode { false, 0, {} });
+
+	// TODO Put these functions inside a cpp file.
+	inline NCStatus Find(const Unicode::UString &string, Unicode::CodePoint *result) {
+		uint8_t character;
+		size_t i;
+		std::shared_ptr<NCNode> node = RootNode;
+
+		for (i = 0; i < string.length(); i++) {
+			if (string[i] > 0x80)
+				return NCStatus::INVALID_STRING;
+
+			character = (uint8_t) string[i];
+
+			auto iterator = node->Children.find(character);
+			if (iterator == node->Children.end()) {
+				std::cout << "The " << i << "st character of the string '" << string << "' wasn't found! (NCStatus::NOT_FOUND)" << std::endl;
+				return NCStatus::NOT_FOUND;
+			}
+
+			node = iterator->second;
+		}
+
+		if (node->HasValue) {
+			*result = node->Value;
+
+			return node->Children.size() == 0 ? NCStatus::FOUND : NCStatus::AMBIGUOUS;
+		}
+
+		return NCStatus::NOT_FOUND;
+	}
+
 	inline void Setup() {
-		static NCNode RootNode;
+		static std::shared_ptr<NCNode> RootNode = std::shared_ptr<NCNode>(new NCNode { false, 0, {} });
+		std::cout << "ROOT node: " << &RootNode << std::endl;
 
 		size_t i;
-		Unicode::CodePoint character;
+		size_t length;
+		char character;
 
 		for (const auto &entry : GlobalMap) {
-			NCNode &node = RootNode;
+			std::shared_ptr<NCNode> &node = RootNode;
+			length = strlen(entry.first);
 
-			for (i = 0; i < entry.first.length(); i++) {
+			for (i = 0; i < length; i++) {
 				character = entry.first[i];
 
-				if (node.HasValue) {
-// 					std::cout << "Node has value! Key=" << entry.first << " i=" << i << " value=" << (char)node.Value << std::endl;
-				}
-
-				auto it = node.Children.find(i);
-				if (it == node.Children.end()) {
-					node.Children.insert(std::make_pair(character, NCNode()));
-					node = node.Children[character];
+				auto iterator = node->Children.find(character);
+				if (iterator == node->Children.end()) {
+					auto newNode = std::shared_ptr<NCNode>(new NCNode { false, 0, {} });
+					node->Children.insert(std::make_pair(character, newNode));
+					node = newNode;
 				} else {
-					node = it->second;
+					node = iterator->second;
 				}
 
-				if (i == entry.first.length()-1) {
-					if (node.HasValue) {
-						std::cout << "Node already has value! Key=" << entry.first << std::endl;
+				if (i == length - 1) {
+					if (node->HasValue) {
+						std::cout << "Node already has value=" << node->Value << " ourvalue=" << entry.second << " i.e. key=" << entry.first <<  std::endl;
 					}
 
-					if (&node == &RootNode) {
-						std::cout << "Changing rootnode! " << entry.first << std::endl;
-					}
-					node.HasValue = true;
-					node.Value = entry.second;
+					node->HasValue = true;
+					node->Value = entry.second;
 				}
 			}
 		}
 	}
 
-	/* A couple of performance options:
-	 * 1. A binary search map.
-	 * 2. Sort the array on smallest->biggest + alphabetical.
-	 * 3. A two dimentional array with the size as key.
-	 */
-
-	/* Is this translated into 2k strcmp's? Maybe put it in a binary tree
-	 * or something? 
-	 */
-	/*
-	inline bool Find(const Unicode::UString &string, Unicode::CodePoint *point, ) {
-		
-		auto it = GlobalMap.find(string);
-		return it == GlobalMap.end() ? 
-				std::optional<Unicode::CodePoint>() :
-				std::optional<Unicode::CodePoint>(it->second);
-	}
-	*/
 };

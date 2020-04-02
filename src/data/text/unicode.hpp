@@ -8,6 +8,8 @@ namespace Unicode {
 
 	const CodePoint NUMBER_SIGN				= 0x0023;
 	const CodePoint AMPERSAND				= 0x0026;
+	const CodePoint SEMICOLON				= 0x003B;
+	const CodePoint EQUALS_SIGN				= 0x003D;
 	const CodePoint REPLACEMENT_CHARACTER	= 0xFFFD;
 
 	inline bool IsASCIIAlpha(CodePoint character) {

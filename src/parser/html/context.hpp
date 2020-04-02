@@ -23,6 +23,7 @@ namespace HTML {
 			size_t LinePosition;
 			char CurrentCharacter;
 			std::vector<Unicode::CodePoint> TemporaryBuffer;
+			Unicode::UString NCRefBuffer;
 		public: // Methods
 			void LogError(const HTML::Tokenizer::ParserError &error);
 		};

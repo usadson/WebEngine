@@ -26,7 +26,6 @@ const char TestDocument[] = "<!doctype html>\n\
   </head>\n\
   <body>\n\
     <h1>Text Header</h1>\n\
-    <p>Paragraph start tag: &lt;p&gt;</p>\n\
     <hr />\n\
     <img src=\"logo.svg\" alt=\"Logo Image\" siz=d />\n\
   </body>\n\

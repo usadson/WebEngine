@@ -1204,9 +1204,45 @@ void HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 					}
 				}
 				break;
-			case HTML::Tokenizer::ParserState::NAMED_CHARACTER_REFERENCE:
+				/*
+			case HTML::Tokenizer::ParserState::NAMED_CHARACTER_REFERENCE: {
+				// NamedCharacters::NCStatus status = NamedCharacters::Find(
+				bool wasMatch = false;
+				if (character != Unicode::SEMICOLON) {
+					context.NCRefBuffer += character;
+					std::cout << "NAMED_CHARACTER_REFERENCE: " << context.TemporaryBuffer[0] << ' ' << character << std::endl;
+					// TODO Check for match, if so do shit & "break;"
+				}
+
+				if (character != Unicode::SEMICOLON) {
+					context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
+				}
 				
-				break;
+				// The named reference isn't found, thus:
+				// flush code points consumed as a character reference
+				switch (context.ReturnState) {
+					case HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_DQ:
+					case HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_SQ:
+					case HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_NQ: {
+						HTML::Tokenizer::AmbiguousTagToken &tagToken = (isEndTag ? 
+							(HTML::Tokenizer::AmbiguousTagToken &) endTagToken : 
+							(HTML::Tokenizer::AmbiguousTagToken &) startTagToken);
+
+						for (size_t k = 0; k < context.NCRefBuffer.length(); i++) {
+							tagToken.AttributeValue += context.NCRefBuffer[i];
+						}
+					} break;
+					default:
+						for (size_t k = 0; k < context.NCRefBuffer.length(); i++) {
+							treeConstructor.EmitCharacterToken(context.NCRefBuffer[i]);
+						}
+						break;
+				}
+				context.State = wasMatch ? 
+					context.ReturnState :
+					HTML::Tokenizer::ParserState::AMBIGOUS_AMPERSAND;
+			} break;
+			*/
 			default:
 				std::cout << "Unknown state(" << ++unknownStateCount << "): " << context.State << std::endl;
 				break;
