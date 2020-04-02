@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "data/text/named_characters.hpp"
+#include "data/text/encoding/single_byte_encoding.hpp"
 #include "data/text/encoding/utf8.hpp"
 #include "net/global.hpp"
 #include "net/http/http_connection.hpp"
@@ -96,36 +97,41 @@ inline void RunDocumentTest(void) {
 }
 
 void RunEncodingTest() {
-	std::vector<std::string> strings = {
-		"κόσμε",
-		"🧒",
-		"اَلْعَرَبِيَّةُ",	
+	size_t i;
+
+	std::vector<std::vector<char>> vector = {
+		{
+			(char) 0x80,
+			(char) 0x81
+		},
+		{
+			'A',
+			'B',
+			'C',
+		}
 	};
 
-	TextEncoding::UTF8 utf8Encoding;
-	for (const auto &string : strings) {
-		std::vector<char> vector = VectorizeString(string.c_str(), string.length());
-		bool result = utf8Encoding.Decode(vector.data(), vector.size());
-		std::cout << "Result=" << (result ? "passed" : "failed") << ": ";
-		for (const auto &c : utf8Encoding.Output) {
-			std::cout << std::hex << "U+" << c << ' ';
+	TextEncoding::IMB866 encoding;
+	for (const auto &v : vector) {
+		if (!encoding.Decode(v.data(), v.size())) {
+			Logger::Error("RunEncodingTest", "Failed to decode!");
+		} else {
+			std::cout << "Encoder output: " << encoding.Output.size() << " code points (characters)." << std::endl;
+			for (i = 0; i < encoding.Output.size(); i++) {
+				std::cout << '\t' << encoding.Output[i] << std::endl;
+			}
+			std::cout << "End." << std::endl;
 		}
-		std::cout << std::endl;
 	}
 }
 
 int main(int argc, char *argv[]) {
 	NamedCharacters::Setup();
-	/*
-	if (argc == 1) {
-		std::cerr << "Please specify a domain!" << std::endl;
-		return EXIT_FAILURE;
-	}
-	*/
+
 // 	RunDoctypeTests();
-	RunDocumentTest();
+// 	RunDocumentTest();
 // 	RunNetTest(argv[1]);
-// 	RunEncodingTest();
+	RunEncodingTest();
 
 	// Just for valgrind:
 	CCompat::CloseStandardIO();
