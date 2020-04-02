@@ -100,7 +100,10 @@ bin/parser/html/tokenizer.so: src/parser/html/tokenizer.cpp \
 	src/parser/html/context.hpp \
 	src/parser/html/error.hpp \
 	src/parser/html/token.hpp \
-	src/parser/html/tree_constructor.hpp
+	src/parser/html/tree_constructor.hpp \
+	src/data/text/named_characters.hpp \
+	src/data/text/unicode.hpp \
+	src/data/text/ustring.hpp
 	$(CXX) $(CFLAGS) -c -o $@ src/parser/html/tokenizer.cpp
 
 bin/parser/html/tree_constructor.so: src/parser/html/tree_constructor.cpp \

@@ -8,6 +8,8 @@
 #include <cstring>
 #include "strings.h"
 
+#include "data/text/named_characters.hpp"
+
 #include "context.hpp"
 #include "error.hpp"
 #include "state.hpp"
@@ -1171,6 +1173,39 @@ void HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							break;
 					}
 				}
+				break;
+			// Skipped some CDATA stuff
+			/*
+			 
+			CHARACTER_REFERENCE, // 12.2.5.72 Character reference state
+			NAMED_CHARACTER_REFERENCE, // 12.2.5.73 Named character reference state
+			AMBIGOUS_AMPERSAND, // 12.2.5.74 Ambiguous ampersand state
+			NUMERIC_CHARACTER_REFERENCE, // 12.2.5.75 Numeric character reference state
+			HEXADECIMAL_CHARACTER_REFERENCE_START, // 12.2.5.76 Hexadecimal character reference start state
+			DECIMAL_CHARACTER_REFERENCE_START, // 12.2.5.77 Decimal character reference start state
+			HEXADECIMAL_CHARACTER_REFERENCE, // 12.2.5.78 Hexadecimal character reference state
+			DECIMAL_CHARACTER_REFERENCE, // 12.2.5.79 Decimal character reference state
+			NUMERIC_CHARACTER_REFERENCE_END // 12.2.5.80 Numeric character reference end state
+			 */
+			case HTML::Tokenizer::ParserState::CHARACTER_REFERENCE:
+				context.TemporaryBuffer.clear();
+				context.TemporaryBuffer.push_back(Unicode::AMPERSAND);
+				if (!eof) {
+					if (character == Unicode::NUMBER_SIGN) { 
+						context.TemporaryBuffer.push_back(character);
+						context.State = HTML::Tokenizer::ParserState::NUMERIC_CHARACTER_REFERENCE;
+						break;
+					}
+
+					if (Unicode::IsASCIIAlphaNumeric(character)) {
+						reconsume = true;
+						context.State = HTML::Tokenizer::ParserState::NAMED_CHARACTER_REFERENCE;
+						break;
+					}
+				}
+				break;
+			case HTML::Tokenizer::ParserState::NAMED_CHARACTER_REFERENCE:
+				
 				break;
 			default:
 				std::cout << "Unknown state(" << ++unknownStateCount << "): " << context.State << std::endl;

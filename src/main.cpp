@@ -9,6 +9,7 @@
 #include <iostream>
 #include <vector>
 
+#include "data/text/named_characters.hpp"
 #include "data/text/encoding/utf8.hpp"
 #include "net/global.hpp"
 #include "net/http/http_connection.hpp"
@@ -25,6 +26,7 @@ const char TestDocument[] = "<!doctype html>\n\
   </head>\n\
   <body>\n\
     <h1>Text Header</h1>\n\
+    <p>Paragraph start tag: &lt;p&gt;</p>\n\
     <hr />\n\
     <img src=\"logo.svg\" alt=\"Logo Image\" siz=d />\n\
   </body>\n\
@@ -114,6 +116,7 @@ void RunEncodingTest() {
 }
 
 int main(int argc, char *argv[]) {
+	NamedCharacters::Setup();
 	/*
 	if (argc == 1) {
 		std::cerr << "Please specify a domain!" << std::endl;

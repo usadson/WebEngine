@@ -22,6 +22,7 @@ namespace HTML {
 			size_t LineCount;
 			size_t LinePosition;
 			char CurrentCharacter;
+			std::vector<Unicode::CodePoint> TemporaryBuffer;
 		public: // Methods
 			void LogError(const HTML::Tokenizer::ParserError &error);
 		};
