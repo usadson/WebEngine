@@ -18,6 +18,7 @@ LDFLAGS = `pkg-config --static --libs libtls`
 BINARIES = bin/ccompat.so \
 	   bin/logger.so \
 	   bin/data/text/ustring.so \
+	   bin/data/text/encoding/encoder_engine.so \
 	   bin/data/text/encoding/single_byte_encoding.so \
 	   bin/data/text/encoding/utf8.so \
 	   bin/net/connection_info.so \
@@ -59,6 +60,13 @@ bin/data/text/encoding/single_byte_encoding.so: src/data/text/encoding/single_by
 	src/data/text/encoding/encoding.hpp \
 	src/data/text/unicode.hpp
 	$(CXX) $(CFLAGS) -c -o $@ src/data/text/encoding/single_byte_encoding.cpp
+
+bin/data/text/encoding/encoder_engine.so: src/data/text/encoding/encoder_engine.cpp \
+	src/data/text/encoding/encoder_engine.hpp \
+	src/data/text/encoding/single_byte_encoding.hpp \
+	src/data/text/encoding/encoding.hpp \
+	src/data/text/unicode.hpp
+	$(CXX) $(CFLAGS) -c -o $@ src/data/text/encoding/encoder_engine.cpp
 
 bin/data/text/encoding/utf8.so: src/data/text/encoding/utf8.cpp \
 	src/data/text/encoding/utf8.hpp \

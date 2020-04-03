@@ -10,7 +10,7 @@
 #include <vector>
 
 #include "data/text/named_characters.hpp"
-#include "data/text/encoding/single_byte_encoding.hpp"
+#include "data/text/encoding/encoder_engine.hpp"
 #include "data/text/encoding/utf8.hpp"
 #include "net/global.hpp"
 #include "net/http/http_connection.hpp"
@@ -99,29 +99,38 @@ inline void RunDocumentTest(void) {
 void RunEncodingTest() {
 	size_t i;
 
-	std::vector<std::vector<char>> vector = {
+	std::vector<std::pair<std::string, std::vector<char>>> vector = {
 		{
-			(char) 0x80,
-			(char) 0x81
+			"866",
+			{
+				(char) 0x80,
+				(char) 0x81
+			}
 		},
 		{
-			'A',
-			'B',
-			'C',
+			"ascii",
+			{
+				'A',
+				'B',
+				'C',
+			}
+		},
+		{
+			"iso885910",
+			{
+				(char) 162
+			},
 		}
 	};
 
-	TextEncoding::IMB866 encoding;
-	for (const auto &v : vector) {
-		if (!encoding.Decode(v.data(), v.size())) {
-			Logger::Error("RunEncodingTest", "Failed to decode!");
-		} else {
-			std::cout << "Encoder output: " << encoding.Output.size() << " code points (characters)." << std::endl;
-			for (i = 0; i < encoding.Output.size(); i++) {
-				std::cout << '\t' << encoding.Output[i] << std::endl;
-			}
-			std::cout << "End." << std::endl;
+	for (const auto &pair : vector) {
+		std::vector<Unicode::CodePoint> out = TextEncoding::EncoderEngine::DecodeData(pair.second.data(), pair.second.size(), pair.first);
+
+		std::cout << "Encoder output: " << out.size() << " code points (characters)." << std::endl;
+		for (i = 0; i < out.size(); i++) {
+			std::cout << '\t' << out[i] << std::endl;
 		}
+		std::cout << "End." << std::endl;
 	}
 }
 
