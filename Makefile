@@ -29,6 +29,7 @@ BINARIES = bin/ccompat.so \
 	   bin/parser/html/error.so \
 	   bin/parser/html/token.so \
 	   bin/parser/html/tokenizer.so \
+	   bin/parser/html/tree/insert_intial.so \
 	   bin/parser/html/tree_constructor.so
 
 engine: bin/test.txt \
@@ -41,7 +42,7 @@ engine: bin/test.txt \
 bin/test.txt:
 	@mkdir -p bin/data/text/encoding
 	@mkdir -p bin/net/http
-	@mkdir -p bin/parser/html
+	@mkdir -p bin/parser/html/tree
 	@touch bin/test.txt
 
 bin/ccompat.so: src/ccompat.cpp src/ccompat.hpp
@@ -54,7 +55,7 @@ bin/data/text/ustring.so: src/data/text/ustring.cpp \
 	src/data/text/ustring.hpp \
 	src/data/text/unicode.hpp
 	$(CXX) $(CFLAGS) -c -o $@ src/data/text/ustring.cpp
-	
+
 bin/data/text/encoding/single_byte_encoding.so: src/data/text/encoding/single_byte_encoding.cpp \
 	src/data/text/encoding/single_byte_encoding.hpp \
 	src/data/text/encoding/encoding.hpp \
@@ -119,6 +120,11 @@ bin/parser/html/tokenizer.so: src/parser/html/tokenizer.cpp \
 	src/data/text/unicode.hpp \
 	src/data/text/ustring.hpp
 	$(CXX) $(CFLAGS) -c -o $@ src/parser/html/tokenizer.cpp
+
+bin/parser/html/tree/insert_intial.so: src/parser/html/tree/insert_initial.cpp \
+	src/parser/html/tree/insert_initial.hpp \
+	src/parser/html/tree_constructor.hpp
+	$(CXX) $(CFLAGS) -c -o $@ src/parser/html/tree/insert_initial.cpp
 
 bin/parser/html/tree_constructor.so: src/parser/html/tree_constructor.cpp \
 	src/parser/html/tree_constructor.hpp

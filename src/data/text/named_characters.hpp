@@ -2299,7 +2299,6 @@ namespace NamedCharacters {
 
 	inline void Setup() {
 		static std::shared_ptr<NCNode> RootNode = std::shared_ptr<NCNode>(new NCNode { false, 0, {} });
-		std::cout << "ROOT node: " << &RootNode << std::endl;
 
 		size_t i;
 		size_t length;

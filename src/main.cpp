@@ -138,9 +138,9 @@ int main(int argc, char *argv[]) {
 	NamedCharacters::Setup();
 
 // 	RunDoctypeTests();
-// 	RunDocumentTest();
+	RunDocumentTest();
 // 	RunNetTest(argv[1]);
-	RunEncodingTest();
+// 	RunEncodingTest();
 
 	// Just for valgrind:
 	CCompat::CloseStandardIO();
