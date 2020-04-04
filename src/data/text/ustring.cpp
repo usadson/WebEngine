@@ -83,6 +83,10 @@ namespace Unicode {
 		return (character >= 0x41 && character <= 0x5A) || (character >= 0x61 && character <= 0x7A);
 	}
 
+	bool UString::EqualsIgnoreCaseA(size_t index, const char *ascii) {
+		return UString::EqualsIgnoreCaseAL(index, ascii, strlen(ascii));
+	}
+
 	bool UString::EqualsIgnoreCaseAL(size_t index, const char *ascii, size_t length) {
 		if (index + length >= Data.size()) {
 			return false;

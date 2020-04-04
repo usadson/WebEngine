@@ -35,9 +35,11 @@ namespace Unicode {
 		UString &operator+=(const UString other);
 		UString &operator+=(const char *ascii);
 		bool IsASCIIAlpha(size_t index);
+		/* Equals Ignore-case ASCII */
+		bool EqualsIgnoreCaseA(size_t index, const char *ascii);
 		/* Equals Ignore-case ASCII + length */
 		bool EqualsIgnoreCaseAL(size_t index, const char *ascii, size_t length);
-		/* Equals Ignore-case ASCII + length */
+		/* Equals case-sensitivily ASCII + length */
 		bool EqualsAL(size_t index, const char *ascii, size_t length);
 		bool EqualsA(const char *ascii);
 		int Compare(const UString &other) const;

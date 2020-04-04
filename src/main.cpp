@@ -19,7 +19,8 @@
 #include "ccompat.hpp"
 #include "logger.hpp"
 
-const char TestDocument[] = "<!doctype html>\n\
+const char TestDocument[] = "<!-- TestHTML Document -->\n\
+<!doctype html>\n\
 <html>\n\
   <head>\n\
     <title>First title yeah</title>\n\
@@ -27,6 +28,7 @@ const char TestDocument[] = "<!doctype html>\n\
   </head>\n\
   <body>\n\
     <h1>Text Header</h1>\n\
+    Stray Text?\n\
     <hr />\n\
     <img src=\"logo.svg\" alt=\"Logo Image\" siz=d />\n\
   </body>\n\
@@ -92,7 +94,8 @@ inline void RunDocumentTest(void) {
 		return;
 	}
 
-	HTML::Tokenizer::Tokenizer tokenizer;
+	HTML::ParserContext context;
+	HTML::Tokenizer::Tokenizer tokenizer(context);
 	tokenizer.Run(document);
 }
 

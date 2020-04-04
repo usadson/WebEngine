@@ -3,6 +3,9 @@
 #include <iostream>
 #include <vector>
 
+#include "dom/comment.hpp"
+#include "logger.hpp"
+
 const std::vector<const char *> quirkyPublicIdentifiersMissingSystem = {
 	"-//W3C//DTD HTML 4.01 Frameset//",
 	"-//W3C//DTD HTML 4.01 Transitional//"
@@ -69,7 +72,7 @@ const std::vector<const char *> quirkyPublicIdentifiers = {
 	"-//WebTechs//DTD Mozilla HTML//"
 };
 
-bool IsQuirkyDoctype(HTML::Tokenizer::DoctypeToken *token) {
+bool IsQuirkyDoctype(HTML::Tokenizer::DoctypeToken *token, bool isIFrameSrcDoc) {
 	if (token->ForceQuirks)
 		return true;
 
@@ -103,41 +106,50 @@ bool IsQuirkyDoctype(HTML::Tokenizer::DoctypeToken *token) {
 	return false;
 }
 
-void HTML::InsertionModes::Initial::EmitToken(HTML::Tokenizer::Token &inToken) {
-	if (auto *startTagToken = dynamic_cast<HTML::Tokenizer::StartTagToken *>(&inToken)) {
-		if (startTagToken->AttributeName.length() != 0)
-			startTagToken->AddTokenAttribute(Context);
+bool HTML::InsertionModes::Initial::EmitToken(HTML::Tokenizer::Token &inToken) {
+	HTML::Tokenizer::CharacterToken	*characterToken;
+	HTML::Tokenizer::CommentToken	*commentToken;
+	HTML::Tokenizer::DoctypeToken	*doctypeToken;
 
-		std::cout << "++" << startTagToken->TagName << std::endl;
-
-		if (startTagToken->Attributes.size() != 0) {
-			std::cout << "  -> Attribute List (" << startTagToken->Attributes.size() << "):" << std::endl;
-			for (const auto &attribute : startTagToken->Attributes) {
-				std::cout << "    -> \"" << attribute.first << "\" = \"" << attribute.second << "\"" << std::endl;
-			}
-		}
-	} else if (auto *endTagToken = dynamic_cast<HTML::Tokenizer::EndTagToken *>(&inToken)) {
-		std::cout << "--" << endTagToken->TagName << std::endl;
-	} else if (auto *doctypeToken = dynamic_cast<HTML::Tokenizer::DoctypeToken *>(&inToken)) {
-		std::cout << "**doctype> " << doctypeToken->Name.value();
-		if (doctypeToken->PublicIdentifier.has_value())
-			std::cout << " PublicIdentifier='" << doctypeToken->PublicIdentifier.value();
-		if (doctypeToken->SystemIdentifier.has_value())
-			std::cout << " SystemIdentifier='" << doctypeToken->SystemIdentifier.value();
-		std::cout << std::endl;
-	} else if (auto *commentToken = dynamic_cast<HTML::Tokenizer::CommentToken *>(&inToken)) {
-		std::cout << "**comment> '" << commentToken->Contents << '\'' << std::endl;
-	}
-
-	// Should really just create a mapped table with function pointers...
 	switch (inToken.Type) {
-		case  HTML::Tokenizer::TokenType::DOCTYPE: {
-			auto *doctypeToken = dynamic_cast<HTML::Tokenizer::DoctypeToken *>(&inToken);
-			bool quirky = IsQuirkyDoctype(doctypeToken);
-			std::cout << "\033[1;31m -> DOCTYPE TYPE! HasQuirks: \033[1;35m" << (quirky ? "true" : "false") << "\033[1;0m" << std::endl;
-		} break;
+		case HTML::Tokenizer::TokenType::CHARACTER:
+			characterToken = dynamic_cast<HTML::Tokenizer::CharacterToken *>(&inToken);
+			switch (characterToken->Character) {
+				case Unicode::CHARACTER_TABULATION:
+				case Unicode::LINE_FEED:
+				case Unicode::FORM_FEED:
+				case Unicode::CARRIAGE_RETURN:
+				case Unicode::SPACE:
+					// Ignore this token:
+					return false;
+				default:
+					Logger::Warning("InitialInsertionMode::EmitToken", "Invalid character token!");
+					Context.ParserContext.DocumentNode.Mode = DOM::QuirksMode::QUIRKS;
+					break;
+			}
+			break;
+		case HTML::Tokenizer::TokenType::COMMENT:
+			commentToken = dynamic_cast<HTML::Tokenizer::CommentToken *>(&inToken);
+
+			Context.ParserContext.DocumentNode.ChildNodes.push_back(DOM::Comment(commentToken->Contents));
+			return false;
+		case HTML::Tokenizer::TokenType::DOCTYPE:
+			doctypeToken = dynamic_cast<HTML::Tokenizer::DoctypeToken *>(&inToken);
+
+			if (IsQuirkyDoctype(doctypeToken, false /* TODO */))
+				Context.ParserContext.DocumentNode.Mode = DOM::QuirksMode::QUIRKS;
+
+			Constructor.CurrentMode = HTML::InsertionModeType::BEFORE_HTML;
+			return false;
 		default:
-			// std::cout << " -> UnknownType: " << inToken.Type << std::endl;
 			break;
 	}
+	// SMALL TODO 'If the document is not an iframe srcdoc document'.
+
+	Logger::Warning("InitialInsertionMode::EmitToken", "Parser Error: Invalid token in INITIAL insertion mode!");
+	std::cerr << "\tTokenType: " << inToken.Type << std::endl;
+
+	// In any other case:
+	Constructor.CurrentMode = HTML::InsertionModeType::BEFORE_HTML;
+	return true;
 }

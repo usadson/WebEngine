@@ -6,14 +6,23 @@ namespace HTML {
 	}
 }
 
+#include "dom/document.hpp"
+
 #include "error.hpp"
 #include "state.hpp"
 #include "token.hpp"
 
 namespace HTML {
+	class ParserContext {
+	public:
+		DOM::Document DocumentNode;
+	};
+
 	namespace Tokenizer {
 		class Context {
 		public:
+			HTML::ParserContext &ParserContext;
+
 			ParserState State = ParserState::DATA;
 			ParserState ReturnState = ParserState::UNDEFINED;
 			// The state at the start of each the tokenizer loop. This is a
@@ -25,6 +34,9 @@ namespace HTML {
 			std::vector<Unicode::CodePoint> TemporaryBuffer;
 			Unicode::UString NCRefBuffer;
 		public: // Methods
+			inline Context(HTML::ParserContext &context)
+				: ParserContext(context) {}
+
 			void LogError(const HTML::Tokenizer::ParserError &error);
 		};
 	};

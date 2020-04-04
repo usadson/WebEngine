@@ -15,8 +15,8 @@ namespace HTML {
 	class TreeConstructor {
 	public: // Properties
 		Tokenizer::Context &Context;
-	private: // Private Properties
 		InsertionModeType CurrentMode;
+	private: // Private Properties
 		std::map<InsertionModeType, std::shared_ptr<InsertionMode>> InsertionModes;
 	public: // Methods
 		TreeConstructor(Tokenizer::Context &context);

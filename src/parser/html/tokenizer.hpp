@@ -16,8 +16,8 @@ namespace HTML {
 			HTML::Tokenizer::Context Context;
 			HTML::TreeConstructor TreeConstructor;
 		public: // Methods
-			inline Tokenizer()
-				: Context(), TreeConstructor(Context) {
+			inline Tokenizer(HTML::ParserContext &parserContext)
+				: Context(parserContext), TreeConstructor(Context) {
 			}
 
 			void Run(Resources::DocumentResource &document);

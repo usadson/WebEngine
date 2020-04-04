@@ -75,12 +75,14 @@ namespace HTML {
 
 			static const StartTagToken INVALID_TYPE;
 		};
+
 		struct EndTagToken : public AmbiguousTagToken {
 			inline EndTagToken() : AmbiguousTagToken(TokenType::ENDTAG) {
 			}
 
 			static const EndTagToken INVALID_TYPE;
 		};
+
 		struct CommentToken : public Token {
 			Unicode::UString Contents;
 
