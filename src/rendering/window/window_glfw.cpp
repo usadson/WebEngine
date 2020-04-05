@@ -60,11 +60,9 @@ namespace Rendering {
 	}
 
 	bool WindowGLFW::InternalPrepareGL() {
-		int height;
 		GLFWmonitor *monitor;
 		float sizeFactor;
 		const GLFWvidmode *videoMode;
-		int width;
 
 		sizeFactor = 0.8;
 
@@ -85,17 +83,17 @@ namespace Rendering {
 			return false;
 		}
 
-		width = videoMode->width * sizeFactor;
-		height = videoMode->height * sizeFactor;
+		Width = videoMode->width * sizeFactor;
+		Height = videoMode->height * sizeFactor;
 
-		InternalWindow = glfwCreateWindow(width, height, "WebEngine", nullptr, nullptr);
+		InternalWindow = glfwCreateWindow(Width, Height, "WebEngine", nullptr, nullptr);
 		if (InternalWindow == nullptr) {
 			Logger::Error("GLFW", "Failed to create window!");
 			return false;
 		}
 
 		/* Center the window */
-		glfwSetWindowPos(InternalWindow, (videoMode->width - width) / 2, (videoMode->height - height) / 2);
+		glfwSetWindowPos(InternalWindow, (videoMode->width - Width) / 2, (videoMode->height - Height) / 2);
 
 		glfwMakeContextCurrent(InternalWindow);
 		return true;

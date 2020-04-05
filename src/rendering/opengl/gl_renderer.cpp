@@ -18,7 +18,13 @@
 
 #include "gl_renderer.hpp"
 
+#include <algorithm>
+#include <sstream>
+
 #include <GL/glew.h>
+
+#include "rendering/drawables/draw_rect.hpp"
+#include "logger.hpp"
 
 namespace Rendering {
 
@@ -28,25 +34,60 @@ namespace Rendering {
 
 	void GLRenderer::Prepare() {
 		glewInit();
-		glGenVertexArrays(1, &VertexArrayID);
-		glBindVertexArray(VertexArrayID);
+		/* Map */
+		std::stringstream info;
+		info << "WindowSize={ Width=" << InternalWindow->Width
+			 << " Height=" << InternalWindow->Height << " }";
+		Logger::Debug(__PRETTY_FUNCTION__, info.str());
+		glOrtho(0, InternalWindow->Width, InternalWindow->Height, 0, 0, 1);
+// 		glGenVertexArrays(1, &VertexArrayID);
+// 		glBindVertexArray(VertexArrayID);
 	}
 
 	void GLRenderer::DrawFrame() {
-		glColor3f(1,1,1);
+		DrawRect *rect;
 
-		glBegin(GL_QUADS);
-		glVertex2f(-0.5, -0.5);
-		glVertex2f(-0.5,  0.5);
-		glVertex2f( 0.5,  0.5);
-		glVertex2f( 0.5, -0.5);
-		glEnd();
+		glColor3f(1, 1, 1);
+		for (const auto &object : RenderObjects) {
+			switch (object->Type) {
+				case RenderObjectType::RECT:
+					rect = dynamic_cast<DrawRect *>(object);
+					glColor4f(rect->Color.Components.R / 255.0,
+							  rect->Color.Components.G / 255.0,
+							  rect->Color.Components.B / 255.0,
+							  rect->Color.Components.A / 255.0
+					);
+
+					glBegin(GL_QUADS);
+					glVertex2f(rect->Bounds.Left,  rect->Bounds.Top);
+					glVertex2f(rect->Bounds.Left,  rect->Bounds.Bottom);
+					glVertex2f(rect->Bounds.Right, rect->Bounds.Bottom);
+					glVertex2f(rect->Bounds.Right, rect->Bounds.Top);
+					glEnd();
+					break;
+				default:
+					break;
+			}
+		}
 
 		InternalWindow->SwapBuffers();
 	}
 
 	void GLRenderer::Enqueue(RenderObject *object) {
-		
+		RenderObjects.push_back(object);
+	}
+
+	void GLRenderer::Dequeue(RenderObject *object) {
+		auto it = std::find(RenderObjects.begin(), RenderObjects.end(), object);
+
+		if (it == RenderObjects.end()) {
+			std::stringstream info;
+			info << "Invalid RenderObject! Pointer: " << object
+				 << " RenderObjects.size: " << RenderObjects.size();
+			Logger::Warning(__PRETTY_FUNCTION__, info.str());
+		} else {
+			RenderObjects.erase(it);
+		}
 	}
 
 }

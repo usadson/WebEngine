@@ -18,22 +18,26 @@
 
 #pragma once
 
-#include <vector>
-
-#include <GL/glew.h>
-
-#include "rendering/renderer.hpp"
-
 namespace Rendering {
-	class GLRenderer : public Renderer {
-	public: // Properties
-		std::vector<RenderObject *> RenderObjects;
-	public: // Methods
-		GLRenderer();
 
-		void Dequeue(RenderObject *object);
-		void DrawFrame();
-		void Enqueue(RenderObject *object);
-		void Prepare();
+	struct RGBAColor {
+		// FIXME This macro isn't standard and this hack is pretty shitty
+#if __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
+		uint8_t R;
+		uint8_t G;
+		uint8_t B;
+		uint8_t A;
+#else
+		uint8_t A;
+		uint8_t B;
+		uint8_t G;
+		uint8_t R;
+#endif
 	};
+
+	union DrawColor {
+		RGBAColor Components;
+		uint32_t Value;
+	};
+
 }

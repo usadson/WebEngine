@@ -43,6 +43,7 @@ namespace Rendering {
 			: Type(type) {
 		}
 
+		virtual void Dequeue(RenderObject *object) = 0;
 		/* The name may be misleading, but this function will be called every
 		 * 'loop' and this function should calculate which or if it should (re)
 		 * draw some parts of the queue. */

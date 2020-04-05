@@ -21,8 +21,20 @@
 #include "render_bounds.hpp"
 
 namespace Rendering {
-	class RenderObject {
-	public:
-		RenderBounds Bounds;
+
+	enum class RenderObjectType {
+		RECT
 	};
+
+	class RenderObject {
+	public: // Properties
+		RenderBounds Bounds;
+	public: // Internal Properties
+		void *RenderContext;
+		RenderObjectType Type;
+	public: // Methods
+		inline RenderObject(RenderObjectType type) : Type(type) {}
+		virtual ~RenderObject() = default;
+	};
+
 }

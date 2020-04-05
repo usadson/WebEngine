@@ -34,6 +34,7 @@
 #include "net/global.hpp"
 #include "net/http/http_connection.hpp"
 #include "parser/html/tokenizer.hpp"
+#include "rendering/drawables/draw_rect.hpp"
 #include "rendering/opengl/gl_renderer.hpp"
 #include "rendering/window/window_glfw.hpp"
 #include "resources/document.hpp"
@@ -189,12 +190,20 @@ void RunRenderingTest() {
 		Logger::Severe("RunRenderingTest", "The creation of renderer context for renderer for window system " + window->WindowManagerName + " failed.");
 	}
 
+	std::shared_ptr<Rendering::DrawRect> rectangle = std::make_shared<Rendering::DrawRect>();
+	rectangle->Bounds = { 0, 200, 0, 200 };
+	rectangle->Color.Value = 0x83ff08ff;
+
 	renderer->SetWindow(window);
 	renderer->Prepare();
+
+	renderer->Enqueue(rectangle.get());
 
 	while (!window->PollClose()) {
 		renderer->DrawFrame();
 	}
+
+	renderer->Dequeue(rectangle.get());
 }
 
 int main(int argc, char *argv[]) {

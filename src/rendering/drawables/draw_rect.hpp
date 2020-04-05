@@ -19,10 +19,14 @@
 #pragma once
 
 #include "rendering/render_object.hpp"
+#include "draw_color.hpp"
 
 namespace Rendering {
 	class DrawRect : public RenderObject {
 	public:
-		uint32_t Color;
+		/* RGBA */
+		DrawColor Color;
+	public:
+		inline DrawRect() : RenderObject(RenderObjectType::RECT) {}
 	};
 }

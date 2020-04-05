@@ -33,10 +33,12 @@ namespace Rendering {
 
 	class WindowBase {
 	public:
+		uint32_t Height;
+		uint32_t Width;
 		std::string WindowManagerName;
 	public:
 		inline WindowBase(std::string windowManagerName)
-			: WindowManagerName(windowManagerName) {
+			: Height(0), Width(0), WindowManagerName(windowManagerName) {
 		}
 
 		virtual ~WindowBase() = default;
