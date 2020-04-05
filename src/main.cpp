@@ -7,6 +7,7 @@
  */
 
 #include <iostream>
+#include <memory>
 #include <vector>
 
 #include "data/text/named_characters.hpp"
@@ -15,6 +16,8 @@
 #include "net/global.hpp"
 #include "net/http/http_connection.hpp"
 #include "parser/html/tokenizer.hpp"
+#include "rendering/opengl/gl_renderer.hpp"
+#include "rendering/window/window_x11.hpp"
 #include "resources/document.hpp"
 #include "ccompat.hpp"
 #include "logger.hpp"
@@ -137,13 +140,43 @@ void RunEncodingTest() {
 	}
 }
 
+std::shared_ptr<Rendering::Renderer> CreateRenderer(std::vector<Rendering::RendererType> supportedRenderers) {
+	for (const auto &renderer : supportedRenderers) {
+		switch (renderer) {
+			case Rendering::RendererType::OPENGL:
+				return std::make_shared<Rendering::GLRenderer>();
+			default:
+				break;
+		}
+	}
+
+	return nullptr;
+}
+
+void RunRenderingTest() {
+	std::shared_ptr<Rendering::Window> window;
+	std::shared_ptr<Rendering::Renderer> renderer;
+
+	// TODO Check for available windowing systems somehow
+	window = std::make_shared<Rendering::X11Window>();
+	renderer = CreateRenderer(window->GetSupportedRenderers());
+
+	if (renderer == nullptr) {
+		Logger::Severe("RunRenderingTest", "No supported renderer for window system " + window->WindowManagerName);
+		return;
+	}
+
+	Logger::Success("RunRenderingTest", "End-of-execution reached.");
+}
+
 int main(int argc, char *argv[]) {
 	NamedCharacters::Setup();
 
 // 	RunDoctypeTests();
-	RunDocumentTest();
+// 	RunDocumentTest();
 // 	RunNetTest(argv[1]);
 // 	RunEncodingTest();
+	RunRenderingTest();
 
 	// Just for valgrind:
 	CCompat::CloseStandardIO();

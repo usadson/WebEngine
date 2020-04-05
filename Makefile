@@ -31,7 +31,9 @@ BINARIES = bin/ccompat.so \
 	   bin/parser/html/tokenizer.so \
 	   bin/parser/html/tree/insert_before_html.so \
 	   bin/parser/html/tree/insert_intial.so \
-	   bin/parser/html/tree_constructor.so
+	   bin/parser/html/tree_constructor.so \
+	   bin/rendering/opengl/gl_renderer.so \
+	   bin/rendering/window/window_x11.so
 
 engine: bin/test.txt \
 	src/main.cpp \
@@ -44,6 +46,9 @@ bin/test.txt:
 	@mkdir -p bin/data/text/encoding
 	@mkdir -p bin/net/http
 	@mkdir -p bin/parser/html/tree
+	@mkdir -p bin/rendering/window
+	@mkdir -p bin/rendering/opengl
+	@mkdir -p bin/rendering/window
 	@touch bin/test.txt
 
 bin/ccompat.so: src/ccompat.cpp src/ccompat.hpp
@@ -135,3 +140,16 @@ bin/parser/html/tree/insert_before_html.so: src/parser/html/tree/insert_before_h
 bin/parser/html/tree_constructor.so: src/parser/html/tree_constructor.cpp \
 	src/parser/html/tree_constructor.hpp
 	$(CXX) $(CFLAGS) -c -o $@ src/parser/html/tree_constructor.cpp
+
+bin/rendering/opengl/gl_renderer.so: src/rendering/opengl/gl_renderer.cpp \
+	src/rendering/opengl/gl_renderer.hpp \
+	src/rendering/renderer.hpp \
+	src/rendering/render_object.hpp \
+	src/rendering/render_bounds.hpp
+	$(CXX) $(CFLAGS) -c -o $@ src/rendering/opengl/gl_renderer.cpp
+
+bin/rendering/window/window_x11.so: src/rendering/window/window_x11.cpp \
+	src/rendering/window/window_x11.hpp \
+	src/rendering/window/window.hpp \
+	src/data/text/ustring.hpp
+	$(CXX) $(CFLAGS) -c -o $@ src/rendering/window/window_x11.cpp
