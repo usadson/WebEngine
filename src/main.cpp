@@ -21,7 +21,7 @@
 
 const char TestDocument[] = "<!-- TestHTML Document -->\n\
 <!doctype html>\n\
-<html>\n\
+<HTml>\n\
   <head>\n\
     <title>First title yeah</title>\n\
     <title>Title2</title>\n\

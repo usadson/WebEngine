@@ -130,7 +130,6 @@ bool HTML::InsertionModes::Initial::EmitToken(HTML::Tokenizer::Token &inToken) {
 			break;
 		case HTML::Tokenizer::TokenType::COMMENT:
 			commentToken = dynamic_cast<HTML::Tokenizer::CommentToken *>(&inToken);
-
 			Context.ParserContext.DocumentNode.ChildNodes.push_back(DOM::Comment(commentToken->Contents));
 			return false;
 		case HTML::Tokenizer::TokenType::DOCTYPE:

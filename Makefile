@@ -29,6 +29,7 @@ BINARIES = bin/ccompat.so \
 	   bin/parser/html/error.so \
 	   bin/parser/html/token.so \
 	   bin/parser/html/tokenizer.so \
+	   bin/parser/html/tree/insert_before_html.so \
 	   bin/parser/html/tree/insert_intial.so \
 	   bin/parser/html/tree_constructor.so
 
@@ -125,6 +126,11 @@ bin/parser/html/tree/insert_intial.so: src/parser/html/tree/insert_initial.cpp \
 	src/parser/html/tree/insert_initial.hpp \
 	src/parser/html/tree_constructor.hpp
 	$(CXX) $(CFLAGS) -c -o $@ src/parser/html/tree/insert_initial.cpp
+
+bin/parser/html/tree/insert_before_html.so: src/parser/html/tree/insert_before_html.cpp \
+	src/parser/html/tree/insert_before_html.hpp \
+	src/parser/html/tree_constructor.hpp
+	$(CXX) $(CFLAGS) -c -o $@ src/parser/html/tree/insert_before_html.cpp
 
 bin/parser/html/tree_constructor.so: src/parser/html/tree_constructor.cpp \
 	src/parser/html/tree_constructor.hpp

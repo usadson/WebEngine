@@ -1,10 +1,11 @@
 #include "tree_constructor.hpp"
 
-#include <memory>
 #include <iostream>
+#include <memory>
 #include <sstream>
 #include <vector>
 
+#include "tree/insert_before_html.hpp"
 #include "tree/insert_initial.hpp"
 #include "logger.hpp"
 
@@ -12,13 +13,16 @@ namespace HTML {
 
 	TreeConstructor::TreeConstructor(Tokenizer::Context &context)
 		: Context(context), CurrentMode(InsertionModeType::INITIAL), InsertionModes({
-			{ InsertionModeType::INITIAL, std::shared_ptr<InsertionModes::Initial>(new InsertionModes::Initial(*this)) },
+			{ InsertionModeType::INITIAL, std::make_shared<InsertionModes::Initial>(*this) },
+			{ InsertionModeType::BEFORE_HTML, std::make_shared<InsertionModes::BeforeHTML>(*this) },
 		}) {
 	}
 
 	void TreeConstructor::EmitToken(HTML::Tokenizer::Token &inToken) {
 		bool	reprocess;
 		size_t	reprocessCount;
+
+		reprocessCount = 0;
 
 		do {
 			if (reprocessCount == 10) {
