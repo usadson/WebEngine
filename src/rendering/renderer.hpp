@@ -30,6 +30,7 @@ namespace Rendering {
 		 * draw some parts of the queue. */
 		virtual void DrawFrame() = 0;
 		virtual void Enqueue(RenderObject *object) = 0;
+		virtual void Prepare() = 0;
 
 		virtual inline void SetWindow(std::shared_ptr<Rendering::WindowBase> window) {
 			InternalWindow = window;

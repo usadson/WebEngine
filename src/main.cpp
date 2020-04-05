@@ -172,6 +172,7 @@ void RunRenderingTest() {
 	}
 
 	renderer->SetWindow(window);
+	renderer->Prepare();
 
 	while (!window->PollClose()) {
 		renderer->DrawFrame();

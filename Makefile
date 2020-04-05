@@ -13,7 +13,7 @@
 
 CFLAGS = -Isrc -g -Wall -std=c++17 -O0
 CXX = c++
-LDFLAGS = `pkg-config --static --libs libtls glfw3`
+LDFLAGS = `pkg-config --static --libs libtls glfw3 glew freetype2`
 
 BINARIES = bin/ccompat.so \
 	   bin/logger.so \
