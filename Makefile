@@ -13,7 +13,7 @@
 
 CFLAGS = -Isrc -g -Wall -std=c++17 -O0
 CXX = c++
-LDFLAGS = `pkg-config --static --libs libtls xcb x11 x11-xcb`
+LDFLAGS = `pkg-config --static --libs libtls glfw3`
 
 BINARIES = bin/ccompat.so \
 	   bin/logger.so \
@@ -33,7 +33,7 @@ BINARIES = bin/ccompat.so \
 	   bin/parser/html/tree/insert_intial.so \
 	   bin/parser/html/tree_constructor.so \
 	   bin/rendering/opengl/gl_renderer.so \
-	   bin/rendering/window/window_x11.so
+	   bin/rendering/window/window_glfw.so
 
 engine: bin/test.txt \
 	src/main.cpp \
@@ -148,8 +148,8 @@ bin/rendering/opengl/gl_renderer.so: src/rendering/opengl/gl_renderer.cpp \
 	src/rendering/render_bounds.hpp
 	$(CXX) $(CFLAGS) -c -o $@ src/rendering/opengl/gl_renderer.cpp
 
-bin/rendering/window/window_x11.so: src/rendering/window/window_x11.cpp \
-	src/rendering/window/window_x11.hpp \
+bin/rendering/window/window_glfw.so: src/rendering/window/window_glfw.cpp \
+	src/rendering/window/window_glfw.hpp \
 	src/rendering/window/window.hpp \
 	src/data/text/ustring.hpp
-	$(CXX) $(CFLAGS) -c -o $@ src/rendering/window/window_x11.cpp
+	$(CXX) $(CFLAGS) -c -o $@ src/rendering/window/window_glfw.cpp

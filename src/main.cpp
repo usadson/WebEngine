@@ -17,7 +17,7 @@
 #include "net/http/http_connection.hpp"
 #include "parser/html/tokenizer.hpp"
 #include "rendering/opengl/gl_renderer.hpp"
-#include "rendering/window/window_x11.hpp"
+#include "rendering/window/window_glfw.hpp"
 #include "resources/document.hpp"
 #include "ccompat.hpp"
 #include "logger.hpp"
@@ -154,11 +154,11 @@ std::shared_ptr<Rendering::Renderer> CreateRenderer(std::vector<Rendering::Rende
 }
 
 void RunRenderingTest() {
-	std::shared_ptr<Rendering::Window> window;
+	std::shared_ptr<Rendering::WindowBase> window;
 	std::shared_ptr<Rendering::Renderer> renderer;
 
 	// TODO Check for available windowing systems somehow
-	window = std::make_shared<Rendering::X11Window>();
+	window = std::make_shared<Rendering::WindowGLFW>();
 	renderer = CreateRenderer(window->GetSupportedRenderers());
 
 	if (renderer == nullptr) {
@@ -169,6 +169,12 @@ void RunRenderingTest() {
 	auto result = window->PrepareForRenderer(renderer->Type);
 	if (!result.first) {
 		Logger::Severe("RunRenderingTest", "The creation of renderer context for renderer for window system " + window->WindowManagerName + " failed.");
+	}
+
+	renderer->SetWindow(window);
+
+	while (!window->PollClose()) {
+		renderer->DrawFrame();
 	}
 }
 

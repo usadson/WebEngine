@@ -7,6 +7,7 @@ namespace Rendering {
 	public:
 		GLRenderer();
 
+		void DrawFrame();
 		void Enqueue(RenderObject *object);
 	};
 }

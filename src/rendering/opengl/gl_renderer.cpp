@@ -7,6 +7,10 @@ namespace Rendering {
 		
 	}
 
+	void GLRenderer::DrawFrame() {
+		InternalWindow->SwapBuffers();
+	}
+
 	void GLRenderer::Enqueue(RenderObject *object) {
 		
 	}

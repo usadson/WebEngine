@@ -1,0 +1,99 @@
+#include "window_glfw.hpp"
+
+#include <iostream>
+
+#include <GL/gl.h>
+#include <GL/glx.h>
+#include <GL/glu.h>
+
+#include "logger.hpp"
+
+namespace Rendering {
+
+	/* Since the window is the most important thing of the application, there
+	 * isn't really need for graceful error handling (I think). Therefore I can
+	 * call std::runtime_error() */
+	WindowGLFW::WindowGLFW()
+		: WindowBase("GLFW"), InternalWindow(nullptr) {
+		if (!glfwInit()) {
+			throw std::runtime_error("GLFW initialization failed.");
+		}
+	}
+
+	WindowGLFW::~WindowGLFW() {
+		if (InternalWindow != nullptr)
+			glfwDestroyWindow(InternalWindow);
+
+		glfwTerminate();
+	}
+
+	std::vector<RendererType> WindowGLFW::GetSupportedRenderers() {
+		return { RendererType::OPENGL };
+	}
+
+	std::pair<bool, std::optional<void *>> WindowGLFW::PrepareForRenderer(RendererType type) {
+		switch (type) {
+			case RendererType::OPENGL:
+				return { InternalPrepareGL(), {} };
+			default:
+				Logger::Error("GLFW", "Renderer not recognised!");
+				return { false, {} };
+		}
+	}
+
+	bool WindowGLFW::InternalPrepareGL() {
+		int height;
+		GLFWmonitor *monitor;
+		float sizeFactor;
+		const GLFWvidmode *videoMode;
+		int width;
+
+		sizeFactor = 0.8;
+
+		if (InternalWindow != nullptr) {
+			Logger::Severe("GLFW", "InternalPrepareGL() called twice! Quitting...");
+			throw std::runtime_error("InternalPrepareGL called twice!");
+		}
+
+		monitor = glfwGetPrimaryMonitor();
+		if (!monitor) {
+			Logger::Error("GLFW", "Failed to retrieve monitor information.");
+			return false;
+		}
+
+		videoMode = glfwGetVideoMode(monitor);
+		if (!videoMode) {
+			Logger::Error("GLFW", "Failed to retrieve monitor information.");
+			return false;
+		}
+
+		width = videoMode->width * sizeFactor;
+		height = videoMode->height * sizeFactor;
+
+		InternalWindow = glfwCreateWindow(width, height, "WebEngine", nullptr, nullptr);
+		if (InternalWindow == nullptr) {
+			Logger::Error("GLFW", "Failed to create window!");
+			return false;
+		}
+
+		/* Center the window */
+		glfwSetWindowPos(InternalWindow, (videoMode->width - width) / 2, (videoMode->height - height) / 2);
+
+		glfwMakeContextCurrent(InternalWindow);
+		return true;
+	}
+
+	bool WindowGLFW::PollClose() {
+		glfwPollEvents();
+		return glfwWindowShouldClose(InternalWindow);
+	}
+
+	void WindowGLFW::SetTitle(Unicode::UString title) {
+		
+	}
+
+	void WindowGLFW::SwapBuffers() {
+		glfwSwapBuffers(InternalWindow);
+	}
+
+}
