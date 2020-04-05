@@ -18,7 +18,7 @@ void Logger::Severe(std::string source, std::string message) {
 	std::cout << "\033[1;91m[" << source << "] [SEVERE] " << message << "\033[1;0m" << std::endl;
 }
 
-void Logger::Success(std::string source, std::string message) {
+void Logger::SuccessLog(std::string source, std::string message) {
 	std::cout << "\033[1;32m[" << source << "] [SUCCESS] " << message << "\033[1;0m" << std::endl;
 }
 
