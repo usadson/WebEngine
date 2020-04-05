@@ -165,8 +165,6 @@ void RunRenderingTest() {
 		Logger::Severe("RunRenderingTest", "No supported renderer for window system " + window->WindowManagerName);
 		return;
 	}
-
-	Logger::Success("RunRenderingTest", "End-of-execution reached.");
 }
 
 int main(int argc, char *argv[]) {

@@ -13,7 +13,7 @@
 
 CFLAGS = -Isrc -g -Wall -std=c++17 -O0
 CXX = c++
-LDFLAGS = `pkg-config --static --libs libtls`
+LDFLAGS = `pkg-config --static --libs libtls xcb x11 x11-xcb`
 
 BINARIES = bin/ccompat.so \
 	   bin/logger.so \

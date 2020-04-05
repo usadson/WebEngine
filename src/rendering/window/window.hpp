@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <optional>
 #include <vector>
 
 #include "data/text/ustring.hpp"
@@ -15,9 +16,11 @@ namespace Rendering {
 		inline Window(std::string windowManagerName)
 			: WindowManagerName(windowManagerName) {
 		}
-		virtual void Create() = 0;
-		virtual void Destroy() = 0;
+
+		virtual ~Window() = default;
+
 		virtual std::vector<RendererType> GetSupportedRenderers() = 0;
+		virtual std::pair<bool, std::optional<void *>> PrepareForRenderer(RendererType) = 0;
 		virtual void SetTitle(Unicode::UString string) = 0;
 	};
 
