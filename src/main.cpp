@@ -165,6 +165,11 @@ void RunRenderingTest() {
 		Logger::Severe("RunRenderingTest", "No supported renderer for window system " + window->WindowManagerName);
 		return;
 	}
+
+	auto result = window->PrepareForRenderer(renderer->Type);
+	if (!result.first) {
+		Logger::Severe("RunRenderingTest", "The creation of renderer context for renderer for window system " + window->WindowManagerName + " failed.");
+	}
 }
 
 int main(int argc, char *argv[]) {

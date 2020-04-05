@@ -6,6 +6,8 @@
 #include <GL/glx.h>
 #include <GL/glu.h>
 
+#include "logger.hpp"
+
 namespace Rendering {
 
 	X11Window::X11Window()
@@ -38,8 +40,6 @@ namespace Rendering {
 			--screenIndex, xcb_screen_next(&screenIterator));
 
 		XCBScreen = screenIterator.data;
-
-		
 	}
 
 	X11Window::~X11Window() {
@@ -53,10 +53,10 @@ namespace Rendering {
 	std::pair<bool, std::optional<void *>> X11Window::PrepareForRenderer(RendererType type) {
 		switch (type) {
 			case RendererType::OPENGL:
-				
+				Logger::Info("X11Window", "Prepare for OpenGL request received.");
 				return { true, {} };
 			default:
-				std::cout << "X11Window: Renderer not recognised!" << std::endl;
+				Logger::Error("X11Window", "Renderer not recognised!");
 				return { false, {} };
 		}
 	}
