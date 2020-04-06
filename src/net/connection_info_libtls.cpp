@@ -25,46 +25,13 @@
 
 #include <tls.h>
 
-#include "global.hpp"
 #include "logger.hpp"
 #include "options.hpp"
 
 namespace Net {
 
-	namespace Global {
-
-		struct tls_config *TLSConfiguration;
-
-		bool ConfigureSecure() {
-			/* LibreSSL already configures secure protocols. */
-			return true;
-		}
-
-		bool SetupTLS() {
-			TLSConfiguration = tls_config_new();
-
-			if (!TLSConfiguration) {
-				Logger::Severe("ConnectionInfo::TLSSetup[libtls]", "Failed to create configuration! (Out of memory!)");
-				return false;
-			}
-
-			std::string &securityLevel = Options::Get(Options::Type::TLS_SECURITY_LEVEL);
-			if (securityLevel == "secure") {
-				ConfigureSecure();						 
-			} else {
-				Logger::Error("Net::Global::SetupTLS", "Unrecognised TLS_SECURITY_LEVEL: " + securityLevel);
-			}
-
-			return true;
-		}
-
-		void DestroyTLS() {
-			Logger::Debug(__PRETTY_FUNCTION__, "Destroy called");
-			tls_config_free(TLSConfiguration);
-		}
-	}
-
 	void ConnectionInfo::TLSDestroy() {
+		Logger::Debug(__PRETTY_FUNCTION__, "Called");
 		tls_close((struct tls *) TLSContext);
 		tls_free((struct tls *) TLSContext);
 		TLSContext = nullptr;
@@ -97,18 +64,37 @@ namespace Net {
 	}
 
 	bool ConnectionInfo::TLSSetup() {
-		struct tls *context = tls_client();
-		if (!context) {
-			Logger::Severe("ConnectionInfo::TLSSetup[libtls]", "Failed to create tls_client (Out of memory!)");
+		struct tls_config *config = tls_config_new();
+
+		if (!config) {
+			Logger::Severe("ConnectionInfo::TLSSetup[libtls]", "Failed to create configuration! (Out of memory!)");
 			return false;
 		}
 
-		if (tls_configure(context, Global::TLSConfiguration) == -1) {
+		if (tls_config_set_alpn(config, TLSALPNProtocols.c_str()) == -1) {
+			const char *error = tls_config_error(config);
+			Logger::Severe("ConnectionInfo::TLSSetup[libtls]", std::string("Failed to set ALPN: ") + error);
+			tls_config_free(config);
+			return false;
+		}
+
+		struct tls *context = tls_client();
+		if (!context) {
+			Logger::Severe("ConnectionInfo::TLSSetup[libtls]", "Failed to create tls_client (Out of memory!)");
+			tls_config_free(config);
+			return false;
+		}
+
+		if (tls_configure(context, config) == -1) {
 			const char *error = tls_error(context);
 			Logger::Severe("ConnectionInfo::TLSSetup[libtls]", std::string("Failed to configure TLS context: ") + error);
 			tls_free(context);
+			tls_config_free(config);
 			return false;
 		}
+
+		tls_config_free(config);
+		config = NULL;
 
 		if (tls_connect_socket(context, Socket, HostName.c_str()) == -1) {
 			const char *error = tls_error(context);

@@ -26,15 +26,18 @@
 
 #include <iostream>
 #include <memory>
+#include <sstream>
 #include <vector>
 
 #include "data/text/named_characters.hpp"
 #include "data/text/encoding/encoder_engine.hpp"
 #include "data/text/encoding/utf8.hpp"
-#include "net/global.hpp"
 #include "net/http/http_connection.hpp"
+#include "net/http2/http2_connection.hpp"
+#include "net/alpn_protocols.hpp"
 #include "parser/html/tokenizer.hpp"
 #include "rendering/drawables/draw_rect.hpp"
+#include "rendering/drawables/draw_text.hpp"
 #include "rendering/opengl/gl_renderer.hpp"
 #include "rendering/window/window_glfw.hpp"
 #include "resources/document.hpp"
@@ -62,8 +65,6 @@ inline std::vector<char> VectorizeString(const char *text, size_t size) noexcept
 }
 
 void RunNetTest(const char *name) {
-	Net::Global::SetupTLS();
-
 	Net::ConnectionInfo connectInfo(name, 443, true);
 	Net::HTTP::HTTPConnection connection(connectInfo);
 	Net::HTTP::HTTPResponseInfo response;
@@ -81,8 +82,6 @@ void RunNetTest(const char *name) {
 	std::string start = "============ Message Body ============";
 	std::string end   = "======================================";
 	std::cout << start << std::string(response.MessageBody.data(), response.MessageBody.size()) << '\n' << end << std::endl;
-
-	Net::Global::DestroyTLS();
 }
 
 inline bool DecodeText(Resources::DocumentResource &documentResource, std::vector<char> inputData) {
@@ -194,16 +193,53 @@ void RunRenderingTest() {
 	rectangle->Bounds = { 0, 200, 0, 200 };
 	rectangle->Color.Value = 0x83ff08ff;
 
+	std::shared_ptr<Rendering::DrawText> text = std::make_shared<Rendering::DrawText>();
+	text->Bounds = { 300, 600, 300, 600 };
+	text->Color.Value = 0x8308ffff;
+	text->Text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed\
+ do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+
 	renderer->SetWindow(window);
 	renderer->Prepare();
 
 	renderer->Enqueue(rectangle.get());
+	renderer->Enqueue(text.get());
 
 	while (!window->PollClose()) {
 		renderer->DrawFrame();
 	}
 
+	renderer->Dequeue(text.get());
 	renderer->Dequeue(rectangle.get());
+}
+
+void RunNetHTTP2Test(const char *name) {
+	Net::ConnectionInfo connectInfo(name, 443, true);
+	connectInfo.TLSALPNProtocols = Net::ALPNProtocols::HTTP2;
+	if (!connectInfo.Connect()) {
+		std::stringstream information;
+		information << "Failed to connect! Host: \"" << connectInfo.HostName << "\":" << connectInfo.Port;
+		Logger::Error("HTTPConnection", information.str());
+		return;
+	}
+
+	/**/
+	Net::HTTP::HTTP2Connection connection(&connectInfo);
+	Net::HTTP::HTTPResponseInfo response;
+	Net::HTTP::HTTP2ConnectionError error = connection.RequestNavigation(&response, "/");
+	std::cout << "Error: " << error
+			<< "\nVersion: " << response.HTTPVersion
+			<< "\nStatusCode: " << response.StatusCode
+			<< "\nReasonPhrase: " << response.ReasonPhrase 
+			<< "\nHeaders: " << response.Headers.size()
+			<< std::endl;
+	for (const auto &headerField : response.Headers) {
+		std::cout << "\t\"" << headerField.FieldName << "\" = \"" << headerField.FieldValue << '\"' << std::endl;
+	}
+	std::cout << "MessageBodySize: " << response.MessageBody.size() << std::endl;
+	std::string start = "============ Message Body ============";
+	std::string end   = "======================================";
+	std::cout << start << std::string(response.MessageBody.data(), response.MessageBody.size()) << '\n' << end << std::endl;
 }
 
 int main(int argc, char *argv[]) {
@@ -213,7 +249,12 @@ int main(int argc, char *argv[]) {
 // 	RunDocumentTest();
 // 	RunNetTest(argv[1]);
 // 	RunEncodingTest();
-	RunRenderingTest();
+// 	RunRenderingTest();
+
+	if (argc == 1)
+		Logger::Warning("OPT", "Please specify a domain to connect to.");
+	else 
+		RunNetHTTP2Test(argv[1]);
 
 	// Just for valgrind:
 	CCompat::CloseStandardIO();

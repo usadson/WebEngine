@@ -41,6 +41,7 @@ BINARIES = bin/ccompat.so \
 	   bin/net/connection_info_libtls.so \
 	   bin/net/http/http_connection.so \
 	   bin/net/http/http_response_info.so \
+	   bin/net/http2/http2_connection.so \
 	   bin/parser/html/context.so \
 	   bin/parser/html/error.so \
 	   bin/parser/html/token.so \
@@ -61,6 +62,7 @@ engine: bin/test.txt \
 bin/test.txt:
 	@mkdir -p bin/data/text/encoding
 	@mkdir -p bin/net/http
+	@mkdir -p bin/net/http2
 	@mkdir -p bin/parser/html/tree
 	@mkdir -p bin/rendering/window
 	@mkdir -p bin/rendering/opengl
@@ -119,6 +121,13 @@ bin/net/http/http_response_info.so: src/net/http/http_response_info.cpp \
 	src/net/http/http_response_info.hpp \
 	src/net/http/http_header_field.hpp
 	$(CXX) $(CFLAGS) -c -o $@ src/net/http/http_response_info.cpp
+
+bin/net/http2/http2_connection.so: src/net/http2/http2_connection.cpp \
+	src/net/http2/http2_connection.hpp \
+	src/logger.hpp \
+	src/net/http/http_response_info.hpp \
+	src/net/connection_info.hpp
+	$(CXX) $(CFLAGS) -c -o $@ src/net/http2/http2_connection.cpp
 
 bin/parser/html/context.so: src/parser/html/context.cpp \
 	src/parser/html/context.hpp

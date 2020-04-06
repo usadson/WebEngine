@@ -43,6 +43,9 @@ namespace Net {
 		 * been called? */
 		bool IsAuthenticated;
 
+		/* https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.xhtml#alpn-protocol-ids */
+		std::string TLSALPNProtocols;
+
 		/* The time it took to resolve the hostname. */
 		std::string TimingDNS;
 
@@ -60,11 +63,11 @@ namespace Net {
 		void *TLSContext;
 	public: // Methods
 		ConnectionInfo(std::string hostName, uint16_t port)
-			: HostName(hostName), Port(port), Connected(false), Secure(false), IsAuthenticated(false), Socket(0) {
+			: HostName(hostName), Port(port), Connected(false), Secure(false), IsAuthenticated(false), TLSALPNProtocols(""), Socket(0) {
 		}
 
 		ConnectionInfo(std::string hostName, uint16_t port, bool secure)
-			: HostName(hostName), Port(port), Connected(false), Secure(secure), IsAuthenticated(false), Socket(0) {
+			: HostName(hostName), Port(port), Connected(false), Secure(secure), IsAuthenticated(false), TLSALPNProtocols(""), Socket(0) {
 		}
 
 		~ConnectionInfo();

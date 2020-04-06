@@ -18,24 +18,9 @@
 
 #pragma once
 
-#include "render_bounds.hpp"
-
-namespace Rendering {
-
-	enum class RenderObjectType {
-		RECT,
-		TEXT
-	};
-
-	class RenderObject {
-	public: // Properties
-		RenderBounds Bounds;
-	public: // Internal Properties
-		void *RenderContext;
-		RenderObjectType Type;
-	public: // Methods
-		inline RenderObject(RenderObjectType type) : Type(type) {}
-		virtual ~RenderObject() = default;
-	};
-
+namespace Net {
+	namespace ALPNProtocols {
+		static std::string HTTP2  = "h2";
+		static std::string HTTP11 = "http/1.1";
+	}
 }

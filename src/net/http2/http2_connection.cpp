@@ -16,11 +16,39 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. 
  */
 
-#pragma once
+/* TODO Implement vector max-lengths? */
+
+#include "http2_connection.hpp" 
+
+#include <iostream>
+#include <sstream>
+#include <vector>
+
+#include <cstring>
+
+#include "logger.hpp"
 
 namespace Net {
-	namespace Global {
-		bool SetupTLS();
-		void DestroyTLS();
+	namespace HTTP {
+		HTTP2Connection::HTTP2Connection(Net::ConnectionInfo *connectionInfo)
+				: ConnectionInfo(connectionInfo) {
+		}
+
+		HTTP2Connection::~HTTP2Connection() {
+			
+		}
+
+		HTTP2ConnectionError HTTP2Connection::Request(HTTPResponseInfo *response, std::string method, std::string path) {
+			if (!ConnectionInfo->Connected ||
+				(ConnectionInfo->Secure && !ConnectionInfo->IsAuthenticated)) {
+				return HTTP2ConnectionError::NOT_CONNECTED;
+			}
+
+			return HTTP2ConnectionError::NO_ERROR;
+		}
+
+		HTTP2ConnectionError HTTP2Connection::RequestNavigation(HTTPResponseInfo *response, std::string path) {
+			return Request(response, "GET", path);
+		}
 	}
 }

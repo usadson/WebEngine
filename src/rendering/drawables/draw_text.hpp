@@ -18,24 +18,16 @@
 
 #pragma once
 
-#include "render_bounds.hpp"
+#include "rendering/render_object.hpp"
+#include "draw_color.hpp"
 
 namespace Rendering {
-
-	enum class RenderObjectType {
-		RECT,
-		TEXT
+	class DrawText : public RenderObject {
+	public:
+		/* RGBA */
+		DrawColor Color;
+		const char *Text;
+	public:
+		inline DrawText() : RenderObject(RenderObjectType::TEXT) {}
 	};
-
-	class RenderObject {
-	public: // Properties
-		RenderBounds Bounds;
-	public: // Internal Properties
-		void *RenderContext;
-		RenderObjectType Type;
-	public: // Methods
-		inline RenderObject(RenderObjectType type) : Type(type) {}
-		virtual ~RenderObject() = default;
-	};
-
 }
