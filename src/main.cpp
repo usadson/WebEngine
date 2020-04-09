@@ -182,11 +182,13 @@ void RunRenderingTest() {
 	if (renderer == nullptr) {
 		Logger::Severe("RunRenderingTest", "No supported renderer for window system " + window->WindowManagerName);
 		return;
+		return;
 	}
 
 	auto result = window->PrepareForRenderer(renderer->Type);
 	if (!result.first) {
 		Logger::Severe("RunRenderingTest", "The creation of renderer context for renderer for window system " + window->WindowManagerName + " failed.");
+		return;
 	}
 
 	std::shared_ptr<Rendering::DrawRect> rectangle = std::make_shared<Rendering::DrawRect>();
@@ -249,12 +251,12 @@ int main(int argc, char *argv[]) {
 // 	RunDocumentTest();
 // 	RunNetTest(argv[1]);
 // 	RunEncodingTest();
-// 	RunRenderingTest();
+	RunRenderingTest();
 
-	if (argc == 1)
-		Logger::Warning("OPT", "Please specify a domain to connect to.");
-	else 
-		RunNetHTTP2Test(argv[1]);
+// 	if (argc == 1)
+// 		Logger::Warning("OPT", "Please specify a domain to connect to.");
+// 	else 
+// 		RunNetHTTP2Test(argv[1]);
 
 	// Just for valgrind:
 	CCompat::CloseStandardIO();

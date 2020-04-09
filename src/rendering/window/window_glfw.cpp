@@ -59,7 +59,14 @@ namespace Rendering {
 		}
 	}
 
+	void GLFWErrorHandler(int error, const char *message) {
+		Logger::Error("GLFW", message);
+	}
+
+
 	bool WindowGLFW::InternalPrepareGL() {
+		glfwSetErrorCallback(GLFWErrorHandler);
+
 		GLFWmonitor *monitor;
 		float sizeFactor;
 		const GLFWvidmode *videoMode;
@@ -83,8 +90,12 @@ namespace Rendering {
 			return false;
 		}
 
+		std::cout << "Width: " << videoMode->width << " Height: " << videoMode->height << std::endl;
+
 		Width = videoMode->width * sizeFactor;
 		Height = videoMode->height * sizeFactor;
+
+		std::cout << "Width: " << Width << " Height: " << Height << std::endl;
 
 		InternalWindow = glfwCreateWindow(Width, Height, "WebEngine", nullptr, nullptr);
 		if (InternalWindow == nullptr) {
