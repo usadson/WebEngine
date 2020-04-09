@@ -47,6 +47,8 @@ namespace Rendering {
 	void GLRenderer::DrawFrame() {
 		DrawRect *rect;
 
+		glClear(GL_COLOR_BUFFER_BIT);
+
 		glColor3f(1, 1, 1);
 		for (const auto &object : RenderObjects) {
 			switch (object->Type) {
