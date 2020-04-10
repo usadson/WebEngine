@@ -228,7 +228,7 @@ void RunNetHTTP2Test(const char *name) {
 	/**/
 	Net::HTTP::HTTP2Connection connection(&connectInfo);
 	Net::HTTP::HTTPResponseInfo response;
-	Net::HTTP::HTTP2ConnectionError error = connection.RequestNavigation(&response, "/");
+	Net::HTTP::HTTP2Error error = connection.RequestNavigation(&response, "/");
 	std::cout << "Error: " << error
 			<< "\nVersion: " << response.HTTPVersion
 			<< "\nStatusCode: " << response.StatusCode
@@ -251,12 +251,12 @@ int main(int argc, char *argv[]) {
 // 	RunDocumentTest();
 // 	RunNetTest(argv[1]);
 // 	RunEncodingTest();
-	RunRenderingTest();
+// 	RunRenderingTest();
 
-// 	if (argc == 1)
-// 		Logger::Warning("OPT", "Please specify a domain to connect to.");
-// 	else 
-// 		RunNetHTTP2Test(argv[1]);
+	if (argc == 1)
+		Logger::Warning("OPT", "Please specify a domain to connect to.");
+	else 
+		RunNetHTTP2Test(argv[1]);
 
 	// Just for valgrind:
 	CCompat::CloseStandardIO();
