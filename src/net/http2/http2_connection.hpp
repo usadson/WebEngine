@@ -87,6 +87,7 @@ namespace Net {
 			HTTP2Error Request(HTTPResponseInfo *response, std::string method, std::string path);
 			HTTP2Error RequestNavigation(HTTPResponseInfo *response, std::string path);
 		private: // Private Methods
+			void HandleFrameGoaway(H2::Frame);
 			void HandleFrameSettings(H2::Frame);
 			H2::Frame ReadFrame();
 			bool SendFrame(H2::Frame frame);

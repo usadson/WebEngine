@@ -15,17 +15,16 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. 
  */
-
-/* TODO Implement vector max-lengths? */
-
 #include "http2_connection.hpp" 
 
+#include <iomanip>
 #include <iostream>
 #include <sstream>
 #include <vector>
 
 #include <cstring>
 
+#include "constants.hpp"
 #include "logger.hpp"
 
 namespace Net {
@@ -66,6 +65,9 @@ namespace Net {
 						case H2::FrameType::SETTINGS:
 							HandleFrameSettings(frame);
 							break;
+						case H2::FrameType::GOAWAY:
+							HandleFrameGoaway(frame);
+							break;
 					}
 				} catch (const H2::Exception &exception) {
 					Logger::Error(__PRETTY_FUNCTION__, exception.message);
@@ -86,15 +88,15 @@ namespace Net {
 			 * functions are needed. */
 			std::vector<char> buf(9 + frame.payload.size());
 
-			buf.push_back(frame.length >> 16);
-			buf.push_back(frame.length >> 8);
-			buf.push_back(frame.length);
-			buf.push_back(frame.type);
-			buf.push_back(frame.flags);
-			buf.push_back(frame.stream >> 24);
-			buf.push_back(frame.stream >> 16);
-			buf.push_back(frame.stream >> 8);
-			buf.push_back(frame.stream);
+			buf[0] = (uint8_t) frame.length >> 16;
+			buf[1] = (uint8_t) frame.length >> 8;
+			buf[2] = (uint8_t) frame.length;
+			buf[3] = frame.type;
+			buf[4] = frame.flags;
+			buf[5] = (uint8_t) frame.stream >> 24;
+			buf[6] = (uint8_t) frame.stream >> 16;
+			buf[7] = (uint8_t) frame.stream >> 8;
+			buf[8] = (uint8_t) frame.stream;
 
 			if (frame.payload.size() != 0)
 				buf.insert(buf.end(), frame.payload.begin(), frame.payload.end());
@@ -144,8 +146,8 @@ namespace Net {
 			}
 
 			if (frame.length % 6 != 0) {
-				std::stringstream info("Invalid SETTINGS frame length: ");
-				info << frame.length << " (it should be a multiple of six)";
+				std::stringstream info;
+				info << "Invalid SETTINGS frame length: " << frame.length << " (it should be a multiple of six)";
 				throw H2::Exception(HTTP2Error::SETTINGS_INVALID_SIZE, info.str());
 			}
 
@@ -155,10 +157,59 @@ namespace Net {
 				identifier = ((buf[0] & 0xFF) << 8) | (buf[1] & 0xFF);
 				value = ((buf[2] & 0xFF) << 24) | ((buf[3] & 0xFF) << 16) | ((buf[4] & 0xFF) << 8) | (buf[5] & 0xFF);
 
+				switch (identifier) {
+					case H2::Settings::HEADER_TABLE_SIZE:
+						remoteSettings.headerTableSize = value;
+						break;
+					case H2::Settings::ENABLE_PUSH:
+						remoteSettings.enablePush = value;
+						break;
+					case H2::Settings::MAX_CONCURRENT_STREAMS:
+						remoteSettings.maxConcurrentStreams = value;
+						break;
+					case H2::Settings::INITIAL_WINDOW_SIZE:
+						remoteSettings.initialWindowSize = value;
+						break;
+					case H2::Settings::MAX_FRAME_SIZE:
+						remoteSettings.maxFrameSize = value;
+						break;
+					case H2::Settings::MAX_HEADER_LIST_SIZE:
+						remoteSettings.maxHeaderListSize = value;
+						break;
+					default: {
+						std::stringstream info;
+						info << "Unknown setting identifier: " << identifier << " with value: " << value;
+						Logger::Debug(__PRETTY_FUNCTION__, info.str());
+						break;
+					}
+				}
+
 				std::cout << "SETTINGS identifier: " << identifier << " value: " << value << std::endl;
 			}
 
-			Logger::Debug(__PRETTY_FUNCTION__, "end of settings");
+			H2::Frame ack;
+			ack.length = 0;
+			ack.type = H2::FrameType::SETTINGS;
+			ack.flags = 0;
+			ack.stream = 0;
+			SendFrame(ack);
+		}
+
+		void HTTP2Connection::HandleFrameGoaway(H2::Frame frame) {
+			size_t i;
+			uint32_t lastStream;
+			uint32_t errorCode;
+
+			lastStream = ((frame.payload[0] & 0xFF) << 24) | ((frame.payload[1] & 0xFF) << 16) | ((frame.payload[2] & 0xFF) << 8) | (frame.payload[3] & 0xFF);
+			errorCode = ((frame.payload[4] & 0xFF) << 24) | ((frame.payload[5] & 0xFF) << 16) | ((frame.payload[6] & 0xFF) << 8) | (frame.payload[7] & 0xFF);
+
+			std::stringstream info;
+			info << "GOAWAY Information: LastStream: " << lastStream << " ErrorCode: " << errorCode;
+			Logger::Warning(__PRETTY_FUNCTION__, info.str());
+
+			if (frame.length > 8)
+				for (i = 8; i < frame.length; i++)
+					printf(" > 0x%hhX (%c)\n", frame.payload[i], frame.payload[i]);
 		}
 	}
 }
