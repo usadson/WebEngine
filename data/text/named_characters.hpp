@@ -2286,7 +2286,8 @@ namespace NamedCharacters {
 	const std::shared_ptr<NCNode> RootNode = std::shared_ptr<NCNode>(new NCNode { false, 0, {} });
 
 	// TODO Put these functions inside a cpp file.
-	inline NCStatus Find(const Unicode::UString &string, Unicode::CodePoint *result) {
+	inline NCStatus
+	Find(const Unicode::UString &string, Unicode::CodePoint *result) {
 		uint8_t character;
 		size_t i;
 		std::shared_ptr<NCNode> node = RootNode;
@@ -2315,7 +2316,8 @@ namespace NamedCharacters {
 		return NCStatus::NOT_FOUND;
 	}
 
-	inline void Setup() {
+	inline void
+	Setup() {
 		static std::shared_ptr<NCNode> RootNode = std::shared_ptr<NCNode>(new NCNode { false, 0, {} });
 
 		size_t i;

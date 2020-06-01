@@ -41,12 +41,14 @@ namespace Unicode {
 		   : Data(TextEncoding::UTF8::ASCIIDecode(characters, size)) {
 	}
 
-	UString &UString::operator+=(const Unicode::CodePoint character) {
+	UString &
+	UString::operator+=(const Unicode::CodePoint character) {
 		Data.push_back(character);
 		return *this;
 	}
 
-	UString UString::operator+(const UString &other) const {
+	UString
+	UString::operator+(const UString &other) const {
 		UString result;
 		result.Data.reserve(Data.size() + other.Data.size());
 		result.Data.insert(std::end(result.Data), std::begin(this->Data), std::end(this->Data));
@@ -56,7 +58,8 @@ namespace Unicode {
 
 	// Transformed from https://stackoverflow.com/a/12136398
 	// See https://stackoverflow.com/help/licensing
-	int CompareStatic(const UString &lhs, const UString &rhs) {
+	int
+	CompareStatic(const UString &lhs, const UString &rhs) {
 		const Unicode::CodePoint *p1 = lhs.Data.data();
 		const Unicode::CodePoint *p2 = rhs.Data.data();
 
@@ -73,39 +76,47 @@ namespace Unicode {
 		return i-1 != rhs.Data.size() ? -1 : 0;
 	}
 
-	int UString::Compare(const UString &other) const {
+	int 
+	UString::Compare(const UString &other) const {
 		return CompareStatic(*this, other);
 	}
 
-	bool operator<(const UString &lhs, const UString &rhs) {
+	bool
+	operator<(const UString &lhs, const UString &rhs) {
 		return CompareStatic(lhs, rhs) < 0;
 	}
 
-	UString &UString::operator+=(const UString other) {
+	UString &
+	UString::operator+=(const UString other) {
 		Data.insert(std::end(Data), std::begin(other.Data), std::end(other.Data));
 		return *this;
 	}
 
-	UString &UString::operator+=(const char *ascii) {
+	UString &
+	UString::operator+=(const char *ascii) {
 		std::vector<Unicode::CodePoint> chars = TextEncoding::UTF8::ASCIIDecode(ascii, strlen(ascii));
 		Data.insert(std::end(Data), std::begin(chars), std::end(chars));
 		return *this;
 	}
 
-	bool CheckCaseInsensitive(const char *a, const char *b, size_t length) {
+	bool
+	CheckCaseInsensitive(const char *a, const char *b, size_t length) {
 		return strncasecmp(a, b, length) == 0;
 	}
 
-	bool UString::IsASCIIAlpha(size_t index) {
+	bool
+	UString::IsASCIIAlpha(size_t index) {
 		Unicode::CodePoint character = Data[index];
 		return (character >= 0x41 && character <= 0x5A) || (character >= 0x61 && character <= 0x7A);
 	}
 
-	bool UString::EqualsIgnoreCaseA(size_t index, const char *ascii) {
+	bool
+	UString::EqualsIgnoreCaseA(size_t index, const char *ascii) {
 		return UString::EqualsIgnoreCaseAL(index, ascii, strlen(ascii));
 	}
 
-	bool UString::EqualsIgnoreCaseAL(size_t index, const char *ascii, size_t length) {
+	bool
+	UString::EqualsIgnoreCaseAL(size_t index, const char *ascii, size_t length) {
 		if (index + length >= Data.size()) {
 			return false;
 		}
@@ -132,7 +143,8 @@ namespace Unicode {
 		return true;
 	}
 
-	bool UString::EqualsAL(size_t index, const char *ascii, size_t length) {
+	bool
+	UString::EqualsAL(size_t index, const char *ascii, size_t length) {
 		if (index + length >= Data.size())
 			return false;
 
@@ -150,7 +162,8 @@ namespace Unicode {
 		return true;
 	}
 
-	bool UString::EqualsA(const char *ascii) {
+	bool
+	UString::EqualsA(const char *ascii) {
 		size_t length = strlen(ascii);
 		if (length > Data.size())
 			return false;
@@ -164,7 +177,8 @@ namespace Unicode {
 		return true;
 	}
 
-	std::ostream &operator<<(std::ostream &stream, const UString &string) {
+	std::ostream &
+	operator<<(std::ostream &stream, const UString &string) {
 		size_t i;
 		Unicode::CodePoint character;
 

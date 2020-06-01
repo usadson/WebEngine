@@ -261,9 +261,14 @@ std::map<std::string, std::shared_ptr<TextEncoding::Encoding>> Map = {
 	{ "x-mac-ukrainian", Encoders::XMacCyrillic },
 };
 
-std::vector<Unicode::CodePoint> TextEncoding::EncoderEngine::DecodeData(const char *data, size_t size, std::string encoding) {
+std::vector<Unicode::CodePoint>
+TextEncoding::EncoderEngine::DecodeData(const char *data, size_t size,
+										std::string encoding) {
 	std::transform(encoding.begin(), encoding.end(), encoding.begin(),
-    [](unsigned char c){ return std::tolower(c); });
+		[](unsigned char c) {
+			return std::tolower(c);
+		}
+	);
 
 	auto it = Map.find(encoding);
 	if (it == Map.end()) {

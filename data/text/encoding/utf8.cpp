@@ -25,7 +25,8 @@
 #include "logger.hpp"
 
 namespace TextEncoding {
-	std::vector<Unicode::CodePoint> UTF8::ASCIIDecode(const char *data, size_t size) {
+	std::vector<Unicode::CodePoint>
+	UTF8::ASCIIDecode(const char *data, size_t size) {
 		std::vector<Unicode::CodePoint> result(size);
 		size_t i;
 
@@ -35,7 +36,8 @@ namespace TextEncoding {
 		return result;
 	}
 
-	bool UTF8::Decode(const char *data, size_t size) {
+	bool
+	UTF8::Decode(const char *data, size_t size) {
 		uint8_t currentByte;
 		size_t bytePosition;
 

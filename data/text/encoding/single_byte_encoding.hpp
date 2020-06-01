@@ -32,10 +32,12 @@ namespace TextEncoding {
 	private: // Private Properties
 		std::vector<Unicode::CodePoint> Indices;
 	public:
-		inline AbstractSBEncoding(std::vector<Unicode::CodePoint> indices)
+		inline
+		AbstractSBEncoding(std::vector<Unicode::CodePoint> indices)
 			: Indices(indices) {}
 
-		bool Decode(const char *data, size_t size);
+		bool
+		Decode(const char *data, size_t size);
 	};
 
 	/* https://encoding.spec.whatwg.org/index-ibm866.txt */

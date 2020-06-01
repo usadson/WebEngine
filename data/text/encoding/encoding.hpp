@@ -29,6 +29,7 @@ namespace TextEncoding {
 	public: // Properties
 		std::vector<Unicode::CodePoint> Output;
 	public: // Methods
-		virtual bool Decode(const char *data, size_t size) = 0;
+		virtual bool
+		Decode(const char *data, size_t size) = 0;
 	};
 }

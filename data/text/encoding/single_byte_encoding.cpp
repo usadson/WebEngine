@@ -19,7 +19,8 @@
 #include "single_byte_encoding.hpp"
 
 namespace TextEncoding {
-	bool AbstractSBEncoding::Decode(const char *data, size_t size) {
+	bool
+	AbstractSBEncoding::Decode(const char *data, size_t size) {
 		uint8_t value;
 		size_t i;
 		Unicode::CodePoint character;
