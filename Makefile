@@ -5,7 +5,7 @@
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
 # copyright notice and this permission notice appear in all copies.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
 # WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
 # MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
@@ -26,9 +26,12 @@
 #	src/shapes/position.hpp \
 #	$(CXX) $(CFLAGS) -c -o $@ src/shapes/circle.cpp
 
+GENERAL = -std=c++17 -g -Og
+INCLUDES = -Isrc
+WARNINGS = -Wall -Wextra -Wpedantic
+CFLAGS = $(GENERAL) $(INCLUDES) $(WARNINGS)
 
-CFLAGS = -Isrc -g -Wall -std=c++17 -O0
-CXX = c++
+CXX = clang++
 LDFLAGS = `pkg-config --static --libs libtls glfw3 glew freetype2`
 
 BINARIES = bin/ccompat.so \
@@ -53,11 +56,15 @@ BINARIES = bin/ccompat.so \
 	   bin/rendering/opengl/gl_renderer.so \
 	   bin/rendering/window/window_glfw.so
 
-engine: bin/test.txt \
-	src/main.cpp \
+all: bin/test.txt $(BINARIES) engine
+
+clean:
+	rm -rf bin
+	rm -rf engine
+
+engine: src/main.cpp \
 	src/parser/html/error.hpp \
-	src/parser/html/state.hpp \
-	$(BINARIES)
+	src/parser/html/state.hpp
 	$(CXX) $(CFLAGS) -o $@ src/main.cpp $(BINARIES) $(LDFLAGS)
 
 bin/test.txt:
@@ -162,7 +169,6 @@ bin/parser/html/tree/insert_before_html.so: src/parser/html/tree/insert_before_h
 	src/parser/html/tree/insert_before_html.hpp \
 	src/parser/html/tree_constructor.hpp
 	$(CXX) $(CFLAGS) -c -o $@ src/parser/html/tree/insert_before_html.cpp
-
 
 bin/parser/html/tree/insert_before_head.so: src/parser/html/tree/insert_before_head.cpp \
 	src/parser/html/tree/insert_before_head.hpp \
