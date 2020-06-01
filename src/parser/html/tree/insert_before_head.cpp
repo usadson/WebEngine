@@ -16,7 +16,7 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. 
  */
 
-#include "insert_before_html.hpp"
+#include "insert_before_head.hpp"
 
 #include <iostream>
 #include <vector>
@@ -26,7 +26,7 @@
 #include "parser/html/constants.hpp"
 #include "logger.hpp"
 
-bool HTML::InsertionModes::BeforeHTML::EmitToken(HTML::Tokenizer::Token &inToken) {
+bool HTML::InsertionModes::BeforeHead::EmitToken(HTML::Tokenizer::Token &inToken) {
 	HTML::Tokenizer::CharacterToken *characterToken;
 	HTML::Tokenizer::CommentToken	*commentToken;
 	HTML::Tokenizer::StartTagToken	*startTagToken;
@@ -55,6 +55,11 @@ bool HTML::InsertionModes::BeforeHTML::EmitToken(HTML::Tokenizer::Token &inToken
 			/* Fallthrough */
 		case HTML::Tokenizer::TokenType::STARTTAG:
 			startTagToken = dynamic_cast<HTML::Tokenizer::StartTagToken *>(&inToken);
+
+			if (startTagToken->TagName.EqualsA("html")) {
+				Constructor.InsertionModes[InsertionModeType::IN_BODY]->EmitToken(inToken);
+				return false;
+			}
 
 			if (startTagToken->TagName.EqualsA("html")) {
 				std::shared_ptr<DOM::Element> element = std::make_shared<DOM::Element>();

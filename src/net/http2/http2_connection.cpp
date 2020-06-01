@@ -60,13 +60,15 @@ namespace Net {
 			while (true) {
 				try {
 					frame = ReadFrame();
-					std::cout << "Information about the frame:\n\tLength: " << frame.length << "\n\tType: " << (uint16_t)frame.type << "\n\tFlags: " << (uint16_t)frame.flags << "\n\tStream: " << frame.stream << std::endl;
 					switch (frame.type) {
 						case H2::FrameType::SETTINGS:
 							HandleFrameSettings(frame);
 							break;
 						case H2::FrameType::GOAWAY:
 							HandleFrameGoaway(frame);
+							break;
+						default:
+							std::cout << "[UNKNOWN FRAME] Information about the frame:\n\tLength: " << frame.length << "\n\tType: " << (uint16_t)frame.type << "\n\tFlags: " << (uint16_t)frame.flags << "\n\tStream: " << frame.stream << std::endl;
 							break;
 					}
 				} catch (const H2::Exception &exception) {
@@ -183,8 +185,6 @@ namespace Net {
 						break;
 					}
 				}
-
-				std::cout << "SETTINGS identifier: " << identifier << " value: " << value << std::endl;
 			}
 
 			H2::Frame ack;

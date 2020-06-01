@@ -152,7 +152,7 @@ namespace Unicode {
 
 	bool UString::EqualsA(const char *ascii) {
 		size_t length = strlen(ascii);
-		if (length >= Data.size())
+		if (length > Data.size())
 			return false;
 
 		size_t i;

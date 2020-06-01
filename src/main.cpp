@@ -248,15 +248,15 @@ int main(int argc, char *argv[]) {
 	NamedCharacters::Setup();
 
 // 	RunDoctypeTests();
-// 	RunDocumentTest();
+	RunDocumentTest();
 // 	RunNetTest(argv[1]);
 // 	RunEncodingTest();
 // 	RunRenderingTest();
 
-	if (argc == 1)
-		Logger::Warning("OPT", "Please specify a domain to connect to.");
-	else 
-		RunNetHTTP2Test(argv[1]);
+// 	if (argc == 1)
+// 		Logger::Warning("OPT", "Please specify a domain to connect to.");
+// 	else 
+// 		RunNetHTTP2Test(argv[1]);
 
 	// Just for valgrind:
 	CCompat::CloseStandardIO();

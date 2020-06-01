@@ -18,23 +18,17 @@
 
 #pragma once
 
-#include <memory>
+#include "insertion_mode.hpp"
 
-#include "element.hpp"
-#include "node.hpp"
+namespace HTML {
+	namespace InsertionModes {
+		class BeforeHead : public HTML::InsertionMode {
+		public: // Methods
+			inline BeforeHead(TreeConstructor &constructor)
+				: HTML::InsertionMode(constructor, constructor.Context) {}
 
-namespace DOM {
-	enum class QuirksMode {
-			LIMITED_QUIRKS,
-			NO_QUIRKS,
-			QUIRKS
-	};
-
-	class Document : public Node {
-	public: // Properties
-		QuirksMode Mode;
-
-		// Children should govern the Node::ChildNodes vector somehow.
-		std::vector<std::shared_ptr<DOM::Element>> Children;
-	};
+			bool EmitToken(HTML::Tokenizer::Token &inToken);
+		};
+	}
 }
+ 

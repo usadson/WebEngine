@@ -23,6 +23,7 @@
 #include <sstream>
 #include <vector>
 
+#include "tree/insert_before_head.hpp"
 #include "tree/insert_before_html.hpp"
 #include "tree/insert_initial.hpp"
 #include "logger.hpp"
@@ -33,6 +34,7 @@ namespace HTML {
 		: Context(context), CurrentMode(InsertionModeType::INITIAL), InsertionModes({
 			{ InsertionModeType::INITIAL, std::make_shared<InsertionModes::Initial>(*this) },
 			{ InsertionModeType::BEFORE_HTML, std::make_shared<InsertionModes::BeforeHTML>(*this) },
+			{ InsertionModeType::BEFORE_HEAD, std::make_shared<InsertionModes::BeforeHead>(*this) },
 		}) {
 	}
 
@@ -44,7 +46,10 @@ namespace HTML {
 
 		do {
 			if (reprocessCount == 10) {
-				Logger::Warning("TreeConstructor", "Reprocess loop detected! Reprocess requested 10 times! Quitting emission of token.");
+				std::stringstream info;
+				info << "Reprocess loop detected! Reprocess requested 10 times! Quitting emission of token.";
+				info << " InsertionMode: " << CurrentMode;
+				Logger::Warning("TreeConstructor", info.str());
 				return;
 			}
 

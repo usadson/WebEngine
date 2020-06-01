@@ -36,5 +36,8 @@ namespace DOM {
 
 		Unicode::UString Id;
 		Unicode::UString ClassName;
+
+		// Children should govern the Node::ChildNodes vector somehow.
+		std::vector<std::shared_ptr<DOM::Element>> Children;
 	};
 }

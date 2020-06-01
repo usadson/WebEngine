@@ -25,6 +25,7 @@ namespace HTML {
 	class TreeConstructor;
 }
 
+#include "dom/element.hpp"
 #include "parser/html/insertion_mode.hpp"
 #include "tree/insertion_mode.hpp"
 #include "token.hpp"
@@ -34,7 +35,7 @@ namespace HTML {
 	public: // Properties
 		Tokenizer::Context &Context;
 		InsertionModeType CurrentMode;
-	private: // Private Properties
+		std::vector<std::shared_ptr<DOM::Element>> OpenElementsStack;
 		std::map<InsertionModeType, std::shared_ptr<InsertionMode>> InsertionModes;
 	public: // Methods
 		TreeConstructor(Tokenizer::Context &context);
