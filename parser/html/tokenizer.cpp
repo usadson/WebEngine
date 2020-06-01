@@ -42,7 +42,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 	// At what character position in the line is the tokenizer?
 	Context.LinePosition = 0;
 
-	const size_t documentSize = document.Data.length();
+	const size_t documentSize = document.data.length();
 	std::cout << "InputDataSize: " << documentSize << std::endl;
 
 	// Don't use 'character' if eof is true.
@@ -75,7 +75,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 			bool repeatLineCheckLoop = true;
 			while (repeatLineCheckLoop) {
 				repeatLineCheckLoop = false;
-				character = document.Data[i];
+				character = document.data[i];
 
 				if (character == '\n') {
 					Context.LineCount += 1;
@@ -144,7 +144,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 								reconsume = true;
 								Context.State = HTML::Tokenizer::ParserState::TAG_NAME;
 							} else {
-								std::cout << "DEBUG: Unexpected character: " << character << document.Data[i+1] << document.Data[i+2] << std::endl;
+								std::cout << "DEBUG: Unexpected character: " << character << document.data[i+1] << document.data[i+2] << std::endl;
 								Context.LogError(HTML::Tokenizer::ParserError::INVALID_FIRST_CHARACTER_OF_TAG_NAME);
 								reconsume = true;
 								TreeConstructor.EmitCharacterToken('>');
@@ -505,7 +505,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 				if (!eof) {
 					if (i + 1 < documentSize
 						&& character == '-'
-						&& document.Data[i+1] == '-') {
+						&& document.data[i+1] == '-') {
 						toConsumeNext = 1;
 
 						commentToken = HTML::Tokenizer::CommentToken("");
@@ -514,14 +514,14 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 					}
 
 					if (i + 6 < documentSize) {
-						if (document.Data.EqualsIgnoreCaseAL(i, "DOCTYPE", 7)) {
+						if (document.data.EqualsIgnoreCaseAL(i, "DOCTYPE", 7)) {
 							toConsumeNext = 6;
 							Context.State = HTML::Tokenizer::ParserState::DOCTYPE;
 							continue;
 						}
 						if (character == '['
-							&& document.Data.EqualsAL(i + 1, "CDATA", 5) // Case-sensitive!
-							&& document.Data[i + 6] == ']') {
+							&& document.data.EqualsAL(i + 1, "CDATA", 5) // Case-sensitive!
+							&& document.data[i + 6] == ']') {
 							toConsumeNext = 6;
 							// TODO ?
 							throw std::runtime_error("TODO in MARKUP_DECLARATION_OPEN / CDATA");
@@ -792,11 +792,11 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							break;
 						default:
 							if (i + 5 < documentSize) { // 5 or 6 ? not sure..
-								if (document.Data.EqualsIgnoreCaseAL(i, "PUBLIC", 6)) {
+								if (document.data.EqualsIgnoreCaseAL(i, "PUBLIC", 6)) {
 									toConsumeNext = 5;
 									Context.State = HTML::Tokenizer::ParserState::AFTER_DOCTYPE_PUBLIC_KEYWORD;
 									break;
-								} else if (document.Data.EqualsIgnoreCaseAL(i, "SYSTEM", 6)) {
+								} else if (document.data.EqualsIgnoreCaseAL(i, "SYSTEM", 6)) {
 									toConsumeNext = 5;
 									Context.State = HTML::Tokenizer::ParserState::AFTER_DOCTYPE_SYSTEM_KEYWORD;
 									break;

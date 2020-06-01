@@ -67,8 +67,8 @@ VectorizeString(const char *text, size_t size) noexcept {
 
 inline bool
 DecodeText(Resources::DocumentResource &documentResource, std::vector<char> inputData) {
-	auto charset = documentResource.Mime.Parameters.find("charset");
-	if (charset == documentResource.Mime.Parameters.end()) {
+	auto charset = documentResource.mediaType.parameters.find("charset");
+	if (charset == documentResource.mediaType.parameters.end()) {
 		Logger::Warning("TextDecoder", "TODO: Add charset/encoding sniffing.");
 		return false;
 	}
@@ -80,7 +80,7 @@ DecodeText(Resources::DocumentResource &documentResource, std::vector<char> inpu
 			Logger::Warning("TextDecoder", "Failed to decode text!");
 			return false;
 		}
-		documentResource.Data = utf8Encoding.Output;
+		documentResource.data = utf8Encoding.Output;
 		return true;
 	}
 
@@ -91,7 +91,7 @@ DecodeText(Resources::DocumentResource &documentResource, std::vector<char> inpu
 inline void
 RunDocumentTest(void) {
 	Resources::DocumentResource document;
-	document.Mime = { "text/html", { { "charset", "utf-8" } } };
+	document.mediaType = { "text/html", { { "charset", "utf-8" } } };
 
 	if (!DecodeText(document, VectorizeString(TestDocument, sizeof(TestDocument) / sizeof(TestDocument[0]) - 1))) {
 		Logger::Error("RunDocumentTest", "Failed to decode text");

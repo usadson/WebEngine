@@ -23,9 +23,9 @@
 
 // The strings supplied to this structure MUST be lowercased before storing.
 namespace Resources {
-	class MimeType {
+	class MediaType {
 	public:
-		std::string Type;
-		std::map<std::string, std::string> Parameters;
+		std::string type;
+		std::map<std::string, std::string> parameters;
 	};
 }

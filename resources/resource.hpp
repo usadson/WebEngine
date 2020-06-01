@@ -18,11 +18,11 @@
 
 #pragma once
 
-#include "mime.hpp"
+#include "media_type.hpp"
 
 namespace Resources {
 	class Resource {
 	public: // Properties
-		MimeType Mime;
+		MediaType mediaType;
 	};
 }
