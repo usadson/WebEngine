@@ -34,8 +34,8 @@ to prevent long-lines is good practice.
 The project is seperated into different directories.
 * [bin](bin) is the auto-generated directory for object files. Note however that the main executable is the `./engine` file.
 * [data](data) is the directory of small parsers/converters.
-  * [data/text](data/text) is the directory for the [Unicode header](data/text/unicode.hpp) and [Unicode String class](data/text/ustring.cpp).
-  * [data/text/encoding](data/text/encoding) is the directory for the encodings.
+  * [text](data/text) is the directory for the [Unicode header](data/text/unicode.hpp) and [Unicode String class](data/text/ustring.cpp).
+  * [text/encoding](data/text/encoding) is the directory for the encodings.
 * [dom](dom) is the implementation of the [Document Object Model](https://dom.spec.whatwg.org/).
 * [net](net) is the network layer. This uses — at the moment — [POSIX/UNIX sockets](https://man.openbsd.org/socket.2) and an abstract TLS implementation (this is currently set to use the [libtls/LibreSSL](https://libressl.org/) library).
   * [http](net/http) is the [HTTP/1.1](https://www.rfc-editor.org/rfc/rfc7230.html) network layer implementation, which is used to retrieve documents and resources.
