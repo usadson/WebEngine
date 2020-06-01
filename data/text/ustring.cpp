@@ -56,6 +56,15 @@ namespace Unicode {
 		return result;
 	}
 
+	UString
+	UString::operator+(const Unicode::CodePoint &character) const noexcept {
+		UString result;
+		result.Data.reserve(Data.size() + 1);
+		result.Data.insert(std::end(result.Data), std::begin(this->Data), std::end(this->Data));
+		result.Data.push_back(character);
+		return result;
+	}
+
 	// Transformed from https://stackoverflow.com/a/12136398
 	// See https://stackoverflow.com/help/licensing
 	int

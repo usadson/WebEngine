@@ -171,7 +171,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 						Context.State = HTML::Tokenizer::ParserState::TAG_NAME;
 					} else {
 						Context.LogError(HTML::Tokenizer::ParserError::INVALID_FIRST_CHARACTER_OF_TAG_NAME);
-						commentToken = HTML::Tokenizer::CommentToken("");
+						commentToken = HTML::Tokenizer::CommentToken(Unicode::UString(""));
 						reconsume = true;
 						Context.State = HTML::Tokenizer::ParserState::BOGUS_COMMENT;
 					}
@@ -244,14 +244,14 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							// attribute's name to the current input character"
 							// Note the difference: "next" and "current" input
 							// character!
-							tagToken.AttributeName = "";
+							tagToken.AttributeName = Unicode::UString("");
 							tagToken.AttributeName += character;
-							tagToken.AttributeValue = "";
+							tagToken.AttributeValue = Unicode::UString("");
 							Context.State = HTML::Tokenizer::ParserState::ATTRIBUTE_NAME;
 							break;
 						default:
-							tagToken.AttributeName = "";
-							tagToken.AttributeValue = "";
+							tagToken.AttributeName = Unicode::UString("");
+							tagToken.AttributeValue = Unicode::UString("");
 							reconsume = true;
 							Context.State = HTML::Tokenizer::ParserState::ATTRIBUTE_NAME;
 							break;
@@ -318,8 +318,8 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							break;
 						default:
 							// New attribute? Destroy old one?
-							tagToken.AttributeName = "";
-							tagToken.AttributeValue = "";
+							tagToken.AttributeName = Unicode::UString("");
+							tagToken.AttributeValue = Unicode::UString("");
 							reconsume = true;
 							Context.State = HTML::Tokenizer::ParserState::ATTRIBUTE_NAME;
 							break;
@@ -528,7 +528,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 						&& document.data[i+1] == '-') {
 						toConsumeNext = 1;
 
-						commentToken = HTML::Tokenizer::CommentToken("");
+						commentToken = HTML::Tokenizer::CommentToken(Unicode::UString(""));
 						Context.State = HTML::Tokenizer::ParserState::COMMENT_START;
 						continue;
 					}
@@ -549,7 +549,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 				}
 
 				Context.LogError(HTML::Tokenizer::ParserError::INCORRECTLY_OPENED_COMMENT);
-				commentToken = HTML::Tokenizer::CommentToken("");
+				commentToken = HTML::Tokenizer::CommentToken(Unicode::UString(""));
 				i--; // Don't consume anything
 				Context.State = HTML::Tokenizer::ParserState::BOGUS_COMMENT;
 				break;

@@ -104,7 +104,7 @@ HTML::InsertionModes::BeforeHead::EmitToken(HTML::Tokenizer::Token &inToken) {
 	// also, the 'Application Cache Selection Algorithm' should be executed.
 	std::shared_ptr<DOM::Element> element = std::make_shared<DOM::Element>();
 	element->NamespaceURI = HTML::Constants::HTMLNamespace;
-	element->LocalName = "html";
+	element->LocalName = Unicode::UString("html");
 	element->Document = Context.ParserContext.DocumentNode;
 	Context.ParserContext.DocumentNode.Children.push_back(element);
 	Constructor.OpenElementsStack.push_back(element);

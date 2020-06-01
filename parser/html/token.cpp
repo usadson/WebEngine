@@ -25,7 +25,7 @@
 namespace HTML {
 	namespace Tokenizer {
 		const AmbiguousTagToken AmbiguousTagToken::INVALID_TYPE = AmbiguousTagToken(TokenType::INVALID);
-		const CommentToken CommentToken::INVALID_TYPE = CommentToken("INVALID");
+		const CommentToken CommentToken::INVALID_TYPE = CommentToken(Unicode::UString("INVALID"));
 		const EndTagToken EndTagToken::INVALID_TYPE_END_TAG = EndTagToken();
 		const StartTagToken StartTagToken::INVALID_TYPE_START_TAG = StartTagToken();
 
@@ -46,8 +46,8 @@ namespace HTML {
 			}
 
 			// Reset:
-			AttributeName = "";
-			AttributeValue = "";
+			AttributeName = Unicode::UString("");
+			AttributeValue = Unicode::UString("");
 		}
 	};
 };

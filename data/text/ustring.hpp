@@ -36,14 +36,15 @@ namespace Unicode {
 		UString(const std::vector<Unicode::CodePoint> &) noexcept;
 
 		// cppcheck-suppress[noExplicitConstructor]
-		UString(Unicode::CodePoint character) noexcept;
+		explicit
+		UString(Unicode::CodePoint) noexcept;
 
 		/* Only for ASCII characters: */
 		explicit
 		UString(const char *, size_t) noexcept;
 
 		// cppcheck-suppress noExplicitConstructor
-		inline
+		inline explicit
 		UString(const char *ascii) noexcept
 			: UString(ascii, strlen(ascii)) {}
 	public: // Methods
@@ -59,6 +60,9 @@ namespace Unicode {
 
 		UString &
 		operator+=(const Unicode::CodePoint) noexcept;
+
+		UString
+		operator+(const Unicode::CodePoint &) const noexcept;
 
 		UString
 		operator+(const UString &) const noexcept;
