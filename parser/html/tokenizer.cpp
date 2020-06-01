@@ -62,6 +62,8 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 	size_t toConsumeNext = 0;
 
 	for (i = 0; i <= documentSize; i++) {
+		character = '\0';
+
 // 		std::cout << "index=" << i << " state=" << Context.State << std::endl;
 		if (reconsume) {
 			i--;
@@ -95,7 +97,6 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 
 		Context.BeginLoopState = Context.State;
 		Context.CurrentCharacter = character;
-		// std::cout << "StateLog: " << Context.State << std::endl;
 
 		switch (Context.State) {
 			case HTML::Tokenizer::ParserState::DATA:
