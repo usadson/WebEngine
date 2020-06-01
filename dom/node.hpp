@@ -23,13 +23,13 @@
 #include <vector>
 
 namespace DOM {
-	class Node;
+	struct Node;
 };
 
 namespace DOM {
 	class Document;
 
-	class Node {
+	struct Node {
 	public: // Properties
 		std::vector<Node> ChildNodes;
 		std::optional<std::reference_wrapper<DOM::Document>> Document;

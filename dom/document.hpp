@@ -25,9 +25,9 @@
 
 namespace DOM {
 	enum class QuirksMode {
-			LIMITED_QUIRKS,
-			NO_QUIRKS,
-			QUIRKS
+		LIMITED_QUIRKS,
+		NO_QUIRKS,
+		QUIRKS
 	};
 
 	class Document : public Node {
