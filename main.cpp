@@ -169,7 +169,6 @@ RunRenderingTest() {
 	if (renderer == nullptr) {
 		Logger::Severe("RunRenderingTest", "No supported renderer for window system " + window->windowManagerName);
 		return;
-		return;
 	}
 
 	auto result = window->PrepareForRenderer(renderer->type);

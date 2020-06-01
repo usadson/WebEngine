@@ -2288,7 +2288,6 @@ namespace NamedCharacters {
 	// TODO Put these functions inside a cpp file.
 	inline NCStatus
 	Find(const Unicode::UString &string, Unicode::CodePoint *result) {
-		uint8_t character;
 		size_t i;
 		std::shared_ptr<NCNode> node = RootNode;
 
@@ -2296,7 +2295,7 @@ namespace NamedCharacters {
 			if (string[i] > 0x80)
 				return NCStatus::INVALID_STRING;
 
-			character = (uint8_t) string[i];
+			uint8_t character = (uint8_t) string[i];
 
 			auto iterator = node->Children.find(character);
 			if (iterator == node->Children.end()) {
@@ -2318,18 +2317,15 @@ namespace NamedCharacters {
 
 	inline void
 	Setup() {
-		static std::shared_ptr<NCNode> RootNode = std::shared_ptr<NCNode>(new NCNode { false, 0, {} });
-
-		size_t i;
-		size_t length;
-		char character;
+		static std::shared_ptr<NCNode> rootNode = std::shared_ptr<NCNode>(new NCNode { false, 0, {} });
 
 		for (const auto &entry : GlobalMap) {
-			std::shared_ptr<NCNode> &node = RootNode;
-			length = strlen(entry.first);
+			std::shared_ptr<NCNode> &node = rootNode;
+			size_t length = strlen(entry.first);
 
+			size_t i;
 			for (i = 0; i < length; i++) {
-				character = entry.first[i];
+				char character = entry.first[i];
 
 				auto iterator = node->Children.find(character);
 				if (iterator == node->Children.end()) {

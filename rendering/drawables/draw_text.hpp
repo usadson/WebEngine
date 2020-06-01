@@ -30,7 +30,7 @@ namespace Rendering {
 	public:
 		inline
 		DrawText()
-			: RenderObject(RenderObjectType::TEXT) {
+			: RenderObject(RenderObjectType::TEXT), text("undefined text") {
 		}
 	};
 }
