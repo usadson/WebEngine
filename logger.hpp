@@ -30,20 +30,20 @@ namespace Logger {
 	 */
 
 	void 
-	Error(std::string, std::string);
+	Error(const std::string &, const std::string &);
 
 	void
-	Debug(std::string, std::string);
+	Debug(const std::string &, const std::string &);
 
 	void
-	Info(std::string, std::string);
+	Info(const std::string &, const std::string &);
 
 	void
-	Severe(std::string, std::string);
+	Severe(const std::string &, const std::string &);
 
 	void
-	SuccessLog(std::string, std::string);
+	SuccessLog(const std::string &, const std::string &);
 
 	void
-	Warning(std::string, std::string);
+	Warning(const std::string &, const std::string &);
 }
