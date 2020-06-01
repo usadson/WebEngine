@@ -32,6 +32,8 @@ HTML::InsertionModes::BeforeHead::EmitToken(HTML::Tokenizer::Token &inToken) {
 	HTML::Tokenizer::CommentToken	*commentToken;
 	HTML::Tokenizer::StartTagToken	*startTagToken;
 
+	startTagToken = nullptr;
+
 	switch (inToken.Type) {
 		case HTML::Tokenizer::TokenType::DOCTYPE:
 			// Parse error. Ignore the token.
@@ -81,6 +83,11 @@ HTML::InsertionModes::BeforeHead::EmitToken(HTML::Tokenizer::Token &inToken) {
 
 			/* Fallthrough */
 		case HTML::Tokenizer::TokenType::ENDTAG:
+			if (startTagToken == nullptr) {
+				Logger::Warning("HTMLParser::InsertBeforeHead", "Invalid structure! ENDTAG before STARTTAG");
+				return false;
+			}
+
 			if (!startTagToken->TagName.EqualsA("html") &&
 				!startTagToken->TagName.EqualsA("body") &&
 				!startTagToken->TagName.EqualsA("html") &&
