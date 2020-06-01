@@ -19,6 +19,7 @@
 #pragma once
 
 #include <map>
+#include <memory>
 
 #include "data/text/ustring.hpp"
 #include "node.hpp"

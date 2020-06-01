@@ -18,6 +18,8 @@
 
 #pragma once
 
+#include <string>
+
 namespace Net {
 	namespace ALPNProtocols {
 		static std::string HTTP2  = "h2";
