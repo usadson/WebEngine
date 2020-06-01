@@ -46,7 +46,7 @@ namespace Net {
 			NOT_CONNECTED,
 		};
 
-		static std::map<HTTPConnectionError, std::string> HTTPConnectionErrorNames = {
+		std::map<HTTPConnectionError, std::string> HTTPConnectionErrorNames = {
 			{ HTTPConnectionError::FAILED_READ_GENERIC, "FAILED_READ_GENERIC" },
 			{ HTTPConnectionError::FAILED_READ_HEADER_FIELD_GENERIC, "FAILED_READ_HEADER_FIELD_GENERIC" },
 			{ HTTPConnectionError::FAILED_READ_HEADER_FIELD_NAME, "FAILED_READ_HEADER_FIELD_NAME" },

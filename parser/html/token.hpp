@@ -38,7 +38,7 @@ namespace HTML {
 			STARTTAG
 		};
 		
-		static std::map<TokenType, std::string> TokenTypeNames = {
+		std::map<TokenType, std::string> TokenTypeNames = {
 			{ TokenType::CHARACTER, "CHARACTER" },
 			{ TokenType::COMMENT, "COMMENT" },
 			{ TokenType::DOCTYPE, "DOCTYPE" },

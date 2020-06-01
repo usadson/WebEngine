@@ -234,15 +234,15 @@ namespace Net {
 			char *lastSpace = (char *) strrchr(fieldValueString, ' ');
 			char *lastHTab = (char *) strrchr(fieldValueString, '\t');
 
-			if (lastSpace != NULL)
-				if (lastHTab != NULL)
+			if (lastSpace != nullptr)
+				if (lastHTab != nullptr)
 					if (lastHTab > lastSpace)
 						nullCharacterPosition = lastSpace;
 					else
 						nullCharacterPosition = lastHTab;
 				else
 					nullCharacterPosition = lastSpace;
-			else if (lastHTab != NULL)
+			else if (lastHTab != nullptr)
 				nullCharacterPosition = lastHTab;
 			else
 				nullCharacterPosition = fieldValueString + fieldValue.size() - 1;

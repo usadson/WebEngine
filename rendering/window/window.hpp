@@ -37,7 +37,8 @@ namespace Rendering {
 		uint32_t width;
 		std::string windowManagerName;
 	public:
-		inline WindowBase(const std::string &windowManagerName)
+		inline explicit
+		WindowBase(const std::string &windowManagerName)
 			: height(0), width(0), windowManagerName(windowManagerName) {
 		}
 

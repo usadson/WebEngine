@@ -47,7 +47,7 @@ namespace HTML {
 		AFTER_AFTER_FRAMESET
 	};
 
-	static std::map<InsertionModeType, std::string> InsertionModeTypeNames = {
+	std::map<InsertionModeType, std::string> InsertionModeTypeNames = {
 		{ InsertionModeType::INITIAL, "INITIAL" },
 		{ InsertionModeType::BEFORE_HTML, "BEFORE_HTML" },
 		{ InsertionModeType::BEFORE_HEAD, "BEFORE_HEAD" },

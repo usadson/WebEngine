@@ -112,7 +112,7 @@ namespace HTML {
 			std::string Reference;
 		};
 
-		static std::map<ParserState, ParserStateInfo> ParserStateNames = {
+		std::map<ParserState, ParserStateInfo> ParserStateNames = {
 			{ ParserState::UNDEFINED, { "UNDEFINED", "Only for return references!!! Use DATA as initial state." } },
 			{ ParserState::DATA, { "DATA", "12.2.5.1 Data state" } },
 			{ ParserState::RCDATA, { "RCDATA", "12.2.5.2 RCDATA state" } },

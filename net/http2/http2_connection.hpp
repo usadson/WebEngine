@@ -62,7 +62,7 @@ namespace Net {
 			};
 		}
 
-		static std::map<HTTP2Error, std::string> HTTP2ErrorNames = {
+		std::map<HTTP2Error, std::string> HTTP2ErrorNames = {
 			{ HTTP2Error::FAILED_READ, "FAILED_READ" },
 			{ HTTP2Error::FRAME_TOO_LARGE, "FRAME_TOO_LARGE" },
 			{ HTTP2Error::NO_ERROR, "NO_ERROR" },
