@@ -38,12 +38,19 @@ namespace HTML {
 		std::vector<std::shared_ptr<DOM::Element>> OpenElementsStack;
 		std::map<InsertionModeType, std::shared_ptr<InsertionMode>> InsertionModes;
 	public: // Methods
-		TreeConstructor(Tokenizer::Context &context);
+		TreeConstructor(Tokenizer::Context &);
 
-		void EmitCharacterToken(char character);
-		void EmitDoctypeQuirksToken(void);
-		void EmitEOFToken(void);
-		void EmitToken(HTML::Tokenizer::Token &token);
+		void
+		EmitCharacterToken(char);
+
+		void
+		EmitDoctypeQuirksToken();
+
+		void
+		EmitEOFToken();
+
+		void
+		EmitToken(HTML::Tokenizer::Token &);
 	};
 };
  

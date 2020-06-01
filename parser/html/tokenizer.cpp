@@ -34,7 +34,8 @@
 #include "token.hpp"
 #include "tree_constructor.hpp"
 
-void HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
+void
+HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 
 	// At what line is the tokenizer?
 	Context.LineCount = 1;
@@ -59,6 +60,7 @@ void HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 	size_t i;
 	bool reconsume = false;
 	size_t toConsumeNext = 0;
+
 	for (i = 0; i <= documentSize; i++) {
 // 		std::cout << "index=" << i << " state=" << Context.State << std::endl;
 		if (reconsume) {
@@ -90,6 +92,7 @@ void HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 				}
 			}
 		}
+
 		Context.BeginLoopState = Context.State;
 		Context.CurrentCharacter = character;
 		// std::cout << "StateLog: " << Context.State << std::endl;

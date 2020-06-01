@@ -24,12 +24,14 @@
 #include "dom/comment.hpp"
 #include "logger.hpp"
 
-const std::vector<const char *> quirkyPublicIdentifiersMissingSystem = {
+const std::vector<const char *>
+quirkyPublicIdentifiersMissingSystem = {
 	"-//W3C//DTD HTML 4.01 Frameset//",
 	"-//W3C//DTD HTML 4.01 Transitional//"
 };
 
-const std::vector<const char *> quirkyPublicIdentifiers = {
+const std::vector<const char *>
+quirkyPublicIdentifiers = {
 	"-//W3O//DTD W3 HTML Strict 3.0//EN//",
 	"-/W3C/DTD HTML 4.0 Transitional/EN",
 	"HTML",
@@ -90,7 +92,8 @@ const std::vector<const char *> quirkyPublicIdentifiers = {
 	"-//WebTechs//DTD Mozilla HTML//"
 };
 
-bool IsQuirkyDoctype(HTML::Tokenizer::DoctypeToken *token, bool isIFrameSrcDoc) {
+bool
+IsQuirkyDoctype(HTML::Tokenizer::DoctypeToken *token, bool isIFrameSrcDoc) {
 	if (token->ForceQuirks)
 		return true;
 
@@ -124,7 +127,8 @@ bool IsQuirkyDoctype(HTML::Tokenizer::DoctypeToken *token, bool isIFrameSrcDoc) 
 	return false;
 }
 
-bool HTML::InsertionModes::Initial::EmitToken(HTML::Tokenizer::Token &inToken) {
+bool
+HTML::InsertionModes::Initial::EmitToken(HTML::Tokenizer::Token &inToken) {
 	HTML::Tokenizer::CharacterToken	*characterToken;
 	HTML::Tokenizer::CommentToken	*commentToken;
 	HTML::Tokenizer::DoctypeToken	*doctypeToken;

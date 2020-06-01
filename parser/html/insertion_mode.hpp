@@ -73,7 +73,8 @@ namespace HTML {
 		{ InsertionModeType::AFTER_AFTER_FRAMESET, "AFTER_AFTER_FRAMESET" }
 	};
 
-	inline std::ostream &operator<<(std::ostream &stream, InsertionModeType &state) { 
+	inline std::ostream &
+	operator<<(std::ostream &stream, InsertionModeType &state) { 
 		return stream << InsertionModeTypeNames[state];
 	}
 } 

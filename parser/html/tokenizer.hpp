@@ -38,7 +38,8 @@ namespace HTML {
 				: Context(parserContext), TreeConstructor(Context) {
 			}
 
-			void Run(Resources::DocumentResource &document);
+			void
+			Run(Resources::DocumentResource &);
 		};
 	}
 }

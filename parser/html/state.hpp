@@ -181,7 +181,8 @@ namespace HTML {
 			{ ParserState::NUMERIC_CHARACTER_REFERENCE_END, { "NUMERIC_CHARACTER_REFERENCE_END", "12.2.5.80 Numeric character reference end state" } },
 		};
 
-		inline std::ostream &operator<<(std::ostream &stream, ParserState &state) { 
+		inline std::ostream &
+		operator<<(std::ostream &stream, ParserState &state) { 
 			return stream << ParserStateNames[state].Name;
 		}
 	};

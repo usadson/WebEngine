@@ -26,7 +26,8 @@
 #include "parser/html/constants.hpp"
 #include "logger.hpp"
 
-bool HTML::InsertionModes::BeforeHTML::EmitToken(HTML::Tokenizer::Token &inToken) {
+bool
+HTML::InsertionModes::BeforeHTML::EmitToken(HTML::Tokenizer::Token &inToken) {
 	HTML::Tokenizer::CharacterToken *characterToken;
 	HTML::Tokenizer::CommentToken	*commentToken;
 	HTML::Tokenizer::StartTagToken	*startTagToken;

@@ -38,7 +38,8 @@ namespace HTML {
 		}) {
 	}
 
-	void TreeConstructor::EmitToken(HTML::Tokenizer::Token &inToken) {
+	void
+	TreeConstructor::EmitToken(HTML::Tokenizer::Token &inToken) {
 		bool	reprocess;
 		size_t	reprocessCount;
 
@@ -68,18 +69,21 @@ namespace HTML {
 		} while (reprocess);
 	}
 
-	void TreeConstructor::EmitCharacterToken(char character) {
+	void
+	TreeConstructor::EmitCharacterToken(char character) {
 		HTML::Tokenizer::CharacterToken token(character);
 		EmitToken(token);
 	}
 
-	void TreeConstructor::EmitDoctypeQuirksToken(void) {
+	void
+	TreeConstructor::EmitDoctypeQuirksToken(void) {
 		HTML::Tokenizer::DoctypeToken token;
 		token.ForceQuirks = true;
 		EmitToken(token);
 	}
 
-	void TreeConstructor::EmitEOFToken(void) {
+	void
+	TreeConstructor::EmitEOFToken(void) {
 		HTML::Tokenizer::EOFToken token;
 		EmitToken(token);
 	}

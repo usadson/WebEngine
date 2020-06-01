@@ -22,7 +22,8 @@
 
 namespace HTML {
 	namespace Tokenizer {
-		void Context::LogError(const HTML::Tokenizer::ParserError &error) {
+		void
+		Context::LogError(const HTML::Tokenizer::ParserError &error) {
 			std::cerr << "\033[1;31mParserError: \033[1;33m" << error.Name 
 					  << "\033[1;31m at \033[1;35m" << LineCount << ':' << LinePosition
 					  << "\033[1;31m in state \033[1;36m" << State;

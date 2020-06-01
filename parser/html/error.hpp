@@ -78,12 +78,15 @@ namespace HTML {
 			const std::string Name;
 			const std::string Description;
 		private:
-			inline ParserError(std::string name, std::string description) : Name(name), Description(description) {
+			inline
+			ParserError(std::string name, std::string description)
+				: Name(name), Description(description) {
 			}
 		};
  
 		namespace ParserErrorFunctions {
-			std::ostream &operator<<(std::ostream &stream, const HTML::Tokenizer::ParserError &error);
+			std::ostream &
+			operator<<(std::ostream &, const HTML::Tokenizer::ParserError &);
 		}
 	};
 } 

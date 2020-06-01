@@ -38,6 +38,7 @@ namespace HTML {
 		 * The return value 'bool' is whether or not the token must be
 		 * reprocessed in the next insertion mode.
 		 */
-		virtual bool EmitToken(HTML::Tokenizer::Token &inToken) = 0;
+		virtual bool
+		EmitToken(HTML::Tokenizer::Token &inToken) = 0;
 	};
 }

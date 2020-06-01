@@ -70,10 +70,9 @@ namespace HTML {
 		const ParserError ParserError::UNEXPECTED_SOLIDUS_IN_TAG = ParserError("unexpected-solidus-in-tag", "This error occurs if the parser encounters a U+002F (/) code point that is not a part of a quoted attribute value and not immediately followed by a U+003E (>) code point in a tag (e.g., <div / id=\"foo\">). In this case the parser behaves as if it encountered ASCII whitespace.");
 		const ParserError ParserError::UNKNOWN_NAMED_CHARACTER_REFERENCE = ParserError("unknown-named-character-reference", "This error occurs if the parser encounters an ambiguous ampersand. In this case the parser doesn't resolve the character reference.");
 
-		namespace ParserErrorFunctions {
-			std::ostream &operator<<(std::ostream &stream, const HTML::Tokenizer::ParserError &error) { 
-				return stream << error.Name;
-			}
+		std::ostream &
+		ParserErrorFunctions::operator<<(std::ostream &stream, const HTML::Tokenizer::ParserError &error) { 
+			return stream << error.Name;
 		}
 	};
 };

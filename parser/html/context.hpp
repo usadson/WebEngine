@@ -53,9 +53,11 @@ namespace HTML {
 			Unicode::UString NCRefBuffer;
 		public: // Methods
 			inline Context(HTML::ParserContext &context)
-				: ParserContext(context) {}
+				: ParserContext(context) {
+			}
 
-			void LogError(const HTML::Tokenizer::ParserError &error);
+			void
+			LogError(const HTML::Tokenizer::ParserError &error);
 		};
 	};
 };
