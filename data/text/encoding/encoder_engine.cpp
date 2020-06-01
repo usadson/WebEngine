@@ -29,35 +29,35 @@
 #include "utf8.hpp"
 
 namespace Encoders {
-	std::shared_ptr<TextEncoding::Encoding> UTF8(new TextEncoding::UTF8);
-	std::shared_ptr<TextEncoding::Encoding> IBM866(new TextEncoding::IBM866);
-	std::shared_ptr<TextEncoding::Encoding> ISO8859_2(new TextEncoding::ISO8859_2);
+	std::shared_ptr<TextEncoding::Encoding> UTF8 = std::make_shared<TextEncoding::UTF8>();
+	std::shared_ptr<TextEncoding::Encoding> IBM866 = std::make_shared<TextEncoding::IBM866>();
+	std::shared_ptr<TextEncoding::Encoding> ISO8859_2 = std::make_shared<TextEncoding::ISO8859_2>();
 		
-	std::shared_ptr<TextEncoding::Encoding> ISO8859_3(new TextEncoding::ISO8859_3);
-	std::shared_ptr<TextEncoding::Encoding> ISO8859_4(new TextEncoding::ISO8859_4);
-	std::shared_ptr<TextEncoding::Encoding> ISO8859_5(new TextEncoding::ISO8859_5);
-	std::shared_ptr<TextEncoding::Encoding> ISO8859_6(new TextEncoding::ISO8859_6);
-	std::shared_ptr<TextEncoding::Encoding> ISO8859_7(new TextEncoding::ISO8859_7);
-	std::shared_ptr<TextEncoding::Encoding> ISO8859_8(new TextEncoding::ISO8859_8);
-	std::shared_ptr<TextEncoding::Encoding> ISO8859_10(new TextEncoding::ISO8859_10);
-	std::shared_ptr<TextEncoding::Encoding> ISO8859_13(new TextEncoding::ISO8859_13);
-	std::shared_ptr<TextEncoding::Encoding> ISO8859_14(new TextEncoding::ISO8859_14);
-	std::shared_ptr<TextEncoding::Encoding> ISO8859_15(new TextEncoding::ISO8859_15);
-	std::shared_ptr<TextEncoding::Encoding> ISO8859_16(new TextEncoding::ISO8859_16);
-	std::shared_ptr<TextEncoding::Encoding> KOI8_R(new TextEncoding::KOI8_R);
-	std::shared_ptr<TextEncoding::Encoding> KOI8_U(new TextEncoding::KOI8_U);
-	std::shared_ptr<TextEncoding::Encoding> Macintosh(new TextEncoding::Macintosh);
-	std::shared_ptr<TextEncoding::Encoding> Windows874(new TextEncoding::Windows874);
-	std::shared_ptr<TextEncoding::Encoding> Windows1250(new TextEncoding::Windows1250);
-	std::shared_ptr<TextEncoding::Encoding> Windows1251(new TextEncoding::Windows1251);
-	std::shared_ptr<TextEncoding::Encoding> Windows1252(new TextEncoding::Windows1252);
-	std::shared_ptr<TextEncoding::Encoding> Windows1253(new TextEncoding::Windows1253);
-	std::shared_ptr<TextEncoding::Encoding> Windows1254(new TextEncoding::Windows1254);
-	std::shared_ptr<TextEncoding::Encoding> Windows1255(new TextEncoding::Windows1255);
-	std::shared_ptr<TextEncoding::Encoding> Windows1256(new TextEncoding::Windows1256);
-	std::shared_ptr<TextEncoding::Encoding> Windows1257(new TextEncoding::Windows1257);
-	std::shared_ptr<TextEncoding::Encoding> Windows1258(new TextEncoding::Windows1258);
-	std::shared_ptr<TextEncoding::Encoding> XMacCyrillic(new TextEncoding::XMacCyrillic);
+	std::shared_ptr<TextEncoding::Encoding> ISO8859_3 = std::make_shared<TextEncoding::ISO8859_3>();
+	std::shared_ptr<TextEncoding::Encoding> ISO8859_4 = std::make_shared<TextEncoding::ISO8859_4>();
+	std::shared_ptr<TextEncoding::Encoding> ISO8859_5 = std::make_shared<TextEncoding::ISO8859_5>();
+	std::shared_ptr<TextEncoding::Encoding> ISO8859_6 = std::make_shared<TextEncoding::ISO8859_6>();
+	std::shared_ptr<TextEncoding::Encoding> ISO8859_7 = std::make_shared<TextEncoding::ISO8859_7>();
+	std::shared_ptr<TextEncoding::Encoding> ISO8859_8 = std::make_shared<TextEncoding::ISO8859_8>();
+	std::shared_ptr<TextEncoding::Encoding> ISO8859_10 = std::make_shared<TextEncoding::ISO8859_10>();
+	std::shared_ptr<TextEncoding::Encoding> ISO8859_13 = std::make_shared<TextEncoding::ISO8859_13>();
+	std::shared_ptr<TextEncoding::Encoding> ISO8859_14 = std::make_shared<TextEncoding::ISO8859_14>();
+	std::shared_ptr<TextEncoding::Encoding> ISO8859_15 = std::make_shared<TextEncoding::ISO8859_15>();
+	std::shared_ptr<TextEncoding::Encoding> ISO8859_16 = std::make_shared<TextEncoding::ISO8859_16>();
+	std::shared_ptr<TextEncoding::Encoding> KOI8_R = std::make_shared<TextEncoding::KOI8_R>();
+	std::shared_ptr<TextEncoding::Encoding> KOI8_U = std::make_shared<TextEncoding::KOI8_U>();
+	std::shared_ptr<TextEncoding::Encoding> Macintosh = std::make_shared<TextEncoding::Macintosh>();
+	std::shared_ptr<TextEncoding::Encoding> Windows874 = std::make_shared<TextEncoding::Windows874>();
+	std::shared_ptr<TextEncoding::Encoding> Windows1250 = std::make_shared<TextEncoding::Windows1250>();
+	std::shared_ptr<TextEncoding::Encoding> Windows1251 = std::make_shared<TextEncoding::Windows1251>();
+	std::shared_ptr<TextEncoding::Encoding> Windows1252 = std::make_shared<TextEncoding::Windows1252>();
+	std::shared_ptr<TextEncoding::Encoding> Windows1253 = std::make_shared<TextEncoding::Windows1253>();
+	std::shared_ptr<TextEncoding::Encoding> Windows1254 = std::make_shared<TextEncoding::Windows1254>();
+	std::shared_ptr<TextEncoding::Encoding> Windows1255 = std::make_shared<TextEncoding::Windows1255>();
+	std::shared_ptr<TextEncoding::Encoding> Windows1256 = std::make_shared<TextEncoding::Windows1256>();
+	std::shared_ptr<TextEncoding::Encoding> Windows1257 = std::make_shared<TextEncoding::Windows1257>();
+	std::shared_ptr<TextEncoding::Encoding> Windows1258 = std::make_shared<TextEncoding::Windows1258>();
+	std::shared_ptr<TextEncoding::Encoding> XMacCyrillic = std::make_shared<TextEncoding::XMacCyrillic>();
 }
 
 std::map<std::string, std::shared_ptr<TextEncoding::Encoding>> Map = {
