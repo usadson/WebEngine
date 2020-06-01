@@ -27,8 +27,12 @@ namespace HTML {
 			inline BeforeHead(TreeConstructor &constructor)
 				: HTML::InsertionMode(constructor, constructor.Context) {}
 
+			inline
+			~BeforeHead() override {
+			}
+
 			bool
-			EmitToken(HTML::Tokenizer::Token &inToken);
+			EmitToken(HTML::Tokenizer::Token &inToken) override;
 		};
 	}
 }

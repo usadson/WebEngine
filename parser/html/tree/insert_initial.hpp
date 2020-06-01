@@ -27,8 +27,12 @@ namespace HTML {
 			inline Initial(TreeConstructor &constructor)
 				: HTML::InsertionMode(constructor, constructor.Context) {}
 
+			inline
+			~Initial() override {
+			}
+
 			bool
-			EmitToken(HTML::Tokenizer::Token &inToken);
+			EmitToken(HTML::Tokenizer::Token &inToken) override;
 		};
 	}
 }
