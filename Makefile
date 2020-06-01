@@ -27,7 +27,7 @@
 #	$(CXX) $(CFLAGS) -c -o $@ shapes/circle.cpp
 
 GENERAL = -std=c++17 -g -Og
-INCLUDES = -Isrc
+INCLUDES = -I.
 WARNINGS = -Wall -Wextra -Wpedantic
 CFLAGS = $(GENERAL) $(INCLUDES) $(WARNINGS)
 

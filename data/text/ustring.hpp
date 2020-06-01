@@ -37,10 +37,10 @@ namespace Unicode {
 		/* Only for ASCII characters: */
 		UString(const char *, size_t);
 		inline
-		UString(const char *) : UString(ascii, strlen(ascii)) {}
+		UString(const char *ascii) : UString(ascii, strlen(ascii)) {}
 	public: // Methods
 		inline const Unicode::CodePoint &
-		operator[](size_t) const {
+		operator[](size_t index) const {
 			return Data[index];
 		}
 
@@ -58,7 +58,7 @@ namespace Unicode {
 		/** Only for strictly-ASCII related strings. **/
 		/* Append a strictly-ASCII string */
 		UString &
-		operator+=(const UString other);
+		operator+=(const UString);
 
 		/* Append a strictly-ASCII string */
 		UString &
@@ -70,7 +70,7 @@ namespace Unicode {
 
 		/* Equals Ignore-case ASCII at index */
 		bool
-		EqualsIgnoreCaseA(size_t, const char );
+		EqualsIgnoreCaseA(size_t, const char *);
 
 		/* Equals Ignore-case ASCII at index + length */
 		bool
