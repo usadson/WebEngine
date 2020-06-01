@@ -31,11 +31,18 @@ namespace Unicode {
 		std::vector<Unicode::CodePoint> Data;
 	public: // Constructor Methods
 		UString();
-		UString(std::vector<Unicode::CodePoint>);
+
+		explicit
+		UString(const std::vector<Unicode::CodePoint> &);
+
+		// cppcheck-suppress[noExplicitConstructor]
 		UString(Unicode::CodePoint character);
 
 		/* Only for ASCII characters: */
+		explicit
 		UString(const char *, size_t);
+
+		// cppcheck-suppress noExplicitConstructor
 		inline
 		UString(const char *ascii) : UString(ascii, strlen(ascii)) {}
 	public: // Methods
@@ -58,7 +65,7 @@ namespace Unicode {
 		/** Only for strictly-ASCII related strings. **/
 		/* Append a strictly-ASCII string */
 		UString &
-		operator+=(const UString);
+		operator+=(const UString &);
 
 		/* Append a strictly-ASCII string */
 		UString &

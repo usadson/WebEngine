@@ -28,7 +28,7 @@ namespace Unicode {
 		   : Data({}) {
 	}
 
-	UString::UString(std::vector<Unicode::CodePoint> characters)
+	UString::UString(const std::vector<Unicode::CodePoint> &characters)
 		   : Data(characters) {
 	}
 
@@ -87,7 +87,7 @@ namespace Unicode {
 	}
 
 	UString &
-	UString::operator+=(const UString other) {
+	UString::operator+=(const UString &other) {
 		Data.insert(std::end(Data), std::begin(other.Data), std::end(other.Data));
 		return *this;
 	}
@@ -122,12 +122,10 @@ namespace Unicode {
 		}
 
 		size_t i;
-		uint8_t ucharacter;
-		uint8_t acharacter;
 
 		for (i = 0; i < length; i++) {
-			ucharacter = (uint8_t) Data[index + i];
-			acharacter = (uint8_t) ascii[i];
+			uint8_t ucharacter = (uint8_t) Data[index + i];
+			uint8_t acharacter = (uint8_t) ascii[i];
 
 			if (ucharacter >= 0x41 && ucharacter <= 0x5A)
 				ucharacter += 0x20;
@@ -149,14 +147,12 @@ namespace Unicode {
 			return false;
 
 		size_t i;
-		uint8_t character;
 
 		for (i = 0; i < length; i++) {
-			character = (uint8_t) Data[index + i];
+			uint8_t character = (uint8_t) Data[index + i];
 
-			if (character != ascii[i]) {
+			if (character != ascii[i])
 				return false;
-			}
 		}
 
 		return true;
@@ -165,11 +161,11 @@ namespace Unicode {
 	bool
 	UString::EqualsA(const char *ascii) {
 		size_t length = strlen(ascii);
+
 		if (length > Data.size())
 			return false;
 
 		size_t i;
-
 		for (i = 0; i < length; i++)
 			if ((uint8_t) Data[i] != ascii[i])
 				return false;
@@ -180,10 +176,10 @@ namespace Unicode {
 	std::ostream &
 	operator<<(std::ostream &stream, const UString &string) {
 		size_t i;
-		Unicode::CodePoint character;
 
 		for (i = 0; i < string.length(); i++) {
-			character = string[i];
+			Unicode::CodePoint character = string[i];
+
 			if (character < 0x80)
 				stream << (char)character;
 			else // TODO Export non-ascii characters

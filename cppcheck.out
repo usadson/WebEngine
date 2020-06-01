@@ -1,0 +1,509 @@
+logger.cpp:24:27: performance: Parameter 'source' is passed by value. It could be passed as a const reference which is usually faster and recommended in C++. [passedByValue]
+Logger::Error(std::string source, std::string message) {
+                          ^
+logger.cpp:24:47: performance: Parameter 'message' is passed by value. It could be passed as a const reference which is usually faster and recommended in C++. [passedByValue]
+Logger::Error(std::string source, std::string message) {
+                                              ^
+logger.cpp:29:27: performance: Parameter 'source' is passed by value. It could be passed as a const reference which is usually faster and recommended in C++. [passedByValue]
+Logger::Debug(std::string source, std::string message) {
+                          ^
+logger.cpp:29:47: performance: Parameter 'message' is passed by value. It could be passed as a const reference which is usually faster and recommended in C++. [passedByValue]
+Logger::Debug(std::string source, std::string message) {
+                                              ^
+logger.cpp:34:26: performance: Parameter 'source' is passed by value. It could be passed as a const reference which is usually faster and recommended in C++. [passedByValue]
+Logger::Info(std::string source, std::string message) {
+                         ^
+logger.cpp:34:46: performance: Parameter 'message' is passed by value. It could be passed as a const reference which is usually faster and recommended in C++. [passedByValue]
+Logger::Info(std::string source, std::string message) {
+                                             ^
+logger.cpp:39:28: performance: Parameter 'source' is passed by value. It could be passed as a const reference which is usually faster and recommended in C++. [passedByValue]
+Logger::Severe(std::string source, std::string message) {
+                           ^
+logger.cpp:39:48: performance: Parameter 'message' is passed by value. It could be passed as a const reference which is usually faster and recommended in C++. [passedByValue]
+Logger::Severe(std::string source, std::string message) {
+                                               ^
+logger.cpp:44:32: performance: Parameter 'source' is passed by value. It could be passed as a const reference which is usually faster and recommended in C++. [passedByValue]
+Logger::SuccessLog(std::string source, std::string message) {
+                               ^
+logger.cpp:44:52: performance: Parameter 'message' is passed by value. It could be passed as a const reference which is usually faster and recommended in C++. [passedByValue]
+Logger::SuccessLog(std::string source, std::string message) {
+                                                   ^
+logger.cpp:49:29: performance: Parameter 'source' is passed by value. It could be passed as a const reference which is usually faster and recommended in C++. [passedByValue]
+Logger::Warning(std::string source, std::string message) {
+                            ^
+logger.cpp:49:49: performance: Parameter 'message' is passed by value. It could be passed as a const reference which is usually faster and recommended in C++. [passedByValue]
+Logger::Warning(std::string source, std::string message) {
+                                                ^
+net/connection_info.hpp:65:3: warning: Member variable 'ConnectionInfo::TLSContext' is not initialized in the constructor. [uninitMemberVar]
+  ConnectionInfo(std::string hostName, uint16_t port)
+  ^
+net/connection_info.hpp:69:3: warning: Member variable 'ConnectionInfo::TLSContext' is not initialized in the constructor. [uninitMemberVar]
+  ConnectionInfo(std::string hostName, uint16_t port, bool secure)
+  ^
+parser/html/context.hpp:55:11: warning: Member variable 'Context::LineCount' is not initialized in the constructor. [uninitMemberVar]
+   inline Context(HTML::ParserContext &context)
+          ^
+parser/html/context.hpp:55:11: warning: Member variable 'Context::LinePosition' is not initialized in the constructor. [uninitMemberVar]
+   inline Context(HTML::ParserContext &context)
+          ^
+parser/html/context.hpp:55:11: warning: Member variable 'Context::CurrentCharacter' is not initialized in the constructor. [uninitMemberVar]
+   inline Context(HTML::ParserContext &context)
+          ^
+rendering/render_object.hpp:38:3: warning: Member variable 'RenderObject::bounds' is not initialized in the constructor. [uninitMemberVar]
+  RenderObject(RenderObjectType type)
+  ^
+rendering/render_object.hpp:38:3: warning: Member variable 'RenderObject::renderContext' is not initialized in the constructor. [uninitMemberVar]
+  RenderObject(RenderObjectType type)
+  ^
+rendering/drawables/draw_text.hpp:32:3: warning: Member variable 'DrawText::text' is not initialized in the constructor. [uninitMemberVar]
+  DrawText()
+  ^
+parser/html/token.hpp:105:31: warning: The struct 'StartTagToken' defines member variable with name 'INVALID_TYPE' also defined in its parent struct 'AmbiguousTagToken'. [duplInheritedMember]
+   static const StartTagToken INVALID_TYPE;
+                              ^
+parser/html/token.hpp:97:35: note: Parent variable 'AmbiguousTagToken::INVALID_TYPE'
+   static const AmbiguousTagToken INVALID_TYPE;
+                                  ^
+parser/html/token.hpp:105:31: note: Derived variable 'StartTagToken::INVALID_TYPE'
+   static const StartTagToken INVALID_TYPE;
+                              ^
+parser/html/token.hpp:113:29: warning: The struct 'EndTagToken' defines member variable with name 'INVALID_TYPE' also defined in its parent struct 'AmbiguousTagToken'. [duplInheritedMember]
+   static const EndTagToken INVALID_TYPE;
+                            ^
+parser/html/token.hpp:97:35: note: Parent variable 'AmbiguousTagToken::INVALID_TYPE'
+   static const AmbiguousTagToken INVALID_TYPE;
+                                  ^
+parser/html/token.hpp:113:29: note: Derived variable 'EndTagToken::INVALID_TYPE'
+   static const EndTagToken INVALID_TYPE;
+                            ^
+net/http/http_connection.hpp:83:4: style: Class 'HTTPConnection' has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided. [noExplicitConstructor]
+   HTTPConnection(Net::ConnectionInfo connectionInfo);
+   ^
+net/http2/http2_connection.hpp:84:4: style: Class 'HTTP2Connection' has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided. [noExplicitConstructor]
+   HTTP2Connection(Net::ConnectionInfo *);
+   ^
+parser/html/token.hpp:60:4: style: Struct 'Token' has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided. [noExplicitConstructor]
+   Token(TokenType type) : Type(type) {
+   ^
+parser/html/token.hpp:91:4: style: Struct 'AmbiguousTagToken' has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided. [noExplicitConstructor]
+   AmbiguousTagToken(TokenType type) : Token(type) {
+   ^
+parser/html/token.hpp:120:4: style: Struct 'CommentToken' has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided. [noExplicitConstructor]
+   CommentToken(Unicode::UString contents)
+   ^
+parser/html/token.hpp:131:4: style: Struct 'CharacterToken' has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided. [noExplicitConstructor]
+   CharacterToken(Unicode::CodePoint character)
+   ^
+parser/html/context.hpp:55:11: style: Class 'Context' has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided. [noExplicitConstructor]
+   inline Context(HTML::ParserContext &context)
+          ^
+parser/html/tree_constructor.hpp:41:3: style: Class 'TreeConstructor' has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided. [noExplicitConstructor]
+  TreeConstructor(Tokenizer::Context &);
+  ^
+parser/html/tokenizer.hpp:37:11: style: Class 'Tokenizer' has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided. [noExplicitConstructor]
+   inline Tokenizer(HTML::ParserContext &parserContext)
+          ^
+rendering/render_object.hpp:38:3: style: Class 'RenderObject' has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided. [noExplicitConstructor]
+  RenderObject(RenderObjectType type)
+  ^
+rendering/window/window_glfw.hpp:35:3: style: The function 'GetSupportedRenderers' overrides a function in a base class but is not marked with a 'override' specifier. [missingOverride]
+  GetSupportedRenderers();
+  ^
+rendering/window/window.hpp:48:3: note: Virtual function in base class
+  GetSupportedRenderers() = 0;
+  ^
+rendering/window/window_glfw.hpp:35:3: note: Function in derived class
+  GetSupportedRenderers();
+  ^
+rendering/window/window_glfw.hpp:38:3: style: The function 'PrepareForRenderer' overrides a function in a base class but is not marked with a 'override' specifier. [missingOverride]
+  PrepareForRenderer(RendererType);
+  ^
+rendering/window/window.hpp:54:3: note: Virtual function in base class
+  PrepareForRenderer(RendererType) = 0;
+  ^
+rendering/window/window_glfw.hpp:38:3: note: Function in derived class
+  PrepareForRenderer(RendererType);
+  ^
+rendering/window/window_glfw.hpp:41:3: style: The function 'PollClose' overrides a function in a base class but is not marked with a 'override' specifier. [missingOverride]
+  PollClose();
+  ^
+rendering/window/window.hpp:51:3: note: Virtual function in base class
+  PollClose() = 0;
+  ^
+rendering/window/window_glfw.hpp:41:3: note: Function in derived class
+  PollClose();
+  ^
+rendering/window/window_glfw.hpp:44:3: style: The function 'SetTitle' overrides a function in a base class but is not marked with a 'override' specifier. [missingOverride]
+  SetTitle(Unicode::UString string);
+  ^
+rendering/window/window.hpp:57:3: note: Virtual function in base class
+  SetTitle(Unicode::UString string) = 0;
+  ^
+rendering/window/window_glfw.hpp:44:3: note: Function in derived class
+  SetTitle(Unicode::UString string);
+  ^
+rendering/window/window_glfw.hpp:47:3: style: The function 'SwapBuffers' overrides a function in a base class but is not marked with a 'override' specifier. [missingOverride]
+  SwapBuffers();
+  ^
+rendering/window/window.hpp:60:3: note: Virtual function in base class
+  SwapBuffers() = 0;
+  ^
+rendering/window/window_glfw.hpp:47:3: note: Function in derived class
+  SwapBuffers();
+  ^
+main.cpp:171:3: style: Consecutive return, break, continue, goto or throw statements are unnecessary. The second statement can never be executed, and so should be removed. [duplicateBreak]
+  return;
+  ^
+data/text/named_characters.hpp:2291:11: style: The scope of the variable 'character' can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for 'i' can be reduced:
+void f(int x)
+{
+    int i = 0;
+    if (x) {
+        // it's safe to move 'int i = 0;' here
+        for (int n = 0; n < 10; ++n) {
+            // it is possible but not safe to move 'int i = 0;' here
+            do_something(&i);
+        }
+    }
+}
+When you see this message it is always safe to reduce the variable scope 1 level. [variableScope]
+  uint8_t character;
+          ^
+data/text/named_characters.hpp:2324:10: style: The scope of the variable 'length' can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for 'i' can be reduced:
+void f(int x)
+{
+    int i = 0;
+    if (x) {
+        // it's safe to move 'int i = 0;' here
+        for (int n = 0; n < 10; ++n) {
+            // it is possible but not safe to move 'int i = 0;' here
+            do_something(&i);
+        }
+    }
+}
+When you see this message it is always safe to reduce the variable scope 1 level. [variableScope]
+  size_t length;
+         ^
+data/text/named_characters.hpp:2321:34: style: Local variable 'RootNode' shadows outer variable [shadowVariable]
+  static std::shared_ptr<NCNode> RootNode = std::shared_ptr<NCNode>(new NCNode { false, 0, {} });
+                                 ^
+data/text/named_characters.hpp:2286:32: note: Shadowed declaration
+ const std::shared_ptr<NCNode> RootNode = std::shared_ptr<NCNode>(new NCNode { false, 0, {} });
+                               ^
+data/text/named_characters.hpp:2321:34: note: Shadow variable
+  static std::shared_ptr<NCNode> RootNode = std::shared_ptr<NCNode>(new NCNode { false, 0, {} });
+                                 ^
+net/connection_info.hpp:65:30: performance: Parameter 'hostName' is passed by value. It could be passed as a const reference which is usually faster and recommended in C++. [passedByValue]
+  ConnectionInfo(std::string hostName, uint16_t port)
+                             ^
+net/connection_info.hpp:69:30: performance: Parameter 'hostName' is passed by value. It could be passed as a const reference which is usually faster and recommended in C++. [passedByValue]
+  ConnectionInfo(std::string hostName, uint16_t port, bool secure)
+                             ^
+net/http2/http2_connection.hpp:46:52: performance: Parameter 'message' is passed by value. It could be passed as a const reference which is usually faster and recommended in C++. [passedByValue]
+    inline Exception(HTTP2Error error, std::string message)
+                                                   ^
+parser/html/error.hpp:82:28: performance: Parameter 'name' is passed by value. It could be passed as a const reference which is usually faster and recommended in C++. [passedByValue]
+   ParserError(std::string name, std::string description)
+                           ^
+parser/html/error.hpp:82:46: performance: Parameter 'description' is passed by value. It could be passed as a const reference which is usually faster and recommended in C++. [passedByValue]
+   ParserError(std::string name, std::string description)
+                                             ^
+parser/html/token.hpp:120:34: performance: Parameter 'contents' is passed by value. It could be passed as a const reference which is usually faster and recommended in C++. [passedByValue]
+   CommentToken(Unicode::UString contents)
+                                 ^
+rendering/window/window.hpp:40:33: performance: Parameter 'windowManagerName' is passed by value. It could be passed as a const reference which is usually faster and recommended in C++. [passedByValue]
+  inline WindowBase(std::string windowManagerName)
+                                ^
+net/connection_info.cpp:158:12: style: The scope of the variable 'ret' can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for 'i' can be reduced:
+void f(int x)
+{
+    int i = 0;
+    if (x) {
+        // it's safe to move 'int i = 0;' here
+        for (int n = 0; n < 10; ++n) {
+            // it is possible but not safe to move 'int i = 0;' here
+            do_something(&i);
+        }
+    }
+}
+When you see this message it is always safe to reduce the variable scope 1 level. [variableScope]
+   ssize_t ret;
+           ^
+net/connection_info.cpp:189:11: style: The scope of the variable 'ret' can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for 'i' can be reduced:
+void f(int x)
+{
+    int i = 0;
+    if (x) {
+        // it's safe to move 'int i = 0;' here
+        for (int n = 0; n < 10; ++n) {
+            // it is possible but not safe to move 'int i = 0;' here
+            do_something(&i);
+        }
+    }
+}
+When you see this message it is always safe to reduce the variable scope 1 level. [variableScope]
+  ssize_t ret;
+          ^
+net/connection_info_libtls.cpp:43:11: style: The scope of the variable 'ret' can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for 'i' can be reduced:
+void f(int x)
+{
+    int i = 0;
+    if (x) {
+        // it's safe to move 'int i = 0;' here
+        for (int n = 0; n < 10; ++n) {
+            // it is possible but not safe to move 'int i = 0;' here
+            do_something(&i);
+        }
+    }
+}
+When you see this message it is always safe to reduce the variable scope 1 level. [variableScope]
+  ssize_t ret;
+          ^
+net/connection_info_libtls.cpp:134:11: style: The scope of the variable 'ret' can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for 'i' can be reduced:
+void f(int x)
+{
+    int i = 0;
+    if (x) {
+        // it's safe to move 'int i = 0;' here
+        for (int n = 0; n < 10; ++n) {
+            // it is possible but not safe to move 'int i = 0;' here
+            do_something(&i);
+        }
+    }
+}
+When you see this message it is always safe to reduce the variable scope 1 level. [variableScope]
+  ssize_t ret;
+          ^
+net/http/http_connection.cpp:256:67: performance: Parameter 'method' is passed by value. It could be passed as a const reference which is usually faster and recommended in C++. [passedByValue]
+  HTTPConnection::Request(HTTPResponseInfo *response, std::string method, std::string path) {
+                                                                  ^
+net/http/http_connection.cpp:256:87: performance: Parameter 'path' is passed by value. It could be passed as a const reference which is usually faster and recommended in C++. [passedByValue]
+  HTTPConnection::Request(HTTPResponseInfo *response, std::string method, std::string path) {
+                                                                                      ^
+net/http/http_connection.cpp:350:77: performance: Parameter 'path' is passed by value. It could be passed as a const reference which is usually faster and recommended in C++. [passedByValue]
+  HTTPConnection::RequestNavigation(HTTPResponseInfo *response, std::string path) {
+                                                                            ^
+net/http/http_response_info.cpp:30:0: style: Consider using std::find_if algorithm instead of a raw loop. [useStlAlgorithm]
+    if (strcasecmp(headerField.FieldName.c_str(), name) == 0)
+^
+net/http2/http2_connection.cpp:222:6: warning: %hhX in format string (no. 1) requires 'unsigned char' but the argument type is 'signed char'. [invalidPrintfArgType_uint]
+     printf(" > 0x%hhX (%c)\n", frame.payload[i], frame.payload[i]);
+     ^
+net/http2/http2_connection.cpp:148:13: style: The scope of the variable 'identifier' can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for 'i' can be reduced:
+void f(int x)
+{
+    int i = 0;
+    if (x) {
+        // it's safe to move 'int i = 0;' here
+        for (int n = 0; n < 10; ++n) {
+            // it is possible but not safe to move 'int i = 0;' here
+            do_something(&i);
+        }
+    }
+}
+When you see this message it is always safe to reduce the variable scope 1 level. [variableScope]
+   uint16_t identifier;
+            ^
+net/http2/http2_connection.cpp:149:13: style: The scope of the variable 'value' can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for 'i' can be reduced:
+void f(int x)
+{
+    int i = 0;
+    if (x) {
+        // it's safe to move 'int i = 0;' here
+        for (int n = 0; n < 10; ++n) {
+            // it is possible but not safe to move 'int i = 0;' here
+            do_something(&i);
+        }
+    }
+}
+When you see this message it is always safe to reduce the variable scope 1 level. [variableScope]
+   uint32_t value;
+            ^
+net/http2/http2_connection.cpp:150:16: style: The scope of the variable 'buf' can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for 'i' can be reduced:
+void f(int x)
+{
+    int i = 0;
+    if (x) {
+        // it's safe to move 'int i = 0;' here
+        for (int n = 0; n < 10; ++n) {
+            // it is possible but not safe to move 'int i = 0;' here
+            do_something(&i);
+        }
+    }
+}
+When you see this message it is always safe to reduce the variable scope 1 level. [variableScope]
+   const char *buf;
+               ^
+net/http2/http2_connection.cpp:209:11: style: The scope of the variable 'i' can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for 'i' can be reduced:
+void f(int x)
+{
+    int i = 0;
+    if (x) {
+        // it's safe to move 'int i = 0;' here
+        for (int n = 0; n < 10; ++n) {
+            // it is possible but not safe to move 'int i = 0;' here
+            do_something(&i);
+        }
+    }
+}
+When you see this message it is always safe to reduce the variable scope 1 level. [variableScope]
+   size_t i;
+          ^
+net/http2/http2_connection.cpp:88:78: performance: Parameter 'path' is passed by value. It could be passed as a const reference which is usually faster and recommended in C++. [passedByValue]
+  HTTP2Connection::RequestNavigation(HTTPResponseInfo *response, std::string path) {
+                                                                             ^
+parser/html/tokenizer.cpp:529:8: style: Consecutive return, break, continue, goto or throw statements are unnecessary. The second statement can never be executed, and so should be removed. [duplicateBreak]
+       continue;
+       ^
+parser/html/tokenizer.cpp:49:21: style: The scope of the variable 'character' can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for 'i' can be reduced:
+void f(int x)
+{
+    int i = 0;
+    if (x) {
+        // it's safe to move 'int i = 0;' here
+        for (int n = 0; n < 10; ++n) {
+            // it is possible but not safe to move 'int i = 0;' here
+            do_something(&i);
+        }
+    }
+}
+When you see this message it is always safe to reduce the variable scope 1 level. [variableScope]
+ Unicode::CodePoint character;
+                    ^
+parser/html/tokenizer.cpp:291:41: style: The scope of the variable 'tagToken' can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for 'i' can be reduced:
+void f(int x)
+{
+    int i = 0;
+    if (x) {
+        // it's safe to move 'int i = 0;' here
+        for (int n = 0; n < 10; ++n) {
+            // it is possible but not safe to move 'int i = 0;' here
+            do_something(&i);
+        }
+    }
+}
+When you see this message it is always safe to reduce the variable scope 1 level. [variableScope]
+    HTML::Tokenizer::AmbiguousTagToken &tagToken = (isEndTag ? (HTML::Tokenizer::AmbiguousTagToken &) endTagToken : (HTML::Tokenizer::AmbiguousTagToken &) startTagToken);
+                                        ^
+parser/html/tokenizer.cpp:328:41: style: The scope of the variable 'tagToken' can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for 'i' can be reduced:
+void f(int x)
+{
+    int i = 0;
+    if (x) {
+        // it's safe to move 'int i = 0;' here
+        for (int n = 0; n < 10; ++n) {
+            // it is possible but not safe to move 'int i = 0;' here
+            do_something(&i);
+        }
+    }
+}
+When you see this message it is always safe to reduce the variable scope 1 level. [variableScope]
+    HTML::Tokenizer::AmbiguousTagToken &tagToken = (isEndTag ? (HTML::Tokenizer::AmbiguousTagToken &) endTagToken : (HTML::Tokenizer::AmbiguousTagToken &) startTagToken);
+                                        ^
+parser/html/tokenizer.cpp:364:41: style: The scope of the variable 'tagToken' can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for 'i' can be reduced:
+void f(int x)
+{
+    int i = 0;
+    if (x) {
+        // it's safe to move 'int i = 0;' here
+        for (int n = 0; n < 10; ++n) {
+            // it is possible but not safe to move 'int i = 0;' here
+            do_something(&i);
+        }
+    }
+}
+When you see this message it is always safe to reduce the variable scope 1 level. [variableScope]
+    HTML::Tokenizer::AmbiguousTagToken &tagToken = (isEndTag ? (HTML::Tokenizer::AmbiguousTagToken &) endTagToken : (HTML::Tokenizer::AmbiguousTagToken &) startTagToken);
+                                        ^
+parser/html/tokenizer.cpp:388:41: style: The scope of the variable 'tagToken' can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for 'i' can be reduced:
+void f(int x)
+{
+    int i = 0;
+    if (x) {
+        // it's safe to move 'int i = 0;' here
+        for (int n = 0; n < 10; ++n) {
+            // it is possible but not safe to move 'int i = 0;' here
+            do_something(&i);
+        }
+    }
+}
+When you see this message it is always safe to reduce the variable scope 1 level. [variableScope]
+    HTML::Tokenizer::AmbiguousTagToken &tagToken = (isEndTag ? (HTML::Tokenizer::AmbiguousTagToken &) endTagToken : (HTML::Tokenizer::AmbiguousTagToken &) startTagToken);
+                                        ^
+parser/html/tokenizer.cpp:412:41: style: The scope of the variable 'tagToken' can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for 'i' can be reduced:
+void f(int x)
+{
+    int i = 0;
+    if (x) {
+        // it's safe to move 'int i = 0;' here
+        for (int n = 0; n < 10; ++n) {
+            // it is possible but not safe to move 'int i = 0;' here
+            do_something(&i);
+        }
+    }
+}
+When you see this message it is always safe to reduce the variable scope 1 level. [variableScope]
+    HTML::Tokenizer::AmbiguousTagToken &tagToken = (isEndTag ? (HTML::Tokenizer::AmbiguousTagToken &) endTagToken : (HTML::Tokenizer::AmbiguousTagToken &) startTagToken);
+                                        ^
+parser/html/tokenizer.cpp:455:41: style: The scope of the variable 'tagToken' can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for 'i' can be reduced:
+void f(int x)
+{
+    int i = 0;
+    if (x) {
+        // it's safe to move 'int i = 0;' here
+        for (int n = 0; n < 10; ++n) {
+            // it is possible but not safe to move 'int i = 0;' here
+            do_something(&i);
+        }
+    }
+}
+When you see this message it is always safe to reduce the variable scope 1 level. [variableScope]
+    HTML::Tokenizer::AmbiguousTagToken &tagToken = (isEndTag ? (HTML::Tokenizer::AmbiguousTagToken &) endTagToken : (HTML::Tokenizer::AmbiguousTagToken &) startTagToken);
+                                        ^
+parser/html/tokenizer.cpp:526:22: style: Variable 'toConsumeNext' is assigned a value that is never used. [unreadVariable]
+       toConsumeNext = 6;
+                     ^
+parser/html/tree/insert_before_head.hpp:27:11: style: Class 'BeforeHead' has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided. [noExplicitConstructor]
+   inline BeforeHead(TreeConstructor &constructor)
+          ^
+dom/comment.hpp:30:3: style: Class 'Comment' has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided. [noExplicitConstructor]
+  Comment(Unicode::UString data) {
+  ^
+dom/comment.hpp:30:28: performance: Parameter 'data' is passed by value. It could be passed as a const reference which is usually faster and recommended in C++. [passedByValue]
+  Comment(Unicode::UString data) {
+                           ^
+parser/html/tree/insert_before_html.hpp:27:11: style: Class 'BeforeHTML' has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided. [noExplicitConstructor]
+   inline BeforeHTML(TreeConstructor &constructor)
+          ^
+parser/html/tree/insert_initial.hpp:27:11: style: Class 'Initial' has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided. [noExplicitConstructor]
+   inline Initial(TreeConstructor &constructor)
+          ^
+data/text/ustring.cpp:103:0: style: The function 'CheckCaseInsensitive' is never used. [unusedFunction]
+
+^
+data/text/ustring.cpp:80:0: style: The function 'Compare' is never used. [unusedFunction]
+
+^
+data/text/ustring.cpp:114:0: style: The function 'EqualsIgnoreCaseA' is never used. [unusedFunction]
+
+^
+logger.cpp:34:0: style: The function 'Info' is never used. [unusedFunction]
+
+^
+main.cpp:107:0: style: The function 'RunEncodingTest' is never used. [unusedFunction]
+
+^
+main.cpp:205:0: style: The function 'RunNetHTTP2Test' is never used. [unusedFunction]
+
+^
+main.cpp:160:0: style: The function 'RunRenderingTest' is never used. [unusedFunction]
+
+^
+rendering/window/window_glfw.cpp:122:0: style: The function 'SetTitle' is never used. [unusedFunction]
+
+^
+logger.cpp:44:0: style: The function 'SuccessLog' is never used. [unusedFunction]
+
+^
+nofile:0:0: information: Cppcheck cannot find all the include files. Cppcheck can check the code without the include files found. But the results will probably be more accurate if all the include files are found. Please check your project's include directories and add all of them as include directories for Cppcheck. To see what files Cppcheck cannot find use --check-config. [missingInclude]
+

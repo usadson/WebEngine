@@ -31,7 +31,7 @@ namespace TextEncoding {
 		uint_fast8_t UpperBoundary;
 	public: // Methods
 		bool
-		Decode(const char *data, size_t size);
+		Decode(const char *data, size_t size) override;
 
 		static std::vector<Unicode::CodePoint>
 		ASCIIDecode(const char *data, size_t size);

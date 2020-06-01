@@ -209,7 +209,7 @@ memory:
 # the 'cppcheck' target will invoke the cppcheck program. This program 
 # statically analyzes the code.
 cppcheck:
-	cppcheck -I. -q --std=c++17 --enable=all .
+	cppcheck -I. -q --verbose --std=c++17 --enable=all .
 
 infer:
 	infer run -- make

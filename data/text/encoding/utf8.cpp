@@ -38,7 +38,6 @@ namespace TextEncoding {
 
 	bool
 	UTF8::Decode(const char *data, size_t size) {
-		uint8_t currentByte;
 		size_t bytePosition;
 
 		bytePosition = 0;
@@ -62,7 +61,7 @@ namespace TextEncoding {
 				return true;
 			}
 
-			currentByte = data[bytePosition++];
+			uint8_t currentByte = data[bytePosition++];
 
 			if (BytesNeeded == 0) {
 				// TODO Is the ""to"" of (`0xE0 ""to"" 0xEF`) inclusive or not?
