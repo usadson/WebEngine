@@ -62,12 +62,16 @@ namespace Net {
 		int Socket;
 		void *TLSContext;
 	public: // Methods
-		ConnectionInfo(std::string hostName, uint16_t port)
-			: HostName(hostName), Port(port), Connected(false), Secure(false), IsAuthenticated(false), TLSALPNProtocols(""), Socket(0) {
+		ConnectionInfo(const std::string &hostName, uint16_t port)
+			: HostName(hostName), Port(port), Connected(false), Secure(false),
+			  IsAuthenticated(false), TLSALPNProtocols(""), Socket(0),
+			  TLSContext(nullptr) {
 		}
 
-		ConnectionInfo(std::string hostName, uint16_t port, bool secure)
-			: HostName(hostName), Port(port), Connected(false), Secure(secure), IsAuthenticated(false), TLSALPNProtocols(""), Socket(0) {
+		ConnectionInfo(const std::string &hostName, uint16_t port, bool secure)
+			: HostName(hostName), Port(port), Connected(false), Secure(secure),
+			  IsAuthenticated(false), TLSALPNProtocols(""), Socket(0),
+			  TLSContext(nullptr) {
 		}
 
 		~ConnectionInfo();

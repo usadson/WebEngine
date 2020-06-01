@@ -40,9 +40,8 @@ namespace Net {
 
 	bool
 	ConnectionInfo::TLSRead(char *buf, size_t len) {
-		ssize_t ret;
 		do {
-			ret = tls_read((struct tls *) TLSContext, buf, len);
+			ssize_t ret = tls_read((struct tls *) TLSContext, buf, len);
 			if (ret == TLS_WANT_POLLIN || ret == TLS_WANT_POLLOUT)
 				continue;
 
@@ -131,10 +130,8 @@ namespace Net {
 
 	bool
 	ConnectionInfo::TLSWrite(const char *buf, size_t len) {
-		ssize_t ret;
-
 		do {
-			ret = tls_write((struct tls *) TLSContext, buf, len);
+			ssize_t ret = tls_write((struct tls *) TLSContext, buf, len);
 
 			if (ret == TLS_WANT_POLLIN || ret == TLS_WANT_POLLOUT)
 				continue;

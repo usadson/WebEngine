@@ -253,7 +253,7 @@ namespace Net {
 		}
 
 		HTTPConnectionError
-		HTTPConnection::Request(HTTPResponseInfo *response, std::string method, std::string path) {
+		HTTPConnection::Request(HTTPResponseInfo *response, const std::string &method, const std::string &path) {
 			if (!ConnectionInfo.Connected ||
 				(ConnectionInfo.Secure && !ConnectionInfo.IsAuthenticated)) {
 				return HTTPConnectionError::NOT_CONNECTED;
@@ -347,7 +347,7 @@ namespace Net {
 		}
 
 		HTTPConnectionError
-		HTTPConnection::RequestNavigation(HTTPResponseInfo *response, std::string path) {
+		HTTPConnection::RequestNavigation(HTTPResponseInfo *response, const std::string &path) {
 			return Request(response, "GET", path);
 		}
 	}

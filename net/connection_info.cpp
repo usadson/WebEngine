@@ -152,22 +152,20 @@ namespace Net {
 
 	bool
 	ConnectionInfo::Write(const char *buf, size_t len) {
-		if (Secure) {
+		if (Secure)
 			return TLSWrite(buf, len);
-		} else {
-			ssize_t ret;
-			while (len > 0) {
-				ret = write(Socket, buf, len);
 
-				if (ret == -1)
-					return false;
+		do {
+			ssize_t ret = write(Socket, buf, len);
 
-				buf += ret;
-				len -= ret;
-			}
+			if (ret == -1)
+				return false;
 
-			return true;
-		}
+			buf += ret;
+			len -= ret;
+		} while (len > 0);
+
+		return true;
 	}
 
 	std::optional<char>
@@ -185,10 +183,9 @@ namespace Net {
 	ConnectionInfo::Read(char *buf, size_t len) {
 		if (Secure)
 			return TLSRead(buf, len);
-		
-		ssize_t ret;
+
 		while (len > 0) {
-			ret = read(Socket, buf, len);
+			ssize_t ret = read(Socket, buf, len);
 
 			if (ret == -1)
 				return false;

@@ -80,15 +80,17 @@ namespace Net {
 			HTTPConnectionError ConsumeStatusCode(HTTPResponseInfo *);
 		public: // Methods
 			// Constructors setup the connection using 'connectionInfo'.
+			explicit
 			HTTPConnection(Net::ConnectionInfo connectionInfo);
+
 			~HTTPConnection();
 
 			// Return value: "" on success, otherwise the error.
 			HTTPConnectionError
-			Request(HTTPResponseInfo *, std::string method, std::string path);
+			Request(HTTPResponseInfo *, const std::string &method, const std::string &path);
 
 			HTTPConnectionError
-			RequestNavigation(HTTPResponseInfo *, std::string path);
+			RequestNavigation(HTTPResponseInfo *, const std::string &path);
 		};
 	}
 }
