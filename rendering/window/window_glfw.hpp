@@ -32,19 +32,19 @@ namespace Rendering {
 		~WindowGLFW();
 
 		std::vector<RendererType>
-		GetSupportedRenderers();
+		GetSupportedRenderers() override;
 
 		std::pair<bool, std::optional<void *>>
-		PrepareForRenderer(RendererType);
+		PrepareForRenderer(RendererType) override;
 
 		bool
-		PollClose();
+		PollClose() override;
 
 		void
-		SetTitle(Unicode::UString string);
+		SetTitle(Unicode::UString string) override;
 
 		void
-		SwapBuffers();
+		SwapBuffers() override;
 	private:
 		bool
 		InternalPrepareGL();

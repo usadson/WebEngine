@@ -34,9 +34,9 @@ namespace Rendering {
 		void *renderContext;
 		RenderObjectType type;
 	public: // Methods
-		inline
-		RenderObject(RenderObjectType type)
-			: type(type) {		
+		inline explicit
+		RenderObject(RenderObjectType inType)
+			: bounds({ 0, 0, 0, 0 }), renderContext(nullptr), type(inType) {
 		}
 
 		virtual

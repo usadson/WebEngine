@@ -114,16 +114,19 @@ namespace Rendering {
 		return true;
 	}
 
-	bool WindowGLFW::PollClose() {
+	bool
+	WindowGLFW::PollClose() {
 		glfwPollEvents();
 		return glfwWindowShouldClose(internalWindow);
 	}
 
-	void WindowGLFW::SetTitle(Unicode::UString title) {
+	void
+	WindowGLFW::SetTitle(Unicode::UString title) {
 		(void) title; // BUG
 	}
 
-	void WindowGLFW::SwapBuffers() {
+	void
+	WindowGLFW::SwapBuffers() {
 		glfwSwapBuffers(internalWindow);
 	}
 
