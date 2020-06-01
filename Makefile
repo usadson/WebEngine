@@ -49,6 +49,8 @@ BINARIES = bin/ccompat.so \
 	   bin/net/http2/http2_connection.so \
 	   bin/parser/html/context.so \
 	   bin/parser/html/error.so \
+	   bin/parser/html/insertion_mode.so \
+	   bin/parser/html/state.so \
 	   bin/parser/html/token.so \
 	   bin/parser/html/tokenizer.so \
 	   bin/parser/html/tree/insert_before_head.so \
@@ -146,6 +148,14 @@ bin/parser/html/context.so: parser/html/context.cpp \
 bin/parser/html/error.so: parser/html/error.cpp \
 	parser/html/error.hpp
 	$(CXX) $(CFLAGS) -c -o $@ parser/html/error.cpp
+
+bin/parser/html/insertion_mode.so: parser/html/insertion_mode.cpp \
+	parser/html/insertion_mode.hpp
+	$(CXX) $(CFLAGS) -c -o $@ parser/html/insertion_mode.cpp
+
+bin/parser/html/state.so: parser/html/state.cpp \
+	parser/html/state.hpp
+	$(CXX) $(CFLAGS) -c -o $@ parser/html/state.cpp
 
 bin/parser/html/token.so: parser/html/token.cpp \
 	parser/html/token.hpp

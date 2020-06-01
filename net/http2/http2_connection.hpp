@@ -38,6 +38,8 @@ namespace Net {
 			SETTINGS_INVALID_SIZE,
 		};
 
+		extern std::map<HTTP2Error, std::string> HTTP2ErrorNames;
+
 		namespace H2 {
 			struct Exception {
 				HTTP2Error error;
@@ -61,13 +63,6 @@ namespace Net {
 				std::optional<uint32_t> maxHeaderListSize;
 			};
 		}
-
-		std::map<HTTP2Error, std::string> HTTP2ErrorNames = {
-			{ HTTP2Error::FAILED_READ, "FAILED_READ" },
-			{ HTTP2Error::FRAME_TOO_LARGE, "FRAME_TOO_LARGE" },
-			{ HTTP2Error::NO_ERROR, "NO_ERROR" },
-			{ HTTP2Error::NOT_CONNECTED, "NOT_CONNECTED" },
-		};
 
 		inline std::ostream &
 		operator<<(std::ostream &stream, const HTTP2Error &type) {

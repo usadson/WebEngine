@@ -31,6 +31,13 @@ namespace Net {
 	static const char HTTP2_PREFACE[] = "PRI * HTTP/2.0\r\n\r\nSM\r\n\r\n";
 
 	namespace HTTP {
+		std::map<HTTP2Error, std::string> HTTP2ErrorNames = {
+			{ HTTP2Error::FAILED_READ, "FAILED_READ" },
+			{ HTTP2Error::FRAME_TOO_LARGE, "FRAME_TOO_LARGE" },
+			{ HTTP2Error::NO_ERROR, "NO_ERROR" },
+			{ HTTP2Error::NOT_CONNECTED, "NOT_CONNECTED" },
+		};
+
 		HTTP2Connection::HTTP2Connection(Net::ConnectionInfo *connectionInfo)
 				: ConnectionInfo(connectionInfo) {
 			if (!connectionInfo->Write(HTTP2_PREFACE, sizeof(HTTP2_PREFACE)/sizeof(HTTP2_PREFACE[0])-1)) {
