@@ -54,6 +54,12 @@ namespace Rendering {
 			switch (object->type) {
 				case RenderObjectType::RECT:
 					rect = dynamic_cast<DrawRect *>(object);
+
+					if (rect == nullptr) {
+						Logger::Error(__PRETTY_FUNCTION__, "RenderObjectType not equal to type (i.e. DrawRect)");
+						continue;
+					}
+
 					glColor4f(rect->color.components.r / 255.0,
 							  rect->color.components.g / 255.0,
 							  rect->color.components.b / 255.0,
