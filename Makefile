@@ -226,3 +226,7 @@ infer:
 
 infer-clean:
 	infer run -- make clean all
+
+# A modern linter for C++, made by Facebook.
+flint:
+	flint++ -r -v .
