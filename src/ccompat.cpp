@@ -26,16 +26,17 @@
 
 namespace CCompat {
 
-	const char *GetErrnoName(int error) {
+	const char *
+	GetErrnoName(int error) {
 		if (error <= 0 || (uint32_t)error > errnoNames.size())
 			error = errno;
 		return errnoNames[error];
 	}
 
-	
-	/* When using valgrind with the --track-fds=yes option, it notices these
-	 * are still open. They will be closed by the OS after valgrind (I 
-	 * believe), and this function is to suppress that error message.
+	/**
+	 * When using valgrind with the --track-fds=yes option, it notices these
+	 * FILE's are still open. They will be closed by the OS after Valgrind and
+	 * this function is there to suppress that error message.
 	 */
 	void CloseStandardIO() {
 		fclose(stderr);
@@ -179,5 +180,6 @@ namespace CCompat {
 		"ERFKILL",
 		"EHWPOISON",
 		"ENOTSUP"
-	}; 
+	};
+
 }

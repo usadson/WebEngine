@@ -31,7 +31,8 @@ namespace Options {
 		{ Type::TLS_SECURITY_LEVEL, "secure" },
 	};
 
-	inline std::string &Get(Type type) {
+	inline std::string &
+	Get(Type type) {
 		return Values[type];
 	}
 }

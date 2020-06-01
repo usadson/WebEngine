@@ -60,31 +60,13 @@ const char TestDocument[] = "<!-- TestHTML Document -->\n\
 </html>\n\
 ";
 
-inline std::vector<char> VectorizeString(const char *text, size_t size) noexcept {
+inline std::vector<char>
+VectorizeString(const char *text, size_t size) noexcept {
 	return std::vector<char>(text, text + size);
 }
 
-void RunNetTest(const char *name) {
-	Net::ConnectionInfo connectInfo(name, 443, true);
-	Net::HTTP::HTTPConnection connection(connectInfo);
-	Net::HTTP::HTTPResponseInfo response;
-	Net::HTTP::HTTPConnectionError error = connection.RequestNavigation(&response, "/");
-	std::cout << "Error: " << error
-			  << "\nVersion: " << response.HTTPVersion
-			  << "\nStatusCode: " << response.StatusCode
-			  << "\nReasonPhrase: " << response.ReasonPhrase 
-			  << "\nHeaders: " << response.Headers.size()
-			  << std::endl;
-	for (const auto &headerField : response.Headers) {
-		std::cout << "\t\"" << headerField.FieldName << "\" = \"" << headerField.FieldValue << '\"' << std::endl;
-	}
-	std::cout << "MessageBodySize: " << response.MessageBody.size() << std::endl;
-	std::string start = "============ Message Body ============";
-	std::string end   = "======================================";
-	std::cout << start << std::string(response.MessageBody.data(), response.MessageBody.size()) << '\n' << end << std::endl;
-}
-
-inline bool DecodeText(Resources::DocumentResource &documentResource, std::vector<char> inputData) {
+inline bool
+DecodeText(Resources::DocumentResource &documentResource, std::vector<char> inputData) {
 	auto charset = documentResource.Mime.Parameters.find("charset");
 	if (charset == documentResource.Mime.Parameters.end()) {
 		Logger::Warning("TextDecoder", "TODO: Add charset/encoding sniffing.");
@@ -106,7 +88,8 @@ inline bool DecodeText(Resources::DocumentResource &documentResource, std::vecto
 	return false;
 }
 
-inline void RunDocumentTest(void) {
+inline void
+RunDocumentTest(void) {
 	Resources::DocumentResource document;
 	document.Mime = { "text/html", { { "charset", "utf-8" } } };
 
@@ -120,7 +103,8 @@ inline void RunDocumentTest(void) {
 	tokenizer.Run(document);
 }
 
-void RunEncodingTest() {
+void
+RunEncodingTest() {
 	size_t i;
 
 	std::vector<std::pair<std::string, std::vector<char>>> vector = {
@@ -158,7 +142,8 @@ void RunEncodingTest() {
 	}
 }
 
-std::shared_ptr<Rendering::Renderer> CreateRenderer(std::vector<Rendering::RendererType> supportedRenderers) {
+std::shared_ptr<Rendering::Renderer>
+CreateRenderer(std::vector<Rendering::RendererType> supportedRenderers) {
 	for (const auto &renderer : supportedRenderers) {
 		switch (renderer) {
 			case Rendering::RendererType::OPENGL:
@@ -171,7 +156,8 @@ std::shared_ptr<Rendering::Renderer> CreateRenderer(std::vector<Rendering::Rende
 	return nullptr;
 }
 
-void RunRenderingTest() {
+void
+RunRenderingTest() {
 	std::shared_ptr<Rendering::WindowBase> window;
 	std::shared_ptr<Rendering::Renderer> renderer;
 
@@ -215,7 +201,8 @@ void RunRenderingTest() {
 	renderer->Dequeue(rectangle.get());
 }
 
-void RunNetHTTP2Test(const char *name) {
+void
+RunNetHTTP2Test(const char *name) {
 	Net::ConnectionInfo connectInfo(name, 443, true);
 	connectInfo.TLSALPNProtocols = Net::ALPNProtocols::HTTP2;
 	if (!connectInfo.Connect()) {
@@ -235,30 +222,27 @@ void RunNetHTTP2Test(const char *name) {
 			<< "\nReasonPhrase: " << response.ReasonPhrase 
 			<< "\nHeaders: " << response.Headers.size()
 			<< std::endl;
+
 	for (const auto &headerField : response.Headers) {
 		std::cout << "\t\"" << headerField.FieldName << "\" = \"" << headerField.FieldValue << '\"' << std::endl;
 	}
+
 	std::cout << "MessageBodySize: " << response.MessageBody.size() << std::endl;
 	std::string start = "============ Message Body ============";
 	std::string end   = "======================================";
 	std::cout << start << std::string(response.MessageBody.data(), response.MessageBody.size()) << '\n' << end << std::endl;
 }
 
-int main(int argc, char *argv[]) {
+int
+main(void) {
 	NamedCharacters::Setup();
 
-// 	RunDoctypeTests();
 	RunDocumentTest();
-// 	RunNetTest(argv[1]);
-// 	RunEncodingTest();
-// 	RunRenderingTest();
 
-// 	if (argc == 1)
-// 		Logger::Warning("OPT", "Please specify a domain to connect to.");
-// 	else 
-// 		RunNetHTTP2Test(argv[1]);
-
-	// Just for valgrind:
+	/**
+	 * Close stdout, stdin & stderr so that Valgrinds --track-fds option wont
+	 * trigger a false positive.
+	 */
 	CCompat::CloseStandardIO();
 	return EXIT_SUCCESS;
 }

@@ -13,18 +13,24 @@
  * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
  * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
- * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. 
+ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ * CCompat is the Compatibility Layer for working with C, when it is needed.
  */
 
 #pragma once
-/* C Compatability */
 
 #include <vector>
 
 namespace CCompat {
 
+	/** External Global Variable **/
 	extern const std::vector<const char *> errnoNames;
 
-	const char *GetErrnoName(int error = 0);
-	void CloseStandardIO();
+	/** Function Prototypes **/
+	const char *
+	GetErrnoName(int error = 0);
+
+	void
+	CloseStandardIO();
 }

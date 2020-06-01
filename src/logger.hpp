@@ -21,10 +21,29 @@
 #include <string>
 
 namespace Logger {
-	void Error(std::string source, std::string message);
-	void Debug(std::string source, std::string message);
-	void Info(std::string source, std::string message);
-	void Severe(std::string source, std::string message);
-	void SuccessLog(std::string source, std::string message);
-	void Warning(std::string source, std::string message);
+	/**
+	 * These logging functions are used like this:
+	 * <logtype>(<source>, <message>)
+	 *
+	 * e.g.:
+	 * Error("NetworkStack::Start", "Couldn't connect to https://example.org");
+	 */
+
+	void 
+	Error(std::string, std::string);
+
+	void
+	Debug(std::string, std::string);
+
+	void
+	Info(std::string, std::string);
+
+	void
+	Severe(std::string, std::string);
+
+	void
+	SuccessLog(std::string, std::string);
+
+	void
+	Warning(std::string, std::string);
 }
