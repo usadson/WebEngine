@@ -85,7 +85,7 @@ namespace Net {
 		}
 
 		HTTP2Error
-		HTTP2Connection::RequestNavigation(HTTPResponseInfo *response, std::string path) {
+		HTTP2Connection::RequestNavigation(HTTPResponseInfo *response, const std::string &path) {
 			return Request(response, "GET", path);
 		}
 
@@ -145,9 +145,6 @@ namespace Net {
 		void
 		HTTP2Connection::HandleFrameSettings(H2::Frame frame) {
 			size_t i;
-			uint16_t identifier;
-			uint32_t value;
-			const char *buf;
 
 			if (frame.flags & H2::FrameFlags::ACK) {
 				if (frame.length != 0)
@@ -163,10 +160,10 @@ namespace Net {
 			}
 
 			for (i = 0; i < frame.length / 6; i++) {
-				buf = frame.payload.data() + i * 6;
+				const char *buf = frame.payload.data() + i * 6;
 
-				identifier = ((buf[0] & 0xFF) << 8) | (buf[1] & 0xFF);
-				value = ((buf[2] & 0xFF) << 24) | ((buf[3] & 0xFF) << 16) | ((buf[4] & 0xFF) << 8) | (buf[5] & 0xFF);
+				uint16_t identifier = ((buf[0] & 0xFF) << 8) | (buf[1] & 0xFF);
+				uint32_t value = ((buf[2] & 0xFF) << 24) | ((buf[3] & 0xFF) << 16) | ((buf[4] & 0xFF) << 8) | (buf[5] & 0xFF);
 
 				switch (identifier) {
 					case H2::Settings::HEADER_TABLE_SIZE:
@@ -206,20 +203,16 @@ namespace Net {
 
 		void
 		HTTP2Connection::HandleFrameGoaway(H2::Frame frame) {
-			size_t i;
-			uint32_t lastStream;
-			uint32_t errorCode;
-
-			lastStream = ((frame.payload[0] & 0xFF) << 24) | ((frame.payload[1] & 0xFF) << 16) | ((frame.payload[2] & 0xFF) << 8) | (frame.payload[3] & 0xFF);
-			errorCode = ((frame.payload[4] & 0xFF) << 24) | ((frame.payload[5] & 0xFF) << 16) | ((frame.payload[6] & 0xFF) << 8) | (frame.payload[7] & 0xFF);
+			uint32_t lastStream = ((frame.payload[0] & 0xFF) << 24) | ((frame.payload[1] & 0xFF) << 16) | ((frame.payload[2] & 0xFF) << 8) | (frame.payload[3] & 0xFF);
+			uint32_t errorCode = ((frame.payload[4] & 0xFF) << 24) | ((frame.payload[5] & 0xFF) << 16) | ((frame.payload[6] & 0xFF) << 8) | (frame.payload[7] & 0xFF);
 
 			std::stringstream info;
 			info << "GOAWAY Information: LastStream: " << lastStream << " ErrorCode: " << errorCode;
 			Logger::Warning(__PRETTY_FUNCTION__, info.str());
 
 			if (frame.length > 8)
-				for (i = 8; i < frame.length; i++)
-					printf(" > 0x%hhX (%c)\n", frame.payload[i], frame.payload[i]);
+				for (size_t i = 8; i < frame.length; i++)
+					printf(" > 0x%hhX (%c)\n", (unsigned char)frame.payload[i], frame.payload[i]);
 		}
 	}
 }

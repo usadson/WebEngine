@@ -43,7 +43,7 @@ namespace Net {
 				HTTP2Error error;
 				std::string message;
 
-				inline Exception(HTTP2Error error, std::string message)
+				inline Exception(HTTP2Error error, const std::string &message)
 					: error(error), message(message) {
 				}
 			};
@@ -81,6 +81,7 @@ namespace Net {
 			H2::RemoteSettings remoteSettings;
 		public: // Methods
 			// Constructors setup the connection using 'connectionInfo'.
+			explicit
 			HTTP2Connection(Net::ConnectionInfo *);
 
 			~HTTP2Connection();
@@ -90,7 +91,7 @@ namespace Net {
 			Request(HTTPResponseInfo *, std::string method, std::string path);
 
 			HTTP2Error
-			RequestNavigation(HTTPResponseInfo *, std::string path);
+			RequestNavigation(HTTPResponseInfo *, const std::string &path);
 		private: // Private Methods
 			void
 			HandleFrameGoaway(H2::Frame);
