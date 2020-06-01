@@ -18,6 +18,7 @@
 
 #include "http_response_info.hpp"
 
+#include <algorithm>
 #include <sstream>
 
 #include <cstring>
@@ -26,12 +27,16 @@ namespace Net {
 	namespace HTTP {
 		std::optional<const char *>
 		HTTPResponseInfo::GetHeader(const char *name) const {
-			for (const HTTPHeaderField &headerField : Headers) {
-				if (strcasecmp(headerField.FieldName.c_str(), name) == 0)
-					return std::optional<const char *>(headerField.FieldValue.c_str());
-			}
+			auto result = std::find_if(std::begin(Headers), std::end(Headers),
+				[name](const HTTPHeaderField &headerField) -> bool {
+					return strcasecmp(headerField.FieldName.c_str(), name) == 0;
+				}
+			);
 
-			return std::optional<const char *>();
+			if (result == std::end(Headers))
+				return std::optional<const char *>();
+			else
+				return std::optional<const char *>(result->FieldValue.c_str());
 		}
 
 		std::optional<size_t>
