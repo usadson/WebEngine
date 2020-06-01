@@ -50,7 +50,12 @@ namespace Net {
 			
 		}
 
-		HTTP2Error HTTP2Connection::Request(HTTPResponseInfo *response, std::string method, std::string path) {
+		HTTP2Error
+		HTTP2Connection::Request(HTTPResponseInfo *response, std::string method, std::string path) {
+			(void) response;
+			(void) method;
+			(void) path;
+
 			if (!ConnectionInfo->Connected ||
 				(ConnectionInfo->Secure && !ConnectionInfo->IsAuthenticated)) {
 				return HTTP2Error::NOT_CONNECTED;
@@ -79,11 +84,13 @@ namespace Net {
 			return HTTP2Error::NO_ERROR;
 		}
 
-		HTTP2Error HTTP2Connection::RequestNavigation(HTTPResponseInfo *response, std::string path) {
+		HTTP2Error
+		HTTP2Connection::RequestNavigation(HTTPResponseInfo *response, std::string path) {
 			return Request(response, "GET", path);
 		}
 
-		bool HTTP2Connection::SendFrame(H2::Frame frame) {
+		bool
+		HTTP2Connection::SendFrame(H2::Frame frame) {
 			/* Using a vector seems a bit overkill, since we can just use a
 			 * malloc'ed array or something, since a vector adds a lot of
 			 * abstraction we don't need; only the operator[] and memcpy 
@@ -106,7 +113,8 @@ namespace Net {
 			return ConnectionInfo->Write(buf.data(), buf.size());
 		}
 
-		H2::Frame HTTP2Connection::ReadFrame() {
+		H2::Frame
+		HTTP2Connection::ReadFrame() {
 			char buf[9];
 
 			if (!ConnectionInfo->Read(buf, 9))
@@ -134,7 +142,8 @@ namespace Net {
 			return frame;
 		}
 
-		void HTTP2Connection::HandleFrameSettings(H2::Frame frame) {
+		void
+		HTTP2Connection::HandleFrameSettings(H2::Frame frame) {
 			size_t i;
 			uint16_t identifier;
 			uint32_t value;
@@ -195,7 +204,8 @@ namespace Net {
 			SendFrame(ack);
 		}
 
-		void HTTP2Connection::HandleFrameGoaway(H2::Frame frame) {
+		void
+		HTTP2Connection::HandleFrameGoaway(H2::Frame frame) {
 			size_t i;
 			uint32_t lastStream;
 			uint32_t errorCode;

@@ -30,14 +30,16 @@
 
 namespace Net {
 
-	void ConnectionInfo::TLSDestroy() {
+	void
+	ConnectionInfo::TLSDestroy() {
 		Logger::Debug(__PRETTY_FUNCTION__, "Called");
 		tls_close((struct tls *) TLSContext);
 		tls_free((struct tls *) TLSContext);
 		TLSContext = nullptr;
 	}
 
-	bool ConnectionInfo::TLSRead(char *buf, size_t len) {
+	bool
+	ConnectionInfo::TLSRead(char *buf, size_t len) {
 		ssize_t ret;
 		do {
 			ret = tls_read((struct tls *) TLSContext, buf, len);
@@ -54,7 +56,8 @@ namespace Net {
 		return true;
 	}
 
-	std::optional<char> ConnectionInfo::TLSReadChar() {
+	std::optional<char>
+	ConnectionInfo::TLSReadChar() {
 		char character;
 
 		if (tls_read((struct tls *) TLSContext, &character, 1) == -1)
@@ -63,7 +66,8 @@ namespace Net {
 		return std::optional<char>(character);
 	}
 
-	bool ConnectionInfo::TLSSetup() {
+	bool
+	ConnectionInfo::TLSSetup() {
 		struct tls_config *config = tls_config_new();
 
 		if (!config) {
@@ -125,8 +129,10 @@ namespace Net {
 		return true;
 	}
 
-	bool ConnectionInfo::TLSWrite(const char *buf, size_t len) {
+	bool
+	ConnectionInfo::TLSWrite(const char *buf, size_t len) {
 		ssize_t ret;
+
 		do {
 			ret = tls_write((struct tls *) TLSContext, buf, len);
 
@@ -142,4 +148,5 @@ namespace Net {
 
 		return true;
 	}
+
 }

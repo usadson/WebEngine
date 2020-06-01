@@ -24,7 +24,8 @@
 
 namespace Net {
 	namespace HTTP {
-		std::optional<const char *> HTTPResponseInfo::GetHeader(const char *name) const {
+		std::optional<const char *>
+		HTTPResponseInfo::GetHeader(const char *name) const {
 			for (const HTTPHeaderField &headerField : Headers) {
 				if (strcasecmp(headerField.FieldName.c_str(), name) == 0)
 					return std::optional<const char *>(headerField.FieldValue.c_str());
@@ -33,7 +34,8 @@ namespace Net {
 			return std::optional<const char *>();
 		}
 
-		std::optional<size_t> HTTPResponseInfo::GetHeaderUnsigned(const char *name) const {
+		std::optional<size_t>
+		HTTPResponseInfo::GetHeaderUnsigned(const char *name) const {
 			size_t res;
 			std::optional<const char *> value;
 

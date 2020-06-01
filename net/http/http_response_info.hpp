@@ -37,8 +37,11 @@ namespace Net {
 			std::vector<HTTPHeaderField> Headers;
 			std::vector<char> MessageBody;
 		public: // Methods
-			std::optional<const char *> GetHeader(const char *name) const;
-			std::optional<size_t> GetHeaderUnsigned(const char *name) const;
+			std::optional<const char *>
+			GetHeader(const char *) const;
+
+			std::optional<size_t>
+			GetHeaderUnsigned(const char *) const;
 		};
 	}
 }

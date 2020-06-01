@@ -72,16 +72,34 @@ namespace Net {
 
 		~ConnectionInfo();
 
-		bool Connect();
-		bool Read(char *data, size_t length);
-		std::optional<char> ReadChar();
-		bool ResolveHostName();
-		bool Write(const char *data, size_t length);
+		bool
+		Connect();
+
+		bool
+		Read(char *, size_t);
+
+		std::optional<char>
+		ReadChar();
+
+		bool
+		ResolveHostName();
+
+		bool
+		Write(const char *, size_t);
 	private: // Private Methods for different TLS implementations:
-		void TLSDestroy();
-		bool TLSRead(char *data, size_t length);
-		std::optional<char> TLSReadChar();
-		bool TLSSetup();
-		bool TLSWrite(const char *data, size_t length);
+		void
+		TLSDestroy();
+
+		bool
+		TLSRead(char *, size_t);
+
+		std::optional<char>
+		TLSReadChar();
+
+		bool
+		TLSSetup();
+
+		bool
+		TLSWrite(const char *, size_t);
 	};
 }

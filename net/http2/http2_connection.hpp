@@ -69,7 +69,8 @@ namespace Net {
 			{ HTTP2Error::NOT_CONNECTED, "NOT_CONNECTED" },
 		};
 
-		inline std::ostream &operator<<(std::ostream &stream, const HTTP2Error &type) {
+		inline std::ostream &
+		operator<<(std::ostream &stream, const HTTP2Error &type) {
 			return stream << HTTP2ErrorNames[type];
 		}
 
@@ -80,18 +81,28 @@ namespace Net {
 			H2::RemoteSettings remoteSettings;
 		public: // Methods
 			// Constructors setup the connection using 'connectionInfo'.
-			HTTP2Connection(Net::ConnectionInfo *connectionInfo);
+			HTTP2Connection(Net::ConnectionInfo *);
+
 			~HTTP2Connection();
 
 			// Return value: "" on success, otherwise the error.
-			HTTP2Error Request(HTTPResponseInfo *response, std::string method, std::string path);
-			HTTP2Error RequestNavigation(HTTPResponseInfo *response, std::string path);
-		private: // Private Methods
-			void HandleFrameGoaway(H2::Frame);
-			void HandleFrameSettings(H2::Frame);
-			H2::Frame ReadFrame();
-			bool SendFrame(H2::Frame frame);
-		};
+			HTTP2Error
+			Request(HTTPResponseInfo *, std::string method, std::string path);
 
+			HTTP2Error
+			RequestNavigation(HTTPResponseInfo *, std::string path);
+		private: // Private Methods
+			void
+			HandleFrameGoaway(H2::Frame);
+
+			void
+			HandleFrameSettings(H2::Frame);
+
+			H2::Frame
+			ReadFrame();
+
+			bool
+			SendFrame(H2::Frame);
+		};
 	}
 }

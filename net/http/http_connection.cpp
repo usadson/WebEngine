@@ -41,10 +41,10 @@ namespace Net {
 		}
 
 		HTTPConnection::~HTTPConnection() {
-			
 		}
 		
-		HTTPConnectionError HTTPConnection::ConsumeHTTPVersion(HTTPResponseInfo *response) {
+		HTTPConnectionError
+		HTTPConnection::ConsumeHTTPVersion(HTTPResponseInfo *response) {
 			/* Read protocol version (= HTTP-version) */
 			std::vector<char> protocolData(9);
 			if (!ConnectionInfo.Read(protocolData.data(), 8))
@@ -65,7 +65,8 @@ namespace Net {
 			return HTTPConnectionError::NO_ERROR;
 		}
 
-		HTTPConnectionError HTTPConnection::ConsumeStatusCode(HTTPResponseInfo *response) {
+		HTTPConnectionError
+		HTTPConnection::ConsumeStatusCode(HTTPResponseInfo *response) {
 			/* Read status code */
 			std::vector<char> statusCode(4);
 			size_t i;
@@ -100,7 +101,8 @@ namespace Net {
 		/**
 		 * Note: a reason phrase may be empty.
 		 */
-		HTTPConnectionError HTTPConnection::ConsumeReasonPhrase(HTTPResponseInfo *response) {
+		HTTPConnectionError
+		HTTPConnection::ConsumeReasonPhrase(HTTPResponseInfo *response) {
 			std::vector<char> reasonPhrase;
 			std::optional<char> character;
 			while ((character = ConnectionInfo.ReadChar()).has_value()) {
@@ -130,7 +132,8 @@ namespace Net {
 			return HTTPConnectionError::FAILED_READ_REASON_PHRASE;
 		}
 
-		HTTPConnectionError HTTPConnection::ConsumeHeaderField(HTTPResponseInfo *response, char firstCharacter) {
+		HTTPConnectionError
+		HTTPConnection::ConsumeHeaderField(HTTPResponseInfo *response, char firstCharacter) {
 			std::vector<char> fieldName;
 			std::vector<char> fieldValue;
 			std::optional<char> character;
@@ -249,7 +252,8 @@ namespace Net {
 			return HTTPConnectionError::NO_ERROR;
 		}
 
-		HTTPConnectionError HTTPConnection::Request(HTTPResponseInfo *response, std::string method, std::string path) {
+		HTTPConnectionError
+		HTTPConnection::Request(HTTPResponseInfo *response, std::string method, std::string path) {
 			if (!ConnectionInfo.Connected ||
 				(ConnectionInfo.Secure && !ConnectionInfo.IsAuthenticated)) {
 				return HTTPConnectionError::NOT_CONNECTED;
@@ -342,7 +346,8 @@ namespace Net {
 			return HTTPConnectionError::NO_ERROR;
 		}
 
-		HTTPConnectionError HTTPConnection::RequestNavigation(HTTPResponseInfo *response, std::string path) {
+		HTTPConnectionError
+		HTTPConnection::RequestNavigation(HTTPResponseInfo *response, std::string path) {
 			return Request(response, "GET", path);
 		}
 	}

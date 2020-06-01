@@ -22,7 +22,7 @@
 
 namespace Net {
 	namespace HTTP {
-		class HTTPHeaderField {
+		struct HTTPHeaderField {
 		public: // Properties
 			std::string FieldName;
 			std::string FieldValue;

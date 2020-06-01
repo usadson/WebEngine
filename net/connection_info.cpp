@@ -35,6 +35,7 @@
 #include <unistd.h>
 
 namespace Net {
+
 	ConnectionInfo::~ConnectionInfo() {
 		if (IsAuthenticated)
 			TLSDestroy();
@@ -50,7 +51,8 @@ namespace Net {
 		}
 	}
 
-	std::string FormatTime(std::chrono::duration<int32_t, std::nano> nanoDuration) {
+	std::string
+	FormatTime(std::chrono::duration<int32_t, std::nano> nanoDuration) {
 		std::stringstream durationStream;
 		if (nanoDuration.count() > 1e6) {
 			auto milliDuration = std::chrono::duration_cast<std::chrono::milliseconds>(nanoDuration);
@@ -64,7 +66,8 @@ namespace Net {
 		return durationStream.str();
 	}
 
-	bool ConnectionInfo::ResolveHostName() {
+	bool
+	ConnectionInfo::ResolveHostName() {
 		int errorCode;
 		struct addrinfo *address;
 		struct addrinfo *result;
@@ -75,7 +78,6 @@ namespace Net {
 			std::stringstream information;
 			information << "Error on socket(): " << CCompat::GetErrnoName(errorCode) << " (" << errorCode << ")";
 			Logger::Warning("Net::ConnectionInfo::ResolveHostName", information.str());
-			freeaddrinfo(result);
 			return false;
 		}
 
@@ -116,7 +118,8 @@ namespace Net {
 		return false;
 	}
 
-	bool ConnectionInfo::Connect() {
+	bool
+	ConnectionInfo::Connect() {
 		if (Socket != 0) {
 			Logger::Warning("Net::ConnectionInfo::Connect", "Connect already called!");
 			return false;
@@ -147,7 +150,8 @@ namespace Net {
 		return true;
 	}
 
-	bool ConnectionInfo::Write(const char *buf, size_t len) {
+	bool
+	ConnectionInfo::Write(const char *buf, size_t len) {
 		if (Secure) {
 			return TLSWrite(buf, len);
 		} else {
@@ -166,7 +170,8 @@ namespace Net {
 		}
 	}
 
-	std::optional<char> ConnectionInfo::ReadChar() {
+	std::optional<char>
+	ConnectionInfo::ReadChar() {
 		if (Secure)
 			return TLSReadChar();
 
@@ -176,22 +181,23 @@ namespace Net {
 		return std::optional<char>(character);
 	}
 
-	bool ConnectionInfo::Read(char *buf, size_t len) {
-		if (Secure) {
+	bool
+	ConnectionInfo::Read(char *buf, size_t len) {
+		if (Secure)
 			return TLSRead(buf, len);
-		} else {
-			ssize_t ret;
-			while (len > 0) {
-				ret = read(Socket, buf, len);
+		
+		ssize_t ret;
+		while (len > 0) {
+			ret = read(Socket, buf, len);
 
-				if (ret == -1)
-					return false;
+			if (ret == -1)
+				return false;
 
-				buf += ret;
-				len -= ret;
-			}
-
-			return true;
+			buf += ret;
+			len -= ret;
 		}
+
+		return true;
 	}
+
 }
