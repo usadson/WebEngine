@@ -26,10 +26,12 @@
 #	shapes/position.hpp \
 #	$(CXX) $(CFLAGS) -c -o $@ shapes/circle.cpp
 
+ADDITIONAL_CFLAGS ?=
+
 GENERAL = -std=c++17 -g -Og
 INCLUDES = -I.
 WARNINGS = -Wall -Wextra -Wpedantic
-CFLAGS = $(GENERAL) $(INCLUDES) $(WARNINGS)
+CFLAGS += $(GENERAL) $(INCLUDES) $(WARNINGS) $(ADDITIONAL_CFLAGS)
 
 CXX = clang++
 LDFLAGS = `pkg-config --static --libs libtls glfw3 glew freetype2`
