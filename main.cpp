@@ -166,25 +166,25 @@ RunRenderingTest() {
 	renderer = CreateRenderer(window->GetSupportedRenderers());
 
 	if (renderer == nullptr) {
-		Logger::Severe("RunRenderingTest", "No supported renderer for window system " + window->WindowManagerName);
+		Logger::Severe("RunRenderingTest", "No supported renderer for window system " + window->windowManagerName);
 		return;
 		return;
 	}
 
-	auto result = window->PrepareForRenderer(renderer->Type);
+	auto result = window->PrepareForRenderer(renderer->type);
 	if (!result.first) {
-		Logger::Severe("RunRenderingTest", "The creation of renderer context for renderer for window system " + window->WindowManagerName + " failed.");
+		Logger::Severe("RunRenderingTest", "The creation of renderer context for renderer for window system " + window->windowManagerName + " failed.");
 		return;
 	}
 
 	std::shared_ptr<Rendering::DrawRect> rectangle = std::make_shared<Rendering::DrawRect>();
-	rectangle->Bounds = { 0, 200, 0, 200 };
-	rectangle->Color.Value = 0x83ff08ff;
+	rectangle->bounds = { 0, 200, 0, 200 };
+	rectangle->color.value = 0x83ff08ff;
 
 	std::shared_ptr<Rendering::DrawText> text = std::make_shared<Rendering::DrawText>();
-	text->Bounds = { 300, 600, 300, 600 };
-	text->Color.Value = 0x8308ffff;
-	text->Text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed\
+	text->bounds = { 300, 600, 300, 600 };
+	text->color.value = 0x8308ffff;
+	text->text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed\
  do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
 
 	renderer->SetWindow(window);

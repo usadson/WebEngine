@@ -36,23 +36,31 @@ namespace Rendering {
 
 	class Renderer {
 	public: // Properties
-		const RendererType Type;
-		std::shared_ptr<Rendering::WindowBase> InternalWindow;
+		const RendererType type;
+		std::shared_ptr<Rendering::WindowBase> internalWindow;
 	public: // Methods
 		inline Renderer(RendererType type)
-			: Type(type) {
+			: type(type) {
 		}
 
-		virtual void Dequeue(RenderObject *object) = 0;
+		virtual void
+		Dequeue(RenderObject *) = 0;
+
 		/* The name may be misleading, but this function will be called every
 		 * 'loop' and this function should calculate which or if it should (re)
 		 * draw some parts of the queue. */
-		virtual void DrawFrame() = 0;
-		virtual void Enqueue(RenderObject *object) = 0;
-		virtual void Prepare() = 0;
+		virtual void
+		DrawFrame() = 0;
 
-		virtual inline void SetWindow(std::shared_ptr<Rendering::WindowBase> window) {
-			InternalWindow = window;
+		virtual void
+		Enqueue(RenderObject *) = 0;
+
+		virtual void
+		Prepare() = 0;
+
+		virtual inline void
+		SetWindow(std::shared_ptr<Rendering::WindowBase> window) {
+			internalWindow = window;
 		}
 	};
 

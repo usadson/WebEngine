@@ -25,9 +25,12 @@ namespace Rendering {
 	class DrawText : public RenderObject {
 	public:
 		/* RGBA */
-		DrawColor Color;
-		const char *Text;
+		DrawColor color;
+		const char *text;
 	public:
-		inline DrawText() : RenderObject(RenderObjectType::TEXT) {}
+		inline
+		DrawText()
+			: RenderObject(RenderObjectType::TEXT) {
+		}
 	};
 }

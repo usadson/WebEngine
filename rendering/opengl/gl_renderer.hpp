@@ -27,13 +27,20 @@
 namespace Rendering {
 	class GLRenderer : public Renderer {
 	public: // Properties
-		std::vector<RenderObject *> RenderObjects;
+		std::vector<RenderObject *> renderObjects;
 	public: // Methods
 		GLRenderer();
 
-		void Dequeue(RenderObject *object);
-		void DrawFrame();
-		void Enqueue(RenderObject *object);
-		void Prepare();
+		void
+		Dequeue(RenderObject *);
+
+		void
+		DrawFrame();
+
+		void
+		Enqueue(RenderObject *);
+
+		void
+		Prepare();
 	};
 }

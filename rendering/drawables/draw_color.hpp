@@ -23,21 +23,21 @@ namespace Rendering {
 	struct RGBAColor {
 		// FIXME This macro isn't standard and this hack is pretty shitty
 #if __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
-		uint8_t R;
-		uint8_t G;
-		uint8_t B;
-		uint8_t A;
+		uint8_t r;
+		uint8_t g;
+		uint8_t b;
+		uint8_t a;
 #else
-		uint8_t A;
-		uint8_t B;
-		uint8_t G;
-		uint8_t R;
+		uint8_t a;
+		uint8_t b;
+		uint8_t g;
+		uint8_t r;
 #endif
 	};
 
 	union DrawColor {
-		RGBAColor Components;
-		uint32_t Value;
+		RGBAColor components;
+		uint32_t value;
 	};
 
 }

@@ -33,21 +33,31 @@ namespace Rendering {
 
 	class WindowBase {
 	public:
-		uint32_t Height;
-		uint32_t Width;
-		std::string WindowManagerName;
+		uint32_t height;
+		uint32_t width;
+		std::string windowManagerName;
 	public:
 		inline WindowBase(std::string windowManagerName)
-			: Height(0), Width(0), WindowManagerName(windowManagerName) {
+			: height(0), width(0), windowManagerName(windowManagerName) {
 		}
 
-		virtual ~WindowBase() = default;
+		virtual ~
+		WindowBase() = default;
 
-		virtual std::vector<RendererType> GetSupportedRenderers() = 0;
-		virtual bool PollClose() = 0;
-		virtual std::pair<bool, std::optional<void *>> PrepareForRenderer(RendererType) = 0;
-		virtual void SetTitle(Unicode::UString string) = 0;
-		virtual void SwapBuffers() = 0;
+		virtual std::vector<RendererType>
+		GetSupportedRenderers() = 0;
+
+		virtual bool
+		PollClose() = 0;
+
+		virtual std::pair<bool, std::optional<void *>>
+		PrepareForRenderer(RendererType) = 0;
+
+		virtual void
+		SetTitle(Unicode::UString string) = 0;
+
+		virtual void
+		SwapBuffers() = 0;
 	};
 
 }

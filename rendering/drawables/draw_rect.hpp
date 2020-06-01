@@ -25,8 +25,11 @@ namespace Rendering {
 	class DrawRect : public RenderObject {
 	public:
 		/* RGBA */
-		DrawColor Color;
+		DrawColor color;
 	public:
-		inline DrawRect() : RenderObject(RenderObjectType::RECT) {}
+		inline
+		DrawRect()
+			: RenderObject(RenderObjectType::RECT) {
+		}
 	};
 }

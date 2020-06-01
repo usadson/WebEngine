@@ -29,13 +29,18 @@ namespace Rendering {
 
 	class RenderObject {
 	public: // Properties
-		RenderBounds Bounds;
+		RenderBounds bounds;
 	public: // Internal Properties
-		void *RenderContext;
-		RenderObjectType Type;
+		void *renderContext;
+		RenderObjectType type;
 	public: // Methods
-		inline RenderObject(RenderObjectType type) : Type(type) {}
-		virtual ~RenderObject() = default;
+		inline
+		RenderObject(RenderObjectType type)
+			: type(type) {		
+		}
+
+		virtual
+		~RenderObject() = default;
 	};
 
 }

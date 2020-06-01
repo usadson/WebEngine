@@ -32,24 +32,26 @@ namespace Rendering {
 	 * isn't really need for graceful error handling (I think). Therefore I can
 	 * call std::runtime_error() */
 	WindowGLFW::WindowGLFW()
-		: WindowBase("GLFW"), InternalWindow(nullptr) {
+		: WindowBase("GLFW"), internalWindow(nullptr) {
 		if (!glfwInit()) {
 			throw std::runtime_error("GLFW initialization failed.");
 		}
 	}
 
 	WindowGLFW::~WindowGLFW() {
-		if (InternalWindow != nullptr)
-			glfwDestroyWindow(InternalWindow);
+		if (internalWindow != nullptr)
+			glfwDestroyWindow(internalWindow);
 
 		glfwTerminate();
 	}
 
-	std::vector<RendererType> WindowGLFW::GetSupportedRenderers() {
+	std::vector<RendererType>
+	WindowGLFW::GetSupportedRenderers() {
 		return { RendererType::OPENGL };
 	}
 
-	std::pair<bool, std::optional<void *>> WindowGLFW::PrepareForRenderer(RendererType type) {
+	std::pair<bool, std::optional<void *>>
+	WindowGLFW::PrepareForRenderer(RendererType type) {
 		switch (type) {
 			case RendererType::OPENGL:
 				return { InternalPrepareGL(), {} };
@@ -59,12 +61,14 @@ namespace Rendering {
 		}
 	}
 
-	void GLFWErrorHandler(int error, const char *message) {
+	void
+	GLFWErrorHandler(int error, const char *message) {
+		(void) error;
 		Logger::Error("GLFW", message);
 	}
 
-
-	bool WindowGLFW::InternalPrepareGL() {
+	bool
+	WindowGLFW::InternalPrepareGL() {
 		glfwSetErrorCallback(GLFWErrorHandler);
 
 		GLFWmonitor *monitor;
@@ -73,7 +77,7 @@ namespace Rendering {
 
 		sizeFactor = 0.8;
 
-		if (InternalWindow != nullptr) {
+		if (internalWindow != nullptr) {
 			Logger::Severe("GLFW", "InternalPrepareGL() called twice! Quitting...");
 			throw std::runtime_error("InternalPrepareGL called twice!");
 		}
@@ -92,35 +96,35 @@ namespace Rendering {
 
 		std::cout << "Width: " << videoMode->width << " Height: " << videoMode->height << std::endl;
 
-		Width = videoMode->width * sizeFactor;
-		Height = videoMode->height * sizeFactor;
+		width = videoMode->width * sizeFactor;
+		height = videoMode->height * sizeFactor;
 
-		std::cout << "Width: " << Width << " Height: " << Height << std::endl;
+		std::cout << "Width: " << this->width << " Height: " << this->height << std::endl;
 
-		InternalWindow = glfwCreateWindow(Width, Height, "WebEngine", nullptr, nullptr);
-		if (InternalWindow == nullptr) {
+		internalWindow = glfwCreateWindow(width, height, "WebEngine", nullptr, nullptr);
+		if (internalWindow == nullptr) {
 			Logger::Error("GLFW", "Failed to create window!");
 			return false;
 		}
 
 		/* Center the window */
-		glfwSetWindowPos(InternalWindow, (videoMode->width - Width) / 2, (videoMode->height - Height) / 2);
+		glfwSetWindowPos(internalWindow, (videoMode->width - this->width) / 2, (videoMode->height - this->height) / 2);
 
-		glfwMakeContextCurrent(InternalWindow);
+		glfwMakeContextCurrent(internalWindow);
 		return true;
 	}
 
 	bool WindowGLFW::PollClose() {
 		glfwPollEvents();
-		return glfwWindowShouldClose(InternalWindow);
+		return glfwWindowShouldClose(internalWindow);
 	}
 
 	void WindowGLFW::SetTitle(Unicode::UString title) {
-		
+		(void) title; // BUG
 	}
 
 	void WindowGLFW::SwapBuffers() {
-		glfwSwapBuffers(InternalWindow);
+		glfwSwapBuffers(internalWindow);
 	}
 
 }
