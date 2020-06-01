@@ -94,6 +94,8 @@ quirkyPublicIdentifiers = {
 
 bool
 IsQuirkyDoctype(HTML::Tokenizer::DoctypeToken *token, bool isIFrameSrcDoc) {
+	(void) isIFrameSrcDoc;
+
 	if (token->ForceQuirks)
 		return true;
 
