@@ -30,10 +30,10 @@ namespace TextEncoding {
 	 */
 	class AbstractSBEncoding : public Encoding {
 	private: // Private Properties
-		std::vector<Unicode::CodePoint> Indices;
+		const std::vector<Unicode::CodePoint> &Indices;
 	public:
-		inline
-		AbstractSBEncoding(std::vector<Unicode::CodePoint> indices)
+		inline explicit
+		AbstractSBEncoding(const std::vector<Unicode::CodePoint> &indices)
 			: Indices(indices) {}
 
 		inline virtual
