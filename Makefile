@@ -205,3 +205,14 @@ memory:
 		 --show-leak-kinds=all \
 		 --track-fds=yes \
 		 ./engine
+
+# the 'cppcheck' target will invoke the cppcheck program. This program 
+# statically analyzes the code.
+cppcheck:
+	cppcheck -I. -q --std=c++17 --enable=all .
+
+infer:
+	infer run -- make
+
+infer-clean:
+	infer run -- make clean all
