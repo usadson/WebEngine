@@ -82,7 +82,7 @@ namespace Net {
 		}
 
 		auto startResolve = std::chrono::high_resolution_clock::now();
-		errorCode = getaddrinfo(HostName.c_str(), NULL, NULL, &result);
+		errorCode = getaddrinfo(HostName.c_str(), nullptr, nullptr, &result);
 		TimingDNS = FormatTime(std::chrono::high_resolution_clock::now() - startResolve);
 
 		if (errorCode != 0) {
@@ -94,7 +94,7 @@ namespace Net {
 		}
 
 		auto startPing = std::chrono::high_resolution_clock::now();
-		for (address = result; address != NULL; address = address->ai_next) {
+		for (address = result; address != nullptr; address = address->ai_next) {
 			struct sockaddr_in connectAddress;
 			connectAddress.sin_addr.s_addr = ((struct sockaddr_in *) address->ai_addr)->sin_addr.s_addr;
 			connectAddress.sin_family = AF_INET;

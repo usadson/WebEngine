@@ -97,7 +97,7 @@ namespace Net {
 		}
 
 		tls_config_free(config);
-		config = NULL;
+		config = nullptr;
 
 		if (tls_connect_socket(context, Socket, HostName.c_str()) == -1) {
 			const char *error = tls_error(context);
