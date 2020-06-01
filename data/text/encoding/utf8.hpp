@@ -30,6 +30,11 @@ namespace TextEncoding {
 		uint_fast8_t LowerBoundary;
 		uint_fast8_t UpperBoundary;
 	public: // Methods
+		inline
+		UTF8() noexcept : CodePoint(0), BytesSeen(0), BytesNeeded(0),
+				LowerBoundary(0x80), UpperBoundary(0xBF) {
+		}
+
 		bool
 		Decode(const char *data, size_t size) override;
 
