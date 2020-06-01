@@ -193,3 +193,15 @@ bin/rendering/window/window_glfw.so: rendering/window/window_glfw.cpp \
 	rendering/window/window.hpp \
 	data/text/ustring.hpp
 	$(CXX) $(CFLAGS) -c -o $@ rendering/window/window_glfw.cpp
+
+# the 'memory' target will invoke Valgrind, which will run the executable and
+# can track memory usage. Memory leaks, double free()'s, use-after-free,
+# uninitialised values, etc. can be found by using this tool.
+memory:
+	valgrind --num-callers=100 \
+		 --leak-resolution=high \
+		 --leak-check=full \
+		 --track-origins=yes \
+		 --show-leak-kinds=all \
+		 --track-fds=yes \
+		 ./engine
