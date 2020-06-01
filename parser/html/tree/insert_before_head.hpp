@@ -24,7 +24,8 @@ namespace HTML {
 	namespace InsertionModes {
 		class BeforeHead : public HTML::InsertionMode {
 		public: // Methods
-			inline BeforeHead(TreeConstructor &constructor)
+			inline explicit
+			BeforeHead(TreeConstructor &constructor)
 				: HTML::InsertionMode(constructor, constructor.Context) {}
 
 			inline

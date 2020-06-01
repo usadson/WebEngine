@@ -24,7 +24,8 @@ namespace HTML {
 	namespace InsertionModes {
 		class Initial : public HTML::InsertionMode {
 		public: // Methods
-			inline Initial(TreeConstructor &constructor)
+			inline explicit
+			Initial(TreeConstructor &constructor)
 				: HTML::InsertionMode(constructor, constructor.Context) {}
 
 			inline

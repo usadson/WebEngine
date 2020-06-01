@@ -46,13 +46,14 @@ namespace HTML {
 			// The state at the start of each the tokenizer loop. This is a
 			// lot of times the same as 'State'.
 			ParserState BeginLoopState = ParserState::DATA;
-			size_t LineCount;
-			size_t LinePosition;
-			char CurrentCharacter;
+			size_t LineCount = 0;
+			size_t LinePosition = 0;
+			char CurrentCharacter = '\0';
 			std::vector<Unicode::CodePoint> TemporaryBuffer;
 			Unicode::UString NCRefBuffer;
 		public: // Methods
-			inline Context(HTML::ParserContext &context)
+			inline explicit
+			Context(HTML::ParserContext &context)
 				: ParserContext(context) {
 			}
 

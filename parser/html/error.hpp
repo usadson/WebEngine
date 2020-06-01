@@ -79,7 +79,7 @@ namespace HTML {
 			const std::string Description;
 		private:
 			inline
-			ParserError(std::string name, std::string description)
+			ParserError(const std::string &name, const std::string &description)
 				: Name(name), Description(description) {
 			}
 		};

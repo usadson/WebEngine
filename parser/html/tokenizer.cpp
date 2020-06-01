@@ -46,15 +46,14 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 	std::cout << "InputDataSize: " << documentSize << std::endl;
 
 	// Don't use 'character' if eof is true.
-	Unicode::CodePoint character;
 	bool eof = false;
 
 	HTML::Tokenizer::CommentToken commentToken = HTML::Tokenizer::CommentToken::INVALID_TYPE;
 	HTML::Tokenizer::DoctypeToken doctypeToken;
 
 	bool isEndTag = false;
-	HTML::Tokenizer::EndTagToken endTagToken = HTML::Tokenizer::EndTagToken::INVALID_TYPE;
-	HTML::Tokenizer::StartTagToken startTagToken = HTML::Tokenizer::StartTagToken::INVALID_TYPE;
+	HTML::Tokenizer::EndTagToken endTagToken = HTML::Tokenizer::EndTagToken::INVALID_TYPE_END_TAG;
+	HTML::Tokenizer::StartTagToken startTagToken = HTML::Tokenizer::StartTagToken::INVALID_TYPE_START_TAG;
 
 	size_t unknownStateCount = 0;
 	size_t i;
@@ -62,7 +61,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 	size_t toConsumeNext = 0;
 
 	for (i = 0; i <= documentSize; i++) {
-		character = '\0';
+		Unicode::CodePoint character = '\0';
 
 // 		std::cout << "index=" << i << " state=" << Context.State << std::endl;
 		if (reconsume) {
@@ -287,12 +286,15 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 				}
 				// TODO Check duplicate-attribute parser error
 			} break;
-			case HTML::Tokenizer::ParserState::AFTER_ATTRIBUTE_NAME: {
-				HTML::Tokenizer::AmbiguousTagToken &tagToken = (isEndTag ? (HTML::Tokenizer::AmbiguousTagToken &) endTagToken : (HTML::Tokenizer::AmbiguousTagToken &) startTagToken);
+			case HTML::Tokenizer::ParserState::AFTER_ATTRIBUTE_NAME:
 				if (eof) {
 					Context.LogError(HTML::Tokenizer::ParserError::EOF_IN_TAG);
 					TreeConstructor.EmitEOFToken();
 				} else {
+					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ? 
+							(HTML::Tokenizer::AmbiguousTagToken &) endTagToken :
+							(HTML::Tokenizer::AmbiguousTagToken &) startTagToken;
+
 					switch (character) {
 						case '\t':
 						case '\n':
@@ -323,13 +325,16 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							break;
 					}
 				}
-			} break;
-			case HTML::Tokenizer::ParserState::BEFORE_ATTRIBUTE_VALUE: {
-				HTML::Tokenizer::AmbiguousTagToken &tagToken = (isEndTag ? (HTML::Tokenizer::AmbiguousTagToken &) endTagToken : (HTML::Tokenizer::AmbiguousTagToken &) startTagToken);
+				break;
+			case HTML::Tokenizer::ParserState::BEFORE_ATTRIBUTE_VALUE:
 				if (eof) {
 					reconsume = true;
 					Context.State = HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_NQ;
 				} else {
+					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ? 
+							(HTML::Tokenizer::AmbiguousTagToken &) endTagToken :
+							(HTML::Tokenizer::AmbiguousTagToken &) startTagToken;
+
 					switch (character) {
 						case '\t':
 						case '\n':
@@ -359,13 +364,16 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							break;
 					}
 				}
-			} break;
-			case HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_DQ: {
-				HTML::Tokenizer::AmbiguousTagToken &tagToken = (isEndTag ? (HTML::Tokenizer::AmbiguousTagToken &) endTagToken : (HTML::Tokenizer::AmbiguousTagToken &) startTagToken);
+				break;
+			case HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_DQ:
 				if (eof) {
 					Context.LogError(HTML::Tokenizer::ParserError::EOF_IN_TAG);
 					TreeConstructor.EmitEOFToken();
 				} else {
+					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ? 
+							(HTML::Tokenizer::AmbiguousTagToken &) endTagToken :
+							(HTML::Tokenizer::AmbiguousTagToken &) startTagToken;
+
 					switch (character) {
 						case '"':
 							Context.State = HTML::Tokenizer::ParserState::AFTER_ATTRIBUTE_VALUE_QUOTED;
@@ -383,13 +391,16 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							break;
 					}
 				}
-			} break;
-			case HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_SQ: {
-				HTML::Tokenizer::AmbiguousTagToken &tagToken = (isEndTag ? (HTML::Tokenizer::AmbiguousTagToken &) endTagToken : (HTML::Tokenizer::AmbiguousTagToken &) startTagToken);
+				break;
+			case HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_SQ:
 				if (eof) {
 					Context.LogError(HTML::Tokenizer::ParserError::EOF_IN_TAG);
 					TreeConstructor.EmitEOFToken();
 				} else {
+					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ? 
+							(HTML::Tokenizer::AmbiguousTagToken &) endTagToken :
+							(HTML::Tokenizer::AmbiguousTagToken &) startTagToken;
+
 					switch (character) {
 						case '\'':
 							Context.State = HTML::Tokenizer::ParserState::AFTER_ATTRIBUTE_VALUE_QUOTED;
@@ -407,13 +418,16 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							break;
 					}
 				}
-			} break;
-			case HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_NQ: {
-				HTML::Tokenizer::AmbiguousTagToken &tagToken = (isEndTag ? (HTML::Tokenizer::AmbiguousTagToken &) endTagToken : (HTML::Tokenizer::AmbiguousTagToken &) startTagToken);
+				break;
+			case HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_NQ:
 				if (eof) {
 					Context.LogError(HTML::Tokenizer::ParserError::EOF_IN_TAG);
 					TreeConstructor.EmitEOFToken();
 				} else {
+					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ? 
+							(HTML::Tokenizer::AmbiguousTagToken &) endTagToken :
+							(HTML::Tokenizer::AmbiguousTagToken &) startTagToken;
+
 					switch (character) {
 						case '\t':
 						case '\n':
@@ -450,13 +464,16 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							break;
 					}
 				}
-			} break;
-			case HTML::Tokenizer::ParserState::AFTER_ATTRIBUTE_VALUE_QUOTED: {
-				HTML::Tokenizer::AmbiguousTagToken &tagToken = (isEndTag ? (HTML::Tokenizer::AmbiguousTagToken &) endTagToken : (HTML::Tokenizer::AmbiguousTagToken &) startTagToken);
+				break;
+			case HTML::Tokenizer::ParserState::AFTER_ATTRIBUTE_VALUE_QUOTED:
 				if (eof) {
 					Context.LogError(HTML::Tokenizer::ParserError::EOF_IN_TAG);
 					TreeConstructor.EmitEOFToken();
 				} else {
+					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ? 
+							(HTML::Tokenizer::AmbiguousTagToken &) endTagToken :
+							(HTML::Tokenizer::AmbiguousTagToken &) startTagToken;
+
 					switch (character) {
 						case '\t':
 						case '\n':
@@ -482,24 +499,26 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							break;
 					}
 				}
-			} break;
-			case HTML::Tokenizer::ParserState::SELF_CLOSING_START: {
-				HTML::Tokenizer::AmbiguousTagToken &tagToken = (isEndTag ? (HTML::Tokenizer::AmbiguousTagToken &) endTagToken : (HTML::Tokenizer::AmbiguousTagToken &) startTagToken);
+				break;
+			case HTML::Tokenizer::ParserState::SELF_CLOSING_START:
 				if (eof) {
 					Context.LogError(HTML::Tokenizer::ParserError::EOF_IN_TAG);
 					TreeConstructor.EmitEOFToken();
-				} else {
-					if (character == '>') {
-						tagToken.SelfClosing = true;
-						Context.State = HTML::Tokenizer::ParserState::DATA;
-						TreeConstructor.EmitToken(tagToken);
-						if (isEndTag)
-							startTagToken = HTML::Tokenizer::StartTagToken(); // Reset
-						else 
-							endTagToken = HTML::Tokenizer::EndTagToken(); // Reset
-					}
+				} else if (character == '>') {
+					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ? 
+							(HTML::Tokenizer::AmbiguousTagToken &) endTagToken :
+							(HTML::Tokenizer::AmbiguousTagToken &) startTagToken;
+
+					tagToken.SelfClosing = true;
+					Context.State = HTML::Tokenizer::ParserState::DATA;
+					TreeConstructor.EmitToken(tagToken);
+
+					if (isEndTag)
+						startTagToken = HTML::Tokenizer::StartTagToken(); // Reset
+					else 
+						endTagToken = HTML::Tokenizer::EndTagToken(); // Reset
 				}
-			} break;
+				break;
 			// -- missing BOGUS_COMMENT
 			// -- jump to MARKUP_DECLARATION_OPEN
 			case HTML::Tokenizer::ParserState::MARKUP_DECLARATION_OPEN:
@@ -523,10 +542,8 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 						if (character == '['
 							&& document.data.EqualsAL(i + 1, "CDATA", 5) // Case-sensitive!
 							&& document.data[i + 6] == ']') {
-							toConsumeNext = 6;
 							// TODO ?
 							throw std::runtime_error("TODO in MARKUP_DECLARATION_OPEN / CDATA");
-							continue;
 						}
 					}
 				}

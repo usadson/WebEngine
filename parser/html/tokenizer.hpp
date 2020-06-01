@@ -34,7 +34,8 @@ namespace HTML {
 			HTML::Tokenizer::Context Context;
 			HTML::TreeConstructor TreeConstructor;
 		public: // Methods
-			inline Tokenizer(HTML::ParserContext &parserContext)
+			inline explicit
+			Tokenizer(HTML::ParserContext &parserContext)
 				: Context(parserContext), TreeConstructor(Context) {
 			}
 

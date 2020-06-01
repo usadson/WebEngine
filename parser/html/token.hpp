@@ -56,7 +56,7 @@ namespace HTML {
 		struct Token {
 			TokenType Type;
 
-			inline
+			inline explicit
 			Token(TokenType type) : Type(type) {
 			}
 
@@ -87,7 +87,7 @@ namespace HTML {
 			Unicode::UString AttributeName;
 			Unicode::UString AttributeValue;
 			
-			inline
+			inline explicit
 			AmbiguousTagToken(TokenType type) : Token(type) {
 			}
 
@@ -102,7 +102,7 @@ namespace HTML {
 			StartTagToken() : AmbiguousTagToken(TokenType::STARTTAG) {
 			}
 
-			static const StartTagToken INVALID_TYPE;
+			static const StartTagToken INVALID_TYPE_START_TAG;
 		};
 
 		struct EndTagToken : public AmbiguousTagToken {
@@ -110,14 +110,14 @@ namespace HTML {
 			EndTagToken() : AmbiguousTagToken(TokenType::ENDTAG) {
 			}
 
-			static const EndTagToken INVALID_TYPE;
+			static const EndTagToken INVALID_TYPE_END_TAG;
 		};
 
 		struct CommentToken : public Token {
 			Unicode::UString Contents;
 
-			inline
-			CommentToken(Unicode::UString contents)
+			inline explicit
+			CommentToken(const Unicode::UString &contents)
 				: Token(TokenType::COMMENT), Contents(contents) {
 			}
 
@@ -127,7 +127,7 @@ namespace HTML {
 		struct CharacterToken : public Token {
 			Unicode::CodePoint Character;
 
-			inline
+			inline explicit
 			CharacterToken(Unicode::CodePoint character)
 				: Token(TokenType::CHARACTER), Character(character) {
 			}
