@@ -30,77 +30,78 @@ namespace Unicode {
 	public: // Private Properties (don't change)
 		std::vector<Unicode::CodePoint> Data;
 	public: // Constructor Methods
-		UString();
+		UString() noexcept;
 
 		explicit
-		UString(const std::vector<Unicode::CodePoint> &);
+		UString(const std::vector<Unicode::CodePoint> &) noexcept;
 
 		// cppcheck-suppress[noExplicitConstructor]
-		UString(Unicode::CodePoint character);
+		UString(Unicode::CodePoint character) noexcept;
 
 		/* Only for ASCII characters: */
 		explicit
-		UString(const char *, size_t);
+		UString(const char *, size_t) noexcept;
 
 		// cppcheck-suppress noExplicitConstructor
 		inline
-		UString(const char *ascii) : UString(ascii, strlen(ascii)) {}
+		UString(const char *ascii) noexcept
+			: UString(ascii, strlen(ascii)) {}
 	public: // Methods
 		inline const Unicode::CodePoint &
-		operator[](size_t index) const {
+		operator[](size_t index) const noexcept {
 			return Data[index];
 		}
 
 		inline size_t
-		length() const {
+		length() const noexcept {
 			return Data.size();
 		}
 
 		UString &
-		operator+=(const Unicode::CodePoint);
+		operator+=(const Unicode::CodePoint) noexcept;
 
 		UString
-		operator+(const UString &) const;
+		operator+(const UString &) const noexcept;
 
 		/** Only for strictly-ASCII related strings. **/
 		/* Append a strictly-ASCII string */
 		UString &
-		operator+=(const UString &);
+		operator+=(const UString &) noexcept;
 
 		/* Append a strictly-ASCII string */
 		UString &
-		operator+=(const char *);
+		operator+=(const char *) noexcept;
 
 		/* Is the character at position <size_t> an ASCII character? */
 		bool
-		IsASCIIAlpha(size_t);
+		IsASCIIAlpha(size_t) const noexcept;
 
 		/* Equals Ignore-case ASCII at index */
 		bool
-		EqualsIgnoreCaseA(size_t, const char *);
+		EqualsIgnoreCaseA(size_t, const char *) const noexcept;
 
 		/* Equals Ignore-case ASCII at index + length */
 		bool
-		EqualsIgnoreCaseAL(size_t, const char *, size_t );
+		EqualsIgnoreCaseAL(size_t, const char *, size_t) const noexcept;
 
 		/* Equals case-sensitivily ASCII at index + length */
 		bool
-		EqualsAL(size_t, const char *, size_t);
+		EqualsAL(size_t, const char *, size_t) const noexcept;
 
 		bool
-		EqualsA(const char *);
+		EqualsA(const char *) const noexcept;
 
 		int
-		Compare(const UString &) const;
+		Compare(const UString &) const noexcept;
 	};
 
 	std::ostream
 	&operator<<(std::ostream &stream, const UString &string);
 
 	int
-	CompareStatic(const UString &lhs, const UString &rhs);
+	CompareStatic(const UString &lhs, const UString &rhs) noexcept;
 
 	bool
-	operator<(const UString &lhs, const UString &rhs);
+	operator<(const UString &lhs, const UString &rhs) noexcept;
 
 }
