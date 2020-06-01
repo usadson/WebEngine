@@ -43,6 +43,10 @@ namespace Rendering {
 			: type(type) {
 		}
 
+		virtual
+		~Renderer() {
+		}
+
 		virtual void
 		Dequeue(RenderObject *) = 0;
 

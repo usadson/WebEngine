@@ -31,16 +31,20 @@ namespace Rendering {
 	public: // Methods
 		GLRenderer();
 
-		void
-		Dequeue(RenderObject *);
+		inline
+		~GLRenderer() override {
+		}
 
 		void
-		DrawFrame();
+		Dequeue(RenderObject *) override;
 
 		void
-		Enqueue(RenderObject *);
+		DrawFrame() override;
 
 		void
-		Prepare();
+		Enqueue(RenderObject *) override;
+
+		void
+		Prepare() override;
 	};
 }
