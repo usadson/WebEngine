@@ -36,8 +36,11 @@ namespace TextEncoding {
 		AbstractSBEncoding(std::vector<Unicode::CodePoint> indices)
 			: Indices(indices) {}
 
+		inline virtual
+		~AbstractSBEncoding() override {}
+
 		bool
-		Decode(const char *data, size_t size);
+		Decode(const char *data, size_t size) override;
 	};
 
 	/* https://encoding.spec.whatwg.org/index-ibm866.txt */
