@@ -22,7 +22,7 @@
 
 namespace Net {
 	namespace ALPNProtocols {
-		static std::string HTTP2  = "h2";
-		static std::string HTTP11 = "http/1.1";
+		std::string HTTP2  = "h2";
+		std::string HTTP11 = "http/1.1";
 	}
 }

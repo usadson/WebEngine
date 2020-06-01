@@ -27,7 +27,7 @@ namespace Options {
 	};
 
 	/* Settings should be verified before updating this map. */
-	static std::map<Type, std::string> Values = {
+	std::map<Type, std::string> Values = {
 		{ Type::TLS_SECURITY_LEVEL, "secure" },
 	};
 
