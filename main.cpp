@@ -80,7 +80,8 @@ DecodeText(Resources::DocumentResource &documentResource, std::vector<char> inpu
 			Logger::Warning("TextDecoder", "Failed to decode text!");
 			return false;
 		}
-		documentResource.data = utf8Encoding.Output;
+
+		documentResource.data = Unicode::UString(utf8Encoding.Output);
 		return true;
 	}
 
