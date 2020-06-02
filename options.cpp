@@ -141,21 +141,5 @@ Options::ParseCommandLine(int argc, const char **argv) {
 		}
 	}
 
-	std::cout << "HasValue: " << prevName.has_value() << std::endl;
-
-	std::cout << "CommandLineOptions: " << CommandLineParser::outputs.size() << std::endl;
-	for (const auto &option : CommandLineParser::outputs) {
-		std::cout << " > \"" << option.name << "\" value";
-		if (option.value.has_value())
-			std::cout << ": \"" << option.value.value() << '"' << std::endl;
-		else
-			std::cout << "less" << std::endl;
-	}
-
-	std::cout << "CommandLine TextOutputs: " << CommandLineParser::textOutput.size() << std::endl;
-	for (const auto &text : CommandLineParser::textOutput) {
-		std::cout << " > \"" << text << '"' << std::endl;
-	}
-
 	return true;
 }
