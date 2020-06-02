@@ -58,14 +58,6 @@ namespace CommandLineParser {
 
 }
 
-namespace Options {
-
-	std::map<Type, std::string> values = {
-		{ Type::TLS_SECURITY_LEVEL, "secure" },
-	};
-
-}
-
 std::optional<const std::optional<std::string> *>
 Options::GetCommandLineParameter(std::string name) {
 	auto result = std::find_if(std::begin(CommandLineParser::outputs),

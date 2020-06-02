@@ -32,17 +32,6 @@
 #include <string>
 
 namespace Options {
-	enum class Type {
-		TLS_SECURITY_LEVEL,
-	};
-
-	/* Settings should be verified before updating this map. */
-	extern std::map<Type, std::string> values;
-
-	inline std::string &
-	Get(Type type) {
-		return values[type];
-	}
 
 	bool
 	ParseCommandLine(int, const char **);

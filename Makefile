@@ -166,8 +166,7 @@ bin/net/connection_info.o: net/connection_info.cpp \
 
 bin/net/connection_info_libtls.o: net/connection_info_libtls.cpp \
 	net/connection_info.hpp \
-	logger.hpp \
-	options.hpp
+	logger.hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ net/connection_info_libtls.cpp
 
 bin/net/http/http_connection.o: net/http/http_connection.cpp \

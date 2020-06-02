@@ -36,7 +36,6 @@
 #include <tls.h>
 
 #include "logger.hpp"
-#include "options.hpp"
 
 namespace Net {
 
