@@ -32,7 +32,7 @@
 
 void
 Logger::Error(const std::string &source, const std::string &message) {
-	std::cout << "\033[1;31m[" << source << "] [ERROR] " << message << "\033[1;0m" << std::endl;
+	std::cerr << "\033[1;31m[" << source << "] [ERROR] " << message << "\033[1;0m" << std::endl;
 }
 
 void
@@ -47,7 +47,7 @@ Logger::Info(const std::string &source, const std::string &message) {
 
 void
 Logger::Severe(const std::string & source, const std::string &message) {
-	std::cout << "\033[1;91m[" << source << "] [SEVERE] " << message << "\033[1;0m" << std::endl;
+	std::cerr << "\033[1;91m[" << source << "] [SEVERE] " << message << "\033[1;0m" << std::endl;
 }
 
 void
