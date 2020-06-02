@@ -30,6 +30,8 @@
 
 #include <iostream>
 
+#include <cstdlib>
+
 void
 Logger::Error(const std::string &source, const std::string &message) {
 	std::cerr << "\033[1;31m[" << source << "] [ERROR] " << message << "\033[1;0m" << std::endl;
@@ -58,4 +60,10 @@ Logger::SuccessLog(const std::string &source, const std::string &message) {
 void
 Logger::Warning(const std::string &source, const std::string &message) {
 	std::cout << "\033[1;33m[" << source << "] [WARNING] " << message << "\033[1;0m" << std::endl;
+}
+
+void
+Logger::Crash(const std::string &source, const std::string &message) {
+	std::cout << "\033[1;33m[" << source << "] [CRASH] " << message << "\033[1;0m" << std::endl;
+	abort();
 }

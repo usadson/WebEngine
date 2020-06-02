@@ -57,4 +57,7 @@ namespace Logger {
 	void
 	Warning(const std::string &, const std::string &);
 
+	void
+	Crash(const std::string &, const std::string &);
+
 }

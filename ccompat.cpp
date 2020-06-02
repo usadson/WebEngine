@@ -40,6 +40,10 @@ namespace CCompat {
 	GetErrnoName(int error) {
 		if (error <= 0 || (uint32_t)error > errnoNames.size())
 			error = errno;
+
+		if (error <= 0)
+			Logger::Crash(__PRETTY_FUNCTION__, "Errno is negative");
+
 		return errnoNames[error];
 	}
 
