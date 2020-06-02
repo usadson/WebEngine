@@ -38,8 +38,8 @@ namespace Net {
 			{ HTTP2Error::NOT_CONNECTED, "NOT_CONNECTED" },
 		};
 
-		HTTP2Connection::HTTP2Connection(Net::ConnectionInfo *connectionInfo)
-				: ConnectionInfo(connectionInfo) {
+		HTTP2Connection::HTTP2Connection(Net::ConnectionInfo *inConnectionInfo)
+				: connectionInfo(inConnectionInfo) {
 			if (!connectionInfo->Write(HTTP2_PREFACE, sizeof(HTTP2_PREFACE)/sizeof(HTTP2_PREFACE[0])-1)) {
 				Logger::Warning(__PRETTY_FUNCTION__, "Failed to send preface.");
 				return;
@@ -63,8 +63,8 @@ namespace Net {
 			(void) method;
 			(void) path;
 
-			if (!ConnectionInfo->Connected ||
-				(ConnectionInfo->Secure && !ConnectionInfo->IsAuthenticated)) {
+			if (!connectionInfo->connected ||
+				(connectionInfo->secure && !connectionInfo->isAuthenticated)) {
 				return HTTP2Error::NOT_CONNECTED;
 			}
 
@@ -117,14 +117,14 @@ namespace Net {
 			if (frame.payload.size() != 0)
 				buf.insert(buf.end(), frame.payload.begin(), frame.payload.end());
 
-			return ConnectionInfo->Write(buf.data(), buf.size());
+			return connectionInfo->Write(buf.data(), buf.size());
 		}
 
 		H2::Frame
 		HTTP2Connection::ReadFrame() {
 			char buf[9];
 
-			if (!ConnectionInfo->Read(buf, 9))
+			if (!connectionInfo->Read(buf, 9))
 				throw H2::Exception(HTTP2Error::FAILED_READ, "Failed to ReadFrame() [Fields]");
 
 			H2::Frame frame;
@@ -143,7 +143,7 @@ namespace Net {
 			frame.flags = buf[4];
 			frame.stream = ((buf[5] & 0xFF) << 24) | ((buf[6] & 0xFF) << 16) | ((buf[7] & 0xFF) << 8) | (buf[8] & 0xFF);
 
-			if (!ConnectionInfo->Read(frame.payload.data(), frame.length))
+			if (!connectionInfo->Read(frame.payload.data(), frame.length))
 				throw H2::Exception(HTTP2Error::FAILED_READ, "Failed to ReadFrame() [Payload]");
 
 			return frame;

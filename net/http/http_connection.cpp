@@ -30,7 +30,7 @@
 
 namespace Net {
 	namespace HTTP {
-		std::map<HTTPConnectionError, std::string> HTTPConnectionErrorNames = {
+		std::map<HTTPConnectionError, std::string> httpConnectionErrorNames = {
 			{ HTTPConnectionError::FAILED_READ_GENERIC, "FAILED_READ_GENERIC" },
 			{ HTTPConnectionError::FAILED_READ_HEADER_FIELD_GENERIC, "FAILED_READ_HEADER_FIELD_GENERIC" },
 			{ HTTPConnectionError::FAILED_READ_HEADER_FIELD_NAME, "FAILED_READ_HEADER_FIELD_NAME" },
@@ -49,11 +49,11 @@ namespace Net {
 			{ HTTPConnectionError::NOT_CONNECTED, "NOT_CONNECTED" },
 		};
 
-		HTTPConnection::HTTPConnection(Net::ConnectionInfo connectionInfo)
-				: ConnectionInfo(connectionInfo) {
-			if (!ConnectionInfo.Connect()) {
+		HTTPConnection::HTTPConnection(Net::ConnectionInfo inconnectionInfo)
+				: connectionInfo(inconnectionInfo) {
+			if (!connectionInfo.Connect()) {
 				std::stringstream information;
-				information << "Failed to connect! Host: \"" << connectionInfo.HostName << "\":" << connectionInfo.Port;
+				information << "Failed to connect! Host: \"" << connectionInfo.hostName << "\":" << connectionInfo.port;
 				Logger::Error("HTTPConnection", information.str());
 				return;
 			}
@@ -66,7 +66,7 @@ namespace Net {
 		HTTPConnection::ConsumeHTTPVersion(HTTPResponseInfo *response) {
 			/* Read protocol version (= HTTP-version) */
 			std::vector<char> protocolData(9);
-			if (!ConnectionInfo.Read(protocolData.data(), 8))
+			if (!connectionInfo.Read(protocolData.data(), 8))
 				return HTTPConnectionError::FAILED_READ_HTTP_VERSION;
 
 			/* Validate HTTP Version */
@@ -75,11 +75,11 @@ namespace Net {
 
 			/* Store HTTP Version */
 			protocolData.push_back('\0');
-			response->HTTPVersion = std::string(protocolData.data());
+			response->httpVersion = std::string(protocolData.data());
 
 			/* Check if version is 'HTTP/1.1' */
 			if (protocolData[5] != '1' || protocolData[7] != '1')
-				Logger::Warning("HTTPConnection::ConsumeVersion", "HTTP Version isn't \"HTTP/1.1\": \"" + response->HTTPVersion + "\".");
+				Logger::Warning("HTTPConnection::ConsumeVersion", "HTTP Version isn't \"HTTP/1.1\": \"" + response->httpVersion + "\".");
 
 			return HTTPConnectionError::NO_ERROR;
 		}
@@ -90,7 +90,7 @@ namespace Net {
 			std::vector<char> statusCode(4);
 			size_t i;
 
-			if (!ConnectionInfo.Read(statusCode.data(), 3))
+			if (!connectionInfo.Read(statusCode.data(), 3))
 				return HTTPConnectionError::FAILED_READ_STATUS_CODE;
 			statusCode.push_back('\0');
 
@@ -109,7 +109,7 @@ namespace Net {
 				if (statusCode[0] < 0x31 || statusCode[0] > 0x35)
 					Logger::Warning("HTTPConnection::ConsumeStatusCode", std::string("Incorrect status-code (uncategorized): ") + statusCode.data());
 
-				response->StatusCode = (statusCode[0] - 0x30) * 100
+				response->statusCode = (statusCode[0] - 0x30) * 100
 									 + (statusCode[1] - 0x30) * 10
 									 + (statusCode[2] - 0x30);
 			}
@@ -124,10 +124,10 @@ namespace Net {
 		HTTPConnection::ConsumeReasonPhrase(HTTPResponseInfo *response) {
 			std::vector<char> reasonPhrase;
 			std::optional<char> character;
-			while ((character = ConnectionInfo.ReadChar()).has_value()) {
+			while ((character = connectionInfo.ReadChar()).has_value()) {
 				if (character == '\r') {
 					reasonPhrase.push_back('\0');
-					response->ReasonPhrase = reasonPhrase.data();
+					response->reasonPhrase = reasonPhrase.data();
 					return HTTPConnectionError::NO_ERROR;
 				}
 
@@ -142,12 +142,12 @@ namespace Net {
 				}
 
 				reasonPhrase.push_back('\0');
-				response->ReasonPhrase = reasonPhrase.data();
+				response->reasonPhrase = reasonPhrase.data();
 				return HTTPConnectionError::INCORRECT_REASON_PHRASE;
 			}
 
 			reasonPhrase.push_back('\0');
-			response->ReasonPhrase = reasonPhrase.data();
+			response->reasonPhrase = reasonPhrase.data();
 			return HTTPConnectionError::FAILED_READ_REASON_PHRASE;
 		}
 
@@ -162,7 +162,7 @@ namespace Net {
 			fieldName.push_back(firstCharacter);
 			bool endName = false;
 			while (!endName) {
-				character = ConnectionInfo.ReadChar();
+				character = connectionInfo.ReadChar();
 
 				if (!character.has_value())
 					return HTTPConnectionError::FAILED_READ_HEADER_FIELD_NAME;
@@ -208,7 +208,7 @@ namespace Net {
 
 			/* Consume OWS (Optional Whitespaces) */
 			while (true) {
-				character = ConnectionInfo.ReadChar();
+				character = connectionInfo.ReadChar();
 
 				if (!character.has_value())
 					return HTTPConnectionError::FAILED_READ_HEADER_FIELD_GENERIC;
@@ -221,7 +221,7 @@ namespace Net {
 			/* obs-fold (optional line folding) isn't supported. */
 			do {
 				if (character == '\r') {
-					character = ConnectionInfo.ReadChar();
+					character = connectionInfo.ReadChar();
 					if (!character.has_value())
 						return HTTPConnectionError::FAILED_READ_HEADER_FIELD_GENERIC;
 					if (character != '\n')
@@ -231,14 +231,14 @@ namespace Net {
 
 				if ((character >= 0x21 && character <= 0x7E) || // VCHAR
 					(character >= 0x80 && character <= 0xFF) || // obs-text
-					 character == ' '  ||                       // SP
-					 character == '\t')                         // HTAB
+					 character == ' '  ||						// SP
+					 character == '\t')							// HTAB
 					fieldValue.push_back(character.value());
 				else
 					return HTTPConnectionError::INCORRECT_HEADER_FIELD_VALUE;
 
 				/* Set next character */
-				character = ConnectionInfo.ReadChar();
+				character = connectionInfo.ReadChar();
 
 				if (!character.has_value())
 					return HTTPConnectionError::FAILED_READ_HEADER_FIELD_VALUE;
@@ -267,14 +267,14 @@ namespace Net {
 				nullCharacterPosition = fieldValueString + fieldValue.size() - 1;
 			*nullCharacterPosition = 0;
 
-			response->Headers.push_back({ std::string(fieldName.data()), std::string(fieldValueString) });
+			response->headers.push_back({ std::string(fieldName.data()), std::string(fieldValueString) });
 			return HTTPConnectionError::NO_ERROR;
 		}
 
 		HTTPConnectionError
 		HTTPConnection::Request(HTTPResponseInfo *response, const std::string &method, const std::string &path) {
-			if (!ConnectionInfo.Connected ||
-				(ConnectionInfo.Secure && !ConnectionInfo.IsAuthenticated)) {
+			if (!connectionInfo.connected ||
+				(connectionInfo.secure && !connectionInfo.isAuthenticated)) {
 				return HTTPConnectionError::NOT_CONNECTED;
 			}
 
@@ -285,12 +285,12 @@ namespace Net {
 			// TODO A stringstream isn't really needed at this point, so should
 			// we use a vector for performance reasons?
 			request << method << ' ' << path << " HTTP/1.1\r\n";
-			request << "Host: " << ConnectionInfo.HostName << "\r\n";
+			request << "Host: " << connectionInfo.hostName << "\r\n";
 			request << "TE: Trailers\r\n";
 			request << "\r\n";
 
 			std::string str = request.str();
-			if (!ConnectionInfo.Write(str.c_str(), str.length()))
+			if (!connectionInfo.Write(str.c_str(), str.length()))
 				return HTTPConnectionError::FAILED_WRITE_REQUEST;
 
 			/* Consume HTTP-Version */
@@ -299,7 +299,7 @@ namespace Net {
 				return subroutineError;
 
 			/* Consume space between 'HTTP-version' and 'status-code' */
-			singleCharacter = ConnectionInfo.ReadChar();
+			singleCharacter = connectionInfo.ReadChar();
 			if (!singleCharacter.has_value())
 				return HTTPConnectionError::FAILED_READ_GENERIC;
 
@@ -312,7 +312,7 @@ namespace Net {
 				return subroutineError;
 
 			/* Consume space between 'status-code' and 'reason-phrase' */
-			singleCharacter = ConnectionInfo.ReadChar();
+			singleCharacter = connectionInfo.ReadChar();
 			if (!singleCharacter.has_value())
 				return HTTPConnectionError::FAILED_READ_GENERIC;
 
@@ -326,7 +326,7 @@ namespace Net {
 
 			/* Consume new-line after 'reason-phrase', the carriage-return is
 			 * already consumed by ConsumeReasonPhrase. */
-			singleCharacter = ConnectionInfo.ReadChar();
+			singleCharacter = connectionInfo.ReadChar();
 			if (!singleCharacter.has_value())
 				return HTTPConnectionError::FAILED_READ_GENERIC;
 
@@ -334,12 +334,12 @@ namespace Net {
 				return HTTPConnectionError::INCORRECT_START_LINE;
 
 			do {
-				singleCharacter = ConnectionInfo.ReadChar();
+				singleCharacter = connectionInfo.ReadChar();
 				if (!singleCharacter.has_value())
 					return HTTPConnectionError::FAILED_READ_GENERIC;
 
 				if (singleCharacter.value() == '\r') {
-					singleCharacter = ConnectionInfo.ReadChar();
+					singleCharacter = connectionInfo.ReadChar();
 					if (!singleCharacter.has_value() || singleCharacter != '\n')
 						Logger::Warning("HTTPConnection::Request", "Incorrect CRLF");
 					break;
@@ -355,9 +355,9 @@ namespace Net {
 			std::optional<size_t> contentLength = response->GetHeaderUnsigned("content-length");
 			if (contentLength.has_value()) {
 				/* Make space in HTTPResponseInfo::MessageBody */
-				response->MessageBody.resize(contentLength.value());
+				response->messageBody.resize(contentLength.value());
 
-				if (!ConnectionInfo.Read(response->MessageBody.data(), contentLength.value())) {
+				if (!connectionInfo.Read(response->messageBody.data(), contentLength.value())) {
 					return HTTPConnectionError::FAILED_READ_MESSAGE_BODY;
 				}
 			}

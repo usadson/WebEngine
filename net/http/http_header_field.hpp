@@ -24,8 +24,8 @@ namespace Net {
 	namespace HTTP {
 		struct HTTPHeaderField {
 		public: // Properties
-			std::string FieldName;
-			std::string FieldValue;
+			std::string fieldName;
+			std::string fieldValue;
 		};
 	}
 }

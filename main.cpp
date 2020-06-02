@@ -44,7 +44,7 @@
 #include "ccompat.hpp"
 #include "logger.hpp"
 
-const char TestDocument[] = "<!-- TestHTML Document -->\n\
+const char T[] = "<!-- TestHTML Document -->\n\
 <!doctype html>\n\
 <HTml>\n\
   <head>\n\
@@ -94,7 +94,7 @@ RunDocumentTest(void) {
 	Resources::DocumentResource document;
 	document.mediaType = { "text/html", { { "charset", "utf-8" } } };
 
-	if (!DecodeText(document, VectorizeString(TestDocument, sizeof(TestDocument) / sizeof(TestDocument[0]) - 1))) {
+	if (!DecodeText(document, VectorizeString(T, sizeof(T) / sizeof(T[0]) - 1))) {
 		Logger::Error("RunDocumentTest", "Failed to decode text");
 		return;
 	}
@@ -167,21 +167,27 @@ RunRenderingTest() {
 	renderer = CreateRenderer(window->GetSupportedRenderers());
 
 	if (renderer == nullptr) {
-		Logger::Severe("RunRenderingTest", "No supported renderer for window system " + window->windowManagerName);
+		Logger::Severe("RunRenderingTest", "No supported renderer for window "
+										 "system " + window->windowManagerName);
 		return;
 	}
 
 	auto result = window->PrepareForRenderer(renderer->type);
 	if (!result.first) {
-		Logger::Severe("RunRenderingTest", "The creation of renderer context for renderer for window system " + window->windowManagerName + " failed.");
+		Logger::Severe("RunRenderingTest", "The creation of renderer context "
+										   "for renderer for window system " +
+										   window->windowManagerName +
+										   " failed.");
 		return;
 	}
 
-	std::shared_ptr<Rendering::DrawRect> rectangle = std::make_shared<Rendering::DrawRect>();
+	std::shared_ptr<Rendering::DrawRect> rectangle
+			= std::make_shared<Rendering::DrawRect>();
 	rectangle->bounds = { 0, 200, 0, 200 };
 	rectangle->color.value = 0x83ff08ff;
 
-	std::shared_ptr<Rendering::DrawText> text = std::make_shared<Rendering::DrawText>();
+	std::shared_ptr<Rendering::DrawText> text
+			= std::make_shared<Rendering::DrawText>();
 	text->bounds = { 300, 600, 300, 600 };
 	text->color.value = 0x8308ffff;
 	text->text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed\
@@ -204,10 +210,11 @@ RunRenderingTest() {
 void
 RunNetHTTP2Test(const char *name) {
 	Net::ConnectionInfo connectInfo(name, 443, true);
-	connectInfo.TLSALPNProtocols = Net::ALPNProtocols::HTTP2;
+	connectInfo.tlsALPNProtocols = Net::ALPNProtocols::http2;
 	if (!connectInfo.Connect()) {
 		std::stringstream information;
-		information << "Failed to connect! Host: \"" << connectInfo.HostName << "\":" << connectInfo.Port;
+		information << "Failed to connect! Host: \"" << connectInfo.hostName
+					<< "\":" << connectInfo.port;
 		Logger::Error("HTTPConnection", information.str());
 		return;
 	}
@@ -217,20 +224,23 @@ RunNetHTTP2Test(const char *name) {
 	Net::HTTP::HTTPResponseInfo response;
 	Net::HTTP::HTTP2Error error = connection.RequestNavigation(&response, "/");
 	std::cout << "Error: " << error
-			<< "\nVersion: " << response.HTTPVersion
-			<< "\nStatusCode: " << response.StatusCode
-			<< "\nReasonPhrase: " << response.ReasonPhrase 
-			<< "\nHeaders: " << response.Headers.size()
+			<< "\nVersion: " << response.httpVersion
+			<< "\nStatusCode: " << response.statusCode
+			<< "\nReasonPhrase: " << response.reasonPhrase 
+			<< "\nHeaders: " << response.headers.size()
 			<< std::endl;
 
-	for (const auto &headerField : response.Headers) {
-		std::cout << "\t\"" << headerField.FieldName << "\" = \"" << headerField.FieldValue << '\"' << std::endl;
+	for (const auto &headerField : response.headers) {
+		std::cout << "\t\"" << headerField.fieldName << "\" = \""
+				  << headerField.fieldValue << '\"' << std::endl;
 	}
 
-	std::cout << "MessageBodySize: " << response.MessageBody.size() << std::endl;
+	std::cout << "MessageBodySize: " << response.messageBody.size() << std::endl;
 	std::string start = "============ Message Body ============";
 	std::string end   = "======================================";
-	std::cout << start << std::string(response.MessageBody.data(), response.MessageBody.size()) << '\n' << end << std::endl;
+	std::cout << start << std::string(response.messageBody.data(),
+									  response.messageBody.size())
+			  << '\n' << end << std::endl;
 }
 
 int

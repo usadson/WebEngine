@@ -30,12 +30,12 @@ namespace Net {
 	namespace HTTP {
 		class HTTPResponseInfo {
 		public: // Properties
-			std::string HTTPVersion;
-			uint16_t StatusCode;
-			std::string ReasonPhrase;
+			std::string httpVersion;
+			uint16_t statusCode;
+			std::string reasonPhrase;
 
-			std::vector<HTTPHeaderField> Headers;
-			std::vector<char> MessageBody;
+			std::vector<HTTPHeaderField> headers;
+			std::vector<char> messageBody;
 		public: // Methods
 			std::optional<const char *>
 			GetHeader(const char *) const;

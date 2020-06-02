@@ -46,28 +46,29 @@ namespace Net {
 			NOT_CONNECTED,
 		};
 
-		extern std::map<HTTPConnectionError, std::string> HTTPConnectionErrorNames;
+		extern std::map<HTTPConnectionError, std::string> httpConnectionErrorNames;
 
 		inline std::ostream &
 		operator<<(std::ostream &stream, const HTTPConnectionError &type) {
-			return stream << HTTPConnectionErrorNames[type];
+			return stream << httpConnectionErrorNames[type];
 		}
 
 		class HTTPConnection {
-		public: // Properties
-			Net::ConnectionInfo ConnectionInfo;
-		private: // Private Methods
-			HTTPConnectionError ConsumeHeaderField(HTTPResponseInfo *, char firstCharacter);
-			HTTPConnectionError ConsumeHTTPVersion(HTTPResponseInfo *);
-			HTTPConnectionError ConsumeReasonPhrase(HTTPResponseInfo *);
-			HTTPConnectionError ConsumeStatusCode(HTTPResponseInfo *);
-		public: // Methods
+		public: // Public Properties
+			Net::ConnectionInfo connectionInfo;
+		public: // Con/destructors
 			// Constructors setup the connection using 'connectionInfo'.
 			explicit
 			HTTPConnection(Net::ConnectionInfo connectionInfo);
 
 			~HTTPConnection();
+		private: // Private Methods
+			HTTPConnectionError ConsumeHeaderField(HTTPResponseInfo *, char);
+			HTTPConnectionError ConsumeHTTPVersion(HTTPResponseInfo *);
+			HTTPConnectionError ConsumeReasonPhrase(HTTPResponseInfo *);
+			HTTPConnectionError ConsumeStatusCode(HTTPResponseInfo *);
 
+		public: // Methods
 			// Return value: "" on success, otherwise the error.
 			HTTPConnectionError
 			Request(HTTPResponseInfo *, const std::string &method, const std::string &path);

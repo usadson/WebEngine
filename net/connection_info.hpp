@@ -27,51 +27,51 @@ namespace Net {
 	class ConnectionInfo {
 	public: // Properties
 		/* The HostName, as entered by the client. */
-		std::string HostName;
+		std::string hostName;
 
 		/* The port it's connected to (usually 443 or 80). */
-		uint16_t Port;
+		uint16_t port;
 
 		/* Has a connection been established? (Note that r/w calls can still
 		 * fail!) */
-		bool Connected;
+		bool connected;
 
 		/* Should the connection be wrapped in TLS? */
-		bool Secure;
+		bool secure;
 
 		/* Is 'Secure' and SetupTLS() was succesful and DestroyTLS() hasn't
 		 * been called? */
-		bool IsAuthenticated;
+		bool isAuthenticated;
 
 		/* https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.xhtml#alpn-protocol-ids */
-		std::string TLSALPNProtocols;
+		std::string tlsALPNProtocols;
 
 		/* The time it took to resolve the hostname. */
-		std::string TimingDNS;
+		std::string timingDNS;
 
 		/* The time that was wasted trying to find a connectable server.
 		 * (TimingConnect excluded) */
-		std::string TimingPing;
+		std::string timingPing;
 
 		/* The time it took to connect to the currently-connnected-to server. */
-		std::string TimingConnect;
+		std::string timingConnect;
 
 		/* The time it took to setup the TLS context (handshaking etc.) */
-		std::string TimingTLS;
+		std::string timingTLS;
 	private: // Private Properties
-		int Socket;
-		void *TLSContext;
+		int socket;
+		void *tlsContext;
 	public: // Methods
-		ConnectionInfo(const std::string &hostName, uint16_t port)
-			: HostName(hostName), Port(port), Connected(false), Secure(false),
-			  IsAuthenticated(false), TLSALPNProtocols(""), Socket(0),
-			  TLSContext(nullptr) {
+		ConnectionInfo(const std::string &inHostName, uint16_t inPort)
+			: hostName(inHostName), port(inPort), connected(false),
+			  secure(false), isAuthenticated(false), tlsALPNProtocols(""),
+			  socket(0), tlsContext(nullptr) {
 		}
 
-		ConnectionInfo(const std::string &hostName, uint16_t port, bool secure)
-			: HostName(hostName), Port(port), Connected(false), Secure(secure),
-			  IsAuthenticated(false), TLSALPNProtocols(""), Socket(0),
-			  TLSContext(nullptr) {
+		ConnectionInfo(const std::string &inHostName, uint16_t inPort, bool inSecure)
+			: hostName(inHostName), port(inPort), connected(false),
+			  secure(inSecure), isAuthenticated(false), tlsALPNProtocols(""),
+			  socket(0), tlsContext(nullptr) {
 		}
 
 		~ConnectionInfo();
