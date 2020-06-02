@@ -32,6 +32,7 @@
 #include "data/text/named_characters.hpp"
 #include "data/text/encoding/encoder_engine.hpp"
 #include "data/text/encoding/utf8.hpp"
+#include "misc/credits.hpp"
 #include "net/http/http_connection.hpp"
 #include "net/http2/http2_connection.hpp"
 #include "net/alpn_protocols.hpp"
@@ -43,8 +44,9 @@
 #include "resources/document.hpp"
 #include "ccompat.hpp"
 #include "logger.hpp"
+#include "options.hpp"
 
-const char T[] = "<!-- TestHTML Document -->\n\
+const char testDocument[] = "<!-- TestHTML Document -->\n\
 <!doctype html>\n\
 <HTml>\n\
   <head>\n\
@@ -94,7 +96,7 @@ RunDocumentTest(void) {
 	Resources::DocumentResource document;
 	document.mediaType = { "text/html", { { "charset", "utf-8" } } };
 
-	if (!DecodeText(document, VectorizeString(T, sizeof(T) / sizeof(T[0]) - 1))) {
+	if (!DecodeText(document, VectorizeString(testDocument, sizeof(testDocument) / sizeof(testDocument[0]) - 1))) {
 		Logger::Error("RunDocumentTest", "Failed to decode text");
 		return;
 	}
@@ -219,7 +221,6 @@ RunNetHTTP2Test(const char *name) {
 		return;
 	}
 
-	/**/
 	Net::HTTP::HTTP2Connection connection(&connectInfo);
 	Net::HTTP::HTTPResponseInfo response;
 	Net::HTTP::HTTP2Error error = connection.RequestNavigation(&response, "/");
@@ -235,16 +236,24 @@ RunNetHTTP2Test(const char *name) {
 				  << headerField.fieldValue << '\"' << std::endl;
 	}
 
-	std::cout << "MessageBodySize: " << response.messageBody.size() << std::endl;
 	std::string start = "============ Message Body ============";
 	std::string end   = "======================================";
-	std::cout << start << std::string(response.messageBody.data(),
-									  response.messageBody.size())
+	std::cout << "MessageBodySize: " << response.messageBody.size()
+			  << std::endl << start << std::string(response.messageBody.data(),
+				response.messageBody.size())
 			  << '\n' << end << std::endl;
 }
 
 int
-main(void) {
+main(int argc, const char *argv[]) {
+	if (!Options::ParseCommandLine(argc, argv))
+		return EXIT_FAILURE;
+
+	if (Options::GetCommandLineParameter("credits").has_value()) {
+		Credits::PrintToCommandLine();
+		return EXIT_SUCCESS;
+	}
+
 	NamedCharacters::Setup();
 
 	RunDocumentTest();
