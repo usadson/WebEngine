@@ -60,8 +60,7 @@ namespace HTML {
 	extern std::map<InsertionModeType, std::string> insertionModeTypeNames;
 
 	inline std::ostream &
-	operator<<(std::ostream &stream, InsertionModeType &state) { 
+	operator<<(std::ostream &stream, InsertionModeType &state) {
 		return stream << insertionModeTypeNames[state];
 	}
-} 
- 
+}

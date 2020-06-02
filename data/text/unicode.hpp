@@ -38,7 +38,7 @@
 namespace Unicode {
 	typedef uint32_t CodePoint;
 
-	/* We can't use NULL as defined by the "C0 Controls and Basic Latin" 
+	/* We can't use NULL as defined by the "C0 Controls and Basic Latin"
 	 * Unicode block, since this is a special keyword. */
 	const CodePoint NULL_CHARACTER			= 0x0000;
 	const CodePoint START_OF_HEADING		= 0x0001;

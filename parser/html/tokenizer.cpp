@@ -301,7 +301,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_TAG);
 					treeConstructor.EmitEOFToken();
 				} else {
-					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ? 
+					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ?
 							(HTML::Tokenizer::AmbiguousTagToken &) endTagToken :
 							(HTML::Tokenizer::AmbiguousTagToken &) startTagToken;
 
@@ -323,7 +323,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							treeConstructor.EmitToken(tagToken);
 							if (isEndTag)
 								startTagToken = HTML::Tokenizer::StartTagToken(); // Reset
-							else 
+							else
 								endTagToken = HTML::Tokenizer::EndTagToken(); // Reset
 							break;
 						default:
@@ -341,7 +341,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 					reconsume = true;
 					context.state = HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_NQ;
 				} else {
-					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ? 
+					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ?
 							(HTML::Tokenizer::AmbiguousTagToken &) endTagToken :
 							(HTML::Tokenizer::AmbiguousTagToken &) startTagToken;
 
@@ -364,10 +364,9 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							treeConstructor.EmitToken(tagToken);
 							if (isEndTag)
 								startTagToken = HTML::Tokenizer::StartTagToken(); // Reset
-							else 
+							else
 								endTagToken = HTML::Tokenizer::EndTagToken(); // Reset
 							break;
-							
 						default:
 							reconsume = true;
 							context.state = HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_NQ;
@@ -380,7 +379,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_TAG);
 					treeConstructor.EmitEOFToken();
 				} else {
-					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ? 
+					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ?
 							(HTML::Tokenizer::AmbiguousTagToken &) endTagToken :
 							(HTML::Tokenizer::AmbiguousTagToken &) startTagToken;
 
@@ -407,7 +406,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_TAG);
 					treeConstructor.EmitEOFToken();
 				} else {
-					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ? 
+					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ?
 							(HTML::Tokenizer::AmbiguousTagToken &) endTagToken :
 							(HTML::Tokenizer::AmbiguousTagToken &) startTagToken;
 
@@ -434,7 +433,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_TAG);
 					treeConstructor.EmitEOFToken();
 				} else {
-					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ? 
+					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ?
 							(HTML::Tokenizer::AmbiguousTagToken &) endTagToken :
 							(HTML::Tokenizer::AmbiguousTagToken &) startTagToken;
 
@@ -455,7 +454,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							treeConstructor.EmitToken(tagToken);
 							if (isEndTag)
 								startTagToken = HTML::Tokenizer::StartTagToken(); // Reset
-							else 
+							else
 								endTagToken = HTML::Tokenizer::EndTagToken(); // Reset
 							break;
 						case '\0':
@@ -480,7 +479,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_TAG);
 					treeConstructor.EmitEOFToken();
 				} else {
-					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ? 
+					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ?
 							(HTML::Tokenizer::AmbiguousTagToken &) endTagToken :
 							(HTML::Tokenizer::AmbiguousTagToken &) startTagToken;
 
@@ -499,7 +498,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							treeConstructor.EmitToken(tagToken);
 							if (isEndTag)
 								startTagToken = HTML::Tokenizer::StartTagToken(); // Reset
-							else 
+							else
 								endTagToken = HTML::Tokenizer::EndTagToken(); // Reset
 							break;
 						default:
@@ -515,7 +514,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_TAG);
 					treeConstructor.EmitEOFToken();
 				} else if (character == '>') {
-					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ? 
+					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ?
 							(HTML::Tokenizer::AmbiguousTagToken &) endTagToken :
 							(HTML::Tokenizer::AmbiguousTagToken &) startTagToken;
 
@@ -525,7 +524,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 
 					if (isEndTag)
 						startTagToken = HTML::Tokenizer::StartTagToken(); // Reset
-					else 
+					else
 						endTagToken = HTML::Tokenizer::EndTagToken(); // Reset
 				}
 				break;
@@ -1223,7 +1222,6 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 				break;
 			// Skipped some CDATA stuff
 			/*
-			 
 			CHARACTER_REFERENCE, // 12.2.5.72 Character reference state
 			NAMED_CHARACTER_REFERENCE, // 12.2.5.73 Named character reference state
 			AMBIGOUS_AMPERSAND, // 12.2.5.74 Ambiguous ampersand state
@@ -1238,7 +1236,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 				context.temporaryBuffer.clear();
 				context.temporaryBuffer.push_back(Unicode::AMPERSAND);
 				if (!eof) {
-					if (character == Unicode::NUMBER_SIGN) { 
+					if (character == Unicode::NUMBER_SIGN) {
 						context.temporaryBuffer.push_back(character);
 						context.state = HTML::Tokenizer::ParserState::NUMERIC_CHARACTER_REFERENCE;
 						break;
@@ -1264,15 +1262,15 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 				if (character != Unicode::SEMICOLON) {
 					context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
 				}
-				
+
 				// The named reference isn't found, thus:
 				// flush code points consumed as a character reference
 				switch (context.returnState) {
 					case HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_DQ:
 					case HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_SQ:
 					case HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_NQ: {
-						HTML::Tokenizer::AmbiguousTagToken &tagToken = (isEndTag ? 
-							(HTML::Tokenizer::AmbiguousTagToken &) endTagToken : 
+						HTML::Tokenizer::AmbiguousTagToken &tagToken = (isEndTag ?
+							(HTML::Tokenizer::AmbiguousTagToken &) endTagToken :
 							(HTML::Tokenizer::AmbiguousTagToken &) startTagToken);
 
 						for (size_t k = 0; k < context.NCRefBuffer.length(); i++) {
@@ -1285,7 +1283,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 						}
 						break;
 				}
-				context.state = wasMatch ? 
+				context.state = wasMatch ?
 					context.returnState :
 					HTML::Tokenizer::ParserState::AMBIGOUS_AMPERSAND;
 			} break;

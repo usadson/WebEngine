@@ -47,7 +47,7 @@ namespace HTML {
 			INVALID,
 			STARTTAG
 		};
-		
+
 		extern std::map<TokenType, std::string> tokenTypeNames;
 
 		inline std::ostream &
@@ -88,7 +88,7 @@ namespace HTML {
 			// For the tokenizer:
 			Unicode::UString attributeName;
 			Unicode::UString attributeValue;
-			
+
 			inline explicit
 			AmbiguousTagToken(TokenType type) : Token(type) {
 			}

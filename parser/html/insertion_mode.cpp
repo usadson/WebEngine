@@ -53,5 +53,5 @@ namespace HTML {
 		{ InsertionModeType::AFTER_FRAMESET, "AFTER_FRAMESET" },
 		{ InsertionModeType::AFTER_AFTER_BODY, "AFTER_AFTER_BODY" },
 		{ InsertionModeType::AFTER_AFTER_FRAMESET, "AFTER_AFTER_FRAMESET" }
-	}; 
+	};
 }

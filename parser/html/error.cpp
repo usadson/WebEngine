@@ -81,7 +81,7 @@ namespace HTML {
 		const ParserError ParserError::UNKNOWN_NAMED_CHARACTER_REFERENCE = ParserError("unknown-named-character-reference", "This error occurs if the parser encounters an ambiguous ampersand. In this case the parser doesn't resolve the character reference.");
 
 		std::ostream &
-		ParserErrorFunctions::operator<<(std::ostream &stream, const HTML::Tokenizer::ParserError &error) { 
+		ParserErrorFunctions::operator<<(std::ostream &stream, const HTML::Tokenizer::ParserError &error) {
 			return stream << error.name;
 		}
 	}

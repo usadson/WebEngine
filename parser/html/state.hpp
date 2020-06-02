@@ -125,8 +125,8 @@ namespace HTML {
 		extern std::map<ParserState, ParserStateInfo> parserStateNames;
 
 		inline std::ostream &
-		operator<<(std::ostream &stream, ParserState &state) { 
+		operator<<(std::ostream &stream, ParserState &state) {
 			return stream << parserStateNames[state].name;
 		}
 	}
-} 
+}

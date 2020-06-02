@@ -95,7 +95,7 @@ namespace Unicode {
 		return i-1 != rhs.data.size() ? -1 : 0;
 	}
 
-	int 
+	int
 	UString::Compare(const UString &other) const noexcept {
 		return CompareStatic(*this, other);
 	}

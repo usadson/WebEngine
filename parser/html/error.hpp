@@ -83,7 +83,7 @@ namespace HTML {
 			static const ParserError UNEXPECTED_QUESTION_MARK_INSTEAD_OF_TAG_NAME;
 			static const ParserError UNEXPECTED_SOLIDUS_IN_TAG;
 			static const ParserError UNKNOWN_NAMED_CHARACTER_REFERENCE;
-			
+
 		public:
 			const std::string name;
 			const std::string description;
@@ -93,10 +93,10 @@ namespace HTML {
 				: name(inName), description(inDescription) {
 			}
 		};
- 
+
 		namespace ParserErrorFunctions {
 			std::ostream &
 			operator<<(std::ostream &, const HTML::Tokenizer::ParserError &);
 		}
 	}
-} 
+}

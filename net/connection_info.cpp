@@ -89,7 +89,7 @@ namespace Net {
 		int errorCode;
 		struct addrinfo *address;
 		struct addrinfo *result;
-		
+
 		this->socket = FUNC_SOCKET(AF_INET, SOCK_STREAM, 0);
 		if (this->socket == -1) {
 			errorCode = errno;

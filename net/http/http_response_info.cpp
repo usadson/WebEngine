@@ -57,7 +57,7 @@ namespace Net {
 			value = GetHeader(name);
 			if (value.has_value() && sscanf(value.value(), "%zu", &res) == 1)
 				return res;
-			
+
 			return std::optional<size_t>();
 		}
 	}

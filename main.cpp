@@ -28,9 +28,9 @@
 
 /*
  * TODO:
- * 
+ *
  * In a lot of DOCTYPE handlers I do EmitDoctypeQuirksToken(),
- * but i should instead change the current doctype's flag Force-Quircks
+ * but I should instead change the current doctype's flag Force-Quircks
  * to true
  */
 
@@ -239,7 +239,7 @@ RunNetHTTP2Test(const char *name) {
 	std::cout << "Error: " << error
 			<< "\nVersion: " << response.httpVersion
 			<< "\nStatusCode: " << response.statusCode
-			<< "\nReasonPhrase: " << response.reasonPhrase 
+			<< "\nReasonPhrase: " << response.reasonPhrase
 			<< "\nHeaders: " << response.headers.size()
 			<< std::endl;
 

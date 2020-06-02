@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-#include "http2_connection.hpp" 
+#include "http2_connection.hpp"
 
 #include <iomanip>
 #include <iostream>
@@ -64,7 +64,6 @@ namespace Net {
 		}
 
 		HTTP2Connection::~HTTP2Connection() {
-			
 		}
 
 		HTTP2Error
@@ -110,7 +109,7 @@ namespace Net {
 		HTTP2Connection::SendFrame(H2::Frame frame) {
 			/* Using a vector seems a bit overkill, since we can just use a
 			 * malloc'ed array or something, since a vector adds a lot of
-			 * abstraction we don't need; only the operator[] and memcpy 
+			 * abstraction we don't need; only the operator[] and memcpy
 			 * functions are needed. */
 			std::vector<char> buf(9 + frame.payload.size());
 

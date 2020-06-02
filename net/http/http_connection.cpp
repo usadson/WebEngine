@@ -28,7 +28,7 @@
 
 /* TODO Implement vector max-lengths? */
 
-#include "http_connection.hpp" 
+#include "http_connection.hpp"
 
 #include <iostream>
 #include <sstream>
@@ -71,7 +71,7 @@ namespace Net {
 
 		HTTPConnection::~HTTPConnection() {
 		}
-		
+
 		HTTPConnectionError
 		HTTPConnection::ConsumeHTTPVersion(HTTPResponseInfo *response) {
 			/* Read protocol version (= HTTP-version) */
@@ -181,7 +181,7 @@ namespace Net {
 				 * field-name = token
 				 * token = 1*tchar
 				 * tchar = "!" / "#" / "$" / "%" / "&" / "'" / "*" / "+" / "-"
-				 * / "." / "^" / "_" / "`" / "|" / "~" / DIGIT / ALPHA 
+				 * / "." / "^" / "_" / "`" / "|" / "~" / DIGIT / ALPHA
 				 */
 				switch (character.value()) {
 					case ':':

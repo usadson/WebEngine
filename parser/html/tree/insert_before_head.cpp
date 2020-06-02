@@ -105,7 +105,7 @@ HTML::InsertionModes::BeforeHead::EmitToken(HTML::Tokenizer::Token &inToken) {
 				// Parse error. Ignore the token.
 				return false;
 			}
-			/* Else: Fallthrough */	
+			/* Else: Fallthrough */
 		default:
 			break;
 	}

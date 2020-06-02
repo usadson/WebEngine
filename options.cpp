@@ -121,19 +121,19 @@ Options::ParseCommandLine(int argc, const char **argv) {
 					}
 					prevName = strview;
 				} else {
-					CommandLineParser::outputs.push_back({ 
+					CommandLineParser::outputs.push_back({
 						std::string(std::begin(strview) + 2, std::end(strview)),
 						{}
 					});
 				}
 			} else {
-				CommandLineParser::outputs.push_back({ 
+				CommandLineParser::outputs.push_back({
 					std::string(std::begin(strview) + 2, equals - 2),
 					std::string(std::begin(strview) + equals + 1)
 				});
 			}
 		} else if (prevName.has_value()) {
-			CommandLineParser::outputs.push_back({ 
+			CommandLineParser::outputs.push_back({
 				std::string(std::begin(prevName.value()) + 2, std::end(prevName.value())),
 				std::string(strview)
 			});

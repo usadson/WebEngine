@@ -66,7 +66,7 @@ namespace TextEncoding {
 					Logger::Warning("TextEncoding::UTF8::Decode", "BytesLeft = 0 but BytesNeeded > 0");
 					return false;
 				}
-				
+
 				// finished:
 				return true;
 			}

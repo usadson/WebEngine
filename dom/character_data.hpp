@@ -37,4 +37,3 @@ namespace DOM {
 		Unicode::UString data;
 	};
 }
- 

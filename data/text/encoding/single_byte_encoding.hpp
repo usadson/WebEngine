@@ -36,7 +36,7 @@
 namespace TextEncoding {
 
 	/**
-	 * The Abstract SingleByte Encodings 
+	 * The Abstract SingleByte Encodings
 	 */
 	class AbstractSBEncoding : public Encoding {
 	private: // Private Properties
@@ -154,7 +154,7 @@ namespace TextEncoding {
 	struct Windows1257 : public AbstractSBEncoding {
 		Windows1257();
 	};
-	
+
 	struct Windows1258 : public AbstractSBEncoding {
 		Windows1258();
 	};

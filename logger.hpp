@@ -39,7 +39,7 @@ namespace Logger {
 	 * Error("NetworkStack::Start", "Couldn't connect to https://example.org");
 	 */
 
-	void 
+	void
 	Error(const std::string &, const std::string &);
 
 	void

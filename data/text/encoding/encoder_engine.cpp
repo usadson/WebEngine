@@ -42,7 +42,7 @@ namespace Encoders {
 	std::shared_ptr<TextEncoding::Encoding> UTF8 = std::make_shared<TextEncoding::UTF8>();
 	std::shared_ptr<TextEncoding::Encoding> IBM866 = std::make_shared<TextEncoding::IBM866>();
 	std::shared_ptr<TextEncoding::Encoding> ISO8859_2 = std::make_shared<TextEncoding::ISO8859_2>();
-		
+
 	std::shared_ptr<TextEncoding::Encoding> ISO8859_3 = std::make_shared<TextEncoding::ISO8859_3>();
 	std::shared_ptr<TextEncoding::Encoding> ISO8859_4 = std::make_shared<TextEncoding::ISO8859_4>();
 	std::shared_ptr<TextEncoding::Encoding> ISO8859_5 = std::make_shared<TextEncoding::ISO8859_5>();
