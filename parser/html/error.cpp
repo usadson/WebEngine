@@ -84,5 +84,5 @@ namespace HTML {
 		ParserErrorFunctions::operator<<(std::ostream &stream, const HTML::Tokenizer::ParserError &error) { 
 			return stream << error.name;
 		}
-	};
-};
+	}
+}

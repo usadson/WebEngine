@@ -70,5 +70,5 @@ namespace HTML {
 			void
 			LogError(const HTML::Tokenizer::ParserError &error);
 		};
-	};
-};
+	}
+}

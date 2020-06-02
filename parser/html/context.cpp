@@ -46,5 +46,5 @@ namespace HTML {
 					  << ")\033[1;0m"
 					  << std::endl;
 		}
-	};
-};
+	}
+}

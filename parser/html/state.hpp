@@ -128,5 +128,5 @@ namespace HTML {
 		operator<<(std::ostream &stream, ParserState &state) { 
 			return stream << parserStateNames[state].name;
 		}
-	};
+	}
 } 

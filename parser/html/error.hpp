@@ -98,5 +98,5 @@ namespace HTML {
 			std::ostream &
 			operator<<(std::ostream &, const HTML::Tokenizer::ParserError &);
 		}
-	};
+	}
 } 

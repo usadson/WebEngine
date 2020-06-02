@@ -63,5 +63,4 @@ namespace HTML {
 		void
 		EmitToken(HTML::Tokenizer::Token &);
 	};
-};
- 
+}

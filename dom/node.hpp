@@ -34,7 +34,7 @@
 
 namespace DOM {
 	struct Node;
-};
+}
 
 namespace DOM {
 	class Document;

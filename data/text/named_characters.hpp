@@ -2358,4 +2358,4 @@ namespace NamedCharacters {
 		}
 	}
 
-};
+}

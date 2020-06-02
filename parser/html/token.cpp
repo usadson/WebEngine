@@ -59,5 +59,5 @@ namespace HTML {
 			attributeName = Unicode::UString("");
 			attributeValue = Unicode::UString("");
 		}
-	};
-};
+	}
+}

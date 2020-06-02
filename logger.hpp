@@ -56,4 +56,5 @@ namespace Logger {
 
 	void
 	Warning(const std::string &, const std::string &);
+
 }

@@ -97,5 +97,4 @@ namespace HTML {
 		HTML::Tokenizer::EOFToken token;
 		EmitToken(token);
 	}
-};
- 
+}

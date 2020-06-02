@@ -141,5 +141,5 @@ namespace HTML {
 				: Token(TokenType::EOF_TYPE) {
 			}
 		};
-	};
-};
+	}
+}
