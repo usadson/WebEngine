@@ -43,4 +43,5 @@ namespace CCompat {
 
 	void
 	CloseStandardIO();
+
 }

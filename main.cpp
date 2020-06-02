@@ -145,12 +145,14 @@ RunEncodingTest() {
 	};
 
 	for (const auto &pair : vector) {
-		std::vector<Unicode::CodePoint> out = TextEncoding::EncoderEngine::DecodeData(pair.second.data(), pair.second.size(), pair.first);
+		std::vector<Unicode::CodePoint> out
+			= TextEncoding::EncoderEngine::DecodeData(pair.second.data(),
+													  pair.second.size(),
+													  pair.first);
 
 		std::cout << "Encoder output: " << out.size() << " code points (characters)." << std::endl;
-		for (i = 0; i < out.size(); i++) {
+		for (i = 0; i < out.size(); i++)
 			std::cout << '\t' << out[i] << std::endl;
-		}
 		std::cout << "End." << std::endl;
 	}
 }
@@ -256,6 +258,7 @@ RunNetHTTP2Test(const char *name) {
 
 int
 main(int argc, const char *argv[]) {
+	/** Initialization Section **/
 	if (!Options::ParseCommandLine(argc, argv))
 		return EXIT_FAILURE;
 
@@ -266,12 +269,11 @@ main(int argc, const char *argv[]) {
 
 	NamedCharacters::Setup();
 
+	/** Execution Section **/
 	RunDocumentTest();
 
-	/**
-	 * Close stdout, stdin & stderr so that Valgrinds --track-fds option wont
-	 * trigger a false positive.
-	 */
+	/** Shutdown Section **/
 	CCompat::CloseStandardIO();
+
 	return EXIT_SUCCESS;
 }
