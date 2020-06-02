@@ -1,0 +1,9 @@
+dist: bionic
+language: c
+compiler:
+  - clang
+  - gcc
+script: make
+before_install:
+  - git clone https://github.com/libressl-portable/portable && cd portable && ./configure --prefix=/usr/local/libressl --with-openssldir=/usr/local/libressl && make && make install && cd ..
+  - sudo apt-get -y install libglew-dev libglfw3-dev libfreetype-dev
