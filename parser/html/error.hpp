@@ -75,12 +75,12 @@ namespace HTML {
 			static const ParserError UNKNOWN_NAMED_CHARACTER_REFERENCE;
 			
 		public:
-			const std::string Name;
-			const std::string Description;
+			const std::string name;
+			const std::string description;
 		private:
 			inline
-			ParserError(const std::string &name, const std::string &description)
-				: Name(name), Description(description) {
+			ParserError(const std::string &inName, const std::string &inDescription)
+				: name(inName), description(inDescription) {
 			}
 		};
  

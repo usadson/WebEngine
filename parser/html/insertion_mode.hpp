@@ -47,11 +47,11 @@ namespace HTML {
 		AFTER_AFTER_FRAMESET
 	};
 
-	extern std::map<InsertionModeType, std::string> InsertionModeTypeNames;
+	extern std::map<InsertionModeType, std::string> insertionModeTypeNames;
 
 	inline std::ostream &
 	operator<<(std::ostream &stream, InsertionModeType &state) { 
-		return stream << InsertionModeTypeNames[state];
+		return stream << insertionModeTypeNames[state];
 	}
 } 
  

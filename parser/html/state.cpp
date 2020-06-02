@@ -20,7 +20,7 @@
 
 namespace HTML {
 	namespace Tokenizer {
-		std::map<ParserState, ParserStateInfo> ParserStateNames = {
+		std::map<ParserState, ParserStateInfo> parserStateNames = {
 			{ ParserState::UNDEFINED, { "UNDEFINED", "Only for return references!!! Use DATA as initial state." } },
 			{ ParserState::DATA, { "DATA", "12.2.5.1 Data state" } },
 			{ ParserState::RCDATA, { "RCDATA", "12.2.5.2 RCDATA state" } },

@@ -19,7 +19,7 @@
 #include "insertion_mode.hpp"
 
 namespace HTML {
-	std::map<InsertionModeType, std::string> InsertionModeTypeNames = {
+	std::map<InsertionModeType, std::string> insertionModeTypeNames = {
 		{ InsertionModeType::INITIAL, "INITIAL" },
 		{ InsertionModeType::BEFORE_HTML, "BEFORE_HTML" },
 		{ InsertionModeType::BEFORE_HEAD, "BEFORE_HEAD" },

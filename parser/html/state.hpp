@@ -108,15 +108,15 @@ namespace HTML {
 		};
 
 		struct ParserStateInfo {
-			std::string Name;
-			std::string Reference;
+			std::string name;
+			std::string reference;
 		};
 
-		extern std::map<ParserState, ParserStateInfo> ParserStateNames;
+		extern std::map<ParserState, ParserStateInfo> parserStateNames;
 
 		inline std::ostream &
 		operator<<(std::ostream &stream, ParserState &state) { 
-			return stream << ParserStateNames[state].Name;
+			return stream << parserStateNames[state].name;
 		}
 	};
 } 
