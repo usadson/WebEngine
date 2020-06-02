@@ -39,8 +39,8 @@ namespace CommandLineParser {
 	};
 
 	std::vector<Input> inputs = {
-		{ "test", true },
-		{ "copyright", false },
+		{ "credits",	false },
+		{ "test",		true },
 	};
 
 	std::vector<Output> outputs;
@@ -54,6 +54,21 @@ namespace Options {
 		{ Type::TLS_SECURITY_LEVEL, "secure" },
 	};
 
+}
+
+std::optional<const std::optional<std::string> *>
+Options::GetCommandLineParameter(std::string name) {
+	auto result = std::find_if(std::begin(CommandLineParser::outputs),
+		std::end(CommandLineParser::outputs),
+		[name](const auto &entry) -> bool {
+			return strcasecmp(name.c_str(), entry.name.c_str()) == 0;
+		}
+	);
+
+	if (result != std::end(CommandLineParser::outputs))
+		return { &result->value };
+	else
+		return {};
 }
 
 bool
@@ -142,5 +157,5 @@ Options::ParseCommandLine(int argc, const char **argv) {
 		std::cout << " > \"" << text << '"' << std::endl;
 	}
 
-	return false;
+	return true;
 }

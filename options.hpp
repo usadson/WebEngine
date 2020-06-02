@@ -37,4 +37,7 @@ namespace Options {
 	bool
 	ParseCommandLine(int, const char **);
 
+	std::optional<const std::optional<std::string> *>
+	GetCommandLineParameter(std::string);
+
 }
