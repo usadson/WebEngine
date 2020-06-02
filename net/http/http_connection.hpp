@@ -59,7 +59,7 @@ namespace Net {
 		public: // Con/destructors
 			// Constructors setup the connection using 'connectionInfo'.
 			explicit
-			HTTPConnection(Net::ConnectionInfo connectionInfo);
+			HTTPConnection(const Net::ConnectionInfo &);
 
 			~HTTPConnection();
 		private: // Private Methods

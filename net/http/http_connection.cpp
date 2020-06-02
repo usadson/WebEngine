@@ -49,8 +49,8 @@ namespace Net {
 			{ HTTPConnectionError::NOT_CONNECTED, "NOT_CONNECTED" },
 		};
 
-		HTTPConnection::HTTPConnection(Net::ConnectionInfo inconnectionInfo)
-				: connectionInfo(inconnectionInfo) {
+		HTTPConnection::HTTPConnection(const Net::ConnectionInfo &inConnectionInfo)
+				: connectionInfo(inConnectionInfo) {
 			if (!connectionInfo.Connect()) {
 				std::stringstream information;
 				information << "Failed to connect! Host: \"" << connectionInfo.hostName << "\":" << connectionInfo.port;
