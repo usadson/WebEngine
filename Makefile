@@ -115,7 +115,8 @@ bin/test.txt:
 	@touch bin/test.txt
 
 bin/ccompat.o: ccompat.cpp\
-	ccompat.hpp
+	ccompat.hpp \
+	logger.hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ ccompat.cpp
 
 bin/logger.o: logger.cpp\

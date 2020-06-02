@@ -34,6 +34,8 @@
 #include <cstdio>
 #include <errno.h>
 
+#include "logger.hpp"
+
 namespace CCompat {
 
 	const char *
