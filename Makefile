@@ -15,12 +15,12 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. 
 #
 # Definition style for non-main binary:
-#   bin/<folders>/<filename>.so: <location>/<filename>.cpp \
+#   bin/<folders>/<filename>.o: <location>/<filename>.cpp \
 #   O	<location>/<filename>.hpp \
 #   *	<dependency_location>/<dependency_filename>.hpp
 #	$(CXX) $(CFLAGS) -c -o $@ <location>/<filename>.cpp
 # Example:
-#   bin/shapes/circle.so: shapes/circle.cpp \
+#   bin/shapes/circle.o: shapes/circle.cpp \
 #	shapes/circle.hpp \
 #	shapes/shape.hpp \
 #	shapes/position.hpp \
@@ -28,7 +28,8 @@
 
 ADDITIONAL_CFLAGS ?=
 
-GENERAL = -std=c++17 -g -Og
+GENERAL = -std=c++17 -g
+			# -Og
 INCLUDES = -I.
 WARNINGS = -Wall -Wextra -Wpedantic
 CFLAGS += $(GENERAL) $(INCLUDES) $(WARNINGS) $(ADDITIONAL_CFLAGS)
@@ -36,31 +37,31 @@ CFLAGS += $(GENERAL) $(INCLUDES) $(WARNINGS) $(ADDITIONAL_CFLAGS)
 CXX = clang++
 LDFLAGS = `pkg-config --static --libs libtls glfw3 glew freetype2`
 
-BINARIES = bin/ccompat.so \
-	   bin/logger.so \
-	   bin/options.so \
-	   bin/data/text/ustring.so \
-	   bin/data/text/encoding/encoder_engine.so \
-	   bin/data/text/encoding/single_byte_encoding.so \
-	   bin/data/text/encoding/utf8.so \
-	   bin/misc/credits.so \
-	   bin/net/connection_info.so \
-	   bin/net/connection_info_libtls.so \
-	   bin/net/http/http_connection.so \
-	   bin/net/http/http_response_info.so \
-	   bin/net/http2/http2_connection.so \
-	   bin/parser/html/context.so \
-	   bin/parser/html/error.so \
-	   bin/parser/html/insertion_mode.so \
-	   bin/parser/html/state.so \
-	   bin/parser/html/token.so \
-	   bin/parser/html/tokenizer.so \
-	   bin/parser/html/tree/insert_before_head.so \
-	   bin/parser/html/tree/insert_before_html.so \
-	   bin/parser/html/tree/insert_intial.so \
-	   bin/parser/html/tree_constructor.so \
-	   bin/rendering/opengl/gl_renderer.so \
-	   bin/rendering/window/window_glfw.so
+BINARIES = bin/ccompat.o \
+	   bin/logger.o \
+	   bin/options.o \
+	   bin/data/text/ustring.o \
+	   bin/data/text/encoding/encoder_engine.o \
+	   bin/data/text/encoding/single_byte_encoding.o \
+	   bin/data/text/encoding/utf8.o \
+	   bin/misc/credits.o \
+	   bin/net/connection_info.o \
+	   bin/net/connection_info_libtls.o \
+	   bin/net/http/http_connection.o \
+	   bin/net/http/http_response_info.o \
+	   bin/net/http2/http2_connection.o \
+	   bin/parser/html/context.o \
+	   bin/parser/html/error.o \
+	   bin/parser/html/insertion_mode.o \
+	   bin/parser/html/state.o \
+	   bin/parser/html/token.o \
+	   bin/parser/html/tokenizer.o \
+	   bin/parser/html/tree/insert_before_head.o \
+	   bin/parser/html/tree/insert_before_html.o \
+	   bin/parser/html/tree/insert_intial.o \
+	   bin/parser/html/tree_constructor.o \
+	   bin/rendering/opengl/gl_renderer.o \
+	   bin/rendering/window/window_glfw.o
 
 all: bin/test.txt $(BINARIES) engine
 
@@ -84,95 +85,95 @@ bin/test.txt:
 	@mkdir -p bin/rendering/window
 	@touch bin/test.txt
 
-bin/ccompat.so: ccompat.cpp ccompat.hpp
+bin/ccompat.o: ccompat.cpp ccompat.hpp
 	$(CXX) $(CFLAGS) -c -o $@ ccompat.cpp
 
-bin/logger.so: logger.cpp logger.hpp
+bin/logger.o: logger.cpp logger.hpp
 	$(CXX) $(CFLAGS) -c -o $@ logger.cpp
 
-bin/options.so: options.cpp \
+bin/options.o: options.cpp \
 	options.hpp
 	$(CXX) $(CFLAGS) -c -o $@ options.cpp
 
-bin/data/text/ustring.so: data/text/ustring.cpp \
+bin/data/text/ustring.o: data/text/ustring.cpp \
 	data/text/ustring.hpp \
 	data/text/unicode.hpp
 	$(CXX) $(CFLAGS) -c -o $@ data/text/ustring.cpp
 
-bin/data/text/encoding/single_byte_encoding.so: data/text/encoding/single_byte_encoding.cpp \
+bin/data/text/encoding/single_byte_encoding.o: data/text/encoding/single_byte_encoding.cpp \
 	data/text/encoding/single_byte_encoding.hpp \
 	data/text/encoding/encoding.hpp \
 	data/text/unicode.hpp
 	$(CXX) $(CFLAGS) -c -o $@ data/text/encoding/single_byte_encoding.cpp
 
-bin/data/text/encoding/encoder_engine.so: data/text/encoding/encoder_engine.cpp \
+bin/data/text/encoding/encoder_engine.o: data/text/encoding/encoder_engine.cpp \
 	data/text/encoding/encoder_engine.hpp \
 	data/text/encoding/single_byte_encoding.hpp \
 	data/text/encoding/encoding.hpp \
 	data/text/unicode.hpp
 	$(CXX) $(CFLAGS) -c -o $@ data/text/encoding/encoder_engine.cpp
 
-bin/data/text/encoding/utf8.so: data/text/encoding/utf8.cpp \
+bin/data/text/encoding/utf8.o: data/text/encoding/utf8.cpp \
 	data/text/encoding/utf8.hpp \
 	data/text/encoding/encoding.hpp \
 	data/text/unicode.hpp
 	$(CXX) $(CFLAGS) -c -o $@ data/text/encoding/utf8.cpp
 
-bin/misc/credits.so: misc/credits.cpp \
+bin/misc/credits.o: misc/credits.cpp \
 	misc/credits.hpp
 	$(CXX) $(CFLAGS) -c -o $@ misc/credits.cpp
 
-bin/net/connection_info.so: net/connection_info.cpp \
+bin/net/connection_info.o: net/connection_info.cpp \
 	net/connection_info.hpp \
 	ccompat.hpp \
 	logger.hpp
 	$(CXX) $(CFLAGS) -c -o $@ net/connection_info.cpp
 
-bin/net/connection_info_libtls.so: net/connection_info_libtls.cpp \
+bin/net/connection_info_libtls.o: net/connection_info_libtls.cpp \
 	net/connection_info.hpp \
 	logger.hpp
 	$(CXX) $(CFLAGS) -c -o $@ net/connection_info_libtls.cpp
 
-bin/net/http/http_connection.so: net/http/http_connection.cpp \
+bin/net/http/http_connection.o: net/http/http_connection.cpp \
 	net/http/http_connection.hpp \
 	logger.hpp \
 	net/http/http_response_info.hpp \
 	net/connection_info.hpp
 	$(CXX) $(CFLAGS) -c -o $@ net/http/http_connection.cpp
 
-bin/net/http/http_response_info.so: net/http/http_response_info.cpp \
+bin/net/http/http_response_info.o: net/http/http_response_info.cpp \
 	net/http/http_response_info.hpp \
 	net/http/http_header_field.hpp
 	$(CXX) $(CFLAGS) -c -o $@ net/http/http_response_info.cpp
 
-bin/net/http2/http2_connection.so: net/http2/http2_connection.cpp \
+bin/net/http2/http2_connection.o: net/http2/http2_connection.cpp \
 	net/http2/http2_connection.hpp \
 	logger.hpp \
 	net/http/http_response_info.hpp \
 	net/connection_info.hpp
 	$(CXX) $(CFLAGS) -c -o $@ net/http2/http2_connection.cpp
 
-bin/parser/html/context.so: parser/html/context.cpp \
+bin/parser/html/context.o: parser/html/context.cpp \
 	parser/html/context.hpp
 	$(CXX) $(CFLAGS) -c -o $@ parser/html/context.cpp
 
-bin/parser/html/error.so: parser/html/error.cpp \
+bin/parser/html/error.o: parser/html/error.cpp \
 	parser/html/error.hpp
 	$(CXX) $(CFLAGS) -c -o $@ parser/html/error.cpp
 
-bin/parser/html/insertion_mode.so: parser/html/insertion_mode.cpp \
+bin/parser/html/insertion_mode.o: parser/html/insertion_mode.cpp \
 	parser/html/insertion_mode.hpp
 	$(CXX) $(CFLAGS) -c -o $@ parser/html/insertion_mode.cpp
 
-bin/parser/html/state.so: parser/html/state.cpp \
+bin/parser/html/state.o: parser/html/state.cpp \
 	parser/html/state.hpp
 	$(CXX) $(CFLAGS) -c -o $@ parser/html/state.cpp
 
-bin/parser/html/token.so: parser/html/token.cpp \
+bin/parser/html/token.o: parser/html/token.cpp \
 	parser/html/token.hpp
 	$(CXX) $(CFLAGS) -c -o $@ parser/html/token.cpp
 
-bin/parser/html/tokenizer.so: parser/html/tokenizer.cpp \
+bin/parser/html/tokenizer.o: parser/html/tokenizer.cpp \
 	parser/html/tokenizer.cpp \
 	parser/html/context.hpp \
 	parser/html/error.hpp \
@@ -183,33 +184,33 @@ bin/parser/html/tokenizer.so: parser/html/tokenizer.cpp \
 	data/text/ustring.hpp
 	$(CXX) $(CFLAGS) -c -o $@ parser/html/tokenizer.cpp
 
-bin/parser/html/tree/insert_intial.so: parser/html/tree/insert_initial.cpp \
+bin/parser/html/tree/insert_intial.o: parser/html/tree/insert_initial.cpp \
 	parser/html/tree/insert_initial.hpp \
 	parser/html/tree_constructor.hpp
 	$(CXX) $(CFLAGS) -c -o $@ parser/html/tree/insert_initial.cpp
 
-bin/parser/html/tree/insert_before_html.so: parser/html/tree/insert_before_html.cpp \
+bin/parser/html/tree/insert_before_html.o: parser/html/tree/insert_before_html.cpp \
 	parser/html/tree/insert_before_html.hpp \
 	parser/html/tree_constructor.hpp
 	$(CXX) $(CFLAGS) -c -o $@ parser/html/tree/insert_before_html.cpp
 
-bin/parser/html/tree/insert_before_head.so: parser/html/tree/insert_before_head.cpp \
+bin/parser/html/tree/insert_before_head.o: parser/html/tree/insert_before_head.cpp \
 	parser/html/tree/insert_before_head.hpp \
 	parser/html/tree_constructor.hpp
 	$(CXX) $(CFLAGS) -c -o $@ parser/html/tree/insert_before_head.cpp
 
-bin/parser/html/tree_constructor.so: parser/html/tree_constructor.cpp \
+bin/parser/html/tree_constructor.o: parser/html/tree_constructor.cpp \
 	parser/html/tree_constructor.hpp
 	$(CXX) $(CFLAGS) -c -o $@ parser/html/tree_constructor.cpp
 
-bin/rendering/opengl/gl_renderer.so: rendering/opengl/gl_renderer.cpp \
+bin/rendering/opengl/gl_renderer.o: rendering/opengl/gl_renderer.cpp \
 	rendering/opengl/gl_renderer.hpp \
 	rendering/renderer.hpp \
 	rendering/render_object.hpp \
 	rendering/render_bounds.hpp
 	$(CXX) $(CFLAGS) -c -o $@ rendering/opengl/gl_renderer.cpp
 
-bin/rendering/window/window_glfw.so: rendering/window/window_glfw.cpp \
+bin/rendering/window/window_glfw.o: rendering/window/window_glfw.cpp \
 	rendering/window/window_glfw.hpp \
 	rendering/window/window.hpp \
 	data/text/ustring.hpp
