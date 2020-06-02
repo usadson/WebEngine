@@ -18,6 +18,36 @@
 
 #include "options.hpp"
 
+#include <algorithm>
+#include <iostream>
+#include <optional>
+#include <string>
+#include <vector>
+
+#include <cstring>
+
+namespace CommandLineParser {
+
+	struct Input {
+		std::string name;
+		bool optionHasValue;
+	};
+
+	struct Output {
+		std::string name;
+		std::optional<std::string> value;
+	};
+
+	std::vector<Input> inputs = {
+		{ "test", true },
+		{ "copyright", false },
+	};
+
+	std::vector<Output> outputs;
+	std::vector<std::string> textOutput;
+
+}
+
 namespace Options {
 
 	std::map<Type, std::string> values = {
@@ -28,7 +58,89 @@ namespace Options {
 
 bool
 Options::ParseCommandLine(int argc, const char **argv) {
-	(void)argc;
-	(void)argv;
+	if (argc == 0 || argc == 1)
+		return true;
+
+	size_t i;
+	std::optional<std::string_view> prevName;
+
+	for (i = 1; i < (size_t) argc; i++) {
+		std::string_view strview(argv[i]);
+
+		if (argv[i][0] == '\0')
+			continue;
+
+		if (strview[0] == '-' && strview[1] == '-') {
+			auto equals = strview.find('=');
+
+			if (prevName.has_value()) {
+				std::cerr << "Invalid command line option: " << prevName.value()
+						  << " (required option value)" << std::endl;
+				return false;
+			}
+
+			/* Option name is empty */
+			if (strview.length() == 2 || equals == 2) {
+				std::cerr << "Invalid command line option: " << strview
+						  << " (option name is empty)" << std::endl;
+				return false;
+			}
+
+			if (equals == std::string::npos) {
+				std::string name(std::begin(strview) + 2);
+
+				auto result = std::find_if(std::begin(CommandLineParser::inputs),
+										   std::end(CommandLineParser::inputs),
+					[name](const auto &entry) -> bool {
+						return strcasecmp(name.c_str(), entry.name.c_str()) == 0;
+					}
+				);
+
+				if (result != std::end(CommandLineParser::inputs) && result->optionHasValue) {
+					if (i == (size_t) argc - 1) {
+						std::cerr << "Invalid command line option: " << result->name
+								  << " (required option value)" << std::endl;
+						return false;
+					}
+					prevName = strview;
+				} else {
+					CommandLineParser::outputs.push_back({ 
+						std::string(std::begin(strview) + 2, std::end(strview)),
+						{}
+					});
+				}
+			} else {
+				CommandLineParser::outputs.push_back({ 
+					std::string(std::begin(strview) + 2, equals - 2),
+					std::string(std::begin(strview) + equals + 1)
+				});
+			}
+		} else if (prevName.has_value()) {
+			CommandLineParser::outputs.push_back({ 
+				std::string(std::begin(prevName.value()) + 2, std::end(prevName.value())),
+				std::string(strview)
+			});
+			prevName.reset();
+		} else {
+			CommandLineParser::textOutput.push_back(std::string(strview));
+		}
+	}
+
+	std::cout << "HasValue: " << prevName.has_value() << std::endl;
+
+	std::cout << "CommandLineOptions: " << CommandLineParser::outputs.size() << std::endl;
+	for (const auto &option : CommandLineParser::outputs) {
+		std::cout << " > \"" << option.name << "\" value";
+		if (option.value.has_value())
+			std::cout << ": \"" << option.value.value() << '"' << std::endl;
+		else
+			std::cout << "less" << std::endl;
+	}
+
+	std::cout << "CommandLine TextOutputs: " << CommandLineParser::textOutput.size() << std::endl;
+	for (const auto &text : CommandLineParser::textOutput) {
+		std::cout << " > \"" << text << '"' << std::endl;
+	}
+
 	return false;
 }
