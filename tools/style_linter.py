@@ -47,7 +47,9 @@ totalErrorFiles = 0
 if len(sys.argv) == 1:
 	fileNames = [os.path.join(dp, f) for dp, dn, filenames in os.walk(".")
 			for f in filenames if os.path.splitext(f)[1] == '.c'
-							   or os.path.splitext(f)[1] == '.h']
+							   or os.path.splitext(f)[1] == '.h'
+							   or os.path.splitext(f)[1] == '.cpp'
+							   or os.path.splitext(f)[1] == '.hpp']
 else:
 	fileNames = sys.argv[1:]
 
@@ -72,14 +74,14 @@ for fileName in fileNames:
 				elif char != '\n':
 					count += 1
 			# Line length checking
-			if count > 80:
-				errors += 1
-				print("Line %s%s:%i%s is too long: (%s%i%s characters)\n%s%s%s"
-				% (
-					Colors.BLUE, fileName, linenr, Colors.RESET,
-					Colors.BLUE, count, Colors.RESET,
-					Colors.YELLOW, line.strip(), Colors.RESET
-				))
+#			if count > 80:
+#				errors += 1
+#				print("Line %s%s:%i%s is too long: (%s%i%s characters)\n%s%s%s"
+#				% (
+#					Colors.BLUE, fileName, linenr, Colors.RESET,
+#					Colors.BLUE, count, Colors.RESET,
+#					Colors.YELLOW, line.strip(), Colors.RESET
+#				))
 			# End-of-line checking
 			if len(buf) > 1:
 				if ord(buf[-2]) == Characters.TABULATOR:
