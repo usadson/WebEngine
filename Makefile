@@ -75,14 +75,20 @@ engine: main.cpp \
 	$(CXX) $(CFLAGS) -o $@ main.cpp $(BINARIES) $(LDFLAGS)
 
 bin/test.txt:
-	@mkdir -p bin/data/text/encoding
+	@mkdir bin
+	@mkdir bin/data
+	@mkdir bin/data/text
+	@mkdir bin/data/text/encoding
 	@mkdir bin/misc
-	@mkdir -p bin/net/http
-	@mkdir -p bin/net/http2
-	@mkdir -p bin/parser/html/tree
-	@mkdir -p bin/rendering/window
-	@mkdir -p bin/rendering/opengl
-	@mkdir -p bin/rendering/window
+	@mkdir bin/net
+	@mkdir bin/net/http
+	@mkdir bin/net/http2
+	@mkdir bin/parser
+	@mkdir bin/parser/html
+	@mkdir bin/parser/html/tree
+	@mkdir bin/rendering
+	@mkdir bin/rendering/window
+	@mkdir bin/rendering/opengl
 	@touch bin/test.txt
 
 bin/ccompat.o: ccompat.cpp ccompat.hpp
