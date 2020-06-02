@@ -91,10 +91,12 @@ bin/test.txt:
 	@mkdir bin/rendering/opengl
 	@touch bin/test.txt
 
-bin/ccompat.o: ccompat.cpp ccompat.hpp
+bin/ccompat.o: ccompat.cpp\
+	ccompat.hpp
 	$(CXX) $(CFLAGS) -c -o $@ ccompat.cpp
 
-bin/logger.o: logger.cpp logger.hpp
+bin/logger.o: logger.cpp\
+	logger.hpp
 	$(CXX) $(CFLAGS) -c -o $@ logger.cpp
 
 bin/options.o: options.cpp \
@@ -103,21 +105,25 @@ bin/options.o: options.cpp \
 
 bin/data/text/ustring.o: data/text/ustring.cpp \
 	data/text/ustring.hpp \
-	data/text/unicode.hpp
+	data/text/unicode.hpp \
+	data/text/encoding/utf8.hpp \
+	logger.hpp
 	$(CXX) $(CFLAGS) -c -o $@ data/text/ustring.cpp
-
-bin/data/text/encoding/single_byte_encoding.o: data/text/encoding/single_byte_encoding.cpp \
-	data/text/encoding/single_byte_encoding.hpp \
-	data/text/encoding/encoding.hpp \
-	data/text/unicode.hpp
-	$(CXX) $(CFLAGS) -c -o $@ data/text/encoding/single_byte_encoding.cpp
 
 bin/data/text/encoding/encoder_engine.o: data/text/encoding/encoder_engine.cpp \
 	data/text/encoding/encoder_engine.hpp \
 	data/text/encoding/single_byte_encoding.hpp \
+	data/text/encoding/utf8.hpp \
 	data/text/encoding/encoding.hpp \
 	data/text/unicode.hpp
 	$(CXX) $(CFLAGS) -c -o $@ data/text/encoding/encoder_engine.cpp
+
+bin/data/text/encoding/single_byte_encoding.o: data/text/encoding/single_byte_encoding.cpp \
+	data/text/encoding/single_byte_encoding.hpp \
+	data/text/encoding/encoding.hpp \
+	data/text/unicode.hpp \
+	logger.hpp
+	$(CXX) $(CFLAGS) -c -o $@ data/text/encoding/single_byte_encoding.cpp
 
 bin/data/text/encoding/utf8.o: data/text/encoding/utf8.cpp \
 	data/text/encoding/utf8.hpp \
@@ -137,14 +143,15 @@ bin/net/connection_info.o: net/connection_info.cpp \
 
 bin/net/connection_info_libtls.o: net/connection_info_libtls.cpp \
 	net/connection_info.hpp \
-	logger.hpp
+	logger.hpp \
+	options.hpp
 	$(CXX) $(CFLAGS) -c -o $@ net/connection_info_libtls.cpp
 
 bin/net/http/http_connection.o: net/http/http_connection.cpp \
 	net/http/http_connection.hpp \
-	logger.hpp \
 	net/http/http_response_info.hpp \
-	net/connection_info.hpp
+	net/connection_info.hpp \
+	logger.hpp
 	$(CXX) $(CFLAGS) -c -o $@ net/http/http_connection.cpp
 
 bin/net/http/http_response_info.o: net/http/http_response_info.cpp \
@@ -154,13 +161,19 @@ bin/net/http/http_response_info.o: net/http/http_response_info.cpp \
 
 bin/net/http2/http2_connection.o: net/http2/http2_connection.cpp \
 	net/http2/http2_connection.hpp \
-	logger.hpp \
+	net/http2/constants.hpp \
+	net/http2/frame.hpp \
 	net/http/http_response_info.hpp \
-	net/connection_info.hpp
+	net/connection_info.hpp \
+	logger.hpp
 	$(CXX) $(CFLAGS) -c -o $@ net/http2/http2_connection.cpp
 
 bin/parser/html/context.o: parser/html/context.cpp \
-	parser/html/context.hpp
+	parser/html/context.hpp \
+	dom/document.hpp \
+	parser/html/error.hpp \
+	parser/html/state.hpp \
+	parser/html/token.hpp
 	$(CXX) $(CFLAGS) -c -o $@ parser/html/context.cpp
 
 bin/parser/html/error.o: parser/html/error.cpp \
@@ -176,7 +189,11 @@ bin/parser/html/state.o: parser/html/state.cpp \
 	$(CXX) $(CFLAGS) -c -o $@ parser/html/state.cpp
 
 bin/parser/html/token.o: parser/html/token.cpp \
-	parser/html/token.hpp
+	parser/html/token.hpp \
+	data/text/unicode.hpp \
+	data/text/ustring.hpp \
+	parser/html/context.hpp \
+	logger.hpp
 	$(CXX) $(CFLAGS) -c -o $@ parser/html/token.cpp
 
 bin/parser/html/tokenizer.o: parser/html/tokenizer.cpp \
@@ -190,36 +207,56 @@ bin/parser/html/tokenizer.o: parser/html/tokenizer.cpp \
 	data/text/ustring.hpp
 	$(CXX) $(CFLAGS) -c -o $@ parser/html/tokenizer.cpp
 
-bin/parser/html/tree/insert_intial.o: parser/html/tree/insert_initial.cpp \
-	parser/html/tree/insert_initial.hpp \
-	parser/html/tree_constructor.hpp
-	$(CXX) $(CFLAGS) -c -o $@ parser/html/tree/insert_initial.cpp
-
-bin/parser/html/tree/insert_before_html.o: parser/html/tree/insert_before_html.cpp \
+bin/parser/html/tree_constructor.o: parser/html/tree_constructor.cpp \
+	parser/html/tree_constructor.hpp \
+	dom/document.hpp \
+	parser/html/tree/insert_before_head.hpp \
 	parser/html/tree/insert_before_html.hpp \
-	parser/html/tree_constructor.hpp
-	$(CXX) $(CFLAGS) -c -o $@ parser/html/tree/insert_before_html.cpp
+	parser/html/tree/insert_initial.hpp \
+	parser/html/tree/insertion_mode.hpp \
+	parser/html/insertion_mode.hpp \
+	parser/html/token.hpp \
+	logger.hpp
+	$(CXX) $(CFLAGS) -c -o $@ parser/html/tree_constructor.cpp
 
 bin/parser/html/tree/insert_before_head.o: parser/html/tree/insert_before_head.cpp \
 	parser/html/tree/insert_before_head.hpp \
-	parser/html/tree_constructor.hpp
+	dom/comment.hpp \
+	dom/element.hpp \
+	parser/html/constants.hpp \
+	parser/html/tree/insertion_mode.hpp \
+	logger.hpp
 	$(CXX) $(CFLAGS) -c -o $@ parser/html/tree/insert_before_head.cpp
 
-bin/parser/html/tree_constructor.o: parser/html/tree_constructor.cpp \
-	parser/html/tree_constructor.hpp
-	$(CXX) $(CFLAGS) -c -o $@ parser/html/tree_constructor.cpp
+bin/parser/html/tree/insert_before_html.o: parser/html/tree/insert_before_html.cpp \
+	parser/html/tree/insert_before_html.hpp \
+	dom/comment.hpp \
+	dom/element.hpp \
+	parser/html/constants.hpp \
+	parser/html/tree/insertion_mode.hpp \
+	logger.hpp
+	$(CXX) $(CFLAGS) -c -o $@ parser/html/tree/insert_before_html.cpp
+
+bin/parser/html/tree/insert_intial.o: parser/html/tree/insert_initial.cpp \
+	parser/html/tree/insert_initial.hpp \
+	dom/comment.hpp \
+	dom/element.hpp \
+	parser/html/constants.hpp \
+	parser/html/tree/insertion_mode.hpp \
+	logger.hpp
+	$(CXX) $(CFLAGS) -c -o $@ parser/html/tree/insert_initial.cpp
 
 bin/rendering/opengl/gl_renderer.o: rendering/opengl/gl_renderer.cpp \
 	rendering/opengl/gl_renderer.hpp \
 	rendering/renderer.hpp \
-	rendering/render_object.hpp \
-	rendering/render_bounds.hpp
+	rendering/drawables/draw_rect.hpp \
+	logger.hpp
 	$(CXX) $(CFLAGS) -c -o $@ rendering/opengl/gl_renderer.cpp
 
 bin/rendering/window/window_glfw.o: rendering/window/window_glfw.cpp \
 	rendering/window/window_glfw.hpp \
 	rendering/window/window.hpp \
-	data/text/ustring.hpp
+	logger.hpp
 	$(CXX) $(CFLAGS) -c -o $@ rendering/window/window_glfw.cpp
 
 # the 'memory' target will invoke Valgrind, which will run the executable and
