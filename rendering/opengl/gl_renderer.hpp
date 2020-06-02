@@ -35,16 +35,19 @@
 #include "rendering/renderer.hpp"
 
 namespace Rendering {
+
 	class GLRenderer : public Renderer {
-	public: // Properties
+	public: // Public Properties
 		std::vector<RenderObject *> renderObjects;
-	public: // Methods
+
+	public: // Con/destructors
 		GLRenderer();
 
 		inline
 		~GLRenderer() override {
 		}
 
+	public: // Public Methods
 		void
 		Dequeue(RenderObject *) override;
 
@@ -57,4 +60,5 @@ namespace Rendering {
 		void
 		Prepare() override;
 	};
+
 }

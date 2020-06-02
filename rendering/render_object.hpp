@@ -40,9 +40,11 @@ namespace Rendering {
 	class RenderObject {
 	public: // Properties
 		RenderBounds bounds;
+
 	public: // Internal Properties
 		void *renderContext;
 		RenderObjectType type;
+
 	public: // Methods
 		inline explicit
 		RenderObject(RenderObjectType inType)

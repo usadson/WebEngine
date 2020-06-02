@@ -29,10 +29,12 @@
 #pragma once
 
 namespace Rendering {
+
 	struct RenderBounds {
 		float left;
 		float right;
 		float top;
 		float bottom;
 	};
+
 }

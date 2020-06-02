@@ -42,11 +42,11 @@ namespace Rendering {
 namespace Rendering {
 
 	class WindowBase {
-	public:
+	public: // Public Properties
 		uint32_t height;
 		uint32_t width;
 		std::string windowManagerName;
-	public:
+	public: // Con/destructors
 		inline explicit
 		WindowBase(const std::string &windowManagerName)
 			: height(0), width(0), windowManagerName(windowManagerName) {
@@ -55,6 +55,7 @@ namespace Rendering {
 		virtual ~
 		WindowBase() = default;
 
+	public: // Public Methods
 		virtual std::vector<RendererType>
 		GetSupportedRenderers() = 0;
 

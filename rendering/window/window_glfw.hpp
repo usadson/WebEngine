@@ -35,12 +35,14 @@
 namespace Rendering {
 
 	class WindowGLFW : public WindowBase {
-	private:
+	private: // Private Properties
 		GLFWwindow *internalWindow;
-	public:
+
+	public: // Con/destructor
 		WindowGLFW();
 		~WindowGLFW();
 
+	public: // Public Methods
 		std::vector<RendererType>
 		GetSupportedRenderers() override;
 
@@ -55,7 +57,7 @@ namespace Rendering {
 
 		void
 		SwapBuffers() override;
-	private:
+	private: // Private Methods
 		bool
 		InternalPrepareGL();
 	};
