@@ -69,7 +69,6 @@ namespace Net {
 			HTTPConnectionError ConsumeStatusCode(HTTPResponseInfo *);
 
 		public: // Methods
-			// Return value: "" on success, otherwise the error.
 			HTTPConnectionError
 			Request(HTTPResponseInfo *, const std::string &method, const std::string &path);
 
