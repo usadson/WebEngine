@@ -68,7 +68,7 @@ clean:
 
 engine: main.cpp \
 	parser/html/error.hpp \
-	parser/html/state.hpp
+	parser/html/state.hpp $(BINARIES)
 	$(CXX) $(CFLAGS) -o $@ main.cpp $(BINARIES) $(LDFLAGS)
 
 bin/test.txt:
