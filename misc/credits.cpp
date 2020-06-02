@@ -168,7 +168,8 @@ derivative of this code cannot be changed.  i.e. this code cannot simply be\n\
 copied and put under another distribution licence\n\
 [including the GNU Public Licence.]\n";
 
-static const char *glewLicense = "The OpenGL Extension Wrangler Library\n\
+static const char *glewLicense = "Portions of GLEW are included in this software.\n\
+The OpenGL Extension Wrangler Library\n\
 Copyright (C) 2002-2007, Milan Ikits <milan ikits[]ieee org>\n\
 Copyright (C) 2002-2007, Marcelo E. Magallon <mmagallo[]debian org>\n\
 Copyright (C) 2002, Lev Povalahev\n\
