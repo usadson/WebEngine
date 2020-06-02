@@ -31,8 +31,10 @@
 #include "media_type.hpp"
 
 namespace Resources {
+
 	class Resource {
 	public: // Properties
 		MediaType mediaType;
 	};
+
 }
