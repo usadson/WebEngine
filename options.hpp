@@ -27,12 +27,12 @@ namespace Options {
 	};
 
 	/* Settings should be verified before updating this map. */
-	std::map<Type, std::string> Values = {
+	std::map<Type, std::string> values = {
 		{ Type::TLS_SECURITY_LEVEL, "secure" },
 	};
 
 	inline std::string &
 	Get(Type type) {
-		return Values[type];
+		return values[type];
 	}
 }
