@@ -16,25 +16,19 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. 
  */
 
-#pragma once
-
-#include <map>
-#include <string>
+#include "options.hpp"
 
 namespace Options {
-	enum class Type {
-		TLS_SECURITY_LEVEL,
+
+	std::map<Type, std::string> values = {
+		{ Type::TLS_SECURITY_LEVEL, "secure" },
 	};
 
-	/* Settings should be verified before updating this map. */
-	extern std::map<Type, std::string> values;
+}
 
-	inline std::string &
-	Get(Type type) {
-		return values[type];
-	}
-
-	bool
-	ParseCommandLine(int, const char **);
-
+bool
+Options::ParseCommandLine(int argc, const char **argv) {
+	(void)argc;
+	(void)argv;
+	return false;
 }

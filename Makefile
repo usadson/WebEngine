@@ -38,6 +38,7 @@ LDFLAGS = `pkg-config --static --libs libtls glfw3 glew freetype2`
 
 BINARIES = bin/ccompat.so \
 	   bin/logger.so \
+	   bin/options.so \
 	   bin/data/text/ustring.so \
 	   bin/data/text/encoding/encoder_engine.so \
 	   bin/data/text/encoding/single_byte_encoding.so \
@@ -68,7 +69,7 @@ clean:
 
 engine: main.cpp \
 	parser/html/error.hpp \
-	parser/html/state.hpp
+	parser/html/state.hpp $(BINARIES)
 	$(CXX) $(CFLAGS) -o $@ main.cpp $(BINARIES) $(LDFLAGS)
 
 bin/test.txt:
@@ -86,6 +87,10 @@ bin/ccompat.so: ccompat.cpp ccompat.hpp
 
 bin/logger.so: logger.cpp logger.hpp
 	$(CXX) $(CFLAGS) -c -o $@ logger.cpp
+
+bin/options.so: options.cpp \
+	options.hpp
+	$(CXX) $(CFLAGS) -c -o $@ options.cpp
 
 bin/data/text/ustring.so: data/text/ustring.cpp \
 	data/text/ustring.hpp \
