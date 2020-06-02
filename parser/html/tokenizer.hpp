@@ -31,12 +31,12 @@ namespace HTML {
 	namespace Tokenizer {
 		class Tokenizer {
 		public: // Properties
-			HTML::Tokenizer::Context Context;
-			HTML::TreeConstructor TreeConstructor;
+			HTML::Tokenizer::Context context;
+			HTML::TreeConstructor treeConstructor;
 		public: // Methods
 			inline explicit
 			Tokenizer(HTML::ParserContext &parserContext)
-				: Context(parserContext), TreeConstructor(Context) {
+				: context(parserContext), treeConstructor(context) {
 			}
 
 			void

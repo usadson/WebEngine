@@ -28,11 +28,11 @@ namespace HTML {
 namespace HTML {
 	class InsertionMode {
 	public: // References
-		TreeConstructor &Constructor;
-		Tokenizer::Context &Context;
+		TreeConstructor &constructor;
+		Tokenizer::Context &context;
 	public: // Methods
 		inline InsertionMode(TreeConstructor &constructor, Tokenizer::Context &context)
-			: Constructor(constructor), Context(context) {}
+			: constructor(constructor), context(context) {}
 
 		inline virtual
 		~InsertionMode() {

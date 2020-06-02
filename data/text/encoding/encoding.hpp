@@ -28,6 +28,7 @@ namespace TextEncoding {
 	class Encoding {
 	public: // Properties
 		std::vector<Unicode::CodePoint> Output;
+
 	public: // Methods
 		inline virtual
 		~Encoding() {}

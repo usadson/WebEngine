@@ -32,9 +32,9 @@ namespace DOM {
 
 	class Document : public Node {
 	public: // Properties
-		QuirksMode Mode;
+		QuirksMode mode;
 
 		// Children should govern the Node::ChildNodes vector somehow.
-		std::vector<std::shared_ptr<DOM::Element>> Children;
+		std::vector<std::shared_ptr<DOM::Element>> children;
 	};
 }

@@ -33,10 +33,10 @@ namespace HTML {
 namespace HTML {
 	class TreeConstructor {
 	public: // Properties
-		Tokenizer::Context &Context;
-		InsertionModeType CurrentMode;
-		std::vector<std::shared_ptr<DOM::Element>> OpenElementsStack;
-		std::map<InsertionModeType, std::shared_ptr<InsertionMode>> InsertionModes;
+		Tokenizer::Context &context;
+		InsertionModeType currentMode;
+		std::vector<std::shared_ptr<DOM::Element>> openElementsStack;
+		std::map<InsertionModeType, std::shared_ptr<InsertionMode>> insertionModes;
 	public: // Methods
 		explicit
 		TreeConstructor(Tokenizer::Context &);

@@ -27,18 +27,18 @@
 namespace DOM {
 	class Element : public Node {
 	public: // Internal Properties
-		std::map<Unicode::UString, Unicode::UString> InternalAttributes;
+		std::map<Unicode::UString, Unicode::UString> internalAttributes;
 	public: // DOM Attributes
 		/* Readonly */
-		std::optional<Unicode::UString> NamespaceURI;
-		std::optional<Unicode::UString> Prefix;
-		Unicode::UString LocalName;
-		Unicode::UString TagName;
+		std::optional<Unicode::UString> namespaceURI;
+		std::optional<Unicode::UString> prefix;
+		Unicode::UString localName;
+		Unicode::UString tagName;
 
-		Unicode::UString Id;
-		Unicode::UString ClassName;
+		Unicode::UString ID;
+		Unicode::UString className;
 
 		// Children should govern the Node::ChildNodes vector somehow.
-		std::vector<std::shared_ptr<DOM::Element>> Children;
+		std::vector<std::shared_ptr<DOM::Element>> children;
 	};
 }

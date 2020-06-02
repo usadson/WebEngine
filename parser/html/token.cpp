@@ -29,7 +29,7 @@ namespace HTML {
 		const EndTagToken EndTagToken::INVALID_TYPE_END_TAG = EndTagToken();
 		const StartTagToken StartTagToken::INVALID_TYPE_START_TAG = StartTagToken();
 
-		std::map<TokenType, std::string> TokenTypeNames = {
+		std::map<TokenType, std::string> tokenTypeNames = {
 			{ TokenType::CHARACTER, "CHARACTER" },
 			{ TokenType::COMMENT, "COMMENT" },
 			{ TokenType::DOCTYPE, "DOCTYPE" },
@@ -41,13 +41,13 @@ namespace HTML {
 
 		void
 		AmbiguousTagToken::AddTokenAttribute(HTML::Tokenizer::Context &context) {
-			if (!Attributes.insert(std::make_pair(AttributeName, AttributeValue)).second) {
+			if (!attributes.insert(std::make_pair(attributeName, attributeValue)).second) {
 				context.LogError(HTML::Tokenizer::ParserError::DUPLICATE_ATTRIBUTES);
 			}
 
 			// Reset:
-			AttributeName = Unicode::UString("");
-			AttributeValue = Unicode::UString("");
+			attributeName = Unicode::UString("");
+			attributeValue = Unicode::UString("");
 		}
 	};
 };

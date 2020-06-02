@@ -24,7 +24,7 @@
 namespace DOM {
 	class CharacterData : public Node {
 	public: // Properties
-		Unicode::UString Data;
+		Unicode::UString data;
 	};
 }
  

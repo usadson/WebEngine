@@ -34,17 +34,17 @@ HTML::InsertionModes::BeforeHTML::EmitToken(HTML::Tokenizer::Token &inToken) {
 
 	startTagToken = nullptr;
 
-	switch (inToken.Type) {
+	switch (inToken.type) {
 		case HTML::Tokenizer::TokenType::DOCTYPE:
 			// Parse error. Ignore the token.
 			return false;
 		case HTML::Tokenizer::TokenType::COMMENT:
 			commentToken = dynamic_cast<HTML::Tokenizer::CommentToken *>(&inToken);
-			Context.ParserContext.DocumentNode.ChildNodes.push_back(DOM::Comment(commentToken->Contents));
+			context.parserContext.documentNode.childNodes.push_back(DOM::Comment(commentToken->contents));
 			return false;
 		case HTML::Tokenizer::TokenType::CHARACTER:
 			characterToken = dynamic_cast<HTML::Tokenizer::CharacterToken *>(&inToken);
-			switch (characterToken->Character) {
+			switch (characterToken->character) {
 				case Unicode::CHARACTER_TABULATION:
 				case Unicode::LINE_FEED:
 				case Unicode::FORM_FEED:
@@ -59,22 +59,22 @@ HTML::InsertionModes::BeforeHTML::EmitToken(HTML::Tokenizer::Token &inToken) {
 		case HTML::Tokenizer::TokenType::STARTTAG:
 			startTagToken = dynamic_cast<HTML::Tokenizer::StartTagToken *>(&inToken);
 
-			if (startTagToken->TagName.EqualsA("html")) {
+			if (startTagToken->tagName.EqualsA("html")) {
 				std::shared_ptr<DOM::Element> element = std::make_shared<DOM::Element>();
-				element->NamespaceURI = HTML::Constants::HTMLNamespace;
-				element->LocalName = startTagToken->TagName;
-				element->Document = Context.ParserContext.DocumentNode;
-				Context.ParserContext.DocumentNode.Children.push_back(element);
-				Constructor.OpenElementsStack.push_back(element);
+				element->namespaceURI = HTML::Constants::HTMLNamespace;
+				element->localName = startTagToken->tagName;
+				element->document = context.parserContext.documentNode;
+				context.parserContext.documentNode.children.push_back(element);
+				constructor.openElementsStack.push_back(element);
 
-				for (auto const &attribute : startTagToken->Attributes) {
-					element->InternalAttributes.insert(attribute);
+				for (auto const &attribute : startTagToken->attributes) {
+					element->internalAttributes.insert(attribute);
 				}
 
-				Constructor.CurrentMode = HTML::InsertionModeType::BEFORE_HEAD;
+				constructor.currentMode = HTML::InsertionModeType::BEFORE_HEAD;
 				return false;
 			} else
-				std::cout << startTagToken->TagName << " != html" << std::endl;
+				std::cout << startTagToken->tagName << " != html" << std::endl;
 
 			/* Fallthrough */
 		case HTML::Tokenizer::TokenType::ENDTAG:
@@ -83,10 +83,10 @@ HTML::InsertionModes::BeforeHTML::EmitToken(HTML::Tokenizer::Token &inToken) {
 				return false;
 			}
 
-			if (!startTagToken->TagName.EqualsA("html") &&
-				!startTagToken->TagName.EqualsA("body") &&
-				!startTagToken->TagName.EqualsA("html") &&
-				!startTagToken->TagName.EqualsA("br")) {
+			if (!startTagToken->tagName.EqualsA("html") &&
+				!startTagToken->tagName.EqualsA("body") &&
+				!startTagToken->tagName.EqualsA("html") &&
+				!startTagToken->tagName.EqualsA("br")) {
 				// Parse error. Ignore the token.
 				return false;
 			}
@@ -98,12 +98,12 @@ HTML::InsertionModes::BeforeHTML::EmitToken(HTML::Tokenizer::Token &inToken) {
 	// This is just repeating the STARTTAG thing, so maybe create a subroutine?
 	// also, the 'Application Cache Selection Algorithm' should be executed.
 	std::shared_ptr<DOM::Element> element = std::make_shared<DOM::Element>();
-	element->NamespaceURI = HTML::Constants::HTMLNamespace;
-	element->LocalName = Unicode::UString("html");
-	element->Document = Context.ParserContext.DocumentNode;
-	Context.ParserContext.DocumentNode.Children.push_back(element);
-	Constructor.OpenElementsStack.push_back(element);
+	element->namespaceURI = HTML::Constants::HTMLNamespace;
+	element->localName = Unicode::UString("html");
+	element->document = context.parserContext.documentNode;
+	context.parserContext.documentNode.children.push_back(element);
+	constructor.openElementsStack.push_back(element);
 
-	Constructor.CurrentMode = HTML::InsertionModeType::BEFORE_HEAD;
+	constructor.currentMode = HTML::InsertionModeType::BEFORE_HEAD;
 	return true;
 }

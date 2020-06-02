@@ -38,18 +38,18 @@ namespace HTML {
 			STARTTAG
 		};
 		
-		extern std::map<TokenType, std::string> TokenTypeNames;
+		extern std::map<TokenType, std::string> tokenTypeNames;
 
 		inline std::ostream &
 		operator<<(std::ostream &stream, const TokenType &type) {
-			return stream << TokenTypeNames[type];
+			return stream << tokenTypeNames[type];
 		}
 
 		struct Token {
-			TokenType Type;
+			TokenType type;
 
 			inline explicit
-			Token(TokenType type) : Type(type) {
+			Token(TokenType inType) : type(inType) {
 			}
 
 			virtual
@@ -59,11 +59,11 @@ namespace HTML {
 		// DOCTYPE, start tag, end tag, comment, character, end-of-file
 		struct DoctypeToken : public Token {
 			// Initial state is missing
-			std::optional<Unicode::UString> Name;
-			std::optional<Unicode::UString> PublicIdentifier;
-			std::optional<Unicode::UString> SystemIdentifier;
+			std::optional<Unicode::UString> name;
+			std::optional<Unicode::UString> publicIdentifier;
+			std::optional<Unicode::UString> systemIdentifier;
 			// Initial state is off (= false)
-			bool ForceQuirks = false;
+			bool forceQuirks = false;
 
 			inline
 			DoctypeToken() : Token(TokenType::DOCTYPE) {
@@ -72,12 +72,12 @@ namespace HTML {
 
 		/* Don't use the following, its just for conveniance */
 		struct AmbiguousTagToken : public Token {
-			Unicode::UString TagName;
-			bool SelfClosing = false;
-			std::map<Unicode::UString, Unicode::UString> Attributes;
+			Unicode::UString tagName;
+			bool selfClosing = false;
+			std::map<Unicode::UString, Unicode::UString> attributes;
 			// For the tokenizer:
-			Unicode::UString AttributeName;
-			Unicode::UString AttributeValue;
+			Unicode::UString attributeName;
+			Unicode::UString attributeValue;
 			
 			inline explicit
 			AmbiguousTagToken(TokenType type) : Token(type) {
@@ -106,22 +106,22 @@ namespace HTML {
 		};
 
 		struct CommentToken : public Token {
-			Unicode::UString Contents;
+			Unicode::UString contents;
 
 			inline explicit
-			CommentToken(const Unicode::UString &contents)
-				: Token(TokenType::COMMENT), Contents(contents) {
+			CommentToken(const Unicode::UString &inContents)
+				: Token(TokenType::COMMENT), contents(inContents) {
 			}
 
 			static const CommentToken INVALID_TYPE;
 		};
 
 		struct CharacterToken : public Token {
-			Unicode::CodePoint Character;
+			Unicode::CodePoint character;
 
 			inline explicit
 			CharacterToken(Unicode::CodePoint character)
-				: Token(TokenType::CHARACTER), Character(character) {
+				: Token(TokenType::CHARACTER), character(character) {
 			}
 		};
 

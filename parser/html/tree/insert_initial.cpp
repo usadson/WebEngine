@@ -96,31 +96,31 @@ bool
 IsQuirkyDoctype(HTML::Tokenizer::DoctypeToken *token, bool isIFrameSrcDoc) {
 	(void) isIFrameSrcDoc;
 
-	if (token->ForceQuirks)
+	if (token->forceQuirks)
 		return true;
 
-	if (!token->Name.has_value())
+	if (!token->name.has_value())
 		return true;
 
-	if (token->Name.value().EqualsA("html"))
+	if (token->name.value().EqualsA("html"))
 		return true;
 
-	if (token->SystemIdentifier.has_value()) {
-		if (token->Name.value().EqualsA("html"))
-		if (token->SystemIdentifier.value().EqualsA("http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd")) {
+	if (token->systemIdentifier.has_value()) {
+		if (token->name.value().EqualsA("html"))
+		if (token->systemIdentifier.value().EqualsA("http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd")) {
 			return true;
 		}
-	} else if (token->PublicIdentifier.has_value()) {
+	} else if (token->publicIdentifier.has_value()) {
 		for (const auto &string : quirkyPublicIdentifiersMissingSystem) {
-			if (token->PublicIdentifier.value().EqualsA(string)) {
+			if (token->publicIdentifier.value().EqualsA(string)) {
 				return true;
 			}
 		}
 	}
 
-	if (token->PublicIdentifier.has_value()) {
+	if (token->publicIdentifier.has_value()) {
 		for (const auto &string : quirkyPublicIdentifiers) {
-			if (token->PublicIdentifier.value().EqualsA(string)) {
+			if (token->publicIdentifier.value().EqualsA(string)) {
 				return true;
 			}
 		}
@@ -135,10 +135,10 @@ HTML::InsertionModes::Initial::EmitToken(HTML::Tokenizer::Token &inToken) {
 	HTML::Tokenizer::CommentToken	*commentToken;
 	HTML::Tokenizer::DoctypeToken	*doctypeToken;
 
-	switch (inToken.Type) {
+	switch (inToken.type) {
 		case HTML::Tokenizer::TokenType::CHARACTER:
 			characterToken = dynamic_cast<HTML::Tokenizer::CharacterToken *>(&inToken);
-			switch (characterToken->Character) {
+			switch (characterToken->character) {
 				case Unicode::CHARACTER_TABULATION:
 				case Unicode::LINE_FEED:
 				case Unicode::FORM_FEED:
@@ -148,21 +148,21 @@ HTML::InsertionModes::Initial::EmitToken(HTML::Tokenizer::Token &inToken) {
 					return false;
 				default:
 					Logger::Warning("InitialInsertionMode::EmitToken", "Invalid character token!");
-					Context.ParserContext.DocumentNode.Mode = DOM::QuirksMode::QUIRKS;
+					context.parserContext.documentNode.mode = DOM::QuirksMode::QUIRKS;
 					break;
 			}
 			break;
 		case HTML::Tokenizer::TokenType::COMMENT:
 			commentToken = dynamic_cast<HTML::Tokenizer::CommentToken *>(&inToken);
-			Context.ParserContext.DocumentNode.ChildNodes.push_back(DOM::Comment(commentToken->Contents));
+			context.parserContext.documentNode.childNodes.push_back(DOM::Comment(commentToken->contents));
 			return false;
 		case HTML::Tokenizer::TokenType::DOCTYPE:
 			doctypeToken = dynamic_cast<HTML::Tokenizer::DoctypeToken *>(&inToken);
 
 			if (IsQuirkyDoctype(doctypeToken, false /* TODO */))
-				Context.ParserContext.DocumentNode.Mode = DOM::QuirksMode::QUIRKS;
+				context.parserContext.documentNode.mode = DOM::QuirksMode::QUIRKS;
 
-			Constructor.CurrentMode = HTML::InsertionModeType::BEFORE_HTML;
+			constructor.currentMode = HTML::InsertionModeType::BEFORE_HTML;
 			return false;
 		default:
 			break;
@@ -170,9 +170,9 @@ HTML::InsertionModes::Initial::EmitToken(HTML::Tokenizer::Token &inToken) {
 	// SMALL TODO 'If the document is not an iframe srcdoc document'.
 
 	Logger::Warning("InitialInsertionMode::EmitToken", "Parser Error: Invalid token in INITIAL insertion mode!");
-	std::cerr << "\tTokenType: " << inToken.Type << std::endl;
+	std::cerr << "\tTokenType: " << inToken.type << std::endl;
 
 	// In any other case:
-	Constructor.CurrentMode = HTML::InsertionModeType::BEFORE_HTML;
+	constructor.currentMode = HTML::InsertionModeType::BEFORE_HTML;
 	return true;
 }

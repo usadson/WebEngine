@@ -31,7 +31,7 @@
 namespace HTML {
 
 	TreeConstructor::TreeConstructor(Tokenizer::Context &context)
-		: Context(context), CurrentMode(InsertionModeType::INITIAL), InsertionModes({
+		: context(context), currentMode(InsertionModeType::INITIAL), insertionModes({
 			{ InsertionModeType::INITIAL, std::make_shared<InsertionModes::Initial>(*this) },
 			{ InsertionModeType::BEFORE_HTML, std::make_shared<InsertionModes::BeforeHTML>(*this) },
 			{ InsertionModeType::BEFORE_HEAD, std::make_shared<InsertionModes::BeforeHead>(*this) },
@@ -49,17 +49,17 @@ namespace HTML {
 			if (reprocessCount == 10) {
 				std::stringstream info;
 				info << "Reprocess loop detected! Reprocess requested 10 times! Quitting emission of token.";
-				info << " InsertionMode: " << CurrentMode;
+				info << " InsertionMode: " << currentMode;
 				Logger::Warning("TreeConstructor", info.str());
 				return;
 			}
 
-			auto iterator = InsertionModes.find(CurrentMode);
+			auto iterator = insertionModes.find(currentMode);
 
-			if (iterator == InsertionModes.end()) {
+			if (iterator == insertionModes.end()) {
 				std::stringstream output;
 				output << "Unknown insertion mode: \033[1;35m";
-				output << CurrentMode;
+				output << currentMode;
 				Logger::Warning("TreeConstructor", output.str());
 				reprocess = false;
 			} else
@@ -78,7 +78,7 @@ namespace HTML {
 	void
 	TreeConstructor::EmitDoctypeQuirksToken(void) {
 		HTML::Tokenizer::DoctypeToken token;
-		token.ForceQuirks = true;
+		token.forceQuirks = true;
 		EmitToken(token);
 	}
 

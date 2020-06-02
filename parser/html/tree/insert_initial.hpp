@@ -26,7 +26,7 @@ namespace HTML {
 		public: // Methods
 			inline explicit
 			Initial(TreeConstructor &constructor)
-				: HTML::InsertionMode(constructor, constructor.Context) {}
+				: HTML::InsertionMode(constructor, constructor.context) {}
 
 			inline
 			~Initial() override {

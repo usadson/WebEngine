@@ -33,28 +33,28 @@ namespace HTML {
 namespace HTML {
 	class ParserContext {
 	public:
-		DOM::Document DocumentNode;
+		DOM::Document documentNode;
 	};
 
 	namespace Tokenizer {
 		class Context {
 		public:
-			HTML::ParserContext &ParserContext;
+			HTML::ParserContext &parserContext;
 
-			ParserState State = ParserState::DATA;
-			ParserState ReturnState = ParserState::UNDEFINED;
+			ParserState state = ParserState::DATA;
+			ParserState returnState = ParserState::UNDEFINED;
 			// The state at the start of each the tokenizer loop. This is a
 			// lot of times the same as 'State'.
-			ParserState BeginLoopState = ParserState::DATA;
-			size_t LineCount = 0;
-			size_t LinePosition = 0;
-			char CurrentCharacter = '\0';
-			std::vector<Unicode::CodePoint> TemporaryBuffer;
-			Unicode::UString NCRefBuffer;
+			ParserState beginLoopState = ParserState::DATA;
+			size_t lineCount = 0;
+			size_t linePosition = 0;
+			char currentCharacter = '\0';
+			std::vector<Unicode::CodePoint> temporaryBuffer;
+			Unicode::UString ncRefBuffer;
 		public: // Methods
 			inline explicit
 			Context(HTML::ParserContext &context)
-				: ParserContext(context) {
+				: parserContext(context) {
 			}
 
 			void

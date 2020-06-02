@@ -31,6 +31,7 @@ namespace TextEncoding {
 	class AbstractSBEncoding : public Encoding {
 	private: // Private Properties
 		const std::vector<Unicode::CodePoint> &Indices;
+
 	public:
 		inline explicit
 		AbstractSBEncoding(const std::vector<Unicode::CodePoint> &indices)
@@ -151,4 +152,5 @@ namespace TextEncoding {
 	struct XMacCyrillic : public AbstractSBEncoding {
 		XMacCyrillic();
 	};
+
 }

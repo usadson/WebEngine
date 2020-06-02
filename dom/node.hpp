@@ -31,7 +31,7 @@ namespace DOM {
 
 	struct Node {
 	public: // Properties
-		std::vector<Node> ChildNodes;
-		std::optional<std::reference_wrapper<DOM::Document>> Document;
+		std::vector<Node> childNodes;
+		std::optional<std::reference_wrapper<DOM::Document>> document;
 	};
 }

@@ -27,8 +27,13 @@
 
 namespace Unicode {
 	class UString {
-	public: // Private Properties (don't change)
-		std::vector<Unicode::CodePoint> Data;
+	/**
+	 * The following property should be private but since the functions outside
+	 * this class (inside namespace Unicode) need this data.
+	 */
+	public: // Private Property
+		std::vector<Unicode::CodePoint> data;
+
 	public: // Constructor Methods
 		UString() noexcept;
 
@@ -47,15 +52,16 @@ namespace Unicode {
 		inline explicit
 		UString(const char *ascii) noexcept
 			: UString(ascii, strlen(ascii)) {}
+
 	public: // Methods
 		inline const Unicode::CodePoint &
 		operator[](size_t index) const noexcept {
-			return Data[index];
+			return data[index];
 		}
 
 		inline size_t
 		length() const noexcept {
-			return Data.size();
+			return data.size();
 		}
 
 		UString &

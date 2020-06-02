@@ -28,7 +28,7 @@ namespace DOM {
 
 		inline explicit
 		Comment(const Unicode::UString &data) {
-			Data = data;
+			this->data = data;
 		}
 	};
 }

@@ -25,43 +25,43 @@
 
 namespace Unicode {
 	UString::UString() noexcept
-		   : Data({}) {
+		   : data({}) {
 	}
 
 	UString::UString(const std::vector<Unicode::CodePoint> &characters) noexcept
-		   : Data(characters) {
+		   : data(characters) {
 	}
 
 	UString::UString(Unicode::CodePoint character) noexcept
-		   : Data({ character }) {
+		   : data({ character }) {
 	}
 
 
 	UString::UString(const char *characters, size_t size) noexcept
-		   : Data(TextEncoding::UTF8::ASCIIDecode(characters, size)) {
+		   : data(TextEncoding::UTF8::ASCIIDecode(characters, size)) {
 	}
 
 	UString &
 	UString::operator+=(const Unicode::CodePoint character) noexcept {
-		Data.push_back(character);
+		data.push_back(character);
 		return *this;
 	}
 
 	UString
 	UString::operator+(const UString &other) const noexcept {
 		UString result;
-		result.Data.reserve(Data.size() + other.Data.size());
-		result.Data.insert(std::end(result.Data), std::begin(this->Data), std::end(this->Data));
-		result.Data.insert(std::end(result.Data), std::begin(other.Data), std::end(other.Data));
+		result.data.reserve(data.size() + other.data.size());
+		result.data.insert(std::end(result.data), std::begin(this->data), std::end(this->data));
+		result.data.insert(std::end(result.data), std::begin(other.data), std::end(other.data));
 		return result;
 	}
 
 	UString
 	UString::operator+(const Unicode::CodePoint &character) const noexcept {
 		UString result;
-		result.Data.reserve(Data.size() + 1);
-		result.Data.insert(std::end(result.Data), std::begin(this->Data), std::end(this->Data));
-		result.Data.push_back(character);
+		result.data.reserve(data.size() + 1);
+		result.data.insert(std::end(result.data), std::begin(this->data), std::end(this->data));
+		result.data.push_back(character);
 		return result;
 	}
 
@@ -69,12 +69,12 @@ namespace Unicode {
 	// See https://stackoverflow.com/help/licensing
 	int
 	CompareStatic(const UString &lhs, const UString &rhs) noexcept {
-		const Unicode::CodePoint *p1 = lhs.Data.data();
-		const Unicode::CodePoint *p2 = rhs.Data.data();
+		const Unicode::CodePoint *p1 = lhs.data.data();
+		const Unicode::CodePoint *p2 = rhs.data.data();
 
 		size_t i = 0;
-		while (i++ != lhs.Data.size()) {
-			if (rhs.Data.size() == i - 1)	return  1;
+		while (i++ != lhs.data.size()) {
+			if (rhs.data.size() == i - 1)	return  1;
 			if (*p2 > *p1)					return -1;
 			if (*p1 > *p2)					return  1;
 
@@ -82,7 +82,7 @@ namespace Unicode {
 			p2++;
 		}
 
-		return i-1 != rhs.Data.size() ? -1 : 0;
+		return i-1 != rhs.data.size() ? -1 : 0;
 	}
 
 	int 
@@ -97,14 +97,14 @@ namespace Unicode {
 
 	UString &
 	UString::operator+=(const UString &other) noexcept {
-		Data.insert(std::end(Data), std::begin(other.Data), std::end(other.Data));
+		data.insert(std::end(data), std::begin(other.data), std::end(other.data));
 		return *this;
 	}
 
 	UString &
 	UString::operator+=(const char *ascii) noexcept {
 		std::vector<Unicode::CodePoint> chars = TextEncoding::UTF8::ASCIIDecode(ascii, strlen(ascii));
-		Data.insert(std::end(Data), std::begin(chars), std::end(chars));
+		data.insert(std::end(data), std::begin(chars), std::end(chars));
 		return *this;
 	}
 
@@ -115,7 +115,7 @@ namespace Unicode {
 
 	bool
 	UString::IsASCIIAlpha(size_t index) const noexcept {
-		Unicode::CodePoint character = Data[index];
+		Unicode::CodePoint character = data[index];
 		return (character >= 0x41 && character <= 0x5A) || (character >= 0x61 && character <= 0x7A);
 	}
 
@@ -126,14 +126,14 @@ namespace Unicode {
 
 	bool
 	UString::EqualsIgnoreCaseAL(size_t index, const char *ascii, size_t length) const noexcept {
-		if (index + length >= Data.size()) {
+		if (index + length >= data.size()) {
 			return false;
 		}
 
 		size_t i;
 
 		for (i = 0; i < length; i++) {
-			uint8_t ucharacter = (uint8_t) Data[index + i];
+			uint8_t ucharacter = (uint8_t) data[index + i];
 			uint8_t acharacter = (uint8_t) ascii[i];
 
 			if (ucharacter >= 0x41 && ucharacter <= 0x5A)
@@ -152,13 +152,13 @@ namespace Unicode {
 
 	bool
 	UString::EqualsAL(size_t index, const char *ascii, size_t length) const noexcept {
-		if (index + length >= Data.size())
+		if (index + length >= data.size())
 			return false;
 
 		size_t i;
 
 		for (i = 0; i < length; i++) {
-			uint8_t character = (uint8_t) Data[index + i];
+			uint8_t character = (uint8_t) data[index + i];
 
 			if (character != ascii[i])
 				return false;
@@ -171,12 +171,12 @@ namespace Unicode {
 	UString::EqualsA(const char *ascii) const noexcept {
 		size_t length = strlen(ascii);
 
-		if (length > Data.size())
+		if (length > data.size())
 			return false;
 
 		size_t i;
 		for (i = 0; i < length; i++)
-			if ((uint8_t) Data[i] != ascii[i])
+			if ((uint8_t) data[i] != ascii[i])
 				return false;
 
 		return true;
