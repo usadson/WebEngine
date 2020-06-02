@@ -49,7 +49,7 @@ The project is seperated into different directories.
 * [resources](resources) contains files which are pulled from the [internet](net) or from local storage.
 
 ## License
-The code of this project is governed under the [ICS](https://choosealicense.com/licenses/isc/) license.
+The code of this project is governed under the [BSD 2-Clause](https://choosealicense.com/licenses/bsd-2-clause/) license.
 See the [COPYING](COPYING) file for legal text.
 This project uses parts of GLFW, which is governed under the [zlib/libpng license](https://www.glfw.org/license.html),
 parts of GLEW under the [a modified BSD + MIT license](https://github.com/nigels-com/glew/blob/master/LICENSE.txt),
