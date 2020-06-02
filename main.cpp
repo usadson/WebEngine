@@ -32,6 +32,7 @@
 #include "data/text/named_characters.hpp"
 #include "data/text/encoding/encoder_engine.hpp"
 #include "data/text/encoding/utf8.hpp"
+#include "misc/credits.hpp"
 #include "net/http/http_connection.hpp"
 #include "net/http2/http2_connection.hpp"
 #include "net/alpn_protocols.hpp"
@@ -247,6 +248,11 @@ int
 main(int argc, const char *argv[]) {
 	if (!Options::ParseCommandLine(argc, argv))
 		return EXIT_FAILURE;
+
+	if (Options::GetCommandLineParameter("credits").has_value()) {
+		Credits::PrintToCommandLine();
+		return EXIT_SUCCESS;
+	}
 
 	NamedCharacters::Setup();
 

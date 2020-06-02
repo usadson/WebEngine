@@ -43,6 +43,7 @@ BINARIES = bin/ccompat.so \
 	   bin/data/text/encoding/encoder_engine.so \
 	   bin/data/text/encoding/single_byte_encoding.so \
 	   bin/data/text/encoding/utf8.so \
+	   bin/misc/credits.so \
 	   bin/net/connection_info.so \
 	   bin/net/connection_info_libtls.so \
 	   bin/net/http/http_connection.so \
@@ -74,6 +75,7 @@ engine: main.cpp \
 
 bin/test.txt:
 	@mkdir -p bin/data/text/encoding
+	@mkdir bin/misc
 	@mkdir -p bin/net/http
 	@mkdir -p bin/net/http2
 	@mkdir -p bin/parser/html/tree
@@ -115,6 +117,10 @@ bin/data/text/encoding/utf8.so: data/text/encoding/utf8.cpp \
 	data/text/encoding/encoding.hpp \
 	data/text/unicode.hpp
 	$(CXX) $(CFLAGS) -c -o $@ data/text/encoding/utf8.cpp
+
+bin/misc/credits.so: misc/credits.cpp \
+	misc/credits.hpp
+	$(CXX) $(CFLAGS) -c -o $@ misc/credits.cpp
 
 bin/net/connection_info.so: net/connection_info.cpp \
 	net/connection_info.hpp \
