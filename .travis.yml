@@ -9,7 +9,7 @@ before_install:
   - sudo mkdir -p /usr/local/lib/pkgconfig
   - sudo mkdir -p /usr/local/bin
   - wget https://raw.githubusercontent.com/usadson/BuildCache/master/LibreSSL/libressl-includes.tar.gz
-  - sudo tar -xzf libressl-includes.tar.gz -C /usr/local/include/openssl
+  - sudo tar -xzf libressl-includes.tar.gz -C /usr/local/include
   - wget https://raw.githubusercontent.com/usadson/BuildCache/master/LibreSSL/libressl-binaries.tar.gz
   - sudo tar -xzf libressl-binaries.tar.gz -C /usr/local/bin
   - wget https://raw.githubusercontent.com/usadson/BuildCache/master/LibreSSL/libressl-pc.tar.gz
