@@ -5,11 +5,11 @@ compiler:
   - gcc
 script: make
 before_install:
-  - git clone https://github.com/libressl-portable/portable
-  - cd portable
-  - ./autogen.sh
+  - wget wget https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.2.0.tar.gz
+  - tar -xzf libressl-3.2.0.tar.gz
+  - cd libressl-3.2.0
   - ./configure --prefix=/usr/local/libressl --with-openssldir=/usr/local/libressl
   - make
-  - make install
+  - sudo make install
   - cd ..
   - sudo apt-get -y install libglew-dev libglfw3-dev libfreetype-dev
