@@ -5,11 +5,13 @@ compiler:
   - gcc
 script: make
 before_install:
-  - wget https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.2.0.tar.gz
-  - tar -xzf libressl-3.2.0.tar.gz
-  - cd libressl-3.2.0
-  - ./configure --prefix=/usr/local/libressl --with-openssldir=/usr/local/libressl
-  - make
-  - sudo make install
-  - cd ..
+  - mkdir -p /usr/local/include/openssl
+  - mkdir -p /usr/local/lib/pkgconfig
+  - mkdir /usr/local/bin
+  - wget https://raw.githubusercontent.com/usadson/BuildCache/master/LibreSSL/libressl-includes.tar.gz
+  - tar -xzf libressl-includes.tar.gz /usr/local/include/openssl
+  - wget https://raw.githubusercontent.com/usadson/BuildCache/master/LibreSSL/libressl-binaries.tar.gz
+  - tar -xzf libressl-binaries.tar.gz /usr/local/bin
+  - wget https://raw.githubusercontent.com/usadson/BuildCache/master/LibreSSL/libressl-pc.tar.gz
+  - tar -xzf libressl-pc.tar.gz /usr/local/lib/pkgconfig
   - sudo apt-get -y install libglew-dev libglfw3-dev libfreetype-dev
