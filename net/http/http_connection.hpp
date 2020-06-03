@@ -73,11 +73,23 @@ namespace Net {
 
 			~HTTPConnection();
 		private: // Private Methods
-			HTTPConnectionError ConsumeHeaderField(HTTPResponseInfo *, char);
-			HTTPConnectionError ConsumeHTTPVersion(HTTPResponseInfo *);
-			HTTPConnectionError ConsumeReasonPhrase(HTTPResponseInfo *);
-			HTTPConnectionError ConsumeStatusCode(HTTPResponseInfo *);
+			HTTPConnectionError
+			ConsumeHeaderField(HTTPResponseInfo *, char);
 
+			HTTPConnectionError
+			ConsumeHTTPVersion(HTTPResponseInfo *);
+
+			HTTPConnectionError
+			ConsumeReasonPhrase(HTTPResponseInfo *);
+
+			HTTPConnectionError
+			ConsumeStatusCode(HTTPResponseInfo *);
+
+			HTTPConnectionError
+			ConsumeHeaderFieldName(std::vector<char> *);
+
+			HTTPConnectionError
+			ConsumeHeaderFieldValue(std::vector<char> *);
 		public: // Methods
 			HTTPConnectionError
 			Request(HTTPResponseInfo *, const std::string &method, const std::string &path);

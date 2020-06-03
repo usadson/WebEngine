@@ -167,10 +167,92 @@ namespace Net {
 			std::vector<char> fieldValue;
 			std::optional<char> character;
 			char *nullCharacterPosition;
+			HTTPConnectionError subroutineError;
 
 			/* Consume field-name */
 			fieldName.push_back(firstCharacter);
+			subroutineError = ConsumeHeaderFieldName(&fieldName);
+			if (subroutineError != HTTPConnectionError::NO_ERROR)
+				return subroutineError;
+
+			/* Consume OWS (Optional Whitespaces) */
+			while (true) {
+				character = connectionInfo.ReadChar();
+
+				if (!character.has_value())
+					return HTTPConnectionError::FAILED_READ_HEADER_FIELD_GENERIC;
+
+				if (character != ' ' && character != '\t')
+					break;
+			}
+
+			/* Consume header-value */
+			subroutineError = ConsumeHeaderFieldValue(&fieldValue);
+			if (subroutineError != HTTPConnectionError::NO_ERROR)
+				return subroutineError;
+
+			/* Store in strings */
+			fieldName.push_back('\0');
+			fieldValue.push_back('\0');
+
+			/* Trim end of OWS's. */
+			char *fieldValueString = fieldValue.data();
+			char *lastSpace = (char *) strrchr(fieldValueString, ' ');
+			char *lastHTab = (char *) strrchr(fieldValueString, '\t');
+
+			if (lastSpace != nullptr)
+				if (lastHTab != nullptr)
+					if (lastHTab > lastSpace)
+						nullCharacterPosition = lastSpace;
+					else
+						nullCharacterPosition = lastHTab;
+				else
+					nullCharacterPosition = lastSpace;
+			else if (lastHTab != nullptr)
+				nullCharacterPosition = lastHTab;
+			else
+				nullCharacterPosition = fieldValueString + fieldValue.size() - 1;
+			*nullCharacterPosition = 0;
+
+			response->headers.push_back({ std::string(fieldName.data()), std::string(fieldValueString) });
+			return HTTPConnectionError::NO_ERROR;
+		}
+
+		HTTPConnectionError
+		HTTPConnection::ConsumeHeaderFieldValue(std::vector<char> *dest) {
+			std::optional<char> character;
+			/* obs-fold (optional line folding) isn't supported. */
+			do {
+				if (character == '\r') {
+					character = connectionInfo.ReadChar();
+					if (!character.has_value())
+						return HTTPConnectionError::FAILED_READ_HEADER_FIELD_GENERIC;
+					if (character != '\n')
+						return HTTPConnectionError::INCORRECT_HEADER_FIELD_GENERIC;
+					return HTTPConnectionError::NO_ERROR;
+				}
+
+				if ((character >= 0x21 && character <= 0x7E) || // VCHAR
+					(character >= 0x80 && character <= 0xFF) || // obs-text
+					 character == ' '  ||						// SP
+					 character == '\t')							// HTAB
+					dest->push_back(character.value());
+				else
+					return HTTPConnectionError::INCORRECT_HEADER_FIELD_VALUE;
+
+				/* Set next character */
+				character = connectionInfo.ReadChar();
+
+				if (!character.has_value())
+					return HTTPConnectionError::FAILED_READ_HEADER_FIELD_VALUE;
+			} while (true);
+		}
+
+		HTTPConnectionError
+		HTTPConnection::ConsumeHeaderFieldName(std::vector<char> *dest) {
+			std::optional<char> character;
 			bool endName = false;
+
 			while (!endName) {
 				character = connectionInfo.ReadChar();
 
@@ -202,82 +284,19 @@ namespace Net {
 					case '`':
 					case '|':
 					case '~':
-						fieldName.push_back(character.value());
+						dest->push_back(character.value());
 						break;
 					default:
 						if ((character.value() >= 0x30 && character.value() <= 0x39) || // DIGIT
 							(character.value() >= 0x41 && character.value() <= 0x5A) || // ALPHA (UPPER)
 							(character.value() >= 0x61 && character.value() <= 0x7A)) { // ALPHA (LOWER)
-							fieldName.push_back(character.value());
+							dest->push_back(character.value());
 						} else {
 							return HTTPConnectionError::INCORRECT_HEADER_FIELD_NAME;
 						}
 						break;
 				}
 			}
-
-			/* Consume OWS (Optional Whitespaces) */
-			while (true) {
-				character = connectionInfo.ReadChar();
-
-				if (!character.has_value())
-					return HTTPConnectionError::FAILED_READ_HEADER_FIELD_GENERIC;
-
-				if (character != ' ' && character != '\t')
-					break;
-			}
-
-			/* Consume header-value */
-			/* obs-fold (optional line folding) isn't supported. */
-			do {
-				if (character == '\r') {
-					character = connectionInfo.ReadChar();
-					if (!character.has_value())
-						return HTTPConnectionError::FAILED_READ_HEADER_FIELD_GENERIC;
-					if (character != '\n')
-						return HTTPConnectionError::INCORRECT_HEADER_FIELD_GENERIC;
-					break;
-				}
-
-				if ((character >= 0x21 && character <= 0x7E) || // VCHAR
-					(character >= 0x80 && character <= 0xFF) || // obs-text
-					 character == ' '  ||						// SP
-					 character == '\t')							// HTAB
-					fieldValue.push_back(character.value());
-				else
-					return HTTPConnectionError::INCORRECT_HEADER_FIELD_VALUE;
-
-				/* Set next character */
-				character = connectionInfo.ReadChar();
-
-				if (!character.has_value())
-					return HTTPConnectionError::FAILED_READ_HEADER_FIELD_VALUE;
-			} while (true);
-
-			/* Store in strings */
-			fieldName.push_back('\0');
-			fieldValue.push_back('\0');
-
-			/* Trim end of OWS's. */
-			char *fieldValueString = fieldValue.data();
-			char *lastSpace = (char *) strrchr(fieldValueString, ' ');
-			char *lastHTab = (char *) strrchr(fieldValueString, '\t');
-
-			if (lastSpace != nullptr)
-				if (lastHTab != nullptr)
-					if (lastHTab > lastSpace)
-						nullCharacterPosition = lastSpace;
-					else
-						nullCharacterPosition = lastHTab;
-				else
-					nullCharacterPosition = lastSpace;
-			else if (lastHTab != nullptr)
-				nullCharacterPosition = lastHTab;
-			else
-				nullCharacterPosition = fieldValueString + fieldValue.size() - 1;
-			*nullCharacterPosition = 0;
-
-			response->headers.push_back({ std::string(fieldName.data()), std::string(fieldValueString) });
 			return HTTPConnectionError::NO_ERROR;
 		}
 
