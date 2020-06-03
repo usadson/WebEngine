@@ -220,8 +220,8 @@ namespace Net {
 
 		HTTPConnectionError
 		HTTPConnection::ConsumeHeaderFieldValue(std::vector<char> *dest) {
-			std::optional<char> character;
 			/* obs-fold (optional line folding) isn't supported. */
+			std::optional<char> character;
 			do {
 				if (character == '\r') {
 					character = connectionInfo.ReadChar();
@@ -234,8 +234,7 @@ namespace Net {
 
 				if ((character >= 0x21 && character <= 0x7E) || // VCHAR
 					(character >= 0x80 && character <= 0xFF) || // obs-text
-					 character == ' '  ||						// SP
-					 character == '\t')							// HTAB
+					 character == ' '  || character == '\t')	// SP / HTAB
 					dest->push_back(character.value());
 				else
 					return HTTPConnectionError::INCORRECT_HEADER_FIELD_VALUE;
@@ -250,54 +249,33 @@ namespace Net {
 
 		HTTPConnectionError
 		HTTPConnection::ConsumeHeaderFieldName(std::vector<char> *dest) {
-			std::optional<char> character;
-			bool endName = false;
+			static const std::vector<char> unreservedCharacters = {
+				'!',  '#', '$', '%', '&',
+				'\'', '*', '+', '-', '.',
+				'^',  '_', '`', '|', '~'
+			};
 
-			while (!endName) {
+			std::optional<char> character;
+
+			while (true) {
 				character = connectionInfo.ReadChar();
 
 				if (!character.has_value())
 					return HTTPConnectionError::FAILED_READ_HEADER_FIELD_NAME;
 
-				/*
-				 * field-name = token
-				 * token = 1*tchar
-				 * tchar = "!" / "#" / "$" / "%" / "&" / "'" / "*" / "+" / "-"
-				 * / "." / "^" / "_" / "`" / "|" / "~" / DIGIT / ALPHA
-				 */
-				switch (character.value()) {
-					case ':':
-						endName = true;
-						break;
-					case '!':
-					case '#':
-					case '$':
-					case '%':
-					case '&':
-					case '\'':
-					case '*':
-					case '+':
-					case '-':
-					case '.':
-					case '^':
-					case '_':
-					case '`':
-					case '|':
-					case '~':
-						dest->push_back(character.value());
-						break;
-					default:
-						if ((character.value() >= 0x30 && character.value() <= 0x39) || // DIGIT
-							(character.value() >= 0x41 && character.value() <= 0x5A) || // ALPHA (UPPER)
-							(character.value() >= 0x61 && character.value() <= 0x7A)) { // ALPHA (LOWER)
-							dest->push_back(character.value());
-						} else {
-							return HTTPConnectionError::INCORRECT_HEADER_FIELD_NAME;
-						}
-						break;
-				}
+				if (character.value() == ':')
+					return HTTPConnectionError::NO_ERROR;
+
+				if (std::find(std::begin(unreservedCharacters), std::end(unreservedCharacters),
+						   character.value()) != std::end(unreservedCharacters) ||
+					(character.value() >= 0x30 && character.value() <= 0x39) || // DIGIT
+					(character.value() >= 0x41 && character.value() <= 0x5A) || // ALPHA (UPPER)
+					(character.value() >= 0x61 && character.value() <= 0x7A)
+				) {
+					dest->push_back(character.value());
+				} else /* Invalid character */
+					return HTTPConnectionError::INCORRECT_HEADER_FIELD_NAME;
 			}
-			return HTTPConnectionError::NO_ERROR;
 		}
 
 		HTTPConnectionError
