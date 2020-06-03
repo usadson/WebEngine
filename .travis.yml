@@ -7,7 +7,7 @@ script: make
 before_install:
   - sudo mkdir -p /usr/local/include/openssl
   - sudo mkdir -p /usr/local/lib/pkgconfig
-  - sudo mkdir /usr/local/bin
+  - sudo mkdir -p /usr/local/bin
   - wget https://raw.githubusercontent.com/usadson/BuildCache/master/LibreSSL/libressl-includes.tar.gz
   - sudo tar -xzf libressl-includes.tar.gz /usr/local/include/openssl
   - wget https://raw.githubusercontent.com/usadson/BuildCache/master/LibreSSL/libressl-binaries.tar.gz
