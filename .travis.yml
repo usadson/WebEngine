@@ -5,13 +5,13 @@ compiler:
   - gcc
 script: make
 before_install:
-  - mkdir -p /usr/local/include/openssl
-  - mkdir -p /usr/local/lib/pkgconfig
-  - mkdir /usr/local/bin
+  - sudo mkdir -p /usr/local/include/openssl
+  - sudo mkdir -p /usr/local/lib/pkgconfig
+  - sudo mkdir /usr/local/bin
   - wget https://raw.githubusercontent.com/usadson/BuildCache/master/LibreSSL/libressl-includes.tar.gz
-  - tar -xzf libressl-includes.tar.gz /usr/local/include/openssl
+  - sudo tar -xzf libressl-includes.tar.gz /usr/local/include/openssl
   - wget https://raw.githubusercontent.com/usadson/BuildCache/master/LibreSSL/libressl-binaries.tar.gz
-  - tar -xzf libressl-binaries.tar.gz /usr/local/bin
+  - sudo tar -xzf libressl-binaries.tar.gz /usr/local/bin
   - wget https://raw.githubusercontent.com/usadson/BuildCache/master/LibreSSL/libressl-pc.tar.gz
-  - tar -xzf libressl-pc.tar.gz /usr/local/lib/pkgconfig
+  - sudo tar -xzf libressl-pc.tar.gz /usr/local/lib/pkgconfig
   - sudo apt-get -y install libglew-dev libglfw3-dev libfreetype-dev
