@@ -5,7 +5,7 @@ compiler:
   - gcc
 script: make
 before_install:
-  - wget wget https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.2.0.tar.gz
+  - wget https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.2.0.tar.gz
   - tar -xzf libressl-3.2.0.tar.gz
   - cd libressl-3.2.0
   - ./configure --prefix=/usr/local/libressl --with-openssldir=/usr/local/libressl
