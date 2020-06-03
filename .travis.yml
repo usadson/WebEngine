@@ -5,6 +5,7 @@ compiler:
   - gcc
 script: make
 before_install:
+  # LibreSSL
   - sudo mkdir -p /usr/local/include/openssl
   - sudo mkdir -p /usr/local/lib/pkgconfig
   - sudo mkdir -p /usr/local/bin
@@ -14,5 +15,7 @@ before_install:
   - sudo tar -xzf libressl-binaries.tar.gz -C /usr/local/bin
   - wget https://raw.githubusercontent.com/usadson/BuildCache/master/LibreSSL/libressl-pc.tar.gz
   - sudo tar -xzf libressl-pc.tar.gz -C /usr/local/lib/pkgconfig
+  # GLEW + GLFW
   - sudo apt-get -y install libglew-dev libglfw3-dev
+  # FreeType
   - sudo apt-get -y install libfreetype-dev || sudo apt -y install libfreetype6-dev
