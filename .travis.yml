@@ -16,6 +16,8 @@ before_install:
   - wget https://raw.githubusercontent.com/usadson/BuildCache/master/LibreSSL/libressl-pc.tar.gz
   - sudo tar -xzf libressl-pc.tar.gz -C /usr/local/lib/pkgconfig
   - sudo ldconfig -n /usr/local/lib
+  # Debugging:
+  - sudo ld -ltls --verbose
   # GLEW + GLFW
   - sudo apt-get -y install libglew-dev libglfw3-dev
   # FreeType
