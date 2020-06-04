@@ -1,7 +1,0 @@
-component_depth: 1
-languages:
-- cpp
-- python
-exclude:
-- .github/
-- tooling/
