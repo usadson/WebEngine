@@ -12,11 +12,10 @@
 
 #include <cstdlib>
 #include <cstring>
-#include "strings.h"
-
-#include "data/text/named_characters.hpp"
+#include <strings.h>
 
 #include "context.hpp"
+#include "data/text/named_characters.hpp"
 #include "error.hpp"
 #include "state.hpp"
 #include "token.hpp"
@@ -44,11 +43,10 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 	HTML::Tokenizer::StartTagToken startTagToken = HTML::Tokenizer::StartTagToken::INVALID_TYPE_START_TAG;
 
 	size_t unknownStateCount = 0;
-	size_t i;
 	bool reconsume = false;
 	size_t toConsumeNext = 0;
 
-	for (i = 0; i <= documentSize; i++) {
+	for (size_t i = 0; i <= documentSize; i++) {
 		Unicode::CodePoint character = '\0';
 
 // 		std::cout << "index=" << i << " state=" << context.state << std::endl;
@@ -169,7 +167,9 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 				if (eof) {
 					std::cout << "EOF IN TAG NAME TODO" << std::endl;
 				} else {
-					HTML::Tokenizer::AmbiguousTagToken &tagToken = (isEndTag ? (HTML::Tokenizer::AmbiguousTagToken &) endTagToken : (HTML::Tokenizer::AmbiguousTagToken &) startTagToken);
+					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ?
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(endTagToken) :
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(startTagToken);
 					switch (character) {
 						case '\t':
 						case '\n':
@@ -194,7 +194,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							break;
 						default:
 							if (character >= 0x41 && character <= 0x5A) {// Is uppercase
-								tagToken.tagName += (char)((uint8_t)character + 0x20);
+								tagToken.tagName += static_cast<char>(character + 0x20);
 							} else {
 								tagToken.tagName += character;
 							}
@@ -208,7 +208,9 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 					reconsume = true;
 					context.state = HTML::Tokenizer::ParserState::AFTER_ATTRIBUTE_NAME;
 				} else {
-					HTML::Tokenizer::AmbiguousTagToken &tagToken = (isEndTag ? (HTML::Tokenizer::AmbiguousTagToken &) endTagToken : (HTML::Tokenizer::AmbiguousTagToken &) startTagToken);
+					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ?
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(endTagToken) :
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(startTagToken);
 					if (tagToken.attributeName.length() != 0) {
 						tagToken.AddTokenAttribute(context);
 					}
@@ -247,7 +249,9 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 				}
 				break;
 			case HTML::Tokenizer::ParserState::ATTRIBUTE_NAME: {
-				HTML::Tokenizer::AmbiguousTagToken &tagToken = (isEndTag ? (HTML::Tokenizer::AmbiguousTagToken &) endTagToken : (HTML::Tokenizer::AmbiguousTagToken &) startTagToken);
+				HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ?
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(endTagToken) :
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(startTagToken);
 				if (eof || character == '\t'
 						|| character == '\n'
 						|| character == '\f'
@@ -259,7 +263,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 				} else if (character == '=') {
 					context.state = HTML::Tokenizer::ParserState::BEFORE_ATTRIBUTE_VALUE;
 				} else if (character >= 0x41 && character <= 0x5A) {// Is uppercase
-					tagToken.attributeName += (char)(character + 0x20);
+					tagToken.attributeName += static_cast<char>(character + 0x20);
 				} else if (character == '\0') {
 					context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
 					tagToken.attributeName += Unicode::REPLACEMENT_CHARACTER;
@@ -280,8 +284,8 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 					treeConstructor.EmitEOFToken();
 				} else {
 					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ?
-							(HTML::Tokenizer::AmbiguousTagToken &) endTagToken :
-							(HTML::Tokenizer::AmbiguousTagToken &) startTagToken;
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(endTagToken) :
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(startTagToken);
 
 					switch (character) {
 						case '\t':
@@ -320,8 +324,8 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 					context.state = HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_NQ;
 				} else {
 					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ?
-							(HTML::Tokenizer::AmbiguousTagToken &) endTagToken :
-							(HTML::Tokenizer::AmbiguousTagToken &) startTagToken;
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(endTagToken) :
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(startTagToken);
 
 					switch (character) {
 						case '\t':
@@ -358,8 +362,8 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 					treeConstructor.EmitEOFToken();
 				} else {
 					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ?
-							(HTML::Tokenizer::AmbiguousTagToken &) endTagToken :
-							(HTML::Tokenizer::AmbiguousTagToken &) startTagToken;
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(endTagToken) :
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(startTagToken);
 
 					switch (character) {
 						case '"':
@@ -385,8 +389,8 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 					treeConstructor.EmitEOFToken();
 				} else {
 					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ?
-							(HTML::Tokenizer::AmbiguousTagToken &) endTagToken :
-							(HTML::Tokenizer::AmbiguousTagToken &) startTagToken;
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(endTagToken) :
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(startTagToken);
 
 					switch (character) {
 						case '\'':
@@ -412,8 +416,8 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 					treeConstructor.EmitEOFToken();
 				} else {
 					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ?
-							(HTML::Tokenizer::AmbiguousTagToken &) endTagToken :
-							(HTML::Tokenizer::AmbiguousTagToken &) startTagToken;
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(endTagToken) :
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(startTagToken);
 
 					switch (character) {
 						case '\t':
@@ -458,8 +462,8 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 					treeConstructor.EmitEOFToken();
 				} else {
 					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ?
-							(HTML::Tokenizer::AmbiguousTagToken &) endTagToken :
-							(HTML::Tokenizer::AmbiguousTagToken &) startTagToken;
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(endTagToken) :
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(startTagToken);
 
 					switch (character) {
 						case '\t':
@@ -493,8 +497,8 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 					treeConstructor.EmitEOFToken();
 				} else if (character == '>') {
 					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ?
-							(HTML::Tokenizer::AmbiguousTagToken &) endTagToken :
-							(HTML::Tokenizer::AmbiguousTagToken &) startTagToken;
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(endTagToken) :
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(startTagToken);
 
 					tagToken.selfClosing = true;
 					context.state = HTML::Tokenizer::ParserState::DATA;
@@ -699,7 +703,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							context.state = HTML::Tokenizer::ParserState::BEFORE_DOCTYPE_NAME;
 							break;
 						default:
-							std::cout << "\ninvalid character: (" << (size_t) character << ")\n" << std::endl;
+							std::cout << "\ninvalid character: (" << static_cast<size_t>(character) << ")\n" << std::endl;
 							context.LogError(HTML::Tokenizer::ParserError::MISSING_WHITESPACE_BEFORE_DOCTYPE_NAME);
 							reconsume = true;
 							context.state = HTML::Tokenizer::ParserState::BEFORE_DOCTYPE_NAME;
@@ -733,7 +737,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 						default:
 							if (character >= 0x41 && character <= 0x5A) {// Is uppercase
 								doctypeToken.name.emplace("");
-								doctypeToken.name.value() += (char)((uint8_t)character + 0x20);
+								doctypeToken.name.value() += static_cast<char>(character + 0x20);
 								context.state = HTML::Tokenizer::ParserState::DOCTYPE_NAME;
 							} else {
 								doctypeToken.name.emplace("");
@@ -769,7 +773,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							break;
 						default:
 							if (character >= 0x41 && character <= 0x5A) {// Is uppercase
-								doctypeToken.name = doctypeToken.name.value() + ((char)((uint8_t)character + 0x20));
+								doctypeToken.name = doctypeToken.name.value() + static_cast<char>(character + 0x20);;
 							} else {
 								doctypeToken.name = doctypeToken.name.value() + character;
 							}
@@ -801,7 +805,9 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 									toConsumeNext = 5;
 									context.state = HTML::Tokenizer::ParserState::AFTER_DOCTYPE_PUBLIC_KEYWORD;
 									break;
-								} else if (document.data.EqualsIgnoreCaseAL(i, "SYSTEM", 6)) {
+								}
+
+								if (document.data.EqualsIgnoreCaseAL(i, "SYSTEM", 6)) {
 									toConsumeNext = 5;
 									context.state = HTML::Tokenizer::ParserState::AFTER_DOCTYPE_SYSTEM_KEYWORD;
 									break;
