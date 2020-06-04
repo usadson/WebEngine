@@ -56,24 +56,6 @@
 #include "rendering/window/window_glfw.hpp"
 #include "resources/document.hpp"
 
-
-std::string testDocumentText = "<!-- TestHTML Document -->\n\
-<!doctype html>\n\
-<HTml>\n\
-  <head>\n\
-    <title>First title yeah</title>\n\
-    <title>Title2</title>\n\
-  </head>\n\
-  <body>\n\
-    <h1>Text Header</h1>\n\
-    Stray Text?\n\
-    <hr />\n\
-    <img src=\"logo.svg\" alt=\"Logo Image\" siz=d />\n\
-  </body>\n\
-</html>\n\
-";
-std::vector<char> testDocument(std::begin(testDocumentText), std::end(testDocumentText));
-
 inline bool
 DecodeText(Resources::DocumentResource &documentResource, std::vector<char> inputData) {
 	auto charset = documentResource.mediaType.parameters.find("charset");
@@ -102,6 +84,23 @@ inline void
 RunDocumentTest(void) {
 	Resources::DocumentResource document;
 	document.mediaType = { "text/html", { { "charset", "utf-8" } } };
+
+	std::string testDocumentText = "<!-- TestHTML Document -->\n\
+<!doctype html>\n\
+<HTml>\n\
+  <head>\n\
+    <title>First title yeah</title>\n\
+    <title>Title2</title>\n\
+  </head>\n\
+  <body>\n\
+    <h1>Text Header</h1>\n\
+    Stray Text?\n\
+    <hr />\n\
+    <img src=\"logo.svg\" alt=\"Logo Image\" siz=d />\n\
+  </body>\n\
+</html>\n\
+";
+	std::vector<char> testDocument(std::begin(testDocumentText), std::end(testDocumentText));
 
 	if (!DecodeText(document, testDocument)) {
 		Logger::Error("RunDocumentTest", "Failed to decode text");
