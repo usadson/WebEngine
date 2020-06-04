@@ -48,7 +48,7 @@ namespace Unicode {
 		UString() noexcept;
 
 		explicit
-		UString(const std::vector<Unicode::CodePoint> &) noexcept;
+		UString(std::vector<Unicode::CodePoint>) noexcept;
 
 		// cppcheck-suppress[noExplicitConstructor]
 		explicit

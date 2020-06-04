@@ -38,8 +38,8 @@ namespace Unicode {
 		   : data({}) {
 	}
 
-	UString::UString(const std::vector<Unicode::CodePoint> &characters) noexcept
-		   : data(characters) {
+	UString::UString(std::vector<Unicode::CodePoint> characters) noexcept
+		   : data(std::move(characters)) {
 	}
 
 	UString::UString(Unicode::CodePoint character) noexcept
@@ -83,7 +83,7 @@ namespace Unicode {
 		const Unicode::CodePoint *p2 = rhs.data.data();
 
 		size_t i = 0;
-		while (i++ != lhs.data.size()) {
+		for (; i < lhs.data.size(); i++) {
 			if (rhs.data.size() == i - 1)	return  1;
 			if (*p2 > *p1)					return -1;
 			if (*p1 > *p2)					return  1;
@@ -92,7 +92,7 @@ namespace Unicode {
 			p2++;
 		}
 
-		return i-1 != rhs.data.size() ? -1 : 0;
+		return (i - 1) != rhs.data.size() ? -1 : 0;
 	}
 
 	int
@@ -113,7 +113,7 @@ namespace Unicode {
 
 	UString &
 	UString::operator+=(const char *ascii) noexcept {
-		std::vector<Unicode::CodePoint> chars = TextEncoding::UTF8::ASCIIDecode(ascii, strlen(ascii));
+		auto chars = TextEncoding::UTF8::ASCIIDecode(ascii, strlen(ascii));
 		data.insert(std::end(data), std::begin(chars), std::end(chars));
 		return *this;
 	}
@@ -125,7 +125,7 @@ namespace Unicode {
 
 	bool
 	UString::IsASCIIAlpha(size_t index) const noexcept {
-		Unicode::CodePoint character = data[index];
+		auto character = data[index];
 		return (character >= 0x41 && character <= 0x5A) || (character >= 0x61 && character <= 0x7A);
 	}
 
@@ -140,11 +140,9 @@ namespace Unicode {
 			return false;
 		}
 
-		size_t i;
-
-		for (i = 0; i < length; i++) {
-			uint8_t ucharacter = (uint8_t) data[index + i];
-			uint8_t acharacter = (uint8_t) ascii[i];
+		for (size_t i = 0; i < length; i++) {
+			auto ucharacter = static_cast<uint8_t>(data[index + i]);
+			auto acharacter = static_cast<uint8_t>(ascii[i]);
 
 			if (ucharacter >= 0x41 && ucharacter <= 0x5A)
 				ucharacter += 0x20;
@@ -165,12 +163,8 @@ namespace Unicode {
 		if (index + length >= data.size())
 			return false;
 
-		size_t i;
-
-		for (i = 0; i < length; i++) {
-			uint8_t character = (uint8_t) data[index + i];
-
-			if (character != ascii[i])
+		for (size_t i = 0; i < length; i++) {
+			if (static_cast<uint8_t>(data[index + i]) != ascii[i])
 				return false;
 		}
 
@@ -184,9 +178,8 @@ namespace Unicode {
 		if (length > data.size())
 			return false;
 
-		size_t i;
-		for (i = 0; i < length; i++)
-			if ((uint8_t) data[i] != ascii[i])
+		for (size_t i = 0; i < length; i++)
+			if (static_cast<uint8_t>(data[i]) != ascii[i])
 				return false;
 
 		return true;
@@ -194,16 +187,13 @@ namespace Unicode {
 
 	std::ostream &
 	operator<<(std::ostream &stream, const UString &string) {
-		size_t i;
-
-		for (i = 0; i < string.length(); i++) {
-			Unicode::CodePoint character = string[i];
-
+		for (const auto &character : string.data) {
 			if (character < 0x80)
-				stream << (char)character;
+				stream << static_cast<char>(character);
 			else // TODO Export non-ascii characters
 				stream << '?';
 		}
+
 		return stream;
 	}
 }
