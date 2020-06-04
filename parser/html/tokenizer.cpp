@@ -85,62 +85,6 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 		context.currentCharacter = context.character;
 
 		switch (context.state) {
-			case HTML::Tokenizer::ParserState::DATA:
-				if (context.eof) {
-					treeConstructor.EmitEOFToken();
-				} else {
-					switch (context.character) {
-						case '&':
-							context.returnState = HTML::Tokenizer::ParserState::DATA;
-							context.state = HTML::Tokenizer::ParserState::CHARACTER_REFERENCE;
-							break;
-						case '<':
-							context.state = HTML::Tokenizer::ParserState::TAG_OPEN;
-							break;
-						case '\0':
-							context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
-							treeConstructor.EmitCharacterToken(context.character);
-							break;
-						default:
-							treeConstructor.EmitCharacterToken(context.character);
-							break;
-					}
-				}
-				break;
-			// -- jump to tag TAG_OPEN
-			case HTML::Tokenizer::ParserState::TAG_OPEN:
-				if (context.eof) {
-					context.LogError(HTML::Tokenizer::ParserError::EOF_BEFORE_TAG_NAME);
-					treeConstructor.EmitCharacterToken('>');
-					treeConstructor.EmitEOFToken();
-				} else {
-					switch (context.character) {
-						case '!':
-							context.state = HTML::Tokenizer::ParserState::MARKUP_DECLARATION_OPEN;
-							break;
-						case '/':
-							context.state = HTML::Tokenizer::ParserState::TAG_END_OPEN;
-							break;
-						case '?':
-							context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_QUESTION_MARK_INSTEAD_OF_TAG_NAME);
-							break;
-						default:
-							if (Unicode::IsASCIIAlpha(context.character)) {
-								context.isEndTag = false;
-								context.startTagToken = HTML::Tokenizer::StartTagToken();
-								context.reconsume = true;
-								context.state = HTML::Tokenizer::ParserState::TAG_NAME;
-							} else {
-								std::cout << "DEBUG: Unexpected context.character: " << context.character << context.document->data[context.i+1] << context.document->data[context.i+2] << std::endl;
-								context.LogError(HTML::Tokenizer::ParserError::INVALID_FIRST_CHARACTER_OF_TAG_NAME);
-								context.reconsume = true;
-								treeConstructor.EmitCharacterToken('>');
-								context.state = HTML::Tokenizer::ParserState::DATA;
-							}
-							break;
-					}
-				}
-				break;
 			case HTML::Tokenizer::ParserState::TAG_END_OPEN:
 				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_BEFORE_TAG_NAME);
