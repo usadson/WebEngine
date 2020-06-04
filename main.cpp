@@ -39,9 +39,9 @@
 #include <sstream>
 #include <vector>
 
-#include "data/text/named_characters.hpp"
 #include "data/text/encoding/encoder_engine.hpp"
 #include "data/text/encoding/utf8.hpp"
+#include "data/text/named_characters.hpp"
 #include "misc/credits.hpp"
 #include "net/http/http_connection.hpp"
 #include "net/http2/http2_connection.hpp"
@@ -56,7 +56,8 @@
 #include "logger.hpp"
 #include "options.hpp"
 
-const char testDocument[] = "<!-- TestHTML Document -->\n\
+
+std::string testDocumentText = "<!-- TestHTML Document -->\n\
 <!doctype html>\n\
 <HTml>\n\
   <head>\n\
@@ -71,11 +72,7 @@ const char testDocument[] = "<!-- TestHTML Document -->\n\
   </body>\n\
 </html>\n\
 ";
-
-inline std::vector<char>
-VectorizeString(const char *text, size_t size) noexcept {
-	return std::vector<char>(text, text + size);
-}
+std::vector<char> testDocument(std::begin(testDocumentText), std::end(testDocumentText));
 
 inline bool
 DecodeText(Resources::DocumentResource &documentResource, std::vector<char> inputData) {
@@ -106,7 +103,7 @@ RunDocumentTest(void) {
 	Resources::DocumentResource document;
 	document.mediaType = { "text/html", { { "charset", "utf-8" } } };
 
-	if (!DecodeText(document, VectorizeString(testDocument, sizeof(testDocument) / sizeof(testDocument[0]) - 1))) {
+	if (!DecodeText(document, testDocument)) {
 		Logger::Error("RunDocumentTest", "Failed to decode text");
 		return;
 	}
