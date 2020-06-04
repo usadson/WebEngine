@@ -39,22 +39,22 @@
 #include <sstream>
 #include <vector>
 
+#include "ccompat.hpp"
 #include "data/text/encoding/encoder_engine.hpp"
 #include "data/text/encoding/utf8.hpp"
 #include "data/text/named_characters.hpp"
+#include "logger.hpp"
 #include "misc/credits.hpp"
+#include "net/alpn_protocols.hpp"
 #include "net/http/http_connection.hpp"
 #include "net/http2/http2_connection.hpp"
-#include "net/alpn_protocols.hpp"
+#include "options.hpp"
 #include "parser/html/tokenizer.hpp"
 #include "rendering/drawables/draw_rect.hpp"
 #include "rendering/drawables/draw_text.hpp"
 #include "rendering/opengl/gl_renderer.hpp"
 #include "rendering/window/window_glfw.hpp"
 #include "resources/document.hpp"
-#include "ccompat.hpp"
-#include "logger.hpp"
-#include "options.hpp"
 
 
 std::string testDocumentText = "<!-- TestHTML Document -->\n\
