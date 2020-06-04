@@ -46,11 +46,11 @@ namespace CommandLineParser {
 	struct Output {
 		std::string name;
 		std::optional<std::string> value;
-	};
 
-	std::vector<Input> inputs = {
-		{ "credits",	false },
-		{ "test",		true },
+		inline
+		Output(std::string name, std::optional<std::string> value)
+			: name(std::move(name)), value(std::move(value)) {
+		}
 	};
 
 	std::vector<Output> outputs;
@@ -59,7 +59,7 @@ namespace CommandLineParser {
 }
 
 std::optional<const std::optional<std::string> *>
-Options::GetCommandLineParameter(std::string name) {
+Options::GetCommandLineParameter(const std::string &name) {
 	auto result = std::find_if(std::begin(CommandLineParser::outputs),
 		std::end(CommandLineParser::outputs),
 		[name](const auto &entry) -> bool {
@@ -67,21 +67,27 @@ Options::GetCommandLineParameter(std::string name) {
 		}
 	);
 
-	if (result != std::end(CommandLineParser::outputs))
+	if (result != std::end(CommandLineParser::outputs)) {
 		return { &result->value };
-	else
-		return {};
+	}
+
+	return {};
 }
 
 bool
 Options::ParseCommandLine(int argc, const char **argv) {
-	if (argc == 0 || argc == 1)
+	if (argc == 0 || argc == 1) {
 		return true;
+	}
 
-	size_t i;
+	const std::array<CommandLineParser::Input, 2> inputs = { {
+		{ "credits",	false },
+		{ "test",		true },
+	} };
+
 	std::optional<std::string_view> prevName;
 
-	for (i = 1; i < (size_t) argc; i++) {
+	for (size_t i = 1; i < static_cast<size_t>(argc); i++) {
 		std::string_view strview(argv[i]);
 
 		if (argv[i][0] == '\0')
@@ -106,40 +112,40 @@ Options::ParseCommandLine(int argc, const char **argv) {
 			if (equals == std::string::npos) {
 				std::string name(std::begin(strview) + 2);
 
-				auto result = std::find_if(std::begin(CommandLineParser::inputs),
-										   std::end(CommandLineParser::inputs),
+				const auto *result = std::find_if(std::begin(inputs),
+										   std::end(inputs),
 					[name](const auto &entry) -> bool {
 						return strcasecmp(name.c_str(), entry.name.c_str()) == 0;
 					}
 				);
 
-				if (result != std::end(CommandLineParser::inputs) && result->optionHasValue) {
-					if (i == (size_t) argc - 1) {
+				if (result != std::end(inputs) && result->optionHasValue) {
+					if (i == static_cast<size_t>(argc) - 1) {
 						std::cerr << "Invalid command line option: " << result->name
 								  << " (required option value)" << std::endl;
 						return false;
 					}
 					prevName = strview;
 				} else {
-					CommandLineParser::outputs.push_back({
+					CommandLineParser::outputs.emplace_back(
 						std::string(std::begin(strview) + 2, std::end(strview)),
-						{}
-					});
+						std::string()
+					);
 				}
 			} else {
-				CommandLineParser::outputs.push_back({
+				CommandLineParser::outputs.emplace_back(
 					std::string(std::begin(strview) + 2, equals - 2),
 					std::string(std::begin(strview) + equals + 1)
-				});
+				);
 			}
 		} else if (prevName.has_value()) {
-			CommandLineParser::outputs.push_back({
+			CommandLineParser::outputs.emplace_back(
 				std::string(std::begin(prevName.value()) + 2, std::end(prevName.value())),
 				std::string(strview)
-			});
+			);
 			prevName.reset();
 		} else {
-			CommandLineParser::textOutput.push_back(std::string(strview));
+			CommandLineParser::textOutput.emplace_back(strview);
 		}
 	}
 
