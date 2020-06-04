@@ -12,6 +12,7 @@
 #include "dom/comment.hpp"
 #include "dom/element.hpp"
 #include "parser/html/constants.hpp"
+#include "parser/html/context.hpp"
 #include "logger.hpp"
 
 bool

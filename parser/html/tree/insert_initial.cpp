@@ -9,6 +9,8 @@
 #include <iostream>
 #include <vector>
 
+#include "parser/html/context.hpp"
+
 #include "dom/comment.hpp"
 #include "logger.hpp"
 
