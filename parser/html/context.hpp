@@ -40,6 +40,7 @@ namespace HTML {
 			std::vector<Unicode::CodePoint> temporaryBuffer;
 			Unicode::UString ncRefBuffer;
 
+			Unicode::CodePoint character;
 			HTML::Tokenizer::CommentToken commentToken { HTML::Tokenizer::CommentToken::INVALID_TYPE };
 			HTML::Tokenizer::DoctypeToken doctypeToken;
 			HTML::Tokenizer::EndTagToken endTagToken;

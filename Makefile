@@ -68,6 +68,7 @@ BINARIES = bin/ccompat.o \
 	   bin/parser/html/state.o \
 	   bin/parser/html/token.o \
 	   bin/parser/html/tokenizer.o \
+	   bin/parser/html/tokenizer/data.o \
 	   bin/parser/html/tree/insert_before_head.o \
 	   bin/parser/html/tree/insert_before_html.o \
 	   bin/parser/html/tree/insert_intial.o \
@@ -113,6 +114,7 @@ bin/test.txt:
 	@mkdir bin/net/http2
 	@mkdir bin/parser
 	@mkdir bin/parser/html
+	@mkdir bin/parser/html/tokenizer
 	@mkdir bin/parser/html/tree
 	@mkdir bin/rendering
 	@mkdir bin/rendering/window
@@ -252,6 +254,13 @@ bin/parser/html/tree_constructor.o: parser/html/tree_constructor.cpp \
 	parser/html/token.hpp \
 	logger.hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ parser/html/tree_constructor.cpp
+
+bin/parser/html/tokenizer/data.o: parser/html/tokenizer/data.cpp \
+	parser/html/tokenizer/data.hpp \
+	parser/html/context.hpp \
+	parser/html/token.hpp \
+	parser/html/tokenizer.hpp
+	$(CXX) $(CXXFLAGS) -c -o $@ parser/html/tokenizer/data.cpp
 
 bin/parser/html/tree/insert_before_head.o: parser/html/tree/insert_before_head.cpp \
 	parser/html/tree/insert_before_head.hpp \
