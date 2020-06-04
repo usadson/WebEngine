@@ -68,9 +68,11 @@ BINARIES = bin/ccompat.o \
 	   bin/parser/html/state.o \
 	   bin/parser/html/token.o \
 	   bin/parser/html/tokenizer.o \
-	   bin/parser/html/tokenizer/attribute_name.o \
 	   bin/parser/html/tokenizer/after_attribute_name.o \
+	   bin/parser/html/tokenizer/attribute_name.o \
+	   bin/parser/html/tokenizer/attribute_value_dq.o \
 	   bin/parser/html/tokenizer/before_attribute_name.o \
+	   bin/parser/html/tokenizer/before_attribute_value.o \
 	   bin/parser/html/tokenizer/data.o \
 	   bin/parser/html/tokenizer/tag_end_open.o \
 	   bin/parser/html/tokenizer/tag_name.o \
@@ -275,12 +277,26 @@ bin/parser/html/tokenizer/attribute_name.o: parser/html/tokenizer/attribute_name
 	parser/html/tokenizer.hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ parser/html/tokenizer/attribute_name.cpp
 
+bin/parser/html/tokenizer/attribute_value_dq.o: parser/html/tokenizer/attribute_value_dq.cpp \
+	parser/html/tokenizer/attribute_value_dq.hpp \
+	parser/html/context.hpp \
+	parser/html/token.hpp \
+	parser/html/tokenizer.hpp
+	$(CXX) $(CXXFLAGS) -c -o $@ parser/html/tokenizer/attribute_value_dq.cpp
+
 bin/parser/html/tokenizer/before_attribute_name.o: parser/html/tokenizer/before_attribute_name.cpp \
 	parser/html/tokenizer/before_attribute_name.hpp \
 	parser/html/context.hpp \
 	parser/html/token.hpp \
 	parser/html/tokenizer.hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ parser/html/tokenizer/before_attribute_name.cpp
+
+bin/parser/html/tokenizer/before_attribute_value.o: parser/html/tokenizer/before_attribute_value.cpp \
+	parser/html/tokenizer/before_attribute_value.hpp \
+	parser/html/context.hpp \
+	parser/html/token.hpp \
+	parser/html/tokenizer.hpp
+	$(CXX) $(CXXFLAGS) -c -o $@ parser/html/tokenizer/before_attribute_value.cpp
 
 bin/parser/html/tokenizer/data.o: parser/html/tokenizer/data.cpp \
 	parser/html/tokenizer/data.hpp \
