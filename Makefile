@@ -51,6 +51,7 @@ LDFLAGS = `pkg-config --static --libs libtls glfw3 glew freetype2`
 BINARIES = bin/ccompat.o \
 	   bin/logger.o \
 	   bin/options.o \
+	   bin/data/text/named_characters.so \
 	   bin/data/text/ustring.o \
 	   bin/data/text/encoding/encoder_engine.o \
 	   bin/data/text/encoding/single_byte_encoding.o \
@@ -126,6 +127,12 @@ bin/logger.o: logger.cpp\
 bin/options.o: options.cpp \
 	options.hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ options.cpp
+
+bin/data/text/named_characters.so: data/text/named_characters.cpp \
+	data/text/named_characters.hpp \
+	data/text/unicode.hpp \
+	data/text/ustring.hpp
+	$(CXX) $(CXXFLAGS) -c -o $@ data/text/named_characters.cpp
 
 bin/data/text/ustring.o: data/text/ustring.cpp \
 	data/text/ustring.hpp \
