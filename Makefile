@@ -69,6 +69,7 @@ BINARIES = bin/ccompat.o \
 	   bin/parser/html/token.o \
 	   bin/parser/html/tokenizer.o \
 	   bin/parser/html/tokenizer/data.o \
+	   bin/parser/html/tokenizer/tag_open.o \
 	   bin/parser/html/tree/insert_before_head.o \
 	   bin/parser/html/tree/insert_before_html.o \
 	   bin/parser/html/tree/insert_intial.o \
@@ -261,6 +262,13 @@ bin/parser/html/tokenizer/data.o: parser/html/tokenizer/data.cpp \
 	parser/html/token.hpp \
 	parser/html/tokenizer.hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ parser/html/tokenizer/data.cpp
+
+bin/parser/html/tokenizer/tag_open.o: parser/html/tokenizer/tag_open.cpp \
+	parser/html/tokenizer/tag_open.hpp \
+	parser/html/context.hpp \
+	parser/html/token.hpp \
+	parser/html/tokenizer.hpp
+	$(CXX) $(CXXFLAGS) -c -o $@ parser/html/tokenizer/tag_open.cpp
 
 bin/parser/html/tree/insert_before_head.o: parser/html/tree/insert_before_head.cpp \
 	parser/html/tree/insert_before_head.hpp \

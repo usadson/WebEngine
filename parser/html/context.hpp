@@ -13,6 +13,7 @@ namespace HTML {
 }
 
 #include "dom/document.hpp"
+#include "resources/document.hpp"
 
 #include "error.hpp"
 #include "state.hpp"
@@ -45,7 +46,9 @@ namespace HTML {
 			HTML::Tokenizer::DoctypeToken doctypeToken;
 			HTML::Tokenizer::EndTagToken endTagToken;
 			bool eof;
+			Resources::DocumentResource *document { nullptr };
 			size_t documentSize;
+			size_t i;
 			bool isEndTag;
 			bool reconsume;
 			HTML::Tokenizer::StartTagToken startTagToken;

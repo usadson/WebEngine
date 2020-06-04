@@ -24,12 +24,14 @@
 void
 HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 
+	context.document = &document;
+
 	// At what line is the tokenizer?
 	context.lineCount = 1;
 	// At what character position in the line is the tokenizer?
 	context.linePosition = 0;
 
-	context.documentSize = document.data.length();
+	context.documentSize = context.document->data.length();
 	std::cout << "InputDataSize: " << context.documentSize << std::endl;
 
 	// Don't use 'character' if context.eof is true.
@@ -45,34 +47,34 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 	context.reconsume = false;
 	context.toConsumeNext = 0;
 
-	for (size_t i = 0; i <= context.documentSize; i++) {
+	for (context.i = 0; context.i <= context.documentSize; context.i++) {
 		context.character = '\0';
 
-// 		std::cout << "index=" << i << " state=" << context.state << std::endl;
+// 		std::cout << "index=" << context.i << " state=" << context.state << std::endl;
 		if (context.reconsume) {
-			i--;
+			context.i--;
 			context.reconsume = false;
 		}
 
-		if (i == context.documentSize) {
+		if (context.i == context.documentSize) {
 			context.eof = true;
 			context.linePosition += 1;
 		} else {
 			bool repeatLineCheckLoop = true;
 			while (repeatLineCheckLoop) {
 				repeatLineCheckLoop = false;
-				context.character = document.data[i];
+				context.character = context.document->data[context.i];
 
 				if (context.character == '\n') {
 					context.lineCount += 1;
 					context.linePosition = 1;
 				} else {
-					// std::cout << "CharAt(" << i << ") = " << context.character << std::endl;
+					// std::cout << "CharAt(" << context.i << ") = " << context.character << std::endl;
 					context.linePosition += 1;
 				}
 
 				if (context.toConsumeNext > 0) {
-					i += 1;
+					context.i += 1;
 					context.toConsumeNext -= 1;
 					repeatLineCheckLoop = true;
 				}
@@ -129,7 +131,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 								context.reconsume = true;
 								context.state = HTML::Tokenizer::ParserState::TAG_NAME;
 							} else {
-								std::cout << "DEBUG: Unexpected context.character: " << context.character << document.data[i+1] << document.data[i+2] << std::endl;
+								std::cout << "DEBUG: Unexpected context.character: " << context.character << context.document->data[context.i+1] << context.document->data[context.i+2] << std::endl;
 								context.LogError(HTML::Tokenizer::ParserError::INVALID_FIRST_CHARACTER_OF_TAG_NAME);
 								context.reconsume = true;
 								treeConstructor.EmitCharacterToken('>');
@@ -513,9 +515,9 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 			// -- jump to MARKUP_DECLARATION_OPEN
 			case HTML::Tokenizer::ParserState::MARKUP_DECLARATION_OPEN:
 				if (!context.eof) {
-					if (i + 1 < context.documentSize
+					if (context.i + 1 < context.documentSize
 						&& context.character == '-'
-						&& document.data[i+1] == '-') {
+						&& context.document->data[context.i+1] == '-') {
 						context.toConsumeNext = 1;
 
 						context.commentToken = HTML::Tokenizer::CommentToken(Unicode::UString(""));
@@ -523,15 +525,15 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 						continue;
 					}
 
-					if (i + 6 < context.documentSize) {
-						if (document.data.EqualsIgnoreCaseAL(i, "DOCTYPE", 7)) {
+					if (context.i + 6 < context.documentSize) {
+						if (context.document->data.EqualsIgnoreCaseAL(context.i, "DOCTYPE", 7)) {
 							context.toConsumeNext = 6;
 							context.state = HTML::Tokenizer::ParserState::DOCTYPE;
 							continue;
 						}
 						if (context.character == '['
-							&& document.data.EqualsAL(i + 1, "CDATA", 5) // Case-sensitive!
-							&& document.data[i + 6] == ']') {
+							&& context.document->data.EqualsAL(context.i + 1, "CDATA", 5) // Case-sensitive!
+							&& context.document->data[context.i + 6] == ']') {
 							// TODO ?
 							throw std::runtime_error("TODO in MARKUP_DECLARATION_OPEN / CDATA");
 						}
@@ -540,7 +542,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 
 				context.LogError(HTML::Tokenizer::ParserError::INCORRECTLY_OPENED_COMMENT);
 				context.commentToken = HTML::Tokenizer::CommentToken(Unicode::UString(""));
-				i--; // Don't consume anything
+				context.i--; // Don't consume anything
 				context.state = HTML::Tokenizer::ParserState::BOGUS_COMMENT;
 				break;
 			case HTML::Tokenizer::ParserState::COMMENT_START:
@@ -799,14 +801,14 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							context.state = HTML::Tokenizer::ParserState::DATA;
 							break;
 						default:
-							if (i + 5 < context.documentSize) { // 5 or 6 ? not sure..
-								if (document.data.EqualsIgnoreCaseAL(i, "PUBLIC", 6)) {
+							if (context.i + 5 < context.documentSize) { // 5 or 6 ? not sure..
+								if (context.document->data.EqualsIgnoreCaseAL(context.i, "PUBLIC", 6)) {
 									context.toConsumeNext = 5;
 									context.state = HTML::Tokenizer::ParserState::AFTER_DOCTYPE_PUBLIC_KEYWORD;
 									break;
 								}
 
-								if (document.data.EqualsIgnoreCaseAL(i, "SYSTEM", 6)) {
+								if (context.document->data.EqualsIgnoreCaseAL(context.i, "SYSTEM", 6)) {
 									context.toConsumeNext = 5;
 									context.state = HTML::Tokenizer::ParserState::AFTER_DOCTYPE_SYSTEM_KEYWORD;
 									break;
@@ -1256,13 +1258,13 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							(HTML::Tokenizer::AmbiguousTagToken &) context.endTagToken :
 							(HTML::Tokenizer::AmbiguousTagToken &) context.startTagToken);
 
-						for (size_t k = 0; k < context.NCRefBuffer.length(); i++) {
-							tagToken.attributeValue += context.NCRefBuffer[i];
+						for (size_t k = 0; k < context.NCRefBuffer.length(); k++) {
+							tagToken.attributeValue += context.NCRefBuffer[context.i];
 						}
 					} break;
 					default:
-						for (size_t k = 0; k < context.NCRefBuffer.length(); i++) {
-							treeConstructor.EmitCharacterToken(context.NCRefBuffer[i]);
+						for (size_t k = 0; k < context.NCRefBuffer.length(); k++) {
+							treeConstructor.EmitCharacterToken(context.NCRefBuffer[context.i]);
 						}
 						break;
 				}
