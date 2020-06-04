@@ -11,10 +11,10 @@
 #include <sstream>
 #include <vector>
 
+#include "logger.hpp"
 #include "tree/insert_before_head.hpp"
 #include "tree/insert_before_html.hpp"
 #include "tree/insert_initial.hpp"
-#include "logger.hpp"
 
 namespace HTML {
 
@@ -28,10 +28,8 @@ namespace HTML {
 
 	void
 	TreeConstructor::EmitToken(HTML::Tokenizer::Token &inToken) {
-		bool	reprocess;
-		size_t	reprocessCount;
-
-		reprocessCount = 0;
+		bool	reprocess = false;
+		size_t	reprocessCount = 0;
 
 		do {
 			if (reprocessCount == 10) {
@@ -64,14 +62,14 @@ namespace HTML {
 	}
 
 	void
-	TreeConstructor::EmitDoctypeQuirksToken(void) {
+	TreeConstructor::EmitDoctypeQuirksToken() {
 		HTML::Tokenizer::DoctypeToken token;
 		token.forceQuirks = true;
 		EmitToken(token);
 	}
 
 	void
-	TreeConstructor::EmitEOFToken(void) {
+	TreeConstructor::EmitEOFToken() {
 		HTML::Tokenizer::EOFToken token;
 		EmitToken(token);
 	}
