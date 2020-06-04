@@ -57,9 +57,9 @@
 #include "resources/document.hpp"
 
 inline bool
-DecodeText(Resources::DocumentResource &documentResource, std::vector<char> inputData) {
-	auto charset = documentResource.mediaType.parameters.find("charset");
-	if (charset == documentResource.mediaType.parameters.end()) {
+DecodeText(Resources::DocumentResource *documentResource, std::vector<char> inputData) {
+	auto charset = documentResource->mediaType.parameters.find("charset");
+	if (charset == documentResource->mediaType.parameters.end()) {
 		Logger::Warning("TextDecoder", "TODO: Add charset/encoding sniffing.");
 		return false;
 	}
@@ -72,7 +72,7 @@ DecodeText(Resources::DocumentResource &documentResource, std::vector<char> inpu
 			return false;
 		}
 
-		documentResource.data = Unicode::UString(utf8Encoding.Output);
+		documentResource->data = Unicode::UString(utf8Encoding.Output);
 		return true;
 	}
 
@@ -81,7 +81,7 @@ DecodeText(Resources::DocumentResource &documentResource, std::vector<char> inpu
 }
 
 inline void
-RunDocumentTest(void) {
+RunDocumentTest() {
 	Resources::DocumentResource document;
 	document.mediaType = { "text/html", { { "charset", "utf-8" } } };
 
@@ -102,7 +102,7 @@ RunDocumentTest(void) {
 ";
 	std::vector<char> testDocument(std::begin(testDocumentText), std::end(testDocumentText));
 
-	if (!DecodeText(document, testDocument)) {
+	if (!DecodeText(&document, testDocument)) {
 		Logger::Error("RunDocumentTest", "Failed to decode text");
 		return;
 	}
@@ -114,14 +114,12 @@ RunDocumentTest(void) {
 
 void
 RunEncodingTest() {
-	size_t i;
-
 	std::vector<std::pair<std::string, std::vector<char>>> vector = {
 		{
 			"866",
 			{
-				(char) 0x80,
-				(char) 0x81
+				static_cast<char>(0x80),
+				static_cast<char>(0x81)
 			}
 		},
 		{
@@ -135,7 +133,7 @@ RunEncodingTest() {
 		{
 			"iso885910",
 			{
-				(char) 162
+				static_cast<char>(162)
 			},
 		}
 	};
@@ -147,20 +145,19 @@ RunEncodingTest() {
 													  pair.first);
 
 		std::cout << "Encoder output: " << out.size() << " code points (characters)." << std::endl;
-		for (i = 0; i < out.size(); i++)
-			std::cout << '\t' << out[i] << std::endl;
+
+		for (const auto &entry : out) {
+			std::cout << '\t' << entry << std::endl;
+		}
 		std::cout << "End." << std::endl;
 	}
 }
 
 std::shared_ptr<Rendering::Renderer>
-CreateRenderer(std::vector<Rendering::RendererType> supportedRenderers) {
+CreateRenderer(const std::vector<Rendering::RendererType> &supportedRenderers) {
 	for (const auto &renderer : supportedRenderers) {
-		switch (renderer) {
-			case Rendering::RendererType::OPENGL:
-				return std::make_shared<Rendering::GLRenderer>();
-			default:
-				break;
+		if (renderer == Rendering::RendererType::OPENGL) {
+			return std::make_shared<Rendering::GLRenderer>();
 		}
 	}
 
@@ -255,8 +252,9 @@ RunNetHTTP2Test(const char *name) {
 int
 main(int argc, const char *argv[]) {
 	/** Initialization Section **/
-	if (!Options::ParseCommandLine(argc, argv))
+	if (!Options::ParseCommandLine(argc, argv)) {
 		return EXIT_FAILURE;
+	}
 
 	if (Options::GetCommandLineParameter("credits").has_value()) {
 		Credits::PrintToCommandLine();

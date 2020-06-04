@@ -1,0 +1,9 @@
+29483 warnings generated.
+/home/tager/Code/Public/WebEngine/main.cpp:194:19: warning: do not access members of unions; use (boost::)variant instead [cppcoreguidelines-pro-type-union-access]
+        rectangle->color.value = 0x83ff08ff;
+                         ^
+/home/tager/Code/Public/WebEngine/main.cpp:199:14: warning: do not access members of unions; use (boost::)variant instead [cppcoreguidelines-pro-type-union-access]
+        text->color.value = 0x8308ffff;
+                    ^
+Suppressed 29481 warnings (29481 in non-user code).
+Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
