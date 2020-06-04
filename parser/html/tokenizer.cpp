@@ -85,33 +85,6 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 		context.currentCharacter = context.character;
 
 		switch (context.state) {
-			case HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_SQ:
-				if (context.eof) {
-					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_TAG);
-					treeConstructor.EmitEOFToken();
-				} else {
-					HTML::Tokenizer::AmbiguousTagToken &tagToken = context.isEndTag ?
-								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.endTagToken) :
-								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.startTagToken);
-
-					switch (context.character) {
-						case '\'':
-							context.state = HTML::Tokenizer::ParserState::AFTER_ATTRIBUTE_VALUE_QUOTED;
-							break;
-						case '&':
-							context.returnState = HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_SQ;
-							context.state = HTML::Tokenizer::ParserState::CHARACTER_REFERENCE;
-							break;
-						case '\0':
-							context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
-							tagToken.attributeValue += Unicode::REPLACEMENT_CHARACTER;
-							break;
-						default:
-							tagToken.attributeValue += context.character;
-							break;
-					}
-				}
-				break;
 			case HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_NQ:
 				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_TAG);

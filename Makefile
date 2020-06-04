@@ -71,6 +71,7 @@ BINARIES = bin/ccompat.o \
 	   bin/parser/html/tokenizer/after_attribute_name.o \
 	   bin/parser/html/tokenizer/attribute_name.o \
 	   bin/parser/html/tokenizer/attribute_value_dq.o \
+	   bin/parser/html/tokenizer/attribute_value_sq.o \
 	   bin/parser/html/tokenizer/before_attribute_name.o \
 	   bin/parser/html/tokenizer/before_attribute_value.o \
 	   bin/parser/html/tokenizer/data.o \
@@ -283,6 +284,13 @@ bin/parser/html/tokenizer/attribute_value_dq.o: parser/html/tokenizer/attribute_
 	parser/html/token.hpp \
 	parser/html/tokenizer.hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ parser/html/tokenizer/attribute_value_dq.cpp
+
+bin/parser/html/tokenizer/attribute_value_sq.o: parser/html/tokenizer/attribute_value_sq.cpp \
+	parser/html/tokenizer/attribute_value_sq.hpp \
+	parser/html/context.hpp \
+	parser/html/token.hpp \
+	parser/html/tokenizer.hpp
+	$(CXX) $(CXXFLAGS) -c -o $@ parser/html/tokenizer/attribute_value_sq.cpp
 
 bin/parser/html/tokenizer/before_attribute_name.o: parser/html/tokenizer/before_attribute_name.cpp \
 	parser/html/tokenizer/before_attribute_name.hpp \
