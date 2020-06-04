@@ -39,6 +39,17 @@ namespace HTML {
 			char currentCharacter = '\0';
 			std::vector<Unicode::CodePoint> temporaryBuffer;
 			Unicode::UString ncRefBuffer;
+
+			HTML::Tokenizer::CommentToken commentToken { HTML::Tokenizer::CommentToken::INVALID_TYPE };
+			HTML::Tokenizer::DoctypeToken doctypeToken;
+			HTML::Tokenizer::EndTagToken endTagToken;
+			bool eof;
+			size_t documentSize;
+			bool isEndTag;
+			bool reconsume;
+			HTML::Tokenizer::StartTagToken startTagToken;
+			size_t toConsumeNext;
+			size_t unknownStateCount;
 		public: // Methods
 			inline explicit
 			Context(HTML::ParserContext &context)

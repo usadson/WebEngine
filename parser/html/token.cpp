@@ -8,6 +8,7 @@
 
 #include <iostream>
 
+#include "context.hpp"
 #include "logger.hpp"
 
 namespace HTML {

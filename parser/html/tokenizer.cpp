@@ -29,34 +29,33 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 	// At what character position in the line is the tokenizer?
 	context.linePosition = 0;
 
-	const size_t documentSize = document.data.length();
-	std::cout << "InputDataSize: " << documentSize << std::endl;
+	context.documentSize = document.data.length();
+	std::cout << "InputDataSize: " << context.documentSize << std::endl;
 
-	// Don't use 'character' if eof is true.
-	bool eof = false;
+	// Don't use 'character' if context.eof is true.
+	context.eof = false;
 
-	HTML::Tokenizer::CommentToken commentToken = HTML::Tokenizer::CommentToken::INVALID_TYPE;
-	HTML::Tokenizer::DoctypeToken doctypeToken;
+	context.commentToken = HTML::Tokenizer::CommentToken::INVALID_TYPE;
 
-	bool isEndTag = false;
-	HTML::Tokenizer::EndTagToken endTagToken = HTML::Tokenizer::EndTagToken::INVALID_TYPE_END_TAG;
-	HTML::Tokenizer::StartTagToken startTagToken = HTML::Tokenizer::StartTagToken::INVALID_TYPE_START_TAG;
+	context.isEndTag = false;
+	context.endTagToken = HTML::Tokenizer::EndTagToken::INVALID_TYPE_END_TAG;
+	context.startTagToken = HTML::Tokenizer::StartTagToken::INVALID_TYPE_START_TAG;
 
-	size_t unknownStateCount = 0;
-	bool reconsume = false;
-	size_t toConsumeNext = 0;
+	context.unknownStateCount = 0;
+	context.reconsume = false;
+	context.toConsumeNext = 0;
 
-	for (size_t i = 0; i <= documentSize; i++) {
+	for (size_t i = 0; i <= context.documentSize; i++) {
 		Unicode::CodePoint character = '\0';
 
 // 		std::cout << "index=" << i << " state=" << context.state << std::endl;
-		if (reconsume) {
+		if (context.reconsume) {
 			i--;
-			reconsume = false;
+			context.reconsume = false;
 		}
 
-		if (i == documentSize) {
-			eof = true;
+		if (i == context.documentSize) {
+			context.eof = true;
 			context.linePosition += 1;
 		} else {
 			bool repeatLineCheckLoop = true;
@@ -72,9 +71,9 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 					context.linePosition += 1;
 				}
 
-				if (toConsumeNext > 0) {
+				if (context.toConsumeNext > 0) {
 					i += 1;
-					toConsumeNext -= 1;
+					context.toConsumeNext -= 1;
 					repeatLineCheckLoop = true;
 				}
 			}
@@ -85,7 +84,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 
 		switch (context.state) {
 			case HTML::Tokenizer::ParserState::DATA:
-				if (eof) {
+				if (context.eof) {
 					treeConstructor.EmitEOFToken();
 				} else {
 					switch (character) {
@@ -108,7 +107,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 				break;
 			// -- jump to tag TAG_OPEN
 			case HTML::Tokenizer::ParserState::TAG_OPEN:
-				if (eof) {
+				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_BEFORE_TAG_NAME);
 					treeConstructor.EmitCharacterToken('>');
 					treeConstructor.EmitEOFToken();
@@ -125,14 +124,14 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							break;
 						default:
 							if (Unicode::IsASCIIAlpha(character)) {
-								isEndTag = false;
-								startTagToken = HTML::Tokenizer::StartTagToken();
-								reconsume = true;
+								context.isEndTag = false;
+								context.startTagToken = HTML::Tokenizer::StartTagToken();
+								context.reconsume = true;
 								context.state = HTML::Tokenizer::ParserState::TAG_NAME;
 							} else {
 								std::cout << "DEBUG: Unexpected character: " << character << document.data[i+1] << document.data[i+2] << std::endl;
 								context.LogError(HTML::Tokenizer::ParserError::INVALID_FIRST_CHARACTER_OF_TAG_NAME);
-								reconsume = true;
+								context.reconsume = true;
 								treeConstructor.EmitCharacterToken('>');
 								context.state = HTML::Tokenizer::ParserState::DATA;
 							}
@@ -141,7 +140,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 				}
 				break;
 			case HTML::Tokenizer::ParserState::TAG_END_OPEN:
-				if (eof) {
+				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_BEFORE_TAG_NAME);
 					treeConstructor.EmitCharacterToken('>');
 					treeConstructor.EmitCharacterToken('\\');
@@ -151,25 +150,25 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 						context.LogError(HTML::Tokenizer::ParserError::MISSING_END_TAG_NAME);
 						context.state = HTML::Tokenizer::ParserState::DATA;
 					} else if (Unicode::IsASCIIAlpha(character)) {
-						isEndTag = true;
-						endTagToken = HTML::Tokenizer::EndTagToken();
-						reconsume = true;
+						context.isEndTag = true;
+						context.endTagToken = HTML::Tokenizer::EndTagToken();
+						context.reconsume = true;
 						context.state = HTML::Tokenizer::ParserState::TAG_NAME;
 					} else {
 						context.LogError(HTML::Tokenizer::ParserError::INVALID_FIRST_CHARACTER_OF_TAG_NAME);
-						commentToken = HTML::Tokenizer::CommentToken(Unicode::UString(""));
-						reconsume = true;
+						context.commentToken = HTML::Tokenizer::CommentToken(Unicode::UString(""));
+						context.reconsume = true;
 						context.state = HTML::Tokenizer::ParserState::BOGUS_COMMENT;
 					}
 				}
 				break;
 			case HTML::Tokenizer::ParserState::TAG_NAME:
-				if (eof) {
+				if (context.eof) {
 					std::cout << "EOF IN TAG NAME TODO" << std::endl;
 				} else {
-					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ?
-								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(endTagToken) :
-								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(startTagToken);
+					HTML::Tokenizer::AmbiguousTagToken &tagToken = context.isEndTag ?
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.endTagToken) :
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.startTagToken);
 					switch (character) {
 						case '\t':
 						case '\n':
@@ -181,10 +180,10 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							context.state = HTML::Tokenizer::ParserState::SELF_CLOSING_START;
 							break;
 						case '>':
-							if (isEndTag)
-								treeConstructor.EmitToken(endTagToken);
+							if (context.isEndTag)
+								treeConstructor.EmitToken(context.endTagToken);
 							else
-								treeConstructor.EmitToken(startTagToken);
+								treeConstructor.EmitToken(context.startTagToken);
 							tagToken = HTML::Tokenizer::AmbiguousTagToken::INVALID_TYPE;
 							context.state = HTML::Tokenizer::ParserState::DATA;
 							break;
@@ -204,13 +203,13 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 				break;
 			// -- missing script shit
 			case HTML::Tokenizer::ParserState::BEFORE_ATTRIBUTE_NAME:
-				if (eof) {
-					reconsume = true;
+				if (context.eof) {
+					context.reconsume = true;
 					context.state = HTML::Tokenizer::ParserState::AFTER_ATTRIBUTE_NAME;
 				} else {
-					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ?
-								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(endTagToken) :
-								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(startTagToken);
+					HTML::Tokenizer::AmbiguousTagToken &tagToken = context.isEndTag ?
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.endTagToken) :
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.startTagToken);
 					if (tagToken.attributeName.length() != 0) {
 						tagToken.AddTokenAttribute(context);
 					}
@@ -224,7 +223,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							break;
 						case '/':
 						case '>':
-							reconsume = true;
+							context.reconsume = true;
 							context.state = HTML::Tokenizer::ParserState::AFTER_ATTRIBUTE_NAME;
 							break;
 						case '=':
@@ -242,23 +241,23 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 						default:
 							tagToken.attributeName = Unicode::UString("");
 							tagToken.attributeValue = Unicode::UString("");
-							reconsume = true;
+							context.reconsume = true;
 							context.state = HTML::Tokenizer::ParserState::ATTRIBUTE_NAME;
 							break;
 					}
 				}
 				break;
 			case HTML::Tokenizer::ParserState::ATTRIBUTE_NAME: {
-				HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ?
-								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(endTagToken) :
-								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(startTagToken);
-				if (eof || character == '\t'
+				HTML::Tokenizer::AmbiguousTagToken &tagToken = context.isEndTag ?
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.endTagToken) :
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.startTagToken);
+				if (context.eof || character == '\t'
 						|| character == '\n'
 						|| character == '\f'
 						|| character == ' '
 						|| character == '\\'
 						|| character == '>') {
-					reconsume = true;
+					context.reconsume = true;
 					context.state = HTML::Tokenizer::ParserState::AFTER_ATTRIBUTE_NAME;
 				} else if (character == '=') {
 					context.state = HTML::Tokenizer::ParserState::BEFORE_ATTRIBUTE_VALUE;
@@ -279,13 +278,13 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 				// TODO Check duplicate-attribute parser error
 			} break;
 			case HTML::Tokenizer::ParserState::AFTER_ATTRIBUTE_NAME:
-				if (eof) {
+				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_TAG);
 					treeConstructor.EmitEOFToken();
 				} else {
-					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ?
-								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(endTagToken) :
-								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(startTagToken);
+					HTML::Tokenizer::AmbiguousTagToken &tagToken = context.isEndTag ?
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.endTagToken) :
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.startTagToken);
 
 					switch (character) {
 						case '\t':
@@ -303,29 +302,29 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 						case '>':
 							context.state = HTML::Tokenizer::ParserState::DATA;
 							treeConstructor.EmitToken(tagToken);
-							if (isEndTag)
-								startTagToken = HTML::Tokenizer::StartTagToken(); // Reset
+							if (context.isEndTag)
+								context.startTagToken = HTML::Tokenizer::StartTagToken(); // Reset
 							else
-								endTagToken = HTML::Tokenizer::EndTagToken(); // Reset
+								context.endTagToken = HTML::Tokenizer::EndTagToken(); // Reset
 							break;
 						default:
 							// New attribute? Destroy old one?
 							tagToken.attributeName = Unicode::UString("");
 							tagToken.attributeValue = Unicode::UString("");
-							reconsume = true;
+							context.reconsume = true;
 							context.state = HTML::Tokenizer::ParserState::ATTRIBUTE_NAME;
 							break;
 					}
 				}
 				break;
 			case HTML::Tokenizer::ParserState::BEFORE_ATTRIBUTE_VALUE:
-				if (eof) {
-					reconsume = true;
+				if (context.eof) {
+					context.reconsume = true;
 					context.state = HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_NQ;
 				} else {
-					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ?
-								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(endTagToken) :
-								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(startTagToken);
+					HTML::Tokenizer::AmbiguousTagToken &tagToken = context.isEndTag ?
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.endTagToken) :
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.startTagToken);
 
 					switch (character) {
 						case '\t':
@@ -344,26 +343,26 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							context.LogError(HTML::Tokenizer::ParserError::MISSING_ATTRIBUTE_VALUE);
 							context.state = HTML::Tokenizer::ParserState::DATA;
 							treeConstructor.EmitToken(tagToken);
-							if (isEndTag)
-								startTagToken = HTML::Tokenizer::StartTagToken(); // Reset
+							if (context.isEndTag)
+								context.startTagToken = HTML::Tokenizer::StartTagToken(); // Reset
 							else
-								endTagToken = HTML::Tokenizer::EndTagToken(); // Reset
+								context.endTagToken = HTML::Tokenizer::EndTagToken(); // Reset
 							break;
 						default:
-							reconsume = true;
+							context.reconsume = true;
 							context.state = HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_NQ;
 							break;
 					}
 				}
 				break;
 			case HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_DQ:
-				if (eof) {
+				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_TAG);
 					treeConstructor.EmitEOFToken();
 				} else {
-					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ?
-								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(endTagToken) :
-								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(startTagToken);
+					HTML::Tokenizer::AmbiguousTagToken &tagToken = context.isEndTag ?
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.endTagToken) :
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.startTagToken);
 
 					switch (character) {
 						case '"':
@@ -384,13 +383,13 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 				}
 				break;
 			case HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_SQ:
-				if (eof) {
+				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_TAG);
 					treeConstructor.EmitEOFToken();
 				} else {
-					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ?
-								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(endTagToken) :
-								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(startTagToken);
+					HTML::Tokenizer::AmbiguousTagToken &tagToken = context.isEndTag ?
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.endTagToken) :
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.startTagToken);
 
 					switch (character) {
 						case '\'':
@@ -411,13 +410,13 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 				}
 				break;
 			case HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_NQ:
-				if (eof) {
+				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_TAG);
 					treeConstructor.EmitEOFToken();
 				} else {
-					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ?
-								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(endTagToken) :
-								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(startTagToken);
+					HTML::Tokenizer::AmbiguousTagToken &tagToken = context.isEndTag ?
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.endTagToken) :
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.startTagToken);
 
 					switch (character) {
 						case '\t':
@@ -434,10 +433,10 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							context.LogError(HTML::Tokenizer::ParserError::MISSING_ATTRIBUTE_VALUE);
 							context.state = HTML::Tokenizer::ParserState::DATA;
 							treeConstructor.EmitToken(tagToken);
-							if (isEndTag)
-								startTagToken = HTML::Tokenizer::StartTagToken(); // Reset
+							if (context.isEndTag)
+								context.startTagToken = HTML::Tokenizer::StartTagToken(); // Reset
 							else
-								endTagToken = HTML::Tokenizer::EndTagToken(); // Reset
+								context.endTagToken = HTML::Tokenizer::EndTagToken(); // Reset
 							break;
 						case '\0':
 							context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
@@ -457,13 +456,13 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 				}
 				break;
 			case HTML::Tokenizer::ParserState::AFTER_ATTRIBUTE_VALUE_QUOTED:
-				if (eof) {
+				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_TAG);
 					treeConstructor.EmitEOFToken();
 				} else {
-					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ?
-								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(endTagToken) :
-								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(startTagToken);
+					HTML::Tokenizer::AmbiguousTagToken &tagToken = context.isEndTag ?
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.endTagToken) :
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.startTagToken);
 
 					switch (character) {
 						case '\t':
@@ -478,55 +477,55 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 						case '>':
 							context.state = HTML::Tokenizer::ParserState::DATA;
 							treeConstructor.EmitToken(tagToken);
-							if (isEndTag)
-								startTagToken = HTML::Tokenizer::StartTagToken(); // Reset
+							if (context.isEndTag)
+								context.startTagToken = HTML::Tokenizer::StartTagToken(); // Reset
 							else
-								endTagToken = HTML::Tokenizer::EndTagToken(); // Reset
+								context.endTagToken = HTML::Tokenizer::EndTagToken(); // Reset
 							break;
 						default:
 							context.LogError(HTML::Tokenizer::ParserError::MISSING_WHITESPACE_BETWEEN_ATTRIBUTES);
-							reconsume = true;
+							context.reconsume = true;
 							context.state = HTML::Tokenizer::ParserState::BEFORE_ATTRIBUTE_NAME;
 							break;
 					}
 				}
 				break;
 			case HTML::Tokenizer::ParserState::SELF_CLOSING_START:
-				if (eof) {
+				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_TAG);
 					treeConstructor.EmitEOFToken();
 				} else if (character == '>') {
-					HTML::Tokenizer::AmbiguousTagToken &tagToken = isEndTag ?
-								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(endTagToken) :
-								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(startTagToken);
+					HTML::Tokenizer::AmbiguousTagToken &tagToken = context.isEndTag ?
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.endTagToken) :
+								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.startTagToken);
 
 					tagToken.selfClosing = true;
 					context.state = HTML::Tokenizer::ParserState::DATA;
 					treeConstructor.EmitToken(tagToken);
 
-					if (isEndTag)
-						startTagToken = HTML::Tokenizer::StartTagToken(); // Reset
+					if (context.isEndTag)
+						context.startTagToken = HTML::Tokenizer::StartTagToken(); // Reset
 					else
-						endTagToken = HTML::Tokenizer::EndTagToken(); // Reset
+						context.endTagToken = HTML::Tokenizer::EndTagToken(); // Reset
 				}
 				break;
 			// -- missing BOGUS_COMMENT
 			// -- jump to MARKUP_DECLARATION_OPEN
 			case HTML::Tokenizer::ParserState::MARKUP_DECLARATION_OPEN:
-				if (!eof) {
-					if (i + 1 < documentSize
+				if (!context.eof) {
+					if (i + 1 < context.documentSize
 						&& character == '-'
 						&& document.data[i+1] == '-') {
-						toConsumeNext = 1;
+						context.toConsumeNext = 1;
 
-						commentToken = HTML::Tokenizer::CommentToken(Unicode::UString(""));
+						context.commentToken = HTML::Tokenizer::CommentToken(Unicode::UString(""));
 						context.state = HTML::Tokenizer::ParserState::COMMENT_START;
 						continue;
 					}
 
-					if (i + 6 < documentSize) {
+					if (i + 6 < context.documentSize) {
 						if (document.data.EqualsIgnoreCaseAL(i, "DOCTYPE", 7)) {
-							toConsumeNext = 6;
+							context.toConsumeNext = 6;
 							context.state = HTML::Tokenizer::ParserState::DOCTYPE;
 							continue;
 						}
@@ -540,7 +539,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 				}
 
 				context.LogError(HTML::Tokenizer::ParserError::INCORRECTLY_OPENED_COMMENT);
-				commentToken = HTML::Tokenizer::CommentToken(Unicode::UString(""));
+				context.commentToken = HTML::Tokenizer::CommentToken(Unicode::UString(""));
 				i--; // Don't consume anything
 				context.state = HTML::Tokenizer::ParserState::BOGUS_COMMENT;
 				break;
@@ -550,16 +549,16 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 				} else if (character == '>') {
 					context.LogError(HTML::Tokenizer::ParserError::ABRUBT_CLOSING_OF_EMPTY_COMMENT);
 					context.state = HTML::Tokenizer::ParserState::DATA;
-					treeConstructor.EmitToken(commentToken);
+					treeConstructor.EmitToken(context.commentToken);
 				} else {
-					reconsume = true;
+					context.reconsume = true;
 					context.state = HTML::Tokenizer::ParserState::COMMENT;
 				}
 				break;
 			case HTML::Tokenizer::ParserState::COMMENT_START_DASH:
-				if (eof) {
+				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_COMMENT);
-					treeConstructor.EmitToken(commentToken);
+					treeConstructor.EmitToken(context.commentToken);
 					treeConstructor.EmitEOFToken();
 				} else {
 					if (character == '-') {
@@ -567,44 +566,44 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 					} else if (character == '>') {
 						context.LogError(HTML::Tokenizer::ParserError::ABRUBT_CLOSING_OF_EMPTY_COMMENT);
 						context.state = HTML::Tokenizer::ParserState::DATA;
-						treeConstructor.EmitToken(commentToken);
+						treeConstructor.EmitToken(context.commentToken);
 					} else {
 						// Weird, is this a loop?
 						// 'Append a U+002D HYPHEN-MINUS character (-) to the
 						//  comment token's data. Reconsume in the comment state.
-						commentToken.contents += '-';
-						reconsume = true;
+						context.commentToken.contents += '-';
+						context.reconsume = true;
 						context.state = HTML::Tokenizer::ParserState::COMMENT;
 					}
 				}
 				break;
 			case HTML::Tokenizer::ParserState::COMMENT:
-				if (eof) {
+				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_COMMENT);
-					treeConstructor.EmitToken(commentToken);
+					treeConstructor.EmitToken(context.commentToken);
 					treeConstructor.EmitEOFToken();
 				} else {
 					if (character == '<') {
-						commentToken.contents += '<';
+						context.commentToken.contents += '<';
 						context.state = HTML::Tokenizer::ParserState::COMMENT_LTS;
 					} else if (character == '-') {
 						context.state = HTML::Tokenizer::ParserState::COMMENT_END_DASH;
 					} else if (character == '\0') {
 						context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
-						commentToken.contents += Unicode::REPLACEMENT_CHARACTER;
+						context.commentToken.contents += Unicode::REPLACEMENT_CHARACTER;
 					} else {
-						commentToken.contents += character;
+						context.commentToken.contents += character;
 					}
 				}
 				break;
 			case HTML::Tokenizer::ParserState::COMMENT_LTS:
 				if (character == '!') {
-					commentToken.contents += '!';
+					context.commentToken.contents += '!';
 					context.state = HTML::Tokenizer::ParserState::COMMENT_LTS_BANG;
 				} else if (character == '<') {
-					commentToken.contents += '<';
+					context.commentToken.contents += '<';
 				} else {
-					reconsume = true;
+					context.reconsume = true;
 					context.state = HTML::Tokenizer::ParserState::COMMENT;
 				}
 				break;
@@ -612,7 +611,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 				if (character == '-') {
 					context.state = HTML::Tokenizer::ParserState::COMMENT_LTS_BANG_DASH;
 				} else {
-					reconsume = true;
+					context.reconsume = true;
 					context.state = HTML::Tokenizer::ParserState::COMMENT;
 				}
 				break;
@@ -620,73 +619,73 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 				if (character == '-') {
 					context.state = HTML::Tokenizer::ParserState::COMMENT_LTS_BANG_DASH_DASH;
 				} else {
-					reconsume = true;
+					context.reconsume = true;
 					context.state = HTML::Tokenizer::ParserState::COMMENT;
 				}
 				break;
 			case HTML::Tokenizer::ParserState::COMMENT_LTS_BANG_DASH_DASH:
-				if (eof || character == '>') {
-					reconsume = true;
+				if (context.eof || character == '>') {
+					context.reconsume = true;
 					context.state = HTML::Tokenizer::ParserState::COMMENT_END;
 				} else {
 					context.LogError(HTML::Tokenizer::ParserError::NESTED_COMMENT);
-					reconsume = true;
+					context.reconsume = true;
 					context.state = HTML::Tokenizer::ParserState::COMMENT_END;
 				}
 				break;
 			case HTML::Tokenizer::ParserState::COMMENT_END_DASH:
-				if (eof) {
+				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_COMMENT);
-					treeConstructor.EmitToken(commentToken);
+					treeConstructor.EmitToken(context.commentToken);
 					treeConstructor.EmitEOFToken();
 				} else if (character == '-') {
 					context.state = HTML::Tokenizer::ParserState::COMMENT_END;
 				} else {
-					commentToken.contents += '-';
-					reconsume = true;
+					context.commentToken.contents += '-';
+					context.reconsume = true;
 					context.state = HTML::Tokenizer::ParserState::COMMENT;
 				}
 				break;
 			case HTML::Tokenizer::ParserState::COMMENT_END:
-				if (eof) {
+				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_COMMENT);
-					treeConstructor.EmitToken(commentToken);
+					treeConstructor.EmitToken(context.commentToken);
 					treeConstructor.EmitEOFToken();
 				} else if (character == '>') {
-					treeConstructor.EmitToken(commentToken);
-					commentToken = HTML::Tokenizer::CommentToken::INVALID_TYPE;
+					treeConstructor.EmitToken(context.commentToken);
+					context.commentToken = HTML::Tokenizer::CommentToken::INVALID_TYPE;
 					context.state = HTML::Tokenizer::ParserState::DATA;
 				} else if (character == '!') {
 					context.state = HTML::Tokenizer::ParserState::COMMENT_END_BANG;
 				} else if (character == '-') {
-					commentToken.contents += '-';
+					context.commentToken.contents += '-';
 				} else {
-					commentToken.contents += "--";
-					reconsume = true;
+					context.commentToken.contents += "--";
+					context.reconsume = true;
 					context.state = HTML::Tokenizer::ParserState::COMMENT;
 				}
 				break;
 			case HTML::Tokenizer::ParserState::COMMENT_END_BANG:
-				if (eof) {
+				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_COMMENT);
-					treeConstructor.EmitToken(commentToken);
+					treeConstructor.EmitToken(context.commentToken);
 					treeConstructor.EmitEOFToken();
 				} else if (character == '-') {
-					commentToken.contents += "--!";
+					context.commentToken.contents += "--!";
 					context.state = HTML::Tokenizer::ParserState::COMMENT_END_DASH;
 				} else if (character == '>') {
 					context.LogError(HTML::Tokenizer::ParserError::INCORRECTLY_CLOSED_COMMENT);
-					treeConstructor.EmitToken(commentToken);
-					commentToken = HTML::Tokenizer::CommentToken::INVALID_TYPE;
+					treeConstructor.EmitToken(context.commentToken);
+					context.commentToken = HTML::Tokenizer::CommentToken::INVALID_TYPE;
 					context.state = HTML::Tokenizer::ParserState::DATA;
 				} else {
-					commentToken.contents += "--!";
-					reconsume = true;
+					context.commentToken.contents += "--!";
+					context.reconsume = true;
 					context.state = HTML::Tokenizer::ParserState::COMMENT;
 				}
 				break;
 			case HTML::Tokenizer::ParserState::DOCTYPE:
-				if (eof) {
+				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_DOCTYPE);
 					treeConstructor.EmitDoctypeQuirksToken();
 					treeConstructor.EmitEOFToken();
@@ -699,20 +698,20 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							context.state = HTML::Tokenizer::ParserState::BEFORE_DOCTYPE_NAME;
 							break;
 						case '>':
-							reconsume = true;
+							context.reconsume = true;
 							context.state = HTML::Tokenizer::ParserState::BEFORE_DOCTYPE_NAME;
 							break;
 						default:
 							std::cout << "\ninvalid character: (" << static_cast<size_t>(character) << ")\n" << std::endl;
 							context.LogError(HTML::Tokenizer::ParserError::MISSING_WHITESPACE_BEFORE_DOCTYPE_NAME);
-							reconsume = true;
+							context.reconsume = true;
 							context.state = HTML::Tokenizer::ParserState::BEFORE_DOCTYPE_NAME;
 							break;
 					}
 				}
 				break;
 			case HTML::Tokenizer::ParserState::BEFORE_DOCTYPE_NAME:
-				if (eof) {
+				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_DOCTYPE);
 					treeConstructor.EmitDoctypeQuirksToken();
 					treeConstructor.EmitEOFToken();
@@ -731,17 +730,17 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 						} break;
 						case '\0': {
 							context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
-							doctypeToken.name.emplace(Unicode::REPLACEMENT_CHARACTER);
+							context.doctypeToken.name.emplace(Unicode::REPLACEMENT_CHARACTER);
 							context.state = HTML::Tokenizer::ParserState::DOCTYPE_NAME;
 						} break;
 						default:
 							if (character >= 0x41 && character <= 0x5A) {// Is uppercase
-								doctypeToken.name.emplace("");
-								doctypeToken.name.value() += static_cast<char>(character + 0x20);
+								context.doctypeToken.name.emplace("");
+								context.doctypeToken.name.value() += static_cast<char>(character + 0x20);
 								context.state = HTML::Tokenizer::ParserState::DOCTYPE_NAME;
 							} else {
-								doctypeToken.name.emplace("");
-								doctypeToken.name.value() += character;
+								context.doctypeToken.name.emplace("");
+								context.doctypeToken.name.value() += character;
 								context.state = HTML::Tokenizer::ParserState::DOCTYPE_NAME;
 							}
 							break;
@@ -749,7 +748,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 				}
 				break;
 			case HTML::Tokenizer::ParserState::DOCTYPE_NAME:
-				if (eof) {
+				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_DOCTYPE);
 					treeConstructor.EmitDoctypeQuirksToken();
 					treeConstructor.EmitEOFToken();
@@ -762,27 +761,27 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							context.state = HTML::Tokenizer::ParserState::AFTER_DOCTYPE_NAME;
 							break;
 						case '>':
-							std::cout << "Doctype name: " << doctypeToken.name.value() << std::endl;
-							treeConstructor.EmitToken(doctypeToken);
-							doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
+							std::cout << "Doctype name: " << context.doctypeToken.name.value() << std::endl;
+							treeConstructor.EmitToken(context.doctypeToken);
+							context.doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
 							context.state = HTML::Tokenizer::ParserState::DATA;
 							break;
 						case '\0':
 							context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
-							doctypeToken.name = doctypeToken.name.value() + Unicode::REPLACEMENT_CHARACTER;
+							context.doctypeToken.name = context.doctypeToken.name.value() + Unicode::REPLACEMENT_CHARACTER;
 							break;
 						default:
 							if (character >= 0x41 && character <= 0x5A) {// Is uppercase
-								doctypeToken.name = doctypeToken.name.value() + static_cast<char>(character + 0x20);;
+								context.doctypeToken.name = context.doctypeToken.name.value() + static_cast<char>(character + 0x20);;
 							} else {
-								doctypeToken.name = doctypeToken.name.value() + character;
+								context.doctypeToken.name = context.doctypeToken.name.value() + character;
 							}
 							break;
 					}
 				}
 				break;
 			case HTML::Tokenizer::ParserState::AFTER_DOCTYPE_NAME:
-				if (eof) {
+				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_DOCTYPE);
 					treeConstructor.EmitDoctypeQuirksToken();
 					treeConstructor.EmitEOFToken();
@@ -795,35 +794,35 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							// Ignore
 							break;
 						case '>':
-							treeConstructor.EmitToken(doctypeToken);
-							doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
+							treeConstructor.EmitToken(context.doctypeToken);
+							context.doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
 							context.state = HTML::Tokenizer::ParserState::DATA;
 							break;
 						default:
-							if (i + 5 < documentSize) { // 5 or 6 ? not sure..
+							if (i + 5 < context.documentSize) { // 5 or 6 ? not sure..
 								if (document.data.EqualsIgnoreCaseAL(i, "PUBLIC", 6)) {
-									toConsumeNext = 5;
+									context.toConsumeNext = 5;
 									context.state = HTML::Tokenizer::ParserState::AFTER_DOCTYPE_PUBLIC_KEYWORD;
 									break;
 								}
 
 								if (document.data.EqualsIgnoreCaseAL(i, "SYSTEM", 6)) {
-									toConsumeNext = 5;
+									context.toConsumeNext = 5;
 									context.state = HTML::Tokenizer::ParserState::AFTER_DOCTYPE_SYSTEM_KEYWORD;
 									break;
 								}
 							}
 
 							context.LogError(HTML::Tokenizer::ParserError::INVALID_CHARACTER_SEQUENCE_AFTER_DOCTYPE_NAME);
-							doctypeToken.forceQuirks = true;
-							reconsume = true;
+							context.doctypeToken.forceQuirks = true;
+							context.reconsume = true;
 							context.state = HTML::Tokenizer::ParserState::BOGUS_DOCTYPE;
 							break;
 					}
 				}
 				break;
 			case HTML::Tokenizer::ParserState::AFTER_DOCTYPE_PUBLIC_KEYWORD:
-				if (eof) {
+				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_DOCTYPE);
 					treeConstructor.EmitDoctypeQuirksToken();
 					treeConstructor.EmitEOFToken();
@@ -837,33 +836,33 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							break;
 						case '"':
 							context.LogError(HTML::Tokenizer::ParserError::MISSING_WHITESPACE_AFTER_DOCTYPE_PUBLIC_KEYWORD);
-							doctypeToken.publicIdentifier.emplace("");
+							context.doctypeToken.publicIdentifier.emplace("");
 							context.state = HTML::Tokenizer::ParserState::DOCTYPE_PUBLIC_IDENTIFIER_DQ;
 							break;
 						case '\'':
 							context.LogError(HTML::Tokenizer::ParserError::MISSING_WHITESPACE_AFTER_DOCTYPE_PUBLIC_KEYWORD);
-							doctypeToken.publicIdentifier.emplace("");
+							context.doctypeToken.publicIdentifier.emplace("");
 							context.state = HTML::Tokenizer::ParserState::DOCTYPE_PUBLIC_IDENTIFIER_SQ;
 							break;
 						case '>':
 							context.LogError(HTML::Tokenizer::ParserError::MISSING_DOCTYPE_PUBLIC_IDENTIFIER);
-							doctypeToken.forceQuirks = true;
-							treeConstructor.EmitToken(doctypeToken);
-							doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
+							context.doctypeToken.forceQuirks = true;
+							treeConstructor.EmitToken(context.doctypeToken);
+							context.doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
 							context.state = HTML::Tokenizer::ParserState::DATA;
 							break;
 						default:
 							std::cout << "At AFTER_DOCTYPE_PUBLIC_KEYWORD" << std::endl;
 							context.LogError(HTML::Tokenizer::ParserError::MISSING_QOUTE_BEFORE_DOCTYPE_PUBLIC_IDENTIFIER);
-							doctypeToken.forceQuirks = true;
-							reconsume = true;
+							context.doctypeToken.forceQuirks = true;
+							context.reconsume = true;
 							context.state = HTML::Tokenizer::ParserState::BOGUS_DOCTYPE;
 							break;
 					}
 				}
 				break;
 			case HTML::Tokenizer::ParserState::BEFORE_DOCTYPE_PUBLIC_IDENTIFIER:
-				if (eof) {
+				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_DOCTYPE);
 					treeConstructor.EmitDoctypeQuirksToken();
 					treeConstructor.EmitEOFToken();
@@ -876,31 +875,31 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							// Ignore
 							break;
 						case '"':
-							doctypeToken.publicIdentifier.emplace("");
+							context.doctypeToken.publicIdentifier.emplace("");
 							context.state = HTML::Tokenizer::ParserState::DOCTYPE_PUBLIC_IDENTIFIER_DQ;
 							break;
 						case '\'':
-							doctypeToken.publicIdentifier.emplace("");
+							context.doctypeToken.publicIdentifier.emplace("");
 							context.state = HTML::Tokenizer::ParserState::DOCTYPE_PUBLIC_IDENTIFIER_SQ;
 							break;
 						case '>':
 							context.LogError(HTML::Tokenizer::ParserError::MISSING_DOCTYPE_PUBLIC_IDENTIFIER);
-							doctypeToken.forceQuirks = true;
-							treeConstructor.EmitToken(doctypeToken);
-							doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
+							context.doctypeToken.forceQuirks = true;
+							treeConstructor.EmitToken(context.doctypeToken);
+							context.doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
 							context.state = HTML::Tokenizer::ParserState::DATA;
 							break;
 						default:
 							context.LogError(HTML::Tokenizer::ParserError::MISSING_QOUTE_BEFORE_DOCTYPE_PUBLIC_IDENTIFIER);
-							doctypeToken.forceQuirks = true;
-							reconsume = true;
+							context.doctypeToken.forceQuirks = true;
+							context.reconsume = true;
 							context.state = HTML::Tokenizer::ParserState::BOGUS_DOCTYPE;
 							break;
 					}
 				}
 				break;
 			case HTML::Tokenizer::ParserState::DOCTYPE_PUBLIC_IDENTIFIER_DQ:
-				if (eof) {
+				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_DOCTYPE);
 					treeConstructor.EmitDoctypeQuirksToken();
 					treeConstructor.EmitEOFToken();
@@ -911,23 +910,23 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							break;
 						case '\0':
 							context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
-							doctypeToken.publicIdentifier = doctypeToken.publicIdentifier.value() + Unicode::REPLACEMENT_CHARACTER;
+							context.doctypeToken.publicIdentifier = context.doctypeToken.publicIdentifier.value() + Unicode::REPLACEMENT_CHARACTER;
 							break;
 						case '>':
 							context.LogError(HTML::Tokenizer::ParserError::ABRUBT_DOCTYPE_PUBLIC_IDENTIFIER);
-							doctypeToken.forceQuirks = true;
-							treeConstructor.EmitToken(doctypeToken);
-							doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
+							context.doctypeToken.forceQuirks = true;
+							treeConstructor.EmitToken(context.doctypeToken);
+							context.doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
 							context.state = HTML::Tokenizer::ParserState::DATA;
 							break;
 						default:
-							doctypeToken.publicIdentifier = doctypeToken.publicIdentifier.value() + character;
+							context.doctypeToken.publicIdentifier = context.doctypeToken.publicIdentifier.value() + character;
 							break;
 					}
 				}
 				break;
 			case HTML::Tokenizer::ParserState::DOCTYPE_PUBLIC_IDENTIFIER_SQ:
-				if (eof) {
+				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_DOCTYPE);
 					treeConstructor.EmitDoctypeQuirksToken();
 					treeConstructor.EmitEOFToken();
@@ -938,23 +937,23 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							break;
 						case '\0':
 							context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
-							doctypeToken.publicIdentifier = doctypeToken.publicIdentifier.value() + Unicode::REPLACEMENT_CHARACTER;
+							context.doctypeToken.publicIdentifier = context.doctypeToken.publicIdentifier.value() + Unicode::REPLACEMENT_CHARACTER;
 							break;
 						case '>':
 							context.LogError(HTML::Tokenizer::ParserError::ABRUBT_DOCTYPE_PUBLIC_IDENTIFIER);
-							doctypeToken.forceQuirks = true;
-							treeConstructor.EmitToken(doctypeToken);
-							doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
+							context.doctypeToken.forceQuirks = true;
+							treeConstructor.EmitToken(context.doctypeToken);
+							context.doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
 							context.state = HTML::Tokenizer::ParserState::DATA;
 							break;
 						default:
-							doctypeToken.publicIdentifier = doctypeToken.publicIdentifier.value() + character;
+							context.doctypeToken.publicIdentifier = context.doctypeToken.publicIdentifier.value() + character;
 							break;
 					}
 				}
 				break;
 			case HTML::Tokenizer::ParserState::AFTER_DOCTYPE_PUBLIC_IDENTIFIER:
-				if (eof) {
+				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_DOCTYPE);
 					treeConstructor.EmitDoctypeQuirksToken();
 					treeConstructor.EmitEOFToken();
@@ -967,31 +966,31 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							context.state = HTML::Tokenizer::ParserState::BETWEEN_DOCTYPE_PUBLIC_SYSTEM_IDENTIFIER;
 							break;
 						case '>':
-							treeConstructor.EmitToken(doctypeToken);
-							doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
+							treeConstructor.EmitToken(context.doctypeToken);
+							context.doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
 							context.state = HTML::Tokenizer::ParserState::DATA;
 							break;
 						case '"':
 							context.LogError(HTML::Tokenizer::ParserError::MISSING_WHITESPACE_BETWEEN_DOCTYPE_PUBLIC_AND_SYSTEM_IDENTIFIERS);
-							doctypeToken.systemIdentifier.emplace("");
+							context.doctypeToken.systemIdentifier.emplace("");
 							context.state = HTML::Tokenizer::ParserState::DOCTYPE_SYSTEM_IDENTIFIER_DQ;
 							break;
 						case '\'':
 							context.LogError(HTML::Tokenizer::ParserError::MISSING_WHITESPACE_BETWEEN_DOCTYPE_PUBLIC_AND_SYSTEM_IDENTIFIERS);
-							doctypeToken.systemIdentifier.emplace("");
+							context.doctypeToken.systemIdentifier.emplace("");
 							context.state = HTML::Tokenizer::ParserState::DOCTYPE_SYSTEM_IDENTIFIER_SQ;
 							break;
 						default:
 							context.LogError(HTML::Tokenizer::ParserError::MISSING_QOUTE_BEFORE_DOCTYPE_SYSTEM_IDENTIFIER);
-							doctypeToken.forceQuirks = true;
-							reconsume = true;
+							context.doctypeToken.forceQuirks = true;
+							context.reconsume = true;
 							context.state = HTML::Tokenizer::ParserState::BOGUS_DOCTYPE;
 							break;
 					}
 				}
 				break;
 			case HTML::Tokenizer::ParserState::BETWEEN_DOCTYPE_PUBLIC_SYSTEM_IDENTIFIER:
-				if (eof) {
+				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_DOCTYPE);
 					treeConstructor.EmitDoctypeQuirksToken();
 					treeConstructor.EmitEOFToken();
@@ -1004,29 +1003,29 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							// Ignore
 							break;
 						case '>':
-							treeConstructor.EmitToken(doctypeToken);
-							doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
+							treeConstructor.EmitToken(context.doctypeToken);
+							context.doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
 							context.state = HTML::Tokenizer::ParserState::DATA;
 							break;
 						case '"':
-							doctypeToken.systemIdentifier.emplace("");
+							context.doctypeToken.systemIdentifier.emplace("");
 							context.state = HTML::Tokenizer::ParserState::DOCTYPE_SYSTEM_IDENTIFIER_DQ;
 							break;
 						case '\'':
-							doctypeToken.systemIdentifier.emplace("");
+							context.doctypeToken.systemIdentifier.emplace("");
 							context.state = HTML::Tokenizer::ParserState::DOCTYPE_SYSTEM_IDENTIFIER_SQ;
 							break;
 						default:
 							context.LogError(HTML::Tokenizer::ParserError::MISSING_QOUTE_BEFORE_DOCTYPE_PUBLIC_IDENTIFIER);
-							doctypeToken.forceQuirks = true;
-							reconsume = true;
+							context.doctypeToken.forceQuirks = true;
+							context.reconsume = true;
 							context.state = HTML::Tokenizer::ParserState::BOGUS_DOCTYPE;
 							break;
 					}
 				}
 				break;
 			case HTML::Tokenizer::ParserState::AFTER_DOCTYPE_SYSTEM_KEYWORD:
-				if (eof) {
+				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_DOCTYPE);
 					treeConstructor.EmitDoctypeQuirksToken();
 					treeConstructor.EmitEOFToken();
@@ -1040,33 +1039,33 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							break;
 						case '"':
 							context.LogError(HTML::Tokenizer::ParserError::MISSING_WHITESPACE_AFTER_DOCTYPE_SYSTEM_KEYWORD);
-							doctypeToken.systemIdentifier.emplace("");
+							context.doctypeToken.systemIdentifier.emplace("");
 							context.state = HTML::Tokenizer::ParserState::DOCTYPE_PUBLIC_IDENTIFIER_DQ;
 							break;
 						case '\'':
 							context.LogError(HTML::Tokenizer::ParserError::MISSING_WHITESPACE_AFTER_DOCTYPE_SYSTEM_KEYWORD);
-							doctypeToken.systemIdentifier.emplace("");
+							context.doctypeToken.systemIdentifier.emplace("");
 							context.state = HTML::Tokenizer::ParserState::DOCTYPE_PUBLIC_IDENTIFIER_SQ;
 							break;
 						case '>':
 							context.LogError(HTML::Tokenizer::ParserError::MISSING_DOCTYPE_SYSTEM_IDENTIFIER);
-							doctypeToken.forceQuirks = true;
-							treeConstructor.EmitToken(doctypeToken);
-							doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
+							context.doctypeToken.forceQuirks = true;
+							treeConstructor.EmitToken(context.doctypeToken);
+							context.doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
 							context.state = HTML::Tokenizer::ParserState::DATA;
 							break;
 						default:
 							std::cout << "At AFTER_DOCTYPE_SYSTEM_KEYWORD" << std::endl;
 							context.LogError(HTML::Tokenizer::ParserError::MISSING_QOUTE_BEFORE_DOCTYPE_SYSTEM_IDENTIFIER);
-							doctypeToken.forceQuirks = true;
-							reconsume = true;
+							context.doctypeToken.forceQuirks = true;
+							context.reconsume = true;
 							context.state = HTML::Tokenizer::ParserState::BOGUS_DOCTYPE;
 							break;
 					}
 				}
 				break;
 			case HTML::Tokenizer::ParserState::BEFORE_DOCTYPE_SYSTEM_IDENTIFIER:
-				if (eof) {
+				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_DOCTYPE);
 					treeConstructor.EmitDoctypeQuirksToken();
 					treeConstructor.EmitEOFToken();
@@ -1079,31 +1078,31 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							// Ignore
 							break;
 						case '"':
-							doctypeToken.systemIdentifier.emplace("");
+							context.doctypeToken.systemIdentifier.emplace("");
 							context.state = HTML::Tokenizer::ParserState::DOCTYPE_SYSTEM_IDENTIFIER_DQ;
 							break;
 						case '\'':
-							doctypeToken.systemIdentifier.emplace("");
+							context.doctypeToken.systemIdentifier.emplace("");
 							context.state = HTML::Tokenizer::ParserState::DOCTYPE_SYSTEM_IDENTIFIER_SQ;
 							break;
 						case '>':
 							context.LogError(HTML::Tokenizer::ParserError::MISSING_DOCTYPE_SYSTEM_IDENTIFIER);
-							doctypeToken.forceQuirks = true;
-							treeConstructor.EmitToken(doctypeToken);
-							doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
+							context.doctypeToken.forceQuirks = true;
+							treeConstructor.EmitToken(context.doctypeToken);
+							context.doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
 							context.state = HTML::Tokenizer::ParserState::DATA;
 							break;
 						default:
 							context.LogError(HTML::Tokenizer::ParserError::MISSING_QOUTE_BEFORE_DOCTYPE_SYSTEM_IDENTIFIER);
-							doctypeToken.forceQuirks = true;
-							reconsume = true;
+							context.doctypeToken.forceQuirks = true;
+							context.reconsume = true;
 							context.state = HTML::Tokenizer::ParserState::BOGUS_DOCTYPE;
 							break;
 					}
 				}
 				break;
 			case HTML::Tokenizer::ParserState::DOCTYPE_SYSTEM_IDENTIFIER_DQ:
-				if (eof) {
+				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_DOCTYPE);
 					treeConstructor.EmitDoctypeQuirksToken();
 					treeConstructor.EmitEOFToken();
@@ -1114,23 +1113,23 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							break;
 						case '\0':
 							context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
-							doctypeToken.systemIdentifier = doctypeToken.systemIdentifier.value() + Unicode::REPLACEMENT_CHARACTER;
+							context.doctypeToken.systemIdentifier = context.doctypeToken.systemIdentifier.value() + Unicode::REPLACEMENT_CHARACTER;
 							break;
 						case '>':
 							context.LogError(HTML::Tokenizer::ParserError::ABRUBT_DOCTYPE_SYSTEM_IDENTIFIER);
-							doctypeToken.forceQuirks = true;
-							treeConstructor.EmitToken(doctypeToken);
-							doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
+							context.doctypeToken.forceQuirks = true;
+							treeConstructor.EmitToken(context.doctypeToken);
+							context.doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
 							context.state = HTML::Tokenizer::ParserState::DATA;
 							break;
 						default:
-							doctypeToken.systemIdentifier = doctypeToken.systemIdentifier.value() + character;
+							context.doctypeToken.systemIdentifier = context.doctypeToken.systemIdentifier.value() + character;
 							break;
 					}
 				}
 				break;
 			case HTML::Tokenizer::ParserState::DOCTYPE_SYSTEM_IDENTIFIER_SQ:
-				if (eof) {
+				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_DOCTYPE);
 					treeConstructor.EmitDoctypeQuirksToken();
 					treeConstructor.EmitEOFToken();
@@ -1141,23 +1140,23 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							break;
 						case '\0':
 							context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
-							doctypeToken.systemIdentifier = doctypeToken.systemIdentifier.value() + Unicode::REPLACEMENT_CHARACTER;
+							context.doctypeToken.systemIdentifier = context.doctypeToken.systemIdentifier.value() + Unicode::REPLACEMENT_CHARACTER;
 							break;
 						case '>':
 							context.LogError(HTML::Tokenizer::ParserError::ABRUBT_DOCTYPE_SYSTEM_IDENTIFIER);
-							doctypeToken.forceQuirks = true;
-							treeConstructor.EmitToken(doctypeToken);
-							doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
+							context.doctypeToken.forceQuirks = true;
+							treeConstructor.EmitToken(context.doctypeToken);
+							context.doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
 							context.state = HTML::Tokenizer::ParserState::DATA;
 							break;
 						default:
-							doctypeToken.systemIdentifier = doctypeToken.systemIdentifier.value() + character;
+							context.doctypeToken.systemIdentifier = context.doctypeToken.systemIdentifier.value() + character;
 							break;
 					}
 				}
 				break;
 			case HTML::Tokenizer::ParserState::AFTER_DOCTYPE_SYSTEM_IDENTIFIER:
-				if (eof) {
+				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_DOCTYPE);
 					treeConstructor.EmitDoctypeQuirksToken();
 					treeConstructor.EmitEOFToken();
@@ -1170,28 +1169,28 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 							// Ignore
 							break;
 						case '>':
-							treeConstructor.EmitToken(doctypeToken);
-							doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
+							treeConstructor.EmitToken(context.doctypeToken);
+							context.doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
 							context.state = HTML::Tokenizer::ParserState::DATA;
 							break;
 						default:
 							context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_CHARACTER_AFTER_DOCTYPE_SYSTEM_IDENTIFIER);
-							reconsume = true;
+							context.reconsume = true;
 							context.state = HTML::Tokenizer::ParserState::BOGUS_DOCTYPE;
 							break;
 					}
 				}
 				break;
 			case HTML::Tokenizer::ParserState::BOGUS_DOCTYPE:
-				if (eof) {
+				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_DOCTYPE);
-					treeConstructor.EmitToken(doctypeToken);
+					treeConstructor.EmitToken(context.doctypeToken);
 					treeConstructor.EmitEOFToken();
 				} else {
 					switch (character) {
 						case '>':
-							treeConstructor.EmitToken(doctypeToken);
-							doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
+							treeConstructor.EmitToken(context.doctypeToken);
+							context.doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
 							context.state = HTML::Tokenizer::ParserState::DATA;
 							break;
 						case '\0':
@@ -1219,7 +1218,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 			case HTML::Tokenizer::ParserState::CHARACTER_REFERENCE:
 				context.temporaryBuffer.clear();
 				context.temporaryBuffer.push_back(Unicode::AMPERSAND);
-				if (!eof) {
+				if (!context.eof) {
 					if (character == Unicode::NUMBER_SIGN) {
 						context.temporaryBuffer.push_back(character);
 						context.state = HTML::Tokenizer::ParserState::NUMERIC_CHARACTER_REFERENCE;
@@ -1227,7 +1226,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 					}
 
 					if (Unicode::IsASCIIAlphaNumeric(character)) {
-						reconsume = true;
+						context.reconsume = true;
 						context.state = HTML::Tokenizer::ParserState::NAMED_CHARACTER_REFERENCE;
 						break;
 					}
@@ -1253,9 +1252,9 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 					case HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_DQ:
 					case HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_SQ:
 					case HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_NQ: {
-						HTML::Tokenizer::AmbiguousTagToken &tagToken = (isEndTag ?
-							(HTML::Tokenizer::AmbiguousTagToken &) endTagToken :
-							(HTML::Tokenizer::AmbiguousTagToken &) startTagToken);
+						HTML::Tokenizer::AmbiguousTagToken &tagToken = (context.isEndTag ?
+							(HTML::Tokenizer::AmbiguousTagToken &) context.endTagToken :
+							(HTML::Tokenizer::AmbiguousTagToken &) context.startTagToken);
 
 						for (size_t k = 0; k < context.NCRefBuffer.length(); i++) {
 							tagToken.attributeValue += context.NCRefBuffer[i];
@@ -1273,7 +1272,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 			} break;
 			*/
 			default:
-				std::cout << "Unknown state(" << ++unknownStateCount << "): " << context.state << std::endl;
+				std::cout << "Unknown state(" << ++context.unknownStateCount << "): " << context.state << std::endl;
 				break;
 		}
 	}

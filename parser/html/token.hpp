@@ -14,7 +14,6 @@
 
 #include "data/text/unicode.hpp"
 #include "data/text/ustring.hpp"
-#include "context.hpp"
 
 namespace HTML {
 	namespace Tokenizer {
@@ -27,6 +26,9 @@ namespace HTML {
 			INVALID,
 			STARTTAG
 		};
+
+		// From context.hpp:
+		class Context;
 
 		extern std::map<TokenType, std::string> tokenTypeNames;
 
