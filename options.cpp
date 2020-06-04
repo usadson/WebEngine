@@ -75,15 +75,45 @@ Options::GetCommandLineParameter(const std::string &name) {
 }
 
 bool
+ParseEqualsOption(const std::string_view &strview,
+				  std::optional<std::string_view> *prevName,
+				  bool isLastOption) {
+	static const std::array<CommandLineParser::Input, 2> inputs = { {
+		{ "credits",	false },
+		{ "test",		true },
+	} };
+
+	std::string name(std::begin(strview) + 2);
+
+	const auto *result = std::find_if(std::begin(inputs), std::end(inputs),
+		[name](const auto &entry) -> bool {
+			return strcasecmp(name.c_str(), entry.name.c_str()) == 0;
+		}
+	);
+
+	if (result != std::end(inputs) && result->optionHasValue) {
+		if (isLastOption) {
+			std::cerr << "Invalid command line option: " << result->name
+						<< " (required option value)" << std::endl;
+			return false;
+		}
+		*prevName = strview;
+	} else {
+		CommandLineParser::outputs.emplace_back(
+			std::string(std::begin(strview) + 2, std::end(strview)),
+			std::string()
+		);
+	}
+
+	return true;
+}
+
+
+bool
 Options::ParseCommandLine(int argc, const char **argv) {
 	if (argc == 0 || argc == 1) {
 		return true;
 	}
-
-	const std::array<CommandLineParser::Input, 2> inputs = { {
-		{ "credits",	false },
-		{ "test",		true },
-	} };
 
 	std::optional<std::string_view> prevName;
 
@@ -110,28 +140,8 @@ Options::ParseCommandLine(int argc, const char **argv) {
 			}
 
 			if (equals == std::string::npos) {
-				std::string name(std::begin(strview) + 2);
-
-				const auto *result = std::find_if(std::begin(inputs),
-										   std::end(inputs),
-					[name](const auto &entry) -> bool {
-						return strcasecmp(name.c_str(), entry.name.c_str()) == 0;
-					}
-				);
-
-				if (result != std::end(inputs) && result->optionHasValue) {
-					if (i == static_cast<size_t>(argc) - 1) {
-						std::cerr << "Invalid command line option: " << result->name
-								  << " (required option value)" << std::endl;
-						return false;
-					}
-					prevName = strview;
-				} else {
-					CommandLineParser::outputs.emplace_back(
-						std::string(std::begin(strview) + 2, std::end(strview)),
-						std::string()
-					);
-				}
+				if (!ParseEqualsOption(strview, &prevName, i == static_cast<size_t>(argc) - 1))
+					return false;
 			} else {
 				CommandLineParser::outputs.emplace_back(
 					std::string(std::begin(strview) + 2, equals - 2),
