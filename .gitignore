@@ -1,4 +1,4 @@
 bin/
 engine
 infer-out/
-
+*.log
