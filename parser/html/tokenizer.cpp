@@ -85,71 +85,8 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 		context.currentCharacter = context.character;
 
 		switch (context.state) {
-			case HTML::Tokenizer::ParserState::SELF_CLOSING_START:
-				if (context.eof) {
-					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_TAG);
-					treeConstructor.EmitEOFToken();
-				} else if (context.character == '>') {
-					HTML::Tokenizer::AmbiguousTagToken &tagToken = context.isEndTag ?
-								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.endTagToken) :
-								static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.startTagToken);
-
-					tagToken.selfClosing = true;
-					context.state = HTML::Tokenizer::ParserState::DATA;
-					treeConstructor.EmitToken(tagToken);
-
-					if (context.isEndTag)
-						context.startTagToken = HTML::Tokenizer::StartTagToken(); // Reset
-					else
-						context.endTagToken = HTML::Tokenizer::EndTagToken(); // Reset
-				}
-				break;
 			// -- missing BOGUS_COMMENT
 			// -- jump to MARKUP_DECLARATION_OPEN
-			case HTML::Tokenizer::ParserState::MARKUP_DECLARATION_OPEN:
-				if (!context.eof) {
-					if (context.i + 1 < context.documentSize
-						&& context.character == '-'
-						&& context.document->data[context.i+1] == '-') {
-						context.toConsumeNext = 1;
-
-						context.commentToken = HTML::Tokenizer::CommentToken(Unicode::UString(""));
-						context.state = HTML::Tokenizer::ParserState::COMMENT_START;
-						continue;
-					}
-
-					if (context.i + 6 < context.documentSize) {
-						if (context.document->data.EqualsIgnoreCaseAL(context.i, "DOCTYPE", 7)) {
-							context.toConsumeNext = 6;
-							context.state = HTML::Tokenizer::ParserState::DOCTYPE;
-							continue;
-						}
-						if (context.character == '['
-							&& context.document->data.EqualsAL(context.i + 1, "CDATA", 5) // Case-sensitive!
-							&& context.document->data[context.i + 6] == ']') {
-							// TODO ?
-							throw std::runtime_error("TODO in MARKUP_DECLARATION_OPEN / CDATA");
-						}
-					}
-				}
-
-				context.LogError(HTML::Tokenizer::ParserError::INCORRECTLY_OPENED_COMMENT);
-				context.commentToken = HTML::Tokenizer::CommentToken(Unicode::UString(""));
-				context.i--; // Don't consume anything
-				context.state = HTML::Tokenizer::ParserState::BOGUS_COMMENT;
-				break;
-			case HTML::Tokenizer::ParserState::COMMENT_START:
-				if (context.character == '-') {
-					context.state = HTML::Tokenizer::ParserState::COMMENT_START_DASH;
-				} else if (context.character == '>') {
-					context.LogError(HTML::Tokenizer::ParserError::ABRUBT_CLOSING_OF_EMPTY_COMMENT);
-					context.state = HTML::Tokenizer::ParserState::DATA;
-					treeConstructor.EmitToken(context.commentToken);
-				} else {
-					context.reconsume = true;
-					context.state = HTML::Tokenizer::ParserState::COMMENT;
-				}
-				break;
 			case HTML::Tokenizer::ParserState::COMMENT_START_DASH:
 				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_COMMENT);
