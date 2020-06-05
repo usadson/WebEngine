@@ -76,6 +76,7 @@ BINARIES = bin/ccompat.o \
 	   bin/parser/html/tokenizer/attribute_value_sq.o \
 	   bin/parser/html/tokenizer/before_attribute_name.o \
 	   bin/parser/html/tokenizer/before_attribute_value.o \
+	   bin/parser/html/tokenizer/comment_lts_bang_dash.o \
 	   bin/parser/html/tokenizer/comment_lts_bang.o \
 	   bin/parser/html/tokenizer/comment_lts.o \
 	   bin/parser/html/tokenizer/comment_start.o \
@@ -329,6 +330,13 @@ bin/parser/html/tokenizer/before_attribute_value.o: parser/html/tokenizer/before
 	parser/html/token.hpp \
 	parser/html/tokenizer.hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ parser/html/tokenizer/before_attribute_value.cpp
+
+bin/parser/html/tokenizer/comment_lts_bang_dash.o: parser/html/tokenizer/comment_lts_bang_dash.cpp \
+	parser/html/tokenizer/comment_lts_bang_dash.hpp \
+	parser/html/context.hpp \
+	parser/html/token.hpp \
+	parser/html/tokenizer.hpp
+	$(CXX) $(CXXFLAGS) -c -o $@ parser/html/tokenizer/comment_lts_bang_dash.cpp
 
 bin/parser/html/tokenizer/comment_lts_bang.o: parser/html/tokenizer/comment_lts_bang.cpp \
 	parser/html/tokenizer/comment_lts_bang.hpp \
