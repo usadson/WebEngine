@@ -88,23 +88,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 			// -- missing BOGUS_COMMENT
 			// -- jump to MARKUP_DECLARATION_OPEN
 			case HTML::Tokenizer::ParserState::COMMENT:
-				if (context.eof) {
-					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_COMMENT);
-					treeConstructor.EmitToken(context.commentToken);
-					treeConstructor.EmitEOFToken();
-				} else {
-					if (context.character == '<') {
-						context.commentToken.contents += '<';
-						context.state = HTML::Tokenizer::ParserState::COMMENT_LTS;
-					} else if (context.character == '-') {
-						context.state = HTML::Tokenizer::ParserState::COMMENT_END_DASH;
-					} else if (context.character == '\0') {
-						context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
-						context.commentToken.contents += Unicode::REPLACEMENT_CHARACTER;
-					} else {
-						context.commentToken.contents += context.character;
-					}
-				}
+
 				break;
 			case HTML::Tokenizer::ParserState::COMMENT_LTS:
 				if (context.character == '!') {
