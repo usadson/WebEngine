@@ -85,28 +85,6 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 		context.currentCharacter = context.character;
 
 		switch (context.state) {
-			case HTML::Tokenizer::ParserState::BOGUS_DOCTYPE:
-				if (context.eof) {
-					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_DOCTYPE);
-					treeConstructor.EmitToken(context.doctypeToken);
-					treeConstructor.EmitEOFToken();
-				} else {
-					switch (context.character) {
-						case '>':
-							treeConstructor.EmitToken(context.doctypeToken);
-							context.doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
-							context.state = HTML::Tokenizer::ParserState::DATA;
-							break;
-						case '\0':
-							context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
-							// Ignore
-							break;
-						default:
-							// Ignore
-							break;
-					}
-				}
-				break;
 			// Skipped some CDATA stuff
 			/*
 			CHARACTER_REFERENCE, // 12.2.5.72 Character reference state
