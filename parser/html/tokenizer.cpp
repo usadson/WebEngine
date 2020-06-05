@@ -18,6 +18,10 @@
 
 #include "data/text/named_characters.hpp"
 #include "logger.hpp"
+#include "parser/html/context.hpp"
+#include "parser/html/error.hpp"
+#include "parser/html/state.hpp"
+#include "parser/html/token.hpp"
 // find . | grep .hpp | cut -d'/' -f 2 | awk '{print "#include \x22parser/html/tokenizer/" $0 "\x22"}' | sort
 #include "parser/html/tokenizer/after_attribute_name.hpp"
 #include "parser/html/tokenizer/after_attribute_value_quoted.hpp"
@@ -61,10 +65,6 @@
 #include "parser/html/tokenizer/tag_name.hpp"
 #include "parser/html/tokenizer/tag_open.hpp"
 #include "parser/html/tokenizer/tokenizer_parser.hpp"
-#include "parser/html/context.hpp"
-#include "parser/html/error.hpp"
-#include "parser/html/state.hpp"
-#include "parser/html/token.hpp"
 #include "parser/html/tree_constructor.hpp"
 
 void
