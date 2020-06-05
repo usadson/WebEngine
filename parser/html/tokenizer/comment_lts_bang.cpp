@@ -11,11 +11,8 @@
 
 bool
 HTML::Tokenizer::CommentLTSBang::Parse() {
-	if (context.character == '!') {
-		context.commentToken.contents += '!';
-		context.state = HTML::Tokenizer::ParserState::COMMENT_LTS_BANG;
-	} else if (context.character == '<') {
-		context.commentToken.contents += '<';
+	if (context.character == '-') {
+		context.state = HTML::Tokenizer::ParserState::COMMENT_LTS_BANG_DASH;
 	} else {
 		context.reconsume = true;
 		context.state = HTML::Tokenizer::ParserState::COMMENT;
