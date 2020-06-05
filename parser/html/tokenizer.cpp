@@ -100,25 +100,6 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 					context.state = HTML::Tokenizer::ParserState::COMMENT;
 				}
 				break;
-			case HTML::Tokenizer::ParserState::COMMENT_END:
-				if (context.eof) {
-					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_COMMENT);
-					treeConstructor.EmitToken(context.commentToken);
-					treeConstructor.EmitEOFToken();
-				} else if (context.character == '>') {
-					treeConstructor.EmitToken(context.commentToken);
-					context.commentToken = HTML::Tokenizer::CommentToken::INVALID_TYPE;
-					context.state = HTML::Tokenizer::ParserState::DATA;
-				} else if (context.character == '!') {
-					context.state = HTML::Tokenizer::ParserState::COMMENT_END_BANG;
-				} else if (context.character == '-') {
-					context.commentToken.contents += '-';
-				} else {
-					context.commentToken.contents += "--";
-					context.reconsume = true;
-					context.state = HTML::Tokenizer::ParserState::COMMENT;
-				}
-				break;
 			case HTML::Tokenizer::ParserState::COMMENT_END_BANG:
 				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_COMMENT);
