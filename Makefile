@@ -94,6 +94,7 @@ BINARIES = bin/ccompat.o \
 	   bin/parser/html/tokenizer/data.o \
 	   bin/parser/html/tokenizer/doctype_name.o \
 	   bin/parser/html/tokenizer/doctype_public_identifier_dq.o \
+	   bin/parser/html/tokenizer/doctype_public_identifier_sq.o \
 	   bin/parser/html/tokenizer/doctype.o \
 	   bin/parser/html/tokenizer/markup_declaration_open.o \
 	   bin/parser/html/tokenizer/self_closing_start.o \
@@ -460,6 +461,13 @@ bin/parser/html/tokenizer/doctype_public_identifier_dq.o: parser/html/tokenizer/
 	parser/html/token.hpp \
 	parser/html/tokenizer.hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ parser/html/tokenizer/doctype_public_identifier_dq.cpp
+
+bin/parser/html/tokenizer/doctype_public_identifier_sq.o: parser/html/tokenizer/doctype_public_identifier_sq.cpp \
+	parser/html/tokenizer/doctype_public_identifier_sq.hpp \
+	parser/html/context.hpp \
+	parser/html/token.hpp \
+	parser/html/tokenizer.hpp
+	$(CXX) $(CXXFLAGS) -c -o $@ parser/html/tokenizer/doctype_public_identifier_sq.cpp
 
 bin/parser/html/tokenizer/doctype.o: parser/html/tokenizer/doctype.cpp \
 	parser/html/tokenizer/doctype.hpp \
