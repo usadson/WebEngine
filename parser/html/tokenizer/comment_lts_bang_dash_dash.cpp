@@ -11,11 +11,13 @@
 
 bool
 HTML::Tokenizer::CommentLTSBangDashDash::Parse() {
-	if (context.character == '-') {
-		context.state = HTML::Tokenizer::ParserState::COMMENT_LTS_BANG_DASH_DASH;
-	} else {
+	if (context.eof || context.character == '>') {
 		context.reconsume = true;
-		context.state = HTML::Tokenizer::ParserState::COMMENT;
+		context.state = HTML::Tokenizer::ParserState::COMMENT_END;
+	} else {
+		context.LogError(HTML::Tokenizer::ParserError::NESTED_COMMENT);
+		context.reconsume = true;
+		context.state = HTML::Tokenizer::ParserState::COMMENT_END;
 	}
 
 	return true;
