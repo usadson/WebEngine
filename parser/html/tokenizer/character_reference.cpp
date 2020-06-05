@@ -18,13 +18,13 @@ HTML::Tokenizer::CharacterReference::Parse() {
 		if (context.character == Unicode::NUMBER_SIGN) {
 			context.temporaryBuffer.push_back(context.character);
 			context.state = HTML::Tokenizer::ParserState::NUMERIC_CHARACTER_REFERENCE;
-			break;
+			return true;
 		}
 
 		if (Unicode::IsASCIIAlphaNumeric(context.character)) {
 			context.reconsume = true;
 			context.state = HTML::Tokenizer::ParserState::NAMED_CHARACTER_REFERENCE;
-			break;
+			return true;
 		}
 	}
 

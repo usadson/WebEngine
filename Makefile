@@ -86,6 +86,7 @@ BINARIES = bin/ccompat.o \
 	   bin/parser/html/tokenizer/before_doctype_system_identifier.o \
 	   bin/parser/html/tokenizer/between_doctype_public_system_identifier.o \
 	   bin/parser/html/tokenizer/bogus_doctype.o \
+	   bin/parser/html/tokenizer/character_reference.o \
 	   bin/parser/html/tokenizer/comment_end_bang.o \
 	   bin/parser/html/tokenizer/comment_end_dash.o \
 	   bin/parser/html/tokenizer/comment_end.o \
@@ -421,6 +422,13 @@ bin/parser/html/tokenizer/bogus_doctype.o: parser/html/tokenizer/bogus_doctype.c
 	parser/html/token.hpp \
 	parser/html/tokenizer.hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ parser/html/tokenizer/bogus_doctype.cpp
+
+bin/parser/html/tokenizer/character_reference.o: parser/html/tokenizer/character_reference.cpp \
+	parser/html/tokenizer/character_reference.hpp \
+	parser/html/context.hpp \
+	parser/html/token.hpp \
+	parser/html/tokenizer.hpp
+	$(CXX) $(CXXFLAGS) -c -o $@ parser/html/tokenizer/character_reference.cpp
 
 bin/parser/html/tokenizer/comment_end_bang.o: parser/html/tokenizer/comment_end_bang.cpp \
 	parser/html/tokenizer/comment_end_bang.hpp \
