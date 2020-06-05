@@ -11,15 +11,15 @@
 
 #include "dom/comment.hpp"
 #include "dom/element.hpp"
+#include "logger.hpp"
 #include "parser/html/constants.hpp"
 #include "parser/html/context.hpp"
-#include "logger.hpp"
 
 bool
 HTML::InsertionModes::BeforeHead::EmitToken(HTML::Tokenizer::Token &inToken) {
-	HTML::Tokenizer::CharacterToken *characterToken;
-	HTML::Tokenizer::CommentToken	*commentToken;
-	HTML::Tokenizer::StartTagToken	*startTagToken;
+	HTML::Tokenizer::CharacterToken *characterToken = nullptr;
+	HTML::Tokenizer::CommentToken	*commentToken = nullptr;
+	HTML::Tokenizer::StartTagToken	*startTagToken = nullptr;
 
 	startTagToken = nullptr;
 
@@ -67,8 +67,9 @@ HTML::InsertionModes::BeforeHead::EmitToken(HTML::Tokenizer::Token &inToken) {
 
 				constructor.currentMode = HTML::InsertionModeType::BEFORE_HEAD;
 				return false;
-			} else
-				std::cout << startTagToken->tagName << " != html" << std::endl;
+			}
+
+			std::cout << startTagToken->tagName << " != html" << std::endl;
 
 			/* Fallthrough */
 		case HTML::Tokenizer::TokenType::ENDTAG:
