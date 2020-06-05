@@ -85,34 +85,6 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 		context.currentCharacter = context.character;
 
 		switch (context.state) {
-			// -- missing BOGUS_COMMENT
-			// -- jump to MARKUP_DECLARATION_OPEN
-			case HTML::Tokenizer::ParserState::DOCTYPE:
-				if (context.eof) {
-					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_DOCTYPE);
-					treeConstructor.EmitDoctypeQuirksToken();
-					treeConstructor.EmitEOFToken();
-				} else {
-					switch (context.character) {
-						case '\t':
-						case '\n':
-						case '\f':
-						case ' ':
-							context.state = HTML::Tokenizer::ParserState::BEFORE_DOCTYPE_NAME;
-							break;
-						case '>':
-							context.reconsume = true;
-							context.state = HTML::Tokenizer::ParserState::BEFORE_DOCTYPE_NAME;
-							break;
-						default:
-							std::cout << "\ninvalid context.character: (" << static_cast<size_t>(context.character) << ")\n" << std::endl;
-							context.LogError(HTML::Tokenizer::ParserError::MISSING_WHITESPACE_BEFORE_DOCTYPE_NAME);
-							context.reconsume = true;
-							context.state = HTML::Tokenizer::ParserState::BEFORE_DOCTYPE_NAME;
-							break;
-					}
-				}
-				break;
 			case HTML::Tokenizer::ParserState::BEFORE_DOCTYPE_NAME:
 				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_DOCTYPE);
