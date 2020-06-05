@@ -9,6 +9,10 @@
 #include <iostream>
 #include <vector>
 
+static const size_t keywordLength = 6;
+static const std::string publicKeyword = "PUBLIC";
+static const std::string systemKeyword = "PUBLIC";
+
 bool
 HTML::Tokenizer::AfterDoctypeName::Parse() {
 	if (context.eof) {
@@ -29,15 +33,15 @@ HTML::Tokenizer::AfterDoctypeName::Parse() {
 				context.state = HTML::Tokenizer::ParserState::DATA;
 				break;
 			default:
-				if (context.i + 5 < context.documentSize) { // 5 or 6 ? not sure..
-					if (context.document->data.EqualsIgnoreCaseAL(context.i, "PUBLIC", 6)) {
-						context.toConsumeNext = 5;
+				if (context.i + keywordLength < context.documentSize) {
+					if (context.document->data.EqualsIgnoreCaseAL(context.i, publicKeyword.c_str(), systemKeyword.length())) {
+						context.toConsumeNext = systemKeyword.length();
 						context.state = HTML::Tokenizer::ParserState::AFTER_DOCTYPE_PUBLIC_KEYWORD;
 						break;
 					}
 
-					if (context.document->data.EqualsIgnoreCaseAL(context.i, "SYSTEM", 6)) {
-						context.toConsumeNext = 5;
+					if (context.document->data.EqualsIgnoreCaseAL(context.i, systemKeyword.c_str(), systemKeyword.length())) {
+						context.toConsumeNext = systemKeyword.length();
 						context.state = HTML::Tokenizer::ParserState::AFTER_DOCTYPE_SYSTEM_KEYWORD;
 						break;
 					}

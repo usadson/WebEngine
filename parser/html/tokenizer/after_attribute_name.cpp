@@ -35,10 +35,12 @@ HTML::Tokenizer::AfterAttributeName::Parse() {
 			case '>':
 				context.state = HTML::Tokenizer::ParserState::DATA;
 				tokenizer.treeConstructor.EmitToken(tagToken);
+
 				if (context.isEndTag)
 					context.startTagToken = HTML::Tokenizer::StartTagToken(); // Reset
 				else
 					context.endTagToken = HTML::Tokenizer::EndTagToken(); // Reset
+
 				break;
 			default:
 				// New attribute? Destroy old one?
