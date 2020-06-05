@@ -184,7 +184,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 				std::stringstream info("ParserError: ");
 				info << context.state << " failed on " << context.linePosition
 					 << ':' << context.lineCount;
-				Logger::Error(__PRETTY_FUNCTION__, info.str());
+				Logger::Error(std::string(static_cast<const char*>(__PRETTY_FUNCTION__)), info.str());
 
 				/* FIXME: Handle Error */
 				return;
