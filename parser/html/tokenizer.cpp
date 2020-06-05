@@ -87,28 +87,6 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 		switch (context.state) {
 			// -- missing BOGUS_COMMENT
 			// -- jump to MARKUP_DECLARATION_OPEN
-			case HTML::Tokenizer::ParserState::COMMENT_START_DASH:
-				if (context.eof) {
-					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_COMMENT);
-					treeConstructor.EmitToken(context.commentToken);
-					treeConstructor.EmitEOFToken();
-				} else {
-					if (context.character == '-') {
-						context.state = HTML::Tokenizer::ParserState::COMMENT_END;
-					} else if (context.character == '>') {
-						context.LogError(HTML::Tokenizer::ParserError::ABRUBT_CLOSING_OF_EMPTY_COMMENT);
-						context.state = HTML::Tokenizer::ParserState::DATA;
-						treeConstructor.EmitToken(context.commentToken);
-					} else {
-						// Weird, is this a loop?
-						// 'Append a U+002D HYPHEN-MINUS context.character (-) to the
-						//  comment token's data. Reconsume in the comment state.
-						context.commentToken.contents += '-';
-						context.reconsume = true;
-						context.state = HTML::Tokenizer::ParserState::COMMENT;
-					}
-				}
-				break;
 			case HTML::Tokenizer::ParserState::COMMENT:
 				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_COMMENT);
