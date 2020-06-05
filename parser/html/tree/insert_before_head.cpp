@@ -49,30 +49,12 @@ HTML::InsertionModes::BeforeHead::EmitToken(HTML::Tokenizer::Token &inToken) {
 		case HTML::Tokenizer::TokenType::STARTTAG:
 			startTagToken = dynamic_cast<HTML::Tokenizer::StartTagToken *>(&inToken);
 
-			if (startTagToken == nullptr) {
-				std::string type = "";
-
-				if (dynamic_cast<HTML::Tokenizer::AmbiguousTagToken *>(&inToken) != nullptr)
-					type += "AmbiguousTagToken ";
-				if (dynamic_cast<HTML::Tokenizer::CharacterToken *>(&inToken) != nullptr)
-					type += "CharacterToken ";
-				if (dynamic_cast<HTML::Tokenizer::CommentToken *>(&inToken) != nullptr)
-					type += "CommentToken ";
-				if (dynamic_cast<HTML::Tokenizer::DoctypeToken *>(&inToken) != nullptr)
-					type += "DoctypeToken ";
-				if (dynamic_cast<HTML::Tokenizer::EndTagToken *>(&inToken) != nullptr)
-					type += "EndTagToken ";
-				if (dynamic_cast<HTML::Tokenizer::EOFToken *>(&inToken) != nullptr)
-					type += "EOFToken ";
-				Logger::Crash(std::string(static_cast<const char *>(__PRETTY_FUNCTION__)), "Token typenot equivalent to actual type. TokenType='STARTTAG' type found: " + type);
-			}
-
-			if (startTagToken->tagName.EqualsA("html")) {
+			if (startTagToken->tagName.EqualsA("head")) {
 				constructor.insertionModes[InsertionModeType::IN_BODY]->EmitToken(inToken);
 				return false;
 			}
 
-			if (startTagToken->tagName.EqualsA("html")) {
+			if (startTagToken->tagName.EqualsA("head")) {
 				std::shared_ptr<DOM::Element> element = std::make_shared<DOM::Element>();
 				element->namespaceURI = HTML::Constants::HTMLNamespace;
 				element->localName = startTagToken->tagName;

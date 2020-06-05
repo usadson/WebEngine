@@ -40,6 +40,15 @@ namespace HTML {
 				return;
 			}
 
+
+
+			std::cout << "Mode is " << currentMode << " for type " << inToken.type();
+			if (inToken.type() == Tokenizer::TokenType::STARTTAG)
+				std::cout << " TagName='" << dynamic_cast<Tokenizer::StartTagToken *>(&inToken)->tagName << '\'';
+			std::cout << '\n';
+
+
+
 			auto iterator = insertionModes.find(currentMode);
 
 			if (iterator == insertionModes.end()) {
