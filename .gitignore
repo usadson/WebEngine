@@ -3,3 +3,4 @@ engine
 infer-out/
 *.log
 .kateproject
+kate.project.ctags.*
