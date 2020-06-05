@@ -85,43 +85,6 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 		context.currentCharacter = context.character;
 
 		switch (context.state) {
-			case HTML::Tokenizer::ParserState::BEFORE_DOCTYPE_NAME:
-				if (context.eof) {
-					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_DOCTYPE);
-					treeConstructor.EmitDoctypeQuirksToken();
-					treeConstructor.EmitEOFToken();
-				} else {
-					switch (context.character) {
-						case '\t':
-						case '\n':
-						case '\f':
-						case ' ':
-							// Ignore
-							break;
-						case '>': {
-							context.LogError(HTML::Tokenizer::ParserError::MISSING_DOCTYPE_NAME);
-							treeConstructor.EmitDoctypeQuirksToken();
-							context.state = HTML::Tokenizer::ParserState::DATA;
-						} break;
-						case '\0': {
-							context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
-							context.doctypeToken.name.emplace(Unicode::REPLACEMENT_CHARACTER);
-							context.state = HTML::Tokenizer::ParserState::DOCTYPE_NAME;
-						} break;
-						default:
-							if (context.character >= 0x41 && context.character <= 0x5A) {// Is uppercase
-								context.doctypeToken.name.emplace("");
-								context.doctypeToken.name.value() += static_cast<char>(context.character + 0x20);
-								context.state = HTML::Tokenizer::ParserState::DOCTYPE_NAME;
-							} else {
-								context.doctypeToken.name.emplace("");
-								context.doctypeToken.name.value() += context.character;
-								context.state = HTML::Tokenizer::ParserState::DOCTYPE_NAME;
-							}
-							break;
-					}
-				}
-				break;
 			case HTML::Tokenizer::ParserState::DOCTYPE_NAME:
 				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_DOCTYPE);
