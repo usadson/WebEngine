@@ -85,33 +85,6 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 		context.currentCharacter = context.character;
 
 		switch (context.state) {
-			case HTML::Tokenizer::ParserState::DOCTYPE_SYSTEM_IDENTIFIER_SQ:
-				if (context.eof) {
-					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_DOCTYPE);
-					treeConstructor.EmitDoctypeQuirksToken();
-					treeConstructor.EmitEOFToken();
-				} else {
-					switch (context.character) {
-						case '\'':
-							context.state = HTML::Tokenizer::ParserState::AFTER_DOCTYPE_SYSTEM_IDENTIFIER;
-							break;
-						case '\0':
-							context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
-							context.doctypeToken.systemIdentifier = context.doctypeToken.systemIdentifier.value() + Unicode::REPLACEMENT_CHARACTER;
-							break;
-						case '>':
-							context.LogError(HTML::Tokenizer::ParserError::ABRUBT_DOCTYPE_SYSTEM_IDENTIFIER);
-							context.doctypeToken.forceQuirks = true;
-							treeConstructor.EmitToken(context.doctypeToken);
-							context.doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
-							context.state = HTML::Tokenizer::ParserState::DATA;
-							break;
-						default:
-							context.doctypeToken.systemIdentifier = context.doctypeToken.systemIdentifier.value() + context.character;
-							break;
-					}
-				}
-				break;
 			case HTML::Tokenizer::ParserState::AFTER_DOCTYPE_SYSTEM_IDENTIFIER:
 				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_DOCTYPE);
