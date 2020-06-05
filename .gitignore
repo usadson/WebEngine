@@ -2,3 +2,4 @@ bin/
 engine
 infer-out/
 *.log
+.kateproject
