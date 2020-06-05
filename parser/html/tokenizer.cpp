@@ -85,32 +85,6 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 		context.currentCharacter = context.character;
 
 		switch (context.state) {
-			case HTML::Tokenizer::ParserState::AFTER_DOCTYPE_SYSTEM_IDENTIFIER:
-				if (context.eof) {
-					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_DOCTYPE);
-					treeConstructor.EmitDoctypeQuirksToken();
-					treeConstructor.EmitEOFToken();
-				} else {
-					switch (context.character) {
-						case '\t':
-						case '\n':
-						case '\f':
-						case ' ':
-							// Ignore
-							break;
-						case '>':
-							treeConstructor.EmitToken(context.doctypeToken);
-							context.doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
-							context.state = HTML::Tokenizer::ParserState::DATA;
-							break;
-						default:
-							context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_CHARACTER_AFTER_DOCTYPE_SYSTEM_IDENTIFIER);
-							context.reconsume = true;
-							context.state = HTML::Tokenizer::ParserState::BOGUS_DOCTYPE;
-							break;
-					}
-				}
-				break;
 			case HTML::Tokenizer::ParserState::BOGUS_DOCTYPE:
 				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_DOCTYPE);
