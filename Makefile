@@ -328,6 +328,13 @@ bin/parser/html/tokenizer/before_attribute_value.o: parser/html/tokenizer/before
 	parser/html/tokenizer.hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ parser/html/tokenizer/before_attribute_value.cpp
 
+bin/parser/html/tokenizer/comment_lts.o: parser/html/tokenizer/comment_lts.cpp \
+	parser/html/tokenizer/comment_lts.hpp \
+	parser/html/context.hpp \
+	parser/html/token.hpp \
+	parser/html/tokenizer.hpp
+	$(CXX) $(CXXFLAGS) -c -o $@ parser/html/tokenizer/comment_lts.cpp
+
 bin/parser/html/tokenizer/comment_start_dash.o: parser/html/tokenizer/comment_start_dash.cpp \
 	parser/html/tokenizer/comment_start_dash.hpp \
 	parser/html/context.hpp \
