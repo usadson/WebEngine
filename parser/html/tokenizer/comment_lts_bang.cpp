@@ -4,13 +4,13 @@
  * See the COPYING file for licensing information.
  */
 
-#include "comment_lts.hpp"
+#include "comment_lts_bang.hpp"
 
 #include <iostream>
 #include <vector>
 
 bool
-HTML::Tokenizer::CommentLTS::Parse() {
+HTML::Tokenizer::CommentLTSBang::Parse() {
 	if (context.character == '!') {
 		context.commentToken.contents += '!';
 		context.state = HTML::Tokenizer::ParserState::COMMENT_LTS_BANG;
