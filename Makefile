@@ -70,6 +70,7 @@ BINARIES = bin/ccompat.o \
 	   bin/parser/html/tokenizer.o \
 	   bin/parser/html/tokenizer/after_attribute_name.o \
 	   bin/parser/html/tokenizer/after_attribute_value_qouted.o \
+	   bin/parser/html/tokenizer/after_doctype_name.o \
 	   bin/parser/html/tokenizer/attribute_name.o \
 	   bin/parser/html/tokenizer/attribute_value_dq.o \
 	   bin/parser/html/tokenizer/attribute_value_nq.o \
@@ -295,6 +296,12 @@ bin/parser/html/tokenizer/after_attribute_value_qouted.o: parser/html/tokenizer/
 	parser/html/tokenizer.hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ parser/html/tokenizer/after_attribute_value_quoted.cpp
 
+bin/parser/html/tokenizer/after_doctype_name.o: parser/html/tokenizer/after_doctype_name.cpp \
+	parser/html/tokenizer/after_doctype_name.hpp \
+	parser/html/context.hpp \
+	parser/html/token.hpp \
+	parser/html/tokenizer.hpp
+	$(CXX) $(CXXFLAGS) -c -o $@ parser/html/tokenizer/after_doctype_name.cpp
 
 bin/parser/html/tokenizer/attribute_name.o: parser/html/tokenizer/attribute_name.cpp \
 	parser/html/tokenizer/attribute_name.hpp \
