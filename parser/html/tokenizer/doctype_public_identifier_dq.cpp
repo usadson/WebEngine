@@ -10,7 +10,7 @@
 #include <vector>
 
 bool
-HTML::Tokenizer::DoctypePublicIdentifier::Parse() {
+HTML::Tokenizer::DoctypePublicIdentifierDQ::Parse() {
 	if (context.eof) {
 		context.LogError(HTML::Tokenizer::ParserError::EOF_IN_DOCTYPE);
 		tokenizer.treeConstructor.EmitDoctypeQuirksToken();

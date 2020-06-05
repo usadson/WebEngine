@@ -10,13 +10,13 @@
 
 namespace HTML {
 	namespace Tokenizer {
-		class DoctypePublicIdentifier : public Parser {
+		class DoctypePublicIdentifierDQ : public Parser {
 		public: // Methods
 			inline explicit
-			DoctypePublicIdentifier(Tokenizer &tokenizer)
+			DoctypePublicIdentifierDQ(Tokenizer &tokenizer)
 				: Parser(tokenizer) {}
 
-			~DoctypePublicIdentifier() override = default;
+			~DoctypePublicIdentifierDQ() override = default;
 
 			bool
 			Parse() override;
