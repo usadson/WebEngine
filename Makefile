@@ -77,6 +77,7 @@ BINARIES = bin/ccompat.o \
 	   bin/parser/html/tokenizer/before_attribute_name.o \
 	   bin/parser/html/tokenizer/before_attribute_value.o \
 	   bin/parser/html/tokenizer/data.o \
+	   bin/parser/html/tokenizer/markup_declaration_open.o \
 	   bin/parser/html/tokenizer/self_closing_start.o \
 	   bin/parser/html/tokenizer/tag_end_open.o \
 	   bin/parser/html/tokenizer/tag_name.o \
@@ -331,6 +332,13 @@ bin/parser/html/tokenizer/data.o: parser/html/tokenizer/data.cpp \
 	parser/html/tokenizer.hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ parser/html/tokenizer/data.cpp
 
+bin/parser/html/tokenizer/markup_declaration_open.o: parser/html/tokenizer/markup_declaration_open.cpp \
+	parser/html/tokenizer/markup_declaration_open.hpp \
+	parser/html/context.hpp \
+	parser/html/token.hpp \
+	parser/html/tokenizer.hpp
+	$(CXX) $(CXXFLAGS) -c -o $@ parser/html/tokenizer/markup_declaration_open.cpp
+
 bin/parser/html/tokenizer/self_closing_start.o: parser/html/tokenizer/self_closing_start.cpp \
 	parser/html/tokenizer/self_closing_start.hpp \
 	parser/html/context.hpp \
@@ -411,7 +419,7 @@ memory:
 		 --track-fds=yes \
 		 ./engine
 
-# the 'cppcheck' target will invoke the cppcheck program. This program 
+# the 'cppcheck' target will invoke the cppcheck program. This program
 # statically analyzes the code, and might catch bugs and suggest improvements.
 cppcheck:
 	cppcheck -I. -q --verbose --std=c++17 --enable=all .
