@@ -8,9 +8,9 @@
 
 #include <vector>
 
+#include <cerrno>
 #include <cstdint>
 #include <cstdio>
-#include <errno.h>
 
 #include "logger.hpp"
 
@@ -18,11 +18,11 @@ namespace CCompat {
 
 	const char *
 	GetErrnoName(int error) {
-		if (error <= 0 || (uint32_t)error > errnoNames.size())
+		if (error <= 0 || static_cast<uint32_t>(error) > errnoNames.size())
 			error = errno;
 
 		if (error <= 0)
-			Logger::Crash(__PRETTY_FUNCTION__, "Errno is negative");
+			Logger::Crash(std::string(static_cast<const char*>(__PRETTY_FUNCTION__)), "Errno is negative");
 
 		return errnoNames[error];
 	}
