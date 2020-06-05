@@ -97,23 +97,6 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 			DECIMAL_CHARACTER_REFERENCE, // 12.2.5.79 Decimal character reference state
 			NUMERIC_CHARACTER_REFERENCE_END // 12.2.5.80 Numeric character reference end state
 			 */
-			case HTML::Tokenizer::ParserState::CHARACTER_REFERENCE:
-				context.temporaryBuffer.clear();
-				context.temporaryBuffer.push_back(Unicode::AMPERSAND);
-				if (!context.eof) {
-					if (context.character == Unicode::NUMBER_SIGN) {
-						context.temporaryBuffer.push_back(context.character);
-						context.state = HTML::Tokenizer::ParserState::NUMERIC_CHARACTER_REFERENCE;
-						break;
-					}
-
-					if (Unicode::IsASCIIAlphaNumeric(context.character)) {
-						context.reconsume = true;
-						context.state = HTML::Tokenizer::ParserState::NAMED_CHARACTER_REFERENCE;
-						break;
-					}
-				}
-				break;
 				/*
 			case HTML::Tokenizer::ParserState::NAMED_CHARACTER_REFERENCE: {
 				// NamedCharacters::NCStatus status = NamedCharacters::Find(
