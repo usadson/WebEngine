@@ -1,6 +1,6 @@
 # WebEngine
 | Travis CI | Github Actions | Coverity | License
-|-|-|-|-|-
+|-|-|-|-
 | [![Build Status](https://travis-ci.com/usadson/WebEngine.svg?branch=master)](https://travis-ci.com/usadson/WebEngine) | ![C/C++ CI](https://github.com/usadson/WebEngine/workflows/C/C++%20CI/badge.svg) | ![Coverity](https://scan.coverity.com/projects/21253/badge.svg) | [![License](https://img.shields.io/badge/License-BSD%202--Clause-orange.svg)](https://opensource.org/licenses/BSD-2-Clause)
 
 This project is the repository of WebEngine, a free-and-open-source web-browser project. This isn't a full-fledged browser — of course — and is just a hobbyist project. Feel free to look through the code and maybe even contribute to the project.
