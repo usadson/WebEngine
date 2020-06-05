@@ -87,38 +87,6 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 		switch (context.state) {
 			// -- missing BOGUS_COMMENT
 			// -- jump to MARKUP_DECLARATION_OPEN
-			case HTML::Tokenizer::ParserState::COMMENT_END_DASH:
-				if (context.eof) {
-					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_COMMENT);
-					treeConstructor.EmitToken(context.commentToken);
-					treeConstructor.EmitEOFToken();
-				} else if (context.character == '-') {
-					context.state = HTML::Tokenizer::ParserState::COMMENT_END;
-				} else {
-					context.commentToken.contents += '-';
-					context.reconsume = true;
-					context.state = HTML::Tokenizer::ParserState::COMMENT;
-				}
-				break;
-			case HTML::Tokenizer::ParserState::COMMENT_END_BANG:
-				if (context.eof) {
-					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_COMMENT);
-					treeConstructor.EmitToken(context.commentToken);
-					treeConstructor.EmitEOFToken();
-				} else if (context.character == '-') {
-					context.commentToken.contents += "--!";
-					context.state = HTML::Tokenizer::ParserState::COMMENT_END_DASH;
-				} else if (context.character == '>') {
-					context.LogError(HTML::Tokenizer::ParserError::INCORRECTLY_CLOSED_COMMENT);
-					treeConstructor.EmitToken(context.commentToken);
-					context.commentToken = HTML::Tokenizer::CommentToken::INVALID_TYPE;
-					context.state = HTML::Tokenizer::ParserState::DATA;
-				} else {
-					context.commentToken.contents += "--!";
-					context.reconsume = true;
-					context.state = HTML::Tokenizer::ParserState::COMMENT;
-				}
-				break;
 			case HTML::Tokenizer::ParserState::DOCTYPE:
 				if (context.eof) {
 					context.LogError(HTML::Tokenizer::ParserError::EOF_IN_DOCTYPE);
