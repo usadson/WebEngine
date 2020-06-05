@@ -38,14 +38,20 @@ namespace HTML {
 		}
 
 		struct Token {
-			TokenType type;
-
+		private:
+			TokenType internalType;
+		public:
 			inline explicit
-			Token(TokenType inType) : type(inType) {
+			Token(TokenType inType) : internalType(inType) {
 			}
 
 			virtual
 			~Token() = default;
+
+			inline TokenType
+			type() {
+				return internalType;
+			}
 		};
 
 		// DOCTYPE, start tag, end tag, comment, character, end-of-file

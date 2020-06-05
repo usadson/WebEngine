@@ -23,7 +23,7 @@ HTML::InsertionModes::BeforeHTML::EmitToken(HTML::Tokenizer::Token &inToken) {
 
 	startTagToken = nullptr;
 
-	switch (inToken.type) {
+	switch (inToken.type()) {
 		case HTML::Tokenizer::TokenType::DOCTYPE:
 			// Parse error. Ignore the token.
 			return false;

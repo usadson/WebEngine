@@ -125,7 +125,7 @@ HTML::InsertionModes::Initial::EmitToken(HTML::Tokenizer::Token &inToken) {
 	HTML::Tokenizer::CommentToken	*commentToken;
 	HTML::Tokenizer::DoctypeToken	*doctypeToken;
 
-	switch (inToken.type) {
+	switch (inToken.type()) {
 		case HTML::Tokenizer::TokenType::CHARACTER:
 			characterToken = dynamic_cast<HTML::Tokenizer::CharacterToken *>(&inToken);
 			switch (characterToken->character) {
@@ -160,7 +160,7 @@ HTML::InsertionModes::Initial::EmitToken(HTML::Tokenizer::Token &inToken) {
 	// SMALL TODO 'If the document is not an iframe srcdoc document'.
 
 	Logger::Warning("InitialInsertionMode::EmitToken", "Parser Error: Invalid token in INITIAL insertion mode!");
-	std::cerr << "\tTokenType: " << inToken.type << std::endl;
+	std::cerr << "\tTokenType: " << inToken.type() << std::endl;
 
 	// In any other case:
 	constructor.currentMode = HTML::InsertionModeType::BEFORE_HTML;

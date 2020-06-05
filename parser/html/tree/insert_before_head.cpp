@@ -7,6 +7,7 @@
 #include "insert_before_head.hpp"
 
 #include <iostream>
+#include <sstream>
 #include <vector>
 
 #include "dom/comment.hpp"
@@ -23,7 +24,7 @@ HTML::InsertionModes::BeforeHead::EmitToken(HTML::Tokenizer::Token &inToken) {
 
 	startTagToken = nullptr;
 
-	switch (inToken.type) {
+	switch (inToken.type()) {
 		case HTML::Tokenizer::TokenType::DOCTYPE:
 			// Parse error. Ignore the token.
 			return false;
@@ -47,6 +48,24 @@ HTML::InsertionModes::BeforeHead::EmitToken(HTML::Tokenizer::Token &inToken) {
 			/* Fallthrough */
 		case HTML::Tokenizer::TokenType::STARTTAG:
 			startTagToken = dynamic_cast<HTML::Tokenizer::StartTagToken *>(&inToken);
+
+			if (startTagToken == nullptr) {
+				std::string type = "";
+
+				if (dynamic_cast<HTML::Tokenizer::AmbiguousTagToken *>(&inToken) != nullptr)
+					type += "AmbiguousTagToken ";
+				if (dynamic_cast<HTML::Tokenizer::CharacterToken *>(&inToken) != nullptr)
+					type += "CharacterToken ";
+				if (dynamic_cast<HTML::Tokenizer::CommentToken *>(&inToken) != nullptr)
+					type += "CommentToken ";
+				if (dynamic_cast<HTML::Tokenizer::DoctypeToken *>(&inToken) != nullptr)
+					type += "DoctypeToken ";
+				if (dynamic_cast<HTML::Tokenizer::EndTagToken *>(&inToken) != nullptr)
+					type += "EndTagToken ";
+				if (dynamic_cast<HTML::Tokenizer::EOFToken *>(&inToken) != nullptr)
+					type += "EOFToken ";
+				Logger::Crash(std::string(static_cast<const char *>(__PRETTY_FUNCTION__)), "Token typenot equivalent to actual type. TokenType='STARTTAG' type found: " + type);
+			}
 
 			if (startTagToken->tagName.EqualsA("html")) {
 				constructor.insertionModes[InsertionModeType::IN_BODY]->EmitToken(inToken);
