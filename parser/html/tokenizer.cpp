@@ -7,22 +7,29 @@
 #include "tokenizer.hpp"
 
 #include <iostream>
+#include <map>
 #include <memory>
+#include <sstream>
 #include <vector>
 
 #include <cstdlib>
 #include <cstring>
 #include <strings.h>
 
-#include "context.hpp"
 #include "data/text/named_characters.hpp"
-#include "error.hpp"
-#include "state.hpp"
-#include "token.hpp"
-#include "tree_constructor.hpp"
+#include "logger.hpp"
+#include "parser/html/tokenizer/tokenizer_parser.hpp"
+#include "parser/html/context.hpp"
+#include "parser/html/error.hpp"
+#include "parser/html/state.hpp"
+#include "parser/html/token.hpp"
+#include "parser/html/tree_constructor.hpp"
 
 void
 HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
+
+	static const std::map<HTML::Tokenizer::ParserState, std::shared_ptr<HTML::Tokenizer::Parser>> parserMap = {
+	};
 
 	context.document = &document;
 
@@ -84,61 +91,20 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 		context.beginLoopState = context.state;
 		context.currentCharacter = context.character;
 
-		switch (context.state) {
-			// Skipped some CDATA stuff
-			/*
-			CHARACTER_REFERENCE, // 12.2.5.72 Character reference state
-			NAMED_CHARACTER_REFERENCE, // 12.2.5.73 Named character reference state
-			AMBIGOUS_AMPERSAND, // 12.2.5.74 Ambiguous ampersand state
-			NUMERIC_CHARACTER_REFERENCE, // 12.2.5.75 Numeric character reference state
-			HEXADECIMAL_CHARACTER_REFERENCE_START, // 12.2.5.76 Hexadecimal character reference start state
-			DECIMAL_CHARACTER_REFERENCE_START, // 12.2.5.77 Decimal character reference start state
-			HEXADECIMAL_CHARACTER_REFERENCE, // 12.2.5.78 Hexadecimal character reference state
-			DECIMAL_CHARACTER_REFERENCE, // 12.2.5.79 Decimal character reference state
-			NUMERIC_CHARACTER_REFERENCE_END // 12.2.5.80 Numeric character reference end state
-			 */
-				/*
-			case HTML::Tokenizer::ParserState::NAMED_CHARACTER_REFERENCE: {
-				// NamedCharacters::NCStatus status = NamedCharacters::Find(
-				bool wasMatch = false;
-				if (context.character != Unicode::SEMICOLON) {
-					context.NCRefBuffer += context.character;
-					std::cout << "NAMED_CHARACTER_REFERENCE: " << context.temporaryBuffer[0] << ' ' << context.character << std::endl;
-					// TODO Check for match, if so do shit & "break;"
-				}
+		auto parser = parserMap.find(context.state);
 
-				if (context.character != Unicode::SEMICOLON) {
-					context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
-				}
+		if (parser == std::end(parserMap)) {
+			std::cout << "Unknown state(" << ++context.unknownStateCount << "): " << context.state << std::endl;
+		} else {
+			if (!parser->second->Parse()) {
+				std::stringstream info("ParserError: ");
+				info << context.state << " failed on " << context.linePosition
+					 << ':' << context.lineCount;
+				Logger::Error(__PRETTY_FUNCTION__, info.str());
 
-				// The named reference isn't found, thus:
-				// flush code points consumed as a character reference
-				switch (context.returnState) {
-					case HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_DQ:
-					case HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_SQ:
-					case HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_NQ: {
-						HTML::Tokenizer::AmbiguousTagToken &tagToken = (context.isEndTag ?
-							(HTML::Tokenizer::AmbiguousTagToken &) context.endTagToken :
-							(HTML::Tokenizer::AmbiguousTagToken &) context.startTagToken);
-
-						for (size_t k = 0; k < context.NCRefBuffer.length(); k++) {
-							tagToken.attributeValue += context.NCRefBuffer[context.i];
-						}
-					} break;
-					default:
-						for (size_t k = 0; k < context.NCRefBuffer.length(); k++) {
-							treeConstructor.EmitCharacterToken(context.NCRefBuffer[context.i]);
-						}
-						break;
-				}
-				context.state = wasMatch ?
-					context.returnState :
-					HTML::Tokenizer::ParserState::AMBIGOUS_AMPERSAND;
-			} break;
-			*/
-			default:
-				std::cout << "Unknown state(" << ++context.unknownStateCount << "): " << context.state << std::endl;
-				break;
+				/* FIXME: Handle Error */
+				return;
+			}
 		}
 	}
 }

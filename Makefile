@@ -273,13 +273,15 @@ bin/parser/html/token.o: parser/html/token.cpp \
 
 bin/parser/html/tokenizer.o: parser/html/tokenizer.cpp \
 	parser/html/tokenizer.cpp \
+	parser/html/tokenizer/tokenizer_parser.hpp \
 	parser/html/context.hpp \
 	parser/html/error.hpp \
 	parser/html/token.hpp \
 	parser/html/tree_constructor.hpp \
 	data/text/named_characters.hpp \
 	data/text/unicode.hpp \
-	data/text/ustring.hpp
+	data/text/ustring.hpp \
+	logger.hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ parser/html/tokenizer.cpp
 
 bin/parser/html/tree_constructor.o: parser/html/tree_constructor.cpp \
