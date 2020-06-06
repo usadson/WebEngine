@@ -13,6 +13,7 @@
 
 #include "logger.hpp"
 #include "data/text/ustring.hpp"
+#include "dom/resettable_element.hpp"
 #include "parser/html/context.hpp"
 #include "parser/html/tree/insert_before_head.hpp"
 #include "parser/html/tree/insert_before_html.hpp"
@@ -145,6 +146,11 @@ namespace HTML {
 		element->internalAttributes.insert(std::begin(tagToken.attributes),
 										   std::end(tagToken.attributes));
 		/** TODO xmlns attribute check */
+
+		auto resettableElement = std::dynamic_pointer_cast<DOM::ResettableElement>(element);
+		if (resettableElement)
+			resettableElement->reset();
+
 		return element;
 	}
 

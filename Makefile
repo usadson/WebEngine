@@ -288,6 +288,8 @@ bin/parser/html/tokenizer.o: parser/html/tokenizer.cpp \
 bin/parser/html/tree_constructor.o: parser/html/tree_constructor.cpp \
 	parser/html/tree_constructor.hpp \
 	dom/document.hpp \
+	dom/element.hpp \
+	dom/resettable_element.hpp \
 	parser/html/tree/insert_before_head.hpp \
 	parser/html/tree/insert_before_html.hpp \
 	parser/html/tree/insert_initial.hpp \

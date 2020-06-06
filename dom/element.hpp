@@ -34,6 +34,9 @@ namespace DOM {
 	class Element : public Node {
 	public: // Internal Properties
 		std::map<Unicode::UString, Unicode::UString> internalAttributes;
+	public: // Destructor
+		virtual
+		~Element() = default;
 	public: // DOM Attributes
 		/* Readonly */
 		std::optional<Unicode::UString> namespaceURI;
