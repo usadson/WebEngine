@@ -151,7 +151,29 @@ namespace HTML {
 		if (resettableElement)
 			resettableElement->reset();
 
+		/** TODO Form-associated element */
+
 		return element;
+	}
+
+	/**
+	 * Spec:
+	 * https://html.spec.whatwg.org/multipage/parsing.html#insert-a-foreign-element
+	 */
+	void
+	TreeConstructor::InsertForeignElement(
+		Unicode::UString nameSpace,
+		std::shared_ptr<DOM::Node> parent
+	) {
+// 		auto element = CreateElementForToken(nameSpace,
+//
+//
+// 		// https://html.spec.whatwg.org/multipage/parsing.html#appropriate-place-for-inserting-a-node
+// 		if (fosterParenting) {
+// 			Logger::Crash(std::string(static_cast<const char *>(__PRETTY_FUNCTION__)), "Foster parenting not implemented yet.");
+// 		}
+//
+		// TODO
 	}
 
 	std::shared_ptr<DOM::Element>

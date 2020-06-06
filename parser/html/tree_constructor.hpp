@@ -28,6 +28,7 @@ namespace HTML {
 		std::map<InsertionModeType, std::shared_ptr<InsertionMode>> insertionModes;
 
 		bool executeScript { false };
+		bool fosterParenting { false };
 	public: // Methods
 		explicit
 		TreeConstructor(Tokenizer::Context &);
@@ -59,7 +60,14 @@ namespace HTML {
 		);
 
 		std::shared_ptr<DOM::Element>
-		CreateElementForToken(HTML::Tokenizer::StartTagToken &, Unicode::UString nameSpace, std::shared_ptr<DOM::Node> intendedParent);
+		CreateElementForToken(HTML::Tokenizer::StartTagToken &,
+							  Unicode::UString nameSpace,
+							  std::shared_ptr<DOM::Node> intendedParent
+		);
+
+		void
+		InsertForeignElement(Unicode::UString nameSpace,
+							 std::shared_ptr<DOM::Node> parent);
 
 		inline std::shared_ptr<DOM::Element>
 		InsertHTMLElement(Unicode::UString tagName,
