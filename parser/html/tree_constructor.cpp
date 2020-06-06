@@ -104,6 +104,9 @@ namespace HTML {
 		element->customElementState = DOM::CustomElementState::UNCUSTOMIZED;
 		element->is = is;
 		element->document = document;
+
+		// TODO 7.3
+
 		return element;
 	}
 
