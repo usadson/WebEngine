@@ -29,7 +29,7 @@ HTML::InsertionModes::BeforeHTML::EmitToken(HTML::Tokenizer::Token &inToken) {
 			return false;
 		case HTML::Tokenizer::TokenType::COMMENT:
 			commentToken = dynamic_cast<HTML::Tokenizer::CommentToken *>(&inToken);
-			context.parserContext.documentNode.childNodes.push_back(DOM::Comment(commentToken->contents));
+			context.parserContext.documentNode->childNodes.push_back(DOM::Comment(commentToken->contents));
 			return false;
 		case HTML::Tokenizer::TokenType::CHARACTER:
 			characterToken = dynamic_cast<HTML::Tokenizer::CharacterToken *>(&inToken);
@@ -53,7 +53,7 @@ HTML::InsertionModes::BeforeHTML::EmitToken(HTML::Tokenizer::Token &inToken) {
 				element->namespaceURI = HTML::Constants::HTMLNamespace;
 				element->localName = startTagToken->tagName;
 				element->document = context.parserContext.documentNode;
-				context.parserContext.documentNode.children.push_back(element);
+				context.parserContext.documentNode->children.push_back(element);
 				constructor.openElementsStack.push_back(element);
 
 				for (auto const &attribute : startTagToken->attributes) {
@@ -90,7 +90,7 @@ HTML::InsertionModes::BeforeHTML::EmitToken(HTML::Tokenizer::Token &inToken) {
 	element->namespaceURI = HTML::Constants::HTMLNamespace;
 	element->localName = Unicode::UString("html");
 	element->document = context.parserContext.documentNode;
-	context.parserContext.documentNode.children.push_back(element);
+	context.parserContext.documentNode->children.push_back(element);
 	constructor.openElementsStack.push_back(element);
 
 	constructor.currentMode = HTML::InsertionModeType::BEFORE_HEAD;

@@ -26,11 +26,10 @@ HTML::InsertionModes::BeforeHead::EmitToken(HTML::Tokenizer::Token &inToken) {
 
 	switch (inToken.type()) {
 		case HTML::Tokenizer::TokenType::DOCTYPE:
-			// Parse error. Ignore the token.
 			return false;
 		case HTML::Tokenizer::TokenType::COMMENT:
 			commentToken = dynamic_cast<HTML::Tokenizer::CommentToken *>(&inToken);
-			context.parserContext.documentNode.childNodes.push_back(DOM::Comment(commentToken->contents));
+			context.parserContext.documentNode->childNodes.push_back(DOM::Comment(commentToken->contents));
 			return false;
 		case HTML::Tokenizer::TokenType::CHARACTER:
 			characterToken = dynamic_cast<HTML::Tokenizer::CharacterToken *>(&inToken);
@@ -49,7 +48,7 @@ HTML::InsertionModes::BeforeHead::EmitToken(HTML::Tokenizer::Token &inToken) {
 		case HTML::Tokenizer::TokenType::STARTTAG:
 			startTagToken = dynamic_cast<HTML::Tokenizer::StartTagToken *>(&inToken);
 
-			if (startTagToken->tagName.EqualsA("head")) {
+			if (startTagToken->tagName.EqualsA("html")) {
 				constructor.insertionModes[InsertionModeType::IN_BODY]->EmitToken(inToken);
 				return false;
 			}
@@ -59,7 +58,7 @@ HTML::InsertionModes::BeforeHead::EmitToken(HTML::Tokenizer::Token &inToken) {
 				element->namespaceURI = HTML::Constants::HTMLNamespace;
 				element->localName = startTagToken->tagName;
 				element->document = context.parserContext.documentNode;
-				context.parserContext.documentNode.children.push_back(element);
+				context.parserContext.documentNode->children.push_back(element);
 				constructor.openElementsStack.push_back(element);
 
 				for (auto const &attribute : startTagToken->attributes) {
@@ -72,7 +71,7 @@ HTML::InsertionModes::BeforeHead::EmitToken(HTML::Tokenizer::Token &inToken) {
 
 			std::cout << startTagToken->tagName << " != html" << std::endl;
 
-			/* Fallthrough */
+			break;
 		case HTML::Tokenizer::TokenType::ENDTAG:
 			if (startTagToken == nullptr) {
 				Logger::Warning("HTMLParser::InsertBeforeHead", "Invalid structure! ENDTAG before STARTTAG");
@@ -86,7 +85,6 @@ HTML::InsertionModes::BeforeHead::EmitToken(HTML::Tokenizer::Token &inToken) {
 				// Parse error. Ignore the token.
 				return false;
 			}
-			/* Else: Fallthrough */
 		default:
 			break;
 	}
@@ -95,9 +93,9 @@ HTML::InsertionModes::BeforeHead::EmitToken(HTML::Tokenizer::Token &inToken) {
 	// also, the 'Application Cache Selection Algorithm' should be executed.
 	std::shared_ptr<DOM::Element> element = std::make_shared<DOM::Element>();
 	element->namespaceURI = HTML::Constants::HTMLNamespace;
-	element->localName = Unicode::UString("html");
+	element->localName = Unicode::UString("head");
 	element->document = context.parserContext.documentNode;
-	context.parserContext.documentNode.children.push_back(element);
+	context.parserContext.documentNode->children.push_back(element);
 	constructor.openElementsStack.push_back(element);
 
 	constructor.currentMode = HTML::InsertionModeType::BEFORE_HEAD;

@@ -20,6 +20,6 @@ namespace DOM {
 	struct Node {
 	public: // Properties
 		std::vector<Node> childNodes;
-		std::optional<std::reference_wrapper<DOM::Document>> document;
+		std::optional<std::shared_ptr<DOM::Document>> document;
 	};
 }

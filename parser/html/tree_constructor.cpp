@@ -12,9 +12,11 @@
 #include <vector>
 
 #include "logger.hpp"
-#include "tree/insert_before_head.hpp"
-#include "tree/insert_before_html.hpp"
-#include "tree/insert_initial.hpp"
+#include "data/text/ustring.hpp"
+#include "parser/html/context.hpp"
+#include "parser/html/tree/insert_before_head.hpp"
+#include "parser/html/tree/insert_before_html.hpp"
+#include "parser/html/tree/insert_initial.hpp"
 
 namespace HTML {
 
@@ -81,5 +83,51 @@ namespace HTML {
 	TreeConstructor::EmitEOFToken() {
 		HTML::Tokenizer::EOFToken token;
 		EmitToken(token);
+	}
+
+	/**
+	 * Spec:
+	 * https://dom.spec.whatwg.org/#concept-create-element
+	 */
+	std::shared_ptr<DOM::Element>
+	TreeConstructor::CreateElement(std::shared_ptr<DOM::Document> document,
+					Unicode::UString localName,
+					Unicode::UString nameSpace,
+					std::optional<Unicode::UString> prefix,
+					std::optional<Unicode::UString> is,
+					bool synchronousCustomElementsFlag) {
+		// TODO Check for custom element definition
+		auto element = std::make_shared<DOM::Element>();
+		element->namespaceURI = nameSpace;
+		element->namespacePrefix = prefix;
+		element->localName = localName;
+		element->customElementState = DOM::CustomElementState::UNCUSTOMIZED;
+		element->is = is;
+		element->document = document;
+		return element;
+	}
+
+	/**
+	 * Spec:
+	 * https://html.spec.whatwg.org/multipage/parsing.html#create-an-element-for-the-token
+	 */
+	std::shared_ptr<DOM::Element>
+	TreeConstructor::CreateElementForToken(HTML::Tokenizer::StartTagToken &,
+						  Unicode::UString nameSpace,
+						  std::shared_ptr<DOM::Node> intendedParent) {
+		return std::make_shared<DOM::Element>(); // TODO ret type for compiler
+	}
+
+	std::shared_ptr<DOM::Element>
+	TreeConstructor::InsertElement(Unicode::UString tagName, Unicode::UString nameSpace, std::map<Unicode::UString, Unicode::UString> attributes) {
+		/* https://html.spec.whatwg.org/multipage/parsing.html#create-an-element-for-the-token */
+		auto element = std::make_shared<DOM::Element>();
+		element->namespaceURI = std::move(nameSpace);
+		element->localName = std::move(tagName);
+		element->document = context.parserContext.documentNode;
+		context.parserContext.documentNode->children.push_back(element);
+		openElementsStack.push_back(element);
+
+		return element;
 	}
 }

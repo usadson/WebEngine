@@ -138,19 +138,19 @@ HTML::InsertionModes::Initial::EmitToken(HTML::Tokenizer::Token &inToken) {
 					return false;
 				default:
 					Logger::Warning("InitialInsertionMode::EmitToken", "Invalid character token!");
-					context.parserContext.documentNode.mode = DOM::QuirksMode::QUIRKS;
+					context.parserContext.documentNode->mode = DOM::QuirksMode::QUIRKS;
 					break;
 			}
 			break;
 		case HTML::Tokenizer::TokenType::COMMENT:
 			commentToken = dynamic_cast<HTML::Tokenizer::CommentToken *>(&inToken);
-			context.parserContext.documentNode.childNodes.push_back(DOM::Comment(commentToken->contents));
+			context.parserContext.documentNode->childNodes.push_back(DOM::Comment(commentToken->contents));
 			return false;
 		case HTML::Tokenizer::TokenType::DOCTYPE:
 			doctypeToken = dynamic_cast<HTML::Tokenizer::DoctypeToken *>(&inToken);
 
 			if (IsQuirkyDoctype(doctypeToken, false /* TODO */))
-				context.parserContext.documentNode.mode = DOM::QuirksMode::QUIRKS;
+				context.parserContext.documentNode->mode = DOM::QuirksMode::QUIRKS;
 
 			constructor.currentMode = HTML::InsertionModeType::BEFORE_HTML;
 			return false;

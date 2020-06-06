@@ -14,9 +14,10 @@ namespace HTML {
 }
 
 #include "dom/element.hpp"
+#include "parser/html/constants.hpp"
 #include "parser/html/insertion_mode.hpp"
+#include "parser/html/token.hpp"
 #include "tree/insertion_mode.hpp"
-#include "token.hpp"
 
 namespace HTML {
 	class TreeConstructor {
@@ -40,5 +41,28 @@ namespace HTML {
 
 		void
 		EmitToken(HTML::Tokenizer::Token &);
+
+		std::shared_ptr<DOM::Element>
+		InsertElement(Unicode::UString tagName,
+					  Unicode::UString nameSpace,
+					  std::map<Unicode::UString, Unicode::UString> attributes);
+
+		std::shared_ptr<DOM::Element>
+		CreateElement(std::shared_ptr<DOM::Document> document,
+					  Unicode::UString localName,
+					  Unicode::UString nameSpace,
+					  std::optional<Unicode::UString> prefix,
+					  std::optional<Unicode::UString> is,
+					  bool synchronousCustomElementsFlag
+		);
+
+		std::shared_ptr<DOM::Element>
+		CreateElementForToken(HTML::Tokenizer::StartTagToken &, Unicode::UString nameSpace, std::shared_ptr<DOM::Node> intendedParent);
+
+		inline std::shared_ptr<DOM::Element>
+		InsertHTMLElement(Unicode::UString tagName,
+										   std::map<Unicode::UString, Unicode::UString> attributes) {
+			return InsertElement(tagName, HTML::Constants::HTMLNamespace, attributes);
+		}
 	};
 }

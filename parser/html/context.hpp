@@ -22,7 +22,7 @@ namespace HTML {
 namespace HTML {
 	class ParserContext {
 	public:
-		DOM::Document documentNode;
+		std::shared_ptr<DOM::Document> documentNode = std::make_shared<DOM::Document>();
 	};
 
 	namespace Tokenizer {
