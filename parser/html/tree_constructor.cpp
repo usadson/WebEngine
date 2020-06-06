@@ -115,10 +115,37 @@ namespace HTML {
 	 * https://html.spec.whatwg.org/multipage/parsing.html#create-an-element-for-the-token
 	 */
 	std::shared_ptr<DOM::Element>
-	TreeConstructor::CreateElementForToken(HTML::Tokenizer::StartTagToken &,
+	TreeConstructor::CreateElementForToken(
+						  HTML::Tokenizer::StartTagToken &tagToken,
 						  Unicode::UString nameSpace,
 						  std::shared_ptr<DOM::Node> intendedParent) {
-		return std::make_shared<DOM::Element>(); // TODO ret type for compiler
+		std::optional<Unicode::UString> is;
+
+		auto attr = std::find_if(std::begin(tagToken.attributes), std::end(tagToken.attributes),
+								 [] (const auto &attr) {
+									 return attr.first.EqualsIgnoreCaseA(2, "is");
+								 });
+
+		if (attr != std::end(tagToken.attributes))
+			is = { attr->second };
+
+		auto element = CreateElement(intendedParent->document.value(),
+									 tagToken.tagName,
+									 nameSpace,
+									 {},
+									 is,
+									 executeScript);
+		/* Maybe, because the lifetime of the Token ends here, we can do a swap
+		 * between the tokens attributes and the elements internalAttributes?
+		 *
+		 * Also, the appending of attributes to an element is not
+		 * straightforward:
+		 * https://dom.spec.whatwg.org/#concept-element-attributes-change-ext
+		 */
+		element->internalAttributes.insert(std::begin(tagToken.attributes),
+										   std::end(tagToken.attributes));
+		/** TODO xmlns attribute check */
+		return element;
 	}
 
 	std::shared_ptr<DOM::Element>

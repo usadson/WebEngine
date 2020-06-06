@@ -26,6 +26,8 @@ namespace HTML {
 		InsertionModeType currentMode;
 		std::vector<std::shared_ptr<DOM::Element>> openElementsStack;
 		std::map<InsertionModeType, std::shared_ptr<InsertionMode>> insertionModes;
+
+		bool executeScript { false };
 	public: // Methods
 		explicit
 		TreeConstructor(Tokenizer::Context &);
