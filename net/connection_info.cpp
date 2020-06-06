@@ -11,16 +11,15 @@
 #include <sstream>
 #include <vector>
 
-#include "ccompat.hpp"
-#include "logger.hpp"
-
 #include <arpa/inet.h>
 #include <cstring>
 #include <netdb.h>
-#include <string.h>
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
+
+#include "ccompat.hpp"
+#include "logger.hpp"
 
 inline int
 FUNC_SOCKET(int domain, int type, int protocol) noexcept {
