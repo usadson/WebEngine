@@ -63,13 +63,9 @@ namespace Net {
 
 	bool
 	ConnectionInfo::ResolveHostName() {
-		int errorCode;
-		struct addrinfo *address;
-		struct addrinfo *result;
-
 		this->socket = FUNC_SOCKET(AF_INET, SOCK_STREAM, 0);
 		if (this->socket == -1) {
-			errorCode = errno;
+			int errorCode = errno;
 			std::stringstream information;
 			information << "Error on socket(): " << CCompat::GetErrnoName(errorCode) << " (" << errorCode << ")";
 			Logger::Warning("Net::ConnectionInfo::ResolveHostName", information.str());
@@ -77,7 +73,8 @@ namespace Net {
 		}
 
 		auto startResolve = std::chrono::high_resolution_clock::now();
-		errorCode = getaddrinfo(hostName.c_str(), nullptr, nullptr, &result);
+		struct addrinfo *result = nullptr;
+		int errorCode = getaddrinfo(hostName.c_str(), nullptr, nullptr, &result);
 		timingDNS = FormatTime(std::chrono::high_resolution_clock::now() - startResolve);
 
 		if (errorCode != 0) {
@@ -89,14 +86,14 @@ namespace Net {
 		}
 
 		auto startPing = std::chrono::high_resolution_clock::now();
-		for (address = result; address != nullptr; address = address->ai_next) {
-			struct sockaddr_in connectAddress;
-			connectAddress.sin_addr.s_addr = ((struct sockaddr_in *) address->ai_addr)->sin_addr.s_addr;
+		for (struct addrinfo *address = result; address != nullptr; address = address->ai_next) {
+			struct sockaddr_in connectAddress = {};
+			connectAddress.sin_addr.s_addr = reinterpret_cast<struct sockaddr_in *>(address->ai_addr)->sin_addr.s_addr;
 			connectAddress.sin_family = AF_INET;
 			connectAddress.sin_port = htons(port);
 
 			auto startConnect = std::chrono::high_resolution_clock::now();
-			if (connect(this->socket, (struct sockaddr*) &connectAddress, sizeof(struct sockaddr_in)) != -1) {
+			if (connect(this->socket, reinterpret_cast<struct sockaddr *>(&connectAddress), sizeof(struct sockaddr_in)) != -1) {
 				timingConnect = FormatTime(std::chrono::high_resolution_clock::now() - startConnect);
 				timingPing = FormatTime(startConnect - startPing);
 				freeaddrinfo(result);
