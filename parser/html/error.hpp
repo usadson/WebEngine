@@ -65,6 +65,7 @@ namespace HTML {
 		public:
 			const std::string name;
 			const std::string description;
+
 		private:
 			inline
 			ParserError(const std::string &inName, const std::string &inDescription)
