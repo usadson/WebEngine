@@ -35,6 +35,7 @@ namespace Rendering {
 
 		void
 		SwapBuffers() override;
+
 	private: // Private Methods
 		bool
 		InternalPrepareGL();
