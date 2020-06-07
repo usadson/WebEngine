@@ -26,6 +26,7 @@ namespace Rendering {
 	public: // Properties
 		const RendererType type;
 		std::shared_ptr<Rendering::WindowBase> internalWindow;
+
 	public: // Methods
 		inline explicit
 		Renderer(RendererType type)
