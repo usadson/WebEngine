@@ -93,10 +93,8 @@ protected:
 TEST_F(UTF8BoundaryTests, BoundaryTests) {
 	for (size_t i = 0; i < boundaryInputs.size(); i++) {
 		for (size_t j = 0; j < boundaryInputs[i].size(); j++) {
-			auto *data = reinterpret_cast<const char *>(boundaryInputs[i][j].data());
-
-			std::cout << " NEW TEST " << std::endl;
-			ASSERT_TRUE(encoders[i][j].Decode(data, boundaryInputs[i][j].size()))
+			ASSERT_TRUE(encoders[i][j].Decode(reinterpret_cast<const char *>(boundaryInputs[i][j].data()),
+											  boundaryInputs[i][j].size()))
 				<< "Boundary Test failed for Test " << i << '.' << j;
 		}
 	}
@@ -110,12 +108,32 @@ TEST_F(UTF8BoundaryTests, OutsideBoundaries) {
 class UTF8FuzzTest : public ::testing::Test {
 protected:
 	UTF8 encoder;
+	std::array<char, 4> data;
 };
 
 TEST_F(UTF8FuzzTest, ASCIITest) {
 	for (unsigned char i = 0; i < 128; i++) {
 		ASSERT_TRUE(encoder.Decode(reinterpret_cast<const char *>(&i), 1))
-			<< "ASCII character decode failed: character: 0x" << std::hex << (static_cast<uint8_t>(i) & 0x00ff) << std::dec;
+			<< "ASCII character decode failed: character: 0x" << std::hex << (static_cast<uint16_t>(i) & 0x00ff) << std::dec;
+	}
+}
+
+TEST_F(UTF8FuzzTest, TwoOctetsTest) {
+	for (unsigned char i = 0xC2; i <= 0xDF; i++) {
+		data[0] = static_cast<char>(i);
+		for (size_t j = 0; j <= 255; j++) {
+			data[1] = static_cast<char>(j);
+
+			if (j >= 0x80 && j <= 0xBF) {
+				ASSERT_TRUE(encoder.Decode(data.data(), 2))
+					<< "Character is inside the bounds, but failed: 0x"
+					<< std::hex << static_cast<uint16_t>(i) << static_cast<uint16_t>(j) << std::dec;
+			} else {
+				ASSERT_FALSE(encoder.Decode(data.data(), 2))
+					<< "Character is outside the bounds, but passed: 0x"
+					<< std::hex << static_cast<uint16_t>(i) << static_cast<uint16_t>(j) << std::dec;
+			}
+		}
 	}
 }
 
