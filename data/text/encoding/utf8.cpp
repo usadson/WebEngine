@@ -7,8 +7,7 @@
 #include "utf8.hpp"
 
 #include <iostream>
-
-#include <cstdio>
+#include <sstream>
 
 #include "logger.hpp"
 
@@ -92,7 +91,12 @@ namespace TextEncoding {
 				LowerBoundary = 0x80;
 				UpperBoundary = 0xBF;
 				// TODO 'Prepend byte to stream'
-				Logger::Error("TextEncoding::UTF8::Decode", "Character out of boundaries.");
+				std::stringstream info;
+				info << "Character out of boundaries: [0x" << std::hex
+					 << static_cast<uint16_t>(LowerBoundary) << ", 0x"
+					 << static_cast<uint16_t>(UpperBoundary) << "], value: 0x"
+					 << static_cast<uint16_t>(currentByte) << std::dec;
+				Logger::Error("TextEncoding::UTF8::Decode", info.str());
 				return false;
 			}
 

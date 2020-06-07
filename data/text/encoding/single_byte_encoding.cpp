@@ -18,7 +18,7 @@ namespace TextEncoding {
 		Output.reserve(size);
 
 		for (i = 0; i < size; i++) {
-			uint32_t value = (uint8_t) data[i];
+			auto value = static_cast<uint32_t>(data[i]);
 			Unicode::CodePoint character = value < 0x80 ? value : Indices[value - 0x80];
 
 			if (Output.size() > i)

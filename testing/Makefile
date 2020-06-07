@@ -52,5 +52,6 @@ bin/testing/directory.txt:
 
 # The 'engine' target will build the final binary executable.
 bin/testing/data/text/encoding/utf8: testing/data/text/encoding/utf8.cpp \
-	data/text/encoding/utf8.hpp
+	data/text/encoding/utf8.hpp \
+	bin/data/text/encoding/utf8.o
 	$(CXX) $(TESTING_CXXFLAGS) -o $@ testing/data/text/encoding/utf8.cpp bin/data/text/encoding/utf8.o $(TESTING_LDFLAGS)
