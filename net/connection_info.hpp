@@ -46,9 +46,11 @@ namespace Net {
 
 		/* The time it took to setup the TLS context (handshaking etc.) */
 		std::string timingTLS;
+
 	private: // Private Properties
 		int socket;
 		void *tlsContext;
+
 	public: // Methods
 		ConnectionInfo(const std::string &inHostName, uint16_t inPort)
 			: hostName(inHostName), port(inPort), connected(false),
@@ -78,6 +80,7 @@ namespace Net {
 
 		bool
 		Write(const char *, size_t);
+
 	private: // Private Methods for different TLS implementations:
 		void
 		TLSDestroy();
