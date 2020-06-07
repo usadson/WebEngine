@@ -48,7 +48,6 @@ namespace TextEncoding {
 			}
 
 			uint8_t currentByte = data[bytePosition++];
-			std::cout << std::hex << "currentByte=" << static_cast<uint16_t>(currentByte) << " seen=" << BytesSeen << " needed=" << static_cast<uint16_t>(BytesNeeded) << " lower=" << static_cast<uint16_t>(LowerBoundary) << " upper=" << static_cast<uint16_t>(UpperBoundary) << std::dec << std::endl;
 
 			if (BytesNeeded == 0) {
 				// TODO Is the ""to"" of (`0xE0 ""to"" 0xEF`) inclusive or not?
@@ -61,7 +60,6 @@ namespace TextEncoding {
 				if (currentByte >= 0xC2 && currentByte <= 0xDF) {
 					BytesNeeded = 1;
 					CodePoint = currentByte & 0x1F;
-					std::cout << " Test!" << std::endl;
 					continue;
 				}
 

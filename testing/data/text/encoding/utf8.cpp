@@ -33,6 +33,27 @@ protected:
 	std::array<UTF8, 6> encoders;
 };
 
+TEST_F(UTF8Test, ValidInputs) {
+	ASSERT_EQ(inputs.size(), encoders.size());
+	ASSERT_EQ(inputs.size(), expectedOutputs.size());
+}
+
+TEST_F(UTF8Test, NormalDecoding) {
+	for (size_t i = 0; i < inputs.size(); i++) {
+		ASSERT_TRUE(encoders[i].Decode(inputs[i].c_str(), inputs[i].length()))
+			<< "Decode() failed on string: \"" << inputs[i] << '"';
+
+		ASSERT_EQ(encoders[i].Output.size(), expectedOutputs[i].size())
+			<< "Incorrect output size for string: \"" << inputs[i] << '"';
+
+		for (size_t j = 0; j < encoders[i].Output.size(); j++) {
+			ASSERT_EQ(encoders[i].Output[j], expectedOutputs[i][j])
+				<< "Incorrect decoding of string: \"" << inputs[i]
+				<< "\", the " << j << "th character is incorrect.";
+		}
+	}
+}
+
 class UTF8BoundaryTests : public ::testing::Test {
 protected:
 	std::array<std::array<std::vector<uint8_t>, 6>, 3> boundaryInputs = {{
@@ -69,27 +90,6 @@ protected:
 	UTF8 encoderOutsideBounds;
 };
 
-TEST_F(UTF8Test, ValidInputs) {
-	ASSERT_EQ(inputs.size(), encoders.size());
-	ASSERT_EQ(inputs.size(), expectedOutputs.size());
-}
-
-TEST_F(UTF8Test, NormalDecoding) {
-	for (size_t i = 0; i < inputs.size(); i++) {
-		ASSERT_TRUE(encoders[i].Decode(inputs[i].c_str(), inputs[i].length()))
-			<< "Decode() failed on string: \"" << inputs[i] << '"';
-
-		ASSERT_EQ(encoders[i].Output.size(), expectedOutputs[i].size())
-			<< "Incorrect output size for string: \"" << inputs[i] << '"';
-
-		for (size_t j = 0; j < encoders[i].Output.size(); j++) {
-			ASSERT_EQ(encoders[i].Output[j], expectedOutputs[i][j])
-				<< "Incorrect decoding of string: \"" << inputs[i]
-				<< "\", the " << j << "th character is incorrect.";
-		}
-	}
-}
-
 TEST_F(UTF8BoundaryTests, BoundaryTests) {
 	for (size_t i = 0; i < boundaryInputs.size(); i++) {
 		for (size_t j = 0; j < boundaryInputs[i].size(); j++) {
@@ -105,6 +105,18 @@ TEST_F(UTF8BoundaryTests, BoundaryTests) {
 TEST_F(UTF8BoundaryTests, OutsideBoundaries) {
 	ASSERT_FALSE(encoderOutsideBounds.Decode(reinterpret_cast<const char *>(outsideBounds.data()), outsideBounds.size()))
 		<< "U+110000 is an invalid character, but the decoder didn't return an error";
+}
+
+class UTF8FuzzTest : public ::testing::Test {
+protected:
+	UTF8 encoder;
+};
+
+TEST_F(UTF8FuzzTest, ASCIITest) {
+	for (unsigned char i = 0; i < 128; i++) {
+		ASSERT_TRUE(encoder.Decode(reinterpret_cast<const char *>(&i), 1))
+			<< "ASCII character decode failed: character: 0x" << std::hex << (static_cast<uint8_t>(i) & 0x00ff) << std::dec;
+	}
 }
 
 } // namespace TextEncoding
