@@ -24,6 +24,7 @@ namespace Rendering {
 		uint32_t height;
 		uint32_t width;
 		std::string windowManagerName;
+
 	public: // Con/destructors
 		inline explicit
 		WindowBase(const std::string &windowManagerName)
