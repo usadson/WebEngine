@@ -114,7 +114,10 @@ protected:
 TEST_F(UTF8FuzzTest, ASCIITest) {
 	for (unsigned char i = 0; i < 128; i++) {
 		ASSERT_TRUE(encoder.Decode(reinterpret_cast<const char *>(&i), 1))
-			<< "ASCII character decode failed: character: 0x" << std::hex << (static_cast<uint16_t>(i) & 0x00ff) << std::dec;
+			<< "ASCII character decode failed: character: 0x"
+			<< std::hex
+			<< (static_cast<uint16_t>(i) & 0x00ff)
+			<< std::dec;
 	}
 }
 
@@ -127,11 +130,17 @@ TEST_F(UTF8FuzzTest, TwoOctetsTest) {
 			if (j >= 0x80 && j <= 0xBF) {
 				ASSERT_TRUE(encoder.Decode(data.data(), 2))
 					<< "Character is inside the bounds, but failed: 0x"
-					<< std::hex << static_cast<uint16_t>(i) << static_cast<uint16_t>(j) << std::dec;
+					<< std::hex
+					<< static_cast<uint16_t>(i)
+					<< static_cast<uint16_t>(j)
+					<< std::dec;
 			} else {
 				ASSERT_FALSE(encoder.Decode(data.data(), 2))
 					<< "Character is outside the bounds, but passed: 0x"
-					<< std::hex << static_cast<uint16_t>(i) << static_cast<uint16_t>(j) << std::dec;
+					<< std::hex
+					<< static_cast<uint16_t>(i)
+					<< static_cast<uint16_t>(j)
+					<< std::dec;
 			}
 		}
 	}
