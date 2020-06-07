@@ -63,6 +63,13 @@ namespace HTML {
 
 			void
 			LogError(const HTML::Tokenizer::ParserError &error);
+
+			inline AmbiguousTagToken &
+			GetCurrentTagToken() {
+				return isEndTag ?
+					static_cast<AmbiguousTagToken &>(endTagToken) :
+					static_cast<AmbiguousTagToken &>(startTagToken);
+			}
 		};
 	}
 }

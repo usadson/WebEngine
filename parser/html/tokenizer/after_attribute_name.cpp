@@ -15,9 +15,6 @@ HTML::Tokenizer::AfterAttributeName::Parse() {
 		context.LogError(HTML::Tokenizer::ParserError::EOF_IN_TAG);
 		tokenizer.treeConstructor.EmitEOFToken();
 	} else {
-		HTML::Tokenizer::AmbiguousTagToken &tagToken = context.isEndTag ?
-					static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.endTagToken) :
-					static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.startTagToken);
 
 		switch (context.character) {
 			case '\t':
@@ -34,21 +31,19 @@ HTML::Tokenizer::AfterAttributeName::Parse() {
 				break;
 			case '>':
 				context.state = HTML::Tokenizer::ParserState::DATA;
-				tokenizer.treeConstructor.EmitToken(tagToken);
+				tokenizer.treeConstructor.EmitToken(context.GetCurrentTagToken());
 
-				if (context.isEndTag)
-					context.startTagToken = HTML::Tokenizer::StartTagToken(); // Reset
-				else
-					context.endTagToken = HTML::Tokenizer::EndTagToken(); // Reset
-
+				context.startTagToken = HTML::Tokenizer::StartTagToken();
+				context.endTagToken = HTML::Tokenizer::EndTagToken();
 				break;
-			default:
+			default: {
 				// New attribute? Destroy old one?
+				auto &tagToken = context.GetCurrentTagToken();
 				tagToken.attributeName = Unicode::UString("");
 				tagToken.attributeValue = Unicode::UString("");
 				context.reconsume = true;
 				context.state = HTML::Tokenizer::ParserState::ATTRIBUTE_NAME;
-				break;
+			} break;
 		}
 	}
 
