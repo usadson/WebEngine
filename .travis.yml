@@ -3,7 +3,7 @@ language: c
 compiler:
   - clang
   - gcc
-script: make
+script: make all test
 before_install:
   # LibreSSL
   - sudo mkdir -p /usr/local/include/openssl

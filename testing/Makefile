@@ -43,6 +43,10 @@ TESTING_TARGETS = \
 	bin/testing/directory.txt \
 	bin/testing/data/text/encoding/utf8
 
+# the 'test' target executes every test
+test:
+	bin/testing/data/text/encoding/utf8
+
 bin/testing/directory.txt:
 	@mkdir bin/testing
 	@mkdir bin/testing/data

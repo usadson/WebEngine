@@ -29,5 +29,7 @@ jobs:
       run: sudo apt -y install libfreetype-dev || sudo apt -y install libfreetype6-dev
     - name: googletest-apt-deps
       run: (sudo apt install googletest libgtest-dev && sudo apt install googletest-tools) || wget https://github.com/google/googletest/archive/v1.10.x.tar.gz && tar -xf v1.10.x.tar.gz && cd googletest-1.10.x && cmake . && make && sudo make install && cd ..
-    - name: make
+    - name: Build
       run: make
+    - name: Test
+      run: make test
