@@ -29,6 +29,7 @@ namespace HTML {
 
 		bool executeScript { false };
 		bool fosterParenting { false };
+
 	public: // Methods
 		explicit
 		TreeConstructor(Tokenizer::Context &);
