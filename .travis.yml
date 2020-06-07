@@ -16,8 +16,8 @@ before_install:
   - wget https://raw.githubusercontent.com/usadson/BuildCache/master/LibreSSL/libressl-pc.tar.gz
   - sudo tar -xzf libressl-pc.tar.gz -C /usr/local/lib/pkgconfig
   # GLEW + GLFW
-  - sudo apt-get -y install libglew-dev libglfw3-dev
+  - sudo apt -y install libglew-dev libglfw3-dev
   # FreeType
-  - sudo apt-get -y install libfreetype-dev || sudo apt -y install libfreetype6-dev
+  - sudo apt -y install libfreetype-dev || sudo apt -y install libfreetype6-dev
   # GoogleTest
-  - sudo apt -y install libgtest-dev
+  - sudo apt -y install libgtest-dev libgtest googletest
