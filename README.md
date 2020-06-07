@@ -60,4 +60,4 @@ parts of GLEW largely under the [modified BSD/MIT license](https://github.com/ni
 parts of FreeType which is licensed under the [permissive FTL license](https://git.savannah.gnu.org/cgit/freetype/freetype2.git/plain/docs/FTL.TXT),
 and LibreSSL, which is licensed under [various licenses](https://github.com/libressl/libressl/blob/master/src/LICENSE).
 
-To view licensing information in binary form, use the `--credits` option.
+You can also view licensing information by supplying the `--credits` option to the binary executable.
