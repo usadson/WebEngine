@@ -62,12 +62,14 @@ namespace Net {
 			Net::ConnectionInfo *connectionInfo;
 			H2::LocalSettings localSettings;
 			H2::RemoteSettings remoteSettings;
+
 		public: // Con/destructors
 			// Constructors setup the connection using 'connectionInfo'.
 			explicit
 			HTTP2Connection(Net::ConnectionInfo *);
 
 			~HTTP2Connection();
+
 		public: // Methods
 			// Return value: "" on success, otherwise the error.
 			HTTP2Error
@@ -75,6 +77,7 @@ namespace Net {
 
 			HTTP2Error
 			RequestNavigation(HTTPResponseInfo *, const std::string &path);
+
 		private: // Private Methods
 			void
 			HandleFrameGoaway(H2::Frame);
