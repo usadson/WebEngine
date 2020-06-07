@@ -15,10 +15,9 @@ namespace TextEncoding {
 	std::vector<Unicode::CodePoint>
 	UTF8::ASCIIDecode(const char *data, size_t size) {
 		std::vector<Unicode::CodePoint> result(size);
-		size_t i;
 
-		for (i = 0; i < size; i++)
-			result.push_back((Unicode::CodePoint) data[i]);
+		for (size_t i = 0; i < size; i++)
+			result.push_back(static_cast<Unicode::CodePoint>(data[i]));
 
 		return result;
 	}
@@ -49,6 +48,7 @@ namespace TextEncoding {
 			}
 
 			uint8_t currentByte = data[bytePosition++];
+			std::cout << std::hex << "currentByte=" << static_cast<uint16_t>(currentByte) << " seen=" << BytesSeen << " needed=" << static_cast<uint16_t>(BytesNeeded) << " lower=" << static_cast<uint16_t>(LowerBoundary) << " upper=" << static_cast<uint16_t>(UpperBoundary) << std::dec << std::endl;
 
 			if (BytesNeeded == 0) {
 				// TODO Is the ""to"" of (`0xE0 ""to"" 0xEF`) inclusive or not?
@@ -61,26 +61,36 @@ namespace TextEncoding {
 				if (currentByte >= 0xC2 && currentByte <= 0xDF) {
 					BytesNeeded = 1;
 					CodePoint = currentByte & 0x1F;
-				} else if (currentByte >= 0xE0 && currentByte <= 0xEF) {
+					std::cout << " Test!" << std::endl;
+					continue;
+				}
+
+				if (currentByte >= 0xE0 && currentByte <= 0xEF) {
 					if (currentByte == 0xE0)
 						LowerBoundary = 0xA0;
 					else if (currentByte == 0xED)
 						UpperBoundary = 0x9F;
 					BytesNeeded = 2;
 					CodePoint = currentByte & 0xF;
-				} else if (currentByte >= 0xF0 && currentByte <= 0xF4) {
+					continue;
+				}
+
+				if (currentByte >= 0xF0 && currentByte <= 0xF4) {
 					if (currentByte == 0xF0)
 						LowerBoundary = 0x90;
 					else if (currentByte == 0xF4)
 						UpperBoundary = 0x8F;
 					BytesNeeded = 3;
 					CodePoint = currentByte & 0x7;
-				} else {
-					Logger::Error("TextEncoding::UTF8::Decode", "Character out of scope.");
-					return false;
+					continue;
 				}
 
-				continue;
+				std::stringstream info;
+				info << "Octet out of scope: 0x"
+						<< std::hex << static_cast<uint16_t>(currentByte)
+						<< std::dec;
+				Logger::Error("TextEncoding::UTF8::Decode", info.str());
+				return false;
 			}
 
 			// 'in range ... to ... `inclusive`, then'??

@@ -35,7 +35,7 @@ protected:
 
 class UTF8BoundaryTests : public ::testing::Test {
 protected:
-	std::array<std::array<std::vector<uint8_t>, 6>, 3> inputs = {{
+	std::array<std::array<std::vector<uint8_t>, 6>, 3> boundaryInputs = {{
 		{{
 			{ 0x00 },
 			{ 0xc2, 0x80 },
@@ -57,11 +57,16 @@ protected:
 			{ 0xee, 0x80, 0x80 },
 			{ 0xef, 0xbf, 0xbd },
 			{ 0xf4, 0x8f, 0xbf, 0xbf },
-			{ 0xf4, 0x90, 0x80, 0x80 },
-			{ 0x00 }, // noop since the others had 6 tests and this one 5
 		}},
 	}};
+
 	std::array<std::array<UTF8, 6>, 3> encoders;
+
+	// U+110000 is outside of the Unicode Standard
+	std::vector<uint8_t> outsideBounds = {
+		0xf4, 0x90, 0x80, 0x80,
+	};
+	UTF8 encoderOutsideBounds;
 };
 
 TEST_F(UTF8Test, ValidInputs) {
@@ -86,26 +91,20 @@ TEST_F(UTF8Test, NormalDecoding) {
 }
 
 TEST_F(UTF8BoundaryTests, BoundaryTests) {
-	for (size_t i = 0; i < inputs.size(); i++) {
-		for (size_t j = 0; j < inputs[i].size(); j++) {
-#if (CHAR_MIN < 0)
-			/* 'char' is signed, so we have to  */
-			std::vector<char> charVector(inputs[i][j].size());
-			for (size_t k = 0; k < charVector.size(); k++) {
-				if (inputs[i][j][k] >= 0x80)
-					charVector[k] = -inputs[i][j][k];
-				else
-					charVector[k] = inputs[i][j][k];
-			}
-			auto *data = charVector.data();
-#else
-			auto *data = reinterpret_cast<const char *>(inputs[i][j].data());
-#endif
+	for (size_t i = 0; i < boundaryInputs.size(); i++) {
+		for (size_t j = 0; j < boundaryInputs[i].size(); j++) {
+			auto *data = reinterpret_cast<const char *>(boundaryInputs[i][j].data());
 
-			ASSERT_TRUE(encoders[i][j].Decode(data, inputs[i][j].size()))
+			std::cout << " NEW TEST " << std::endl;
+			ASSERT_TRUE(encoders[i][j].Decode(data, boundaryInputs[i][j].size()))
 				<< "Boundary Test failed for Test " << i << '.' << j;
 		}
 	}
+}
+
+TEST_F(UTF8BoundaryTests, OutsideBoundaries) {
+	ASSERT_FALSE(encoderOutsideBounds.Decode(reinterpret_cast<const char *>(outsideBounds.data()), outsideBounds.size()))
+		<< "U+110000 is an invalid character, but the decoder didn't return an error";
 }
 
 } // namespace TextEncoding
