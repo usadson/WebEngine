@@ -54,6 +54,7 @@ namespace HTML {
 			HTML::Tokenizer::StartTagToken startTagToken;
 			size_t toConsumeNext;
 			size_t unknownStateCount;
+
 		public: // Methods
 			inline explicit
 			Context(HTML::ParserContext &context)
