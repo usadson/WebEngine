@@ -20,4 +20,4 @@ before_install:
   # FreeType
   - sudo apt -y install libfreetype-dev || sudo apt -y install libfreetype6-dev
   # GoogleTest
-  - sudo apt -y install googletest libgtest-dev
+  - sudo apt -y install googletest googletest-tools libgtest-dev

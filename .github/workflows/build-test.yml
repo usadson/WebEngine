@@ -26,6 +26,6 @@ jobs:
     - name: freetype-apt-deps
       run: sudo apt -y install libfreetype-dev || sudo apt -y install libfreetype6-dev
     - name: googletest-apt-deps
-      run: sudo apt -y install googletest libgtest-dev
+      run: sudo apt -y install googletest googletest-tools libgtest-dev
     - name: make
       run: make
