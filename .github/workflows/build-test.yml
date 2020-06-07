@@ -25,5 +25,7 @@ jobs:
       run: sudo apt -y install libglew-dev libglfw3-dev
     - name: freetype-apt-deps
       run: sudo apt -y install libfreetype-dev || sudo apt -y install libfreetype6-dev
+    - name: googletest-apt-deps
+      run: sudo apt -y install libgtest-dev
     - name: make
       run: make

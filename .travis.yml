@@ -19,3 +19,5 @@ before_install:
   - sudo apt-get -y install libglew-dev libglfw3-dev
   # FreeType
   - sudo apt-get -y install libfreetype-dev || sudo apt -y install libfreetype6-dev
+  # GoogleTest
+  - sudo apt -y install libgtest-dev
