@@ -21,6 +21,8 @@ jobs:
       run: wget https://raw.githubusercontent.com/usadson/BuildCache/master/LibreSSL/libressl-binaries.tar.gz && sudo tar -xzf libressl-binaries.tar.gz -C /usr/local/lib
     - name: LibreSSL-pc
       run: wget https://raw.githubusercontent.com/usadson/BuildCache/master/LibreSSL/libressl-pc.tar.gz && sudo tar -xzf libressl-pc.tar.gz -C /usr/local/lib/pkgconfig
+    - name: update
+      run: sudo apt -y update
     - name: general-apt-deps
       run: sudo apt -y install libglew-dev libglfw3-dev
     - name: freetype-apt-deps
