@@ -44,12 +44,14 @@ namespace Net {
 		class HTTPConnection {
 		public: // Public Properties
 			Net::ConnectionInfo connectionInfo;
+
 		public: // Con/destructors
 			// Constructors setup the connection using 'connectionInfo'.
 			explicit
 			HTTPConnection(const Net::ConnectionInfo &);
 
 			~HTTPConnection();
+
 		private: // Private Methods
 			HTTPConnectionError
 			ConsumeHeaderField(HTTPResponseInfo *, char);
@@ -68,6 +70,7 @@ namespace Net {
 
 			HTTPConnectionError
 			ConsumeHeaderFieldValue(std::vector<char> *);
+
 		public: // Methods
 			HTTPConnectionError
 			Request(HTTPResponseInfo *, const std::string &method, const std::string &path);
