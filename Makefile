@@ -36,6 +36,8 @@
 #	shapes/position.hpp \
 #	$(CXX) $(CXXFLAGS) -c -o $@ shapes/circle.cpp
 
+.DEFAULT_GOAL := all
+
 ADDITIONAL_CXXFLAGS ?=
 
 GENERAL = -std=c++17 -g
@@ -116,9 +118,11 @@ BINARIES = bin/ccompat.o \
 	   bin/rendering/opengl/gl_renderer.o \
 	   bin/rendering/window/window_glfw.o
 
+include testing/Makefile
+
 # The 'all' target will compile all object files and generate the binary
 # executable. This is the default target for 'make'.
-all: bin/test.txt $(BINARIES) engine
+all: bin/test.txt $(BINARIES) $(TESTING_TARGETS) engine
 
 # The 'objects' target will compile all object files, but not generate the
 # binary executable.
