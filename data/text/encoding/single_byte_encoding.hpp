@@ -25,7 +25,7 @@ namespace TextEncoding {
 		AbstractSBEncoding(const std::vector<Unicode::CodePoint> &indices)
 			: Indices(indices) {}
 
-		inline virtual
+		inline
 		~AbstractSBEncoding() override {}
 
 		bool
