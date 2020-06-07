@@ -69,7 +69,6 @@
 
 void
 HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
-
 	// clear && find . | grep .hpp | cut -d'/' -f 2 | cut -d'.' -f 1 | awk '{print "{ HTML::Tokenizer::ParserState::" toupper($0) ", std::make_shared<HTML::Tokenizer::AAAAAAAAA>(*this) },"}' | sort
 	const std::map<HTML::Tokenizer::ParserState, std::shared_ptr<HTML::Tokenizer::Parser>> parserMap = {
 		{ HTML::Tokenizer::ParserState::AFTER_ATTRIBUTE_NAME, std::make_shared<HTML::Tokenizer::AfterAttributeName>(*this) },
