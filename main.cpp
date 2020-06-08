@@ -194,7 +194,12 @@ main(int argc, const char *argv[]) {
 	}
 
 	if (Options::GetCommandLineParameter("credits").has_value()) {
-		Credits::PrintToCommandLine();
+		Credits::PrintAuthorsToCommandLine();
+		return EXIT_SUCCESS;
+	}
+
+	if (Options::GetCommandLineParameter("copyright").has_value()) {
+		Credits::PrintCopyrightToCommandLine();
 		return EXIT_SUCCESS;
 	}
 

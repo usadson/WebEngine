@@ -415,12 +415,26 @@ freely, subject to the following restrictions:\n\
    distribution.\n";
 
 void
-Credits::PrintToCommandLine() {
-	std::cout << ">>>> WebEngine Credits <<<<\n"
-			  << license << std::endl
-			  << opensslLicense << std::endl
-			  << glewLicense << std::endl
-			  << freeTypeLicense << std::endl
-			  << glfwLicense << std::endl
+Credits::PrintCopyrightToCommandLine() {
+	std::cout << "WebEngine Copyright Notice\n"
+			  << license << '\n'
+			  << opensslLicense << '\n'
+			  << glewLicense << '\n'
+			  << freeTypeLicense << '\n'
+			  << glfwLicense << '\n'
+			  << std::endl;
+}
+
+void
+Credits::PrintAuthorsToCommandLine() {
+	std::cout << "WebEngine Credits\n"
+			  << "Programmer: Tristan <tristan@thewoosh.me>\n"
+			  << '\n'
+			  << "This project the following open-source Software:\n"
+			  << "- LibreSSL / OpenSSL\n"
+			  << "- GLEW\n"
+			  << "- FreeType2\n"
+			  << "- GLFW\n"
+			  << "To view the copyright information, specify the --credits flag."
 			  << std::endl;
 }

@@ -56,7 +56,8 @@ bool
 ParseEqualsOption(const std::string_view &strview,
 				  std::optional<std::string_view> *prevName,
 				  bool isLastOption) {
-	static const std::array<CommandLineParser::Input, 2> inputs = { {
+	static const std::array<CommandLineParser::Input, 3> inputs = { {
+		{ "copyright",	false },
 		{ "credits",	false },
 		{ "test",		true },
 	} };
