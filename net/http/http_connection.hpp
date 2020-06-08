@@ -45,6 +45,9 @@ namespace Net {
 		public: // Public Properties
 			Net::ConnectionInfo connectionInfo;
 
+		private: // Private Properties
+			HTTPResponseInfo *response;
+
 		public: // Con/destructors
 			// Constructors setup the connection using 'connectionInfo'.
 			explicit
@@ -79,6 +82,9 @@ namespace Net {
 
 			HTTPConnectionError
 			ConsumeMessageBody(HTTPResponseInfo *);
+
+			HTTPConnectionError
+			ConsumeNewLine();
 
 		public: // Methods
 			HTTPConnectionError

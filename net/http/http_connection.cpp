@@ -307,11 +307,23 @@ namespace Net {
 		}
 
 		HTTPConnectionError
+		HTTPConnection::ConsumeNewLine() {
+			auto singleCharacter = connectionInfo.ReadChar();
+			if (!singleCharacter.has_value())
+				return HTTPConnectionError::FAILED_READ_GENERIC;
+			if (singleCharacter.value() != '\n')
+				return HTTPConnectionError::INCORRECT_START_LINE;
+			return HTTPConnectionError::NO_ERROR;
+		}
+
+		HTTPConnectionError
 		HTTPConnection::Request(HTTPResponseInfo *response, const std::string &method, const std::string &path) {
 			if (!connectionInfo.connected ||
 				(connectionInfo.secure && !connectionInfo.isAuthenticated)) {
 				return HTTPConnectionError::NOT_CONNECTED;
 			}
+
+			this->response = response;
 
 			HTTPConnectionError subroutineError;
 
@@ -354,12 +366,9 @@ namespace Net {
 
 			/* Consume new-line after 'reason-phrase', the carriage-return is
 			 * already consumed by ConsumeReasonPhrase. */
-			auto singleCharacter = connectionInfo.ReadChar();
-			if (!singleCharacter.has_value())
-				return HTTPConnectionError::FAILED_READ_GENERIC;
-
-			if (singleCharacter.value() != '\n')
-				return HTTPConnectionError::INCORRECT_START_LINE;
+			subroutineError = ConsumeNewLine();
+			if (subroutineError != HTTPConnectionError::NO_ERROR)
+				return subroutineError;
 
 			subroutineError = ConsumeHeaders(response);
 			if (subroutineError != HTTPConnectionError::NO_ERROR)
