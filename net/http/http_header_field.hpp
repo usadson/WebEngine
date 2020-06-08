@@ -8,12 +8,10 @@
 
 #include <string>
 
-namespace Net {
-	namespace HTTP {
-		struct HTTPHeaderField {
-		public: // Properties
-			std::string fieldName;
-			std::string fieldValue;
-		};
-	}
+namespace Net::HTTP {
+	struct HTTPHeaderField {
+	public: // Properties
+		std::string fieldName;
+		std::string fieldValue;
+	};
 }

@@ -14,22 +14,20 @@
 
 #include "http_header_field.hpp"
 
-namespace Net {
-	namespace HTTP {
-		class HTTPResponseInfo {
-		public: // Properties
-			std::string httpVersion;
-			uint16_t statusCode;
-			std::string reasonPhrase;
+namespace Net::HTTP {
+	class HTTPResponseInfo {
+	public: // Properties
+		std::string httpVersion;
+		uint16_t statusCode;
+		std::string reasonPhrase;
 
-			std::vector<HTTPHeaderField> headers;
-			std::vector<char> messageBody;
-		public: // Methods
-			std::optional<const char *>
-			GetHeader(const char *) const;
+		std::vector<HTTPHeaderField> headers;
+		std::vector<char> messageBody;
+	public: // Methods
+		std::optional<const char *>
+		GetHeader(const char *) const;
 
-			std::optional<size_t>
-			GetHeaderUnsigned(const char *) const;
-		};
-	}
+		std::optional<size_t>
+		GetHeaderUnsigned(const char *) const;
+	};
 }

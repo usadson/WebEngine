@@ -8,9 +8,7 @@
 
 #include <string>
 
-namespace Net {
-	namespace ALPNProtocols {
-		const std::string http2  = "h2";
-		const std::string http11 = "http/1.1";
-	}
+namespace Net::ALPNProtocols {
+	const std::string http2  = "h2";
+	const std::string http11 = "http/1.1";
 }
