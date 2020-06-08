@@ -90,12 +90,11 @@ RunDocumentTest() {
 	tokenizer.Run(document);
 }
 
-std::shared_ptr<Rendering::Renderer>
+inline std::shared_ptr<Rendering::Renderer>
 CreateRenderer(const std::vector<Rendering::RendererType> &supportedRenderers) {
-	for (const auto &renderer : supportedRenderers) {
-		if (renderer == Rendering::RendererType::OPENGL) {
-			return std::make_shared<Rendering::GLRenderer>();
-		}
+	if (std::find(std::cbegin(supportedRenderers), std::cend(supportedRenderers),
+				  Rendering::RendererType::OPENGL) != std::end(supportedRenderers)) {
+		return std::make_shared<Rendering::GLRenderer>();
 	}
 
 	return nullptr;
