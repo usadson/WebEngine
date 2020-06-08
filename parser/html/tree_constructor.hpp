@@ -47,14 +47,14 @@ namespace HTML {
 		EmitToken(HTML::Tokenizer::Token &);
 
 		std::shared_ptr<DOM::Element>
-		InsertElement(Unicode::UString tagName,
-					  Unicode::UString nameSpace,
-					  std::map<Unicode::UString, Unicode::UString> attributes);
+		InsertElement(const Unicode::UString &tagName,
+					  const Unicode::UString &nameSpace,
+					  std::map<Unicode::UString, Unicode::UString> &attributes);
 
 		std::shared_ptr<DOM::Element>
 		CreateElement(std::shared_ptr<DOM::Document> document,
-					  Unicode::UString localName,
-					  Unicode::UString nameSpace,
+					  const Unicode::UString &localName,
+					  const Unicode::UString &nameSpace,
 					  std::optional<Unicode::UString> prefix,
 					  std::optional<Unicode::UString> is,
 					  bool synchronousCustomElementsFlag
@@ -62,17 +62,17 @@ namespace HTML {
 
 		std::shared_ptr<DOM::Element>
 		CreateElementForToken(HTML::Tokenizer::StartTagToken &,
-							  Unicode::UString nameSpace,
+							  const Unicode::UString &nameSpace,
 							  std::shared_ptr<DOM::Node> intendedParent
 		);
 
 		void
-		InsertForeignElement(Unicode::UString nameSpace,
+		InsertForeignElement(const Unicode::UString &nameSpace,
 							 std::shared_ptr<DOM::Node> parent);
 
 		inline std::shared_ptr<DOM::Element>
-		InsertHTMLElement(Unicode::UString tagName,
-										   std::map<Unicode::UString, Unicode::UString> attributes) {
+		InsertHTMLElement(Unicode::UString &tagName,
+						  std::map<Unicode::UString, Unicode::UString> &attributes) {
 			return InsertElement(tagName, HTML::Constants::HTMLNamespace, attributes);
 		}
 	};

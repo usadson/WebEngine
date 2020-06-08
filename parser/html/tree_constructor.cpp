@@ -83,8 +83,8 @@ namespace HTML {
 	 */
 	std::shared_ptr<DOM::Element>
 	TreeConstructor::CreateElement(std::shared_ptr<DOM::Document> document,
-					Unicode::UString localName,
-					Unicode::UString nameSpace,
+					const Unicode::UString &localName,
+					const Unicode::UString &nameSpace,
 					std::optional<Unicode::UString> prefix,
 					std::optional<Unicode::UString> is,
 					bool synchronousCustomElementsFlag) {
@@ -109,7 +109,7 @@ namespace HTML {
 	std::shared_ptr<DOM::Element>
 	TreeConstructor::CreateElementForToken(
 						  HTML::Tokenizer::StartTagToken &tagToken,
-						  Unicode::UString nameSpace,
+						  const Unicode::UString &nameSpace,
 						  std::shared_ptr<DOM::Node> intendedParent) {
 		std::optional<Unicode::UString> is;
 
@@ -153,7 +153,7 @@ namespace HTML {
 	 */
 	void
 	TreeConstructor::InsertForeignElement(
-		Unicode::UString nameSpace,
+		const Unicode::UString &nameSpace,
 		std::shared_ptr<DOM::Node> parent
 	) {
 // 		auto element = CreateElementForToken(nameSpace,
@@ -168,7 +168,9 @@ namespace HTML {
 	}
 
 	std::shared_ptr<DOM::Element>
-	TreeConstructor::InsertElement(Unicode::UString tagName, Unicode::UString nameSpace, std::map<Unicode::UString, Unicode::UString> attributes) {
+	TreeConstructor::InsertElement(const Unicode::UString &tagName,
+								   const Unicode::UString &nameSpace,
+								   std::map<Unicode::UString, Unicode::UString> &attributes) {
 		/* https://html.spec.whatwg.org/multipage/parsing.html#create-an-element-for-the-token */
 		auto element = std::make_shared<DOM::Element>();
 		element->namespaceURI = std::move(nameSpace);
