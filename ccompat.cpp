@@ -16,6 +16,8 @@
 
 namespace CCompat {
 
+	extern const std::vector<const char *> errnoNames;
+
 	const char *
 	GetErrnoName(int error) {
 		if (error <= 0 || static_cast<uint32_t>(error) > errnoNames.size())

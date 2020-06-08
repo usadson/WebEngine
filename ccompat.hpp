@@ -12,10 +12,6 @@
 
 namespace CCompat {
 
-	/** External Global Variable **/
-	extern const std::vector<const char *> errnoNames;
-
-	/** Function Prototypes **/
 	const char *
 	GetErrnoName(int error = 0);
 
