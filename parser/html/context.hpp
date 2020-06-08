@@ -6,10 +6,8 @@
  * See the COPYING file for licensing information.
  */
 
-namespace HTML {
-	namespace Tokenizer {
-		class Context;
-	}
+namespace HTML::Tokenizer {
+	class Context;
 }
 
 #include "dom/document.hpp"
