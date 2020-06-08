@@ -14,6 +14,13 @@ namespace HTML {
 #include "parser/html/tree_constructor.hpp"
 
 namespace HTML {
+	enum class InsertionModeSubroutineStatus {
+		IGNORE,
+		RECONSUME,
+		PARSER_ERROR, // PARSER_ERROR -> effectively also IGNORE
+		CONTINUE // Continue Execution
+	};
+
 	class InsertionMode {
 	public: // References
 		TreeConstructor &constructor;
