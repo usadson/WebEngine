@@ -88,9 +88,6 @@ namespace Unicode {
 
 		bool
 		EqualsA(const char *) const noexcept;
-
-		int
-		Compare(const UString &) const noexcept;
 	};
 
 	std::ostream

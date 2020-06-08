@@ -73,11 +73,6 @@ namespace Unicode {
 		return (i - 1) != rhs.data.size() ? -1 : 0;
 	}
 
-	int
-	UString::Compare(const UString &other) const noexcept {
-		return CompareStatic(*this, other);
-	}
-
 	bool
 	operator<(const UString &lhs, const UString &rhs) noexcept {
 		return CompareStatic(lhs, rhs) < 0;
@@ -94,11 +89,6 @@ namespace Unicode {
 		auto chars = TextEncoding::UTF8::ASCIIDecode(ascii, strlen(ascii));
 		data.insert(std::end(data), std::begin(chars), std::end(chars));
 		return *this;
-	}
-
-	bool
-	CheckCaseInsensitive(const char *a, const char *b, size_t length) {
-		return strncasecmp(a, b, length) == 0;
 	}
 
 	bool
