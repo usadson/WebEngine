@@ -64,7 +64,7 @@ namespace Net {
 			statusCode.push_back('\0');
 
 			/* Validate HTTP Version */
-			if (std::any_of(std::cbegin(statusCode), std::cend(statusCode), [](auto character) { return character < 0x30 || character > 0x39 })) {
+			if (std::any_of(std::cbegin(statusCode), std::cend(statusCode), [](auto character) { return character < 0x30 || character > 0x39; })) {
 				// Treat as a '400 Bad Request' status code (right?)
 				Logger::Warning("HTTPConnection::ConsumeStatusCode",
 								std::string("Incorrect status-code (should be a digit): ") + statusCode.data());
