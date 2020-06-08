@@ -24,52 +24,52 @@ namespace HTML {
 	public:
 		std::shared_ptr<DOM::Document> documentNode = std::make_shared<DOM::Document>();
 	};
+}
 
-	namespace Tokenizer {
-		class Context {
-		public:
-			HTML::ParserContext &parserContext;
+namespace HTML::Tokenizer {
+	class Context {
+	public:
+		HTML::ParserContext &parserContext;
 
-			ParserState state = ParserState::DATA;
-			ParserState returnState = ParserState::UNDEFINED;
-			// The state at the start of each the tokenizer loop. This is a
-			// lot of times the same as 'State'.
-			ParserState beginLoopState = ParserState::DATA;
-			size_t lineCount = 0;
-			size_t linePosition = 0;
-			char currentCharacter = '\0';
-			std::vector<Unicode::CodePoint> temporaryBuffer;
-			Unicode::UString ncRefBuffer;
+		ParserState state = ParserState::DATA;
+		ParserState returnState = ParserState::UNDEFINED;
+		// The state at the start of each the tokenizer loop. This is a
+		// lot of times the same as 'State'.
+		ParserState beginLoopState = ParserState::DATA;
+		size_t lineCount = 0;
+		size_t linePosition = 0;
+		char currentCharacter = '\0';
+		std::vector<Unicode::CodePoint> temporaryBuffer;
+		Unicode::UString ncRefBuffer;
 
-			Unicode::CodePoint character;
-			HTML::Tokenizer::CommentToken commentToken { HTML::Tokenizer::CommentToken::INVALID_TYPE };
-			HTML::Tokenizer::DoctypeToken doctypeToken;
-			HTML::Tokenizer::EndTagToken endTagToken;
-			bool eof;
-			Resources::DocumentResource *document { nullptr };
-			size_t documentSize;
-			size_t i;
-			bool isEndTag;
-			bool reconsume;
-			HTML::Tokenizer::StartTagToken startTagToken;
-			size_t toConsumeNext;
-			size_t unknownStateCount;
+		Unicode::CodePoint character;
+		HTML::Tokenizer::CommentToken commentToken { HTML::Tokenizer::CommentToken::INVALID_TYPE };
+		HTML::Tokenizer::DoctypeToken doctypeToken;
+		HTML::Tokenizer::EndTagToken endTagToken;
+		bool eof;
+		Resources::DocumentResource *document { nullptr };
+		size_t documentSize;
+		size_t i;
+		bool isEndTag;
+		bool reconsume;
+		HTML::Tokenizer::StartTagToken startTagToken;
+		size_t toConsumeNext;
+		size_t unknownStateCount;
 
-		public: // Methods
-			inline explicit
-			Context(HTML::ParserContext &context)
-				: parserContext(context) {
-			}
+	public: // Methods
+		inline explicit
+		Context(HTML::ParserContext &context)
+			: parserContext(context) {
+		}
 
-			void
-			LogError(const HTML::Tokenizer::ParserError &error);
+		void
+		LogError(const HTML::Tokenizer::ParserError &error);
 
-			inline AmbiguousTagToken &
-			GetCurrentTagToken() {
-				return isEndTag ?
-					static_cast<AmbiguousTagToken &>(endTagToken) :
-					static_cast<AmbiguousTagToken &>(startTagToken);
-			}
-		};
-	}
+		inline AmbiguousTagToken &
+		GetCurrentTagToken() {
+			return isEndTag ?
+				static_cast<AmbiguousTagToken &>(endTagToken) :
+				static_cast<AmbiguousTagToken &>(startTagToken);
+		}
+	};
 }
