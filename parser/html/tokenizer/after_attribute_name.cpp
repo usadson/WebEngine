@@ -15,7 +15,6 @@ HTML::Tokenizer::AfterAttributeName::Parse() {
 		context.LogError(HTML::Tokenizer::ParserError::EOF_IN_TAG);
 		tokenizer.treeConstructor.EmitEOFToken();
 	} else {
-
 		switch (context.character) {
 			case '\t':
 			case '\n':
