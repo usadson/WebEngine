@@ -16,77 +16,98 @@
 #include "parser/html/constants.hpp"
 #include "parser/html/context.hpp"
 
+HTML::InsertionModeSubroutineStatus
+HTML::InsertionModes::BeforeHead::HandleCharacter(HTML::Tokenizer::Token &token) {
+	switch (dynamic_cast<HTML::Tokenizer::CharacterToken *>(&token)->character) {
+		case Unicode::CHARACTER_TABULATION:
+		case Unicode::LINE_FEED:
+		case Unicode::FORM_FEED:
+		case Unicode::CARRIAGE_RETURN:
+		case Unicode::SPACE:
+			return HTML::InsertionModeSubroutineStatus::IGNORE;
+		default:
+			return HTML::InsertionModeSubroutineStatus::CONTINUE;
+	}
+}
+
+HTML::InsertionModeSubroutineStatus
+HTML::InsertionModes::BeforeHead::HandleComment(HTML::Tokenizer::Token &token) {
+	context.parserContext.documentNode->childNodes.push_back(
+		DOM::Comment(dynamic_cast<HTML::Tokenizer::CommentToken *>(&token)->contents)
+	);
+	return HTML::InsertionModeSubroutineStatus::IGNORE;
+}
+
+HTML::InsertionModeSubroutineStatus
+HTML::InsertionModes::BeforeHead::HandleEndTag(HTML::Tokenizer::Token &token) {
+	/*
+	 * Wait... what is going on here?
+	 * FIXME since June 8th 2020
+
+	if (startTagToken == nullptr) {
+		Logger::Warning("HTMLParser::InsertBeforeHTML", "Invalid structure! ENDTAG before STARTTAG");
+		return HTML::InsertionModeSubroutineStatus::PARSER_ERROR;
+	}
+
+	if (!startTagToken->tagName.EqualsA("html") &&
+		!startTagToken->tagName.EqualsA("body") &&
+		!startTagToken->tagName.EqualsA("html") &&
+		!startTagToken->tagName.EqualsA("br")) {
+		// Parse error. Ignore the token.
+		return HTML::InsertionModeSubroutineStatus::PARSER_ERROR;
+	}
+
+	return HTML::InsertionModeSubroutineStatus::CONTINUE;
+	*/
+
+	// FIXME Workaround:
+	(void) token;
+	return HTML::InsertionModeSubroutineStatus::IGNORE;
+}
+
+HTML::InsertionModeSubroutineStatus
+HTML::InsertionModes::BeforeHead::HandleStartTag(HTML::Tokenizer::Token &token) {
+	auto startTagToken = dynamic_cast<HTML::Tokenizer::StartTagToken *>(&token);
+
+	if (startTagToken->tagName.EqualsA("html")) {
+		std::shared_ptr<DOM::Element> element = std::make_shared<DOM::Element>();
+		element->namespaceURI = HTML::Constants::HTMLNamespace;
+		element->localName = startTagToken->tagName;
+		element->document = context.parserContext.documentNode;
+		context.parserContext.documentNode->children.push_back(element);
+		constructor.openElementsStack.push_back(element);
+
+		for (auto const &attribute : startTagToken->attributes) {
+			element->internalAttributes.insert(attribute);
+		}
+
+		constructor.currentMode = HTML::InsertionModeType::BEFORE_HEAD;
+		return HTML::InsertionModeSubroutineStatus::IGNORE;
+	} else
+		std::cout << startTagToken->tagName << " != html" << std::endl;
+
+	return HTML::InsertionModeSubroutineStatus::CONTINUE;
+}
+
 bool
 HTML::InsertionModes::BeforeHead::EmitToken(HTML::Tokenizer::Token &inToken) {
-	HTML::Tokenizer::CharacterToken *characterToken = nullptr;
-	HTML::Tokenizer::CommentToken	*commentToken = nullptr;
-	HTML::Tokenizer::StartTagToken	*startTagToken = nullptr;
+	std::map<HTML::Tokenizer::TokenType, HTML::InsertionModeSubroutineStatus (BeforeHead::*)(HTML::Tokenizer::Token &)> funcMap = {
+		{ HTML::Tokenizer::TokenType::CHARACTER, &BeforeHead::HandleCharacter },
+		{ HTML::Tokenizer::TokenType::COMMENT, &BeforeHead::HandleComment },
+		{ HTML::Tokenizer::TokenType::ENDTAG, &BeforeHead::HandleEndTag },
+		{ HTML::Tokenizer::TokenType::STARTTAG, &BeforeHead::HandleStartTag }
+	};
 
-	startTagToken = nullptr;
-
-	switch (inToken.type()) {
-		case HTML::Tokenizer::TokenType::DOCTYPE:
+	auto it = funcMap.find(inToken.type());
+	if (it != std::end(funcMap)) {
+		auto status = (this->*(it->second))(inToken);
+		if (status == HTML::InsertionModeSubroutineStatus::IGNORE ||
+			status == HTML::InsertionModeSubroutineStatus::PARSER_ERROR
+		) {
 			return false;
-		case HTML::Tokenizer::TokenType::COMMENT:
-			commentToken = dynamic_cast<HTML::Tokenizer::CommentToken *>(&inToken);
-			context.parserContext.documentNode->childNodes.push_back(DOM::Comment(commentToken->contents));
-			return false;
-		case HTML::Tokenizer::TokenType::CHARACTER:
-			characterToken = dynamic_cast<HTML::Tokenizer::CharacterToken *>(&inToken);
-			switch (characterToken->character) {
-				case Unicode::CHARACTER_TABULATION:
-				case Unicode::LINE_FEED:
-				case Unicode::FORM_FEED:
-				case Unicode::CARRIAGE_RETURN:
-				case Unicode::SPACE:
-					// Ignore this token:
-					return false;
-				default:
-					break;
-			}
-			/* Fallthrough */
-		case HTML::Tokenizer::TokenType::STARTTAG:
-			startTagToken = dynamic_cast<HTML::Tokenizer::StartTagToken *>(&inToken);
-
-			if (startTagToken->tagName.EqualsA("html")) {
-				constructor.insertionModes[InsertionModeType::IN_BODY]->EmitToken(inToken);
-				return false;
-			}
-
-			if (startTagToken->tagName.EqualsA("head")) {
-				std::shared_ptr<DOM::Element> element = std::make_shared<DOM::Element>();
-				element->namespaceURI = HTML::Constants::HTMLNamespace;
-				element->localName = startTagToken->tagName;
-				element->document = context.parserContext.documentNode;
-				context.parserContext.documentNode->children.push_back(element);
-				constructor.openElementsStack.push_back(element);
-
-				for (auto const &attribute : startTagToken->attributes) {
-					element->internalAttributes.insert(attribute);
-				}
-
-				constructor.currentMode = HTML::InsertionModeType::BEFORE_HEAD;
-				return false;
-			}
-
-			std::cout << startTagToken->tagName << " != html" << std::endl;
-
-			break;
-		case HTML::Tokenizer::TokenType::ENDTAG:
-			if (startTagToken == nullptr) {
-				Logger::Warning("HTMLParser::InsertBeforeHead", "Invalid structure! ENDTAG before STARTTAG");
-				return false;
-			}
-
-			if (!startTagToken->tagName.EqualsA("html") &&
-				!startTagToken->tagName.EqualsA("body") &&
-				!startTagToken->tagName.EqualsA("html") &&
-				!startTagToken->tagName.EqualsA("br")) {
-				// Parse error. Ignore the token.
-				return false;
-			}
-		default:
-			break;
+		}
+		if (status == HTML::InsertionModeSubroutineStatus::RECONSUME)
+			return true;
 	}
 
 	// This is just repeating the STARTTAG thing, so maybe create a subroutine?

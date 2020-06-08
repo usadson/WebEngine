@@ -22,6 +22,19 @@ namespace HTML {
 
 			bool
 			EmitToken(HTML::Tokenizer::Token &inToken) override;
+
+		private: // Private Methods
+			HTML::InsertionModeSubroutineStatus
+			HandleCharacter(HTML::Tokenizer::Token &);
+
+			HTML::InsertionModeSubroutineStatus
+			HandleComment(HTML::Tokenizer::Token &);
+
+			HTML::InsertionModeSubroutineStatus
+			HandleEndTag(HTML::Tokenizer::Token &);
+
+			HTML::InsertionModeSubroutineStatus
+			HandleStartTag(HTML::Tokenizer::Token &);
 		};
 	}
 }
