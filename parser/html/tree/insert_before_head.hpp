@@ -8,33 +8,31 @@
 
 #include "insertion_mode.hpp"
 
-namespace HTML {
-	namespace InsertionModes {
-		class BeforeHead : public HTML::InsertionMode {
-		public: // Methods
-			inline explicit
-			BeforeHead(TreeConstructor &constructor)
-				: HTML::InsertionMode(constructor, constructor.context) {}
+namespace HTML::InsertionModes {
+	class BeforeHead : public HTML::InsertionMode {
+	public: // Methods
+		inline explicit
+		BeforeHead(TreeConstructor &constructor)
+			: HTML::InsertionMode(constructor, constructor.context) {}
 
-			inline
-			~BeforeHead() override {
-			}
+		inline
+		~BeforeHead() override {
+		}
 
-			bool
-			EmitToken(HTML::Tokenizer::Token &inToken) override;
+		bool
+		EmitToken(HTML::Tokenizer::Token &inToken) override;
 
-		private: // Private Methods
-			HTML::InsertionModeSubroutineStatus
-			HandleCharacter(HTML::Tokenizer::Token &);
+	private: // Private Methods
+		HTML::InsertionModeSubroutineStatus
+		HandleCharacter(HTML::Tokenizer::Token &);
 
-			HTML::InsertionModeSubroutineStatus
-			HandleComment(HTML::Tokenizer::Token &);
+		HTML::InsertionModeSubroutineStatus
+		HandleComment(HTML::Tokenizer::Token &);
 
-			HTML::InsertionModeSubroutineStatus
-			HandleEndTag(HTML::Tokenizer::Token &);
+		HTML::InsertionModeSubroutineStatus
+		HandleEndTag(HTML::Tokenizer::Token &);
 
-			HTML::InsertionModeSubroutineStatus
-			HandleStartTag(HTML::Tokenizer::Token &);
-		};
-	}
+		HTML::InsertionModeSubroutineStatus
+		HandleStartTag(HTML::Tokenizer::Token &);
+	};
 }
