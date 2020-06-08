@@ -52,7 +52,7 @@ namespace Net {
 		}
 
 		HTTPConnectionError
-		HTTPConnection::ConsumeHTTPVersion(HTTPResponseInfo *response) {
+		HTTPConnection::ConsumeHTTPVersion() {
 			/* Read protocol version (= HTTP-version) */
 			std::vector<char> protocolData(9);
 			if (!connectionInfo.Read(protocolData.data(), 8))
@@ -74,7 +74,7 @@ namespace Net {
 		}
 
 		HTTPConnectionError
-		HTTPConnection::ConsumeStatusCode(HTTPResponseInfo *response) {
+		HTTPConnection::ConsumeStatusCode() {
 			/* Read status code */
 			std::vector<char> statusCode(4);
 			size_t i;
@@ -110,7 +110,7 @@ namespace Net {
 		 * Note: a reason phrase may be empty.
 		 */
 		HTTPConnectionError
-		HTTPConnection::ConsumeReasonPhrase(HTTPResponseInfo *response) {
+		HTTPConnection::ConsumeReasonPhrase() {
 			std::vector<char> reasonPhrase;
 			std::optional<char> character;
 			while ((character = connectionInfo.ReadChar()).has_value()) {
@@ -141,7 +141,7 @@ namespace Net {
 		}
 
 		HTTPConnectionError
-		HTTPConnection::ConsumeHeaderField(HTTPResponseInfo *response, char firstCharacter) {
+		HTTPConnection::ConsumeHeaderField(char firstCharacter) {
 			std::vector<char> fieldName;
 			std::vector<char> fieldValue;
 			std::optional<char> character;
@@ -270,7 +270,7 @@ namespace Net {
 		}
 
 		HTTPConnectionError
-		HTTPConnection::ConsumeHeaders(HTTPResponseInfo *response) {
+		HTTPConnection::ConsumeHeaders() {
 			do {
 				auto singleCharacter = connectionInfo.ReadChar();
 				if (!singleCharacter.has_value())
@@ -283,7 +283,7 @@ namespace Net {
 					break;
 				}
 
-				auto error = ConsumeHeaderField(response, singleCharacter.value());
+				auto error = ConsumeHeaderField(singleCharacter.value());
 				if (error != HTTPConnectionError::NO_ERROR)
 					return error;
 			} while (true);
@@ -292,7 +292,7 @@ namespace Net {
 		}
 
 		HTTPConnectionError
-		HTTPConnection::ConsumeMessageBody(HTTPResponseInfo *response) {
+		HTTPConnection::ConsumeMessageBody() {
 			std::optional<size_t> contentLength = response->GetHeaderUnsigned("content-length");
 			if (contentLength.has_value()) {
 				/* Make space in HTTPResponseInfo::MessageBody */
@@ -325,8 +325,6 @@ namespace Net {
 
 			this->response = response;
 
-			HTTPConnectionError subroutineError;
-
 			// TODO A stringstream isn't really needed at this point, so should
 			// we use a vector for performance reasons?
 			std::stringstream request;
@@ -339,44 +337,20 @@ namespace Net {
 			if (!connectionInfo.Write(str.c_str(), str.length()))
 				return HTTPConnectionError::FAILED_WRITE_REQUEST;
 
-			/* Consume HTTP-Version */
-			subroutineError = ConsumeHTTPVersion(response);
-			if (subroutineError != HTTPConnectionError::NO_ERROR)
-				return subroutineError;
-
-			/* Consume space between 'HTTP-version' and 'status-code' */
-			subroutineError = ConsumeWhiteSpace();
-			if (subroutineError != HTTPConnectionError::NO_ERROR)
-				return subroutineError;
-
-			/* Consume 'status-code' */
-			subroutineError = ConsumeStatusCode(response);
-			if (subroutineError != HTTPConnectionError::NO_ERROR)
-				return subroutineError;
-
-			/* Consume space between 'status-code' and 'reason-phrase' */
-			subroutineError = ConsumeWhiteSpace();
-			if (subroutineError != HTTPConnectionError::NO_ERROR)
-				return subroutineError;
-
-			/* Consume 'reason-phrase' */
-			subroutineError = ConsumeReasonPhrase(response);
-			if (subroutineError != HTTPConnectionError::NO_ERROR)
-				return subroutineError;
-
-			/* Consume new-line after 'reason-phrase', the carriage-return is
-			 * already consumed by ConsumeReasonPhrase. */
-			subroutineError = ConsumeNewLine();
-			if (subroutineError != HTTPConnectionError::NO_ERROR)
-				return subroutineError;
-
-			subroutineError = ConsumeHeaders(response);
-			if (subroutineError != HTTPConnectionError::NO_ERROR)
-				return subroutineError;
-
-			subroutineError = ConsumeMessageBody(response);
-			if (subroutineError != HTTPConnectionError::NO_ERROR)
-				return subroutineError;
+			for (const auto &subroutine : {
+				&HTTPConnection::ConsumeHTTPVersion,
+				&HTTPConnection::ConsumeWhiteSpace,
+				&HTTPConnection::ConsumeStatusCode,
+				&HTTPConnection::ConsumeWhiteSpace,
+				&HTTPConnection::ConsumeReasonPhrase,
+				&HTTPConnection::ConsumeNewLine,
+				&HTTPConnection::ConsumeHeaders,
+				&HTTPConnection::ConsumeMessageBody
+			}) {
+				auto error = (this->*subroutine)();
+				if (error != HTTPConnectionError::NO_ERROR)
+					return error;
+			}
 
 			return HTTPConnectionError::NO_ERROR;
 		}

@@ -57,16 +57,16 @@ namespace Net {
 
 		private: // Private Methods
 			HTTPConnectionError
-			ConsumeHeaderField(HTTPResponseInfo *, char);
+			ConsumeHeaderField(char);
 
 			HTTPConnectionError
-			ConsumeHTTPVersion(HTTPResponseInfo *);
+			ConsumeHTTPVersion();
 
 			HTTPConnectionError
-			ConsumeReasonPhrase(HTTPResponseInfo *);
+			ConsumeReasonPhrase();
 
 			HTTPConnectionError
-			ConsumeStatusCode(HTTPResponseInfo *);
+			ConsumeStatusCode();
 
 			HTTPConnectionError
 			ConsumeHeaderFieldName(std::vector<char> *);
@@ -78,10 +78,10 @@ namespace Net {
 			ConsumeWhiteSpace();
 
 			HTTPConnectionError
-			ConsumeHeaders(HTTPResponseInfo *);
+			ConsumeHeaders();
 
 			HTTPConnectionError
-			ConsumeMessageBody(HTTPResponseInfo *);
+			ConsumeMessageBody();
 
 			HTTPConnectionError
 			ConsumeNewLine();
