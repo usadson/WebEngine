@@ -90,47 +90,6 @@ RunDocumentTest() {
 	tokenizer.Run(document);
 }
 
-void
-RunEncodingTest() {
-	std::vector<std::pair<std::string, std::vector<char>>> vector = {
-		{
-			"866",
-			{
-				static_cast<char>(0x80),
-				static_cast<char>(0x81)
-			}
-		},
-		{
-			"ascii",
-			{
-				'A',
-				'B',
-				'C',
-			}
-		},
-		{
-			"iso885910",
-			{
-				static_cast<char>(162)
-			},
-		}
-	};
-
-	for (const auto &pair : vector) {
-		std::vector<Unicode::CodePoint> out
-			= TextEncoding::EncoderEngine::DecodeData(pair.second.data(),
-													  pair.second.size(),
-													  pair.first);
-
-		std::cout << "Encoder output: " << out.size() << " code points (characters)." << std::endl;
-
-		for (const auto &entry : out) {
-			std::cout << '\t' << entry << std::endl;
-		}
-		std::cout << "End." << std::endl;
-	}
-}
-
 std::shared_ptr<Rendering::Renderer>
 CreateRenderer(const std::vector<Rendering::RendererType> &supportedRenderers) {
 	for (const auto &renderer : supportedRenderers) {
