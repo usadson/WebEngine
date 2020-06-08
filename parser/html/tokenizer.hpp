@@ -15,20 +15,18 @@
 #include "token.hpp"
 #include "tree_constructor.hpp"
 
-namespace HTML {
-	namespace Tokenizer {
-		class Tokenizer {
-		public: // Properties
-			HTML::Tokenizer::Context context;
-			HTML::TreeConstructor treeConstructor;
-		public: // Methods
-			inline explicit
-			Tokenizer(HTML::ParserContext &parserContext)
-				: context(parserContext), treeConstructor(context) {
-			}
+namespace HTML::Tokenizer {
+	class Tokenizer {
+	public: // Properties
+		HTML::Tokenizer::Context context;
+		HTML::TreeConstructor treeConstructor;
+	public: // Methods
+		inline explicit
+		Tokenizer(HTML::ParserContext &parserContext)
+			: context(parserContext), treeConstructor(context) {
+		}
 
-			void
-			Run(Resources::DocumentResource &);
-		};
-	}
+		void
+		Run(Resources::DocumentResource &);
+	};
 }
