@@ -14,44 +14,40 @@ HTML::Tokenizer::AttributeValueNQ::Parse() {
 	if (context.eof) {
 		context.LogError(HTML::Tokenizer::ParserError::EOF_IN_TAG);
 		tokenizer.treeConstructor.EmitEOFToken();
-	} else {
-		auto &tagToken = context.GetCurrentTagToken();
+		return true;
+	}
 
-		switch (context.character) {
-			case '\t':
-			case '\n':
-			case '\f':
-			case ' ':
-				context.state = HTML::Tokenizer::ParserState::BEFORE_ATTRIBUTE_NAME;
-				break;
-			case '&':
-				context.returnState = HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_NQ;
-				context.state = HTML::Tokenizer::ParserState::CHARACTER_REFERENCE;
-				break;
-			case '>':
-				context.LogError(HTML::Tokenizer::ParserError::MISSING_ATTRIBUTE_VALUE);
-				context.state = HTML::Tokenizer::ParserState::DATA;
-				tokenizer.treeConstructor.EmitToken(tagToken);
-				if (context.isEndTag)
-					context.startTagToken = HTML::Tokenizer::StartTagToken(); // Reset
-				else
-					context.endTagToken = HTML::Tokenizer::EndTagToken(); // Reset
-				break;
-			case '\0':
-				context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
-				tagToken.attributeValue += Unicode::REPLACEMENT_CHARACTER;
-				break;
-			case '"':
-			case '\'':
-			case '<':
-			case '=':
-			case '`':
+	auto &tagToken = context.GetCurrentTagToken();
+
+	switch (context.character) {
+		case '\t':
+		case '\n':
+		case '\f':
+		case ' ':
+			context.state = HTML::Tokenizer::ParserState::BEFORE_ATTRIBUTE_NAME;
+			break;
+		case '&':
+			context.returnState = HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_NQ;
+			context.state = HTML::Tokenizer::ParserState::CHARACTER_REFERENCE;
+			break;
+		case '>':
+			context.LogError(HTML::Tokenizer::ParserError::MISSING_ATTRIBUTE_VALUE);
+			context.state = HTML::Tokenizer::ParserState::DATA;
+			tokenizer.treeConstructor.EmitToken(tagToken);
+			if (context.isEndTag)
+				context.startTagToken = HTML::Tokenizer::StartTagToken(); // Reset
+			else
+				context.endTagToken = HTML::Tokenizer::EndTagToken(); // Reset
+			break;
+		case '\0':
+			context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
+			tagToken.attributeValue += Unicode::REPLACEMENT_CHARACTER;
+			break;
+		default:
+			if (context.character == '"' || context.character == '\'' || context.character == '<' || context.character == '=' || context.character == '`')
 				context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_CHARACTER_IN_UNQOUTED_ATTRIBUTE_VALUE);
-				/* Intentional fallthrough */
-			default:
-				tagToken.attributeValue += context.character;
-				break;
-		}
+			tagToken.attributeValue += context.character;
+			break;
 	}
 
 	return true;
