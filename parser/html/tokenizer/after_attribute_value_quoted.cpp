@@ -15,8 +15,6 @@ HTML::Tokenizer::AfterAttributeValueQuoted::Parse() {
 		context.LogError(HTML::Tokenizer::ParserError::EOF_IN_TAG);
 		tokenizer.treeConstructor.EmitEOFToken();
 	} else {
-		auto &tagToken = context.GetCurrentTagToken();
-
 		switch (context.character) {
 			case '\t':
 			case '\n':
