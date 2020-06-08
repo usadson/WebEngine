@@ -258,6 +258,18 @@ namespace Net {
 		}
 
 		HTTPConnectionError
+		HTTPConnection::ConsumeWhiteSpace() {
+			auto singleCharacter = connectionInfo.ReadChar();
+			if (!singleCharacter.has_value())
+				return HTTPConnectionError::FAILED_READ_GENERIC;
+
+			if (singleCharacter.value() != ' ')
+				return HTTPConnectionError::INCORRECT_START_LINE;
+
+			return HTTPConnectionError::NO_ERROR;
+		}
+
+		HTTPConnectionError
 		HTTPConnection::Request(HTTPResponseInfo *response, const std::string &method, const std::string &path) {
 			if (!connectionInfo.connected ||
 				(connectionInfo.secure && !connectionInfo.isAuthenticated)) {
@@ -285,12 +297,9 @@ namespace Net {
 				return subroutineError;
 
 			/* Consume space between 'HTTP-version' and 'status-code' */
-			singleCharacter = connectionInfo.ReadChar();
-			if (!singleCharacter.has_value())
-				return HTTPConnectionError::FAILED_READ_GENERIC;
-
-			if (singleCharacter.value() != ' ')
-				return HTTPConnectionError::INCORRECT_START_LINE;
+			subroutineError = ConsumeWhiteSpace();
+			if (subroutineError != HTTPConnectionError::NO_ERROR)
+				return subroutineError;
 
 			/* Consume 'status-code' */
 			subroutineError = ConsumeStatusCode(response);
@@ -298,12 +307,9 @@ namespace Net {
 				return subroutineError;
 
 			/* Consume space between 'status-code' and 'reason-phrase' */
-			singleCharacter = connectionInfo.ReadChar();
-			if (!singleCharacter.has_value())
-				return HTTPConnectionError::FAILED_READ_GENERIC;
-
-			if (singleCharacter.value() != ' ')
-				return HTTPConnectionError::INCORRECT_START_LINE;
+			subroutineError = ConsumeWhiteSpace();
+			if (subroutineError != HTTPConnectionError::NO_ERROR)
+				return subroutineError;
 
 			/* Consume 'reason-phrase' */
 			subroutineError = ConsumeReasonPhrase(response);
