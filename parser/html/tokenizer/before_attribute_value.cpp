@@ -15,9 +15,7 @@ HTML::Tokenizer::BeforeAttributeValue::Parse() {
 		context.reconsume = true;
 		context.state = HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_NQ;
 	} else {
-		HTML::Tokenizer::AmbiguousTagToken &tagToken = context.isEndTag ?
-					static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.endTagToken) :
-					static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.startTagToken);
+		auto &tagToken = context.GetCurrentTagToken();
 
 		switch (context.character) {
 			case '\t':

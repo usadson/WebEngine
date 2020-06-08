@@ -15,9 +15,7 @@ HTML::Tokenizer::AfterAttributeValueQuoted::Parse() {
 		context.LogError(HTML::Tokenizer::ParserError::EOF_IN_TAG);
 		tokenizer.treeConstructor.EmitEOFToken();
 	} else {
-		HTML::Tokenizer::AmbiguousTagToken &tagToken = context.isEndTag ?
-					static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.endTagToken) :
-					static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.startTagToken);
+		auto &tagToken = context.GetCurrentTagToken();
 
 		switch (context.character) {
 			case '\t':
@@ -31,7 +29,7 @@ HTML::Tokenizer::AfterAttributeValueQuoted::Parse() {
 				break;
 			case '>':
 				context.state = HTML::Tokenizer::ParserState::DATA;
-				tokenizer.treeConstructor.EmitToken(tagToken);
+				tokenizer.treeConstructor.EmitToken(context.GetCurrentTagToken());
 				if (context.isEndTag)
 					context.startTagToken = HTML::Tokenizer::StartTagToken(); // Reset
 				else

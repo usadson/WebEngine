@@ -15,9 +15,7 @@ HTML::Tokenizer::BeforeAttributeName::Parse() {
 		context.reconsume = true;
 		context.state = HTML::Tokenizer::ParserState::AFTER_ATTRIBUTE_NAME;
 	} else {
-		HTML::Tokenizer::AmbiguousTagToken &tagToken = context.isEndTag ?
-					static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.endTagToken) :
-					static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.startTagToken);
+		auto &tagToken = context.GetCurrentTagToken();
 		if (tagToken.attributeName.length() != 0) {
 			tagToken.AddTokenAttribute(context);
 		}

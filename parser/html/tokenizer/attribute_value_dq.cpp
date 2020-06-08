@@ -15,9 +15,7 @@ HTML::Tokenizer::AttributeValueDQ::Parse() {
 		context.LogError(HTML::Tokenizer::ParserError::EOF_IN_TAG);
 		tokenizer.treeConstructor.EmitEOFToken();
 	} else {
-		HTML::Tokenizer::AmbiguousTagToken &tagToken = context.isEndTag ?
-					static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.endTagToken) :
-					static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.startTagToken);
+		auto &tagToken = context.GetCurrentTagToken();
 
 		switch (context.character) {
 			case '"':

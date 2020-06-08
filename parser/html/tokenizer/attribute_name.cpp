@@ -11,15 +11,13 @@
 
 bool
 HTML::Tokenizer::AttributeName::Parse() {
-	HTML::Tokenizer::AmbiguousTagToken &tagToken = context.isEndTag ?
-					static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.endTagToken) :
-					static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.startTagToken);
+	auto &tagToken = context.GetCurrentTagToken();
 
 	const static std::array<char, 6> characterList = {
 		'\t', '\n', '\f', ' ', '\\', '>'
 	};
 
-	if (context.eof || std::find(std::begin(characterList), std::end(characterList), character) != std::end(characterList)) {
+	if (context.eof || std::find(std::begin(characterList), std::end(characterList), context.character) != std::end(characterList)) {
 		context.reconsume = true;
 		context.state = HTML::Tokenizer::ParserState::AFTER_ATTRIBUTE_NAME;
 	} else if (context.character == '=') {

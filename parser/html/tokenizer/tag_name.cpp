@@ -14,9 +14,7 @@ HTML::Tokenizer::TagName::Parse() {
 	if (context.eof) {
 		std::cout << "EOF IN TAG NAME TODO" << std::endl;
 	} else {
-		HTML::Tokenizer::AmbiguousTagToken &tagToken = context.isEndTag ?
-					static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.endTagToken) :
-					static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.startTagToken);
+		auto &tagToken = context.GetCurrentTagToken();
 		switch (context.character) {
 			case '\t':
 			case '\n':
