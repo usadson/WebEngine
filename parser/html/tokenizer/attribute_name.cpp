@@ -15,12 +15,11 @@ HTML::Tokenizer::AttributeName::Parse() {
 					static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.endTagToken) :
 					static_cast<HTML::Tokenizer::AmbiguousTagToken &>(context.startTagToken);
 
-	if (context.eof || context.character == '\t'
-			|| context.character == '\n'
-			|| context.character == '\f'
-			|| context.character == ' '
-			|| context.character == '\\'
-			|| context.character == '>') {
+	const static std::array<char, 6> characterList = {
+		'\t', '\n', '\f', ' ', '\\', '>'
+	};
+
+	if (context.eof || std::find(std::begin(characterList), std::end(characterList), character) != std::end(characterList)) {
 		context.reconsume = true;
 		context.state = HTML::Tokenizer::ParserState::AFTER_ATTRIBUTE_NAME;
 	} else if (context.character == '=') {
@@ -31,9 +30,7 @@ HTML::Tokenizer::AttributeName::Parse() {
 		context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
 		tagToken.attributeName += Unicode::REPLACEMENT_CHARACTER;
 	} else {
-		if (context.character == '"' ||
-				context.character == '\'' ||
-				context.character == '<') {
+		if (context.character == '"' || context.character == '\'' || context.character == '<') {
 			context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_CHARACTER_IN_ATTRIBUTE_NAME);
 			// Intentional Fallthrough
 		}
