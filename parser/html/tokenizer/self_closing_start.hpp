@@ -8,18 +8,16 @@
 
 #include "tokenizer_parser.hpp"
 
-namespace HTML {
-	namespace Tokenizer {
-		class SelfClosingStart : public Parser {
-		public: // Methods
-			inline explicit
-			SelfClosingStart(Tokenizer &tokenizer)
-				: Parser(tokenizer) {}
+namespace HTML::Tokenizer {
+	class SelfClosingStart : public Parser {
+	public: // Methods
+		inline explicit
+		SelfClosingStart(Tokenizer &tokenizer)
+			: Parser(tokenizer) {}
 
-			~SelfClosingStart() override = default;
+		~SelfClosingStart() override = default;
 
-			bool
-			Parse() override;
-		};
-	}
+		bool
+		Parse() override;
+	};
 }

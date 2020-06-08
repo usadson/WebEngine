@@ -8,18 +8,16 @@
 
 #include "tokenizer_parser.hpp"
 
-namespace HTML {
-	namespace Tokenizer {
-		class MarkupDeclarationOpen : public Parser {
-		public: // Methods
-			inline explicit
-			MarkupDeclarationOpen(Tokenizer &tokenizer)
-				: Parser(tokenizer) {}
+namespace HTML::Tokenizer {
+	class MarkupDeclarationOpen : public Parser {
+	public: // Methods
+		inline explicit
+		MarkupDeclarationOpen(Tokenizer &tokenizer)
+			: Parser(tokenizer) {}
 
-			~MarkupDeclarationOpen() override = default;
+		~MarkupDeclarationOpen() override = default;
 
-			bool
-			Parse() override;
-		};
-	}
+		bool
+		Parse() override;
+	};
 }

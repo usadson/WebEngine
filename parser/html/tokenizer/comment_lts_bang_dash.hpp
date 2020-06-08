@@ -8,18 +8,16 @@
 
 #include "tokenizer_parser.hpp"
 
-namespace HTML {
-	namespace Tokenizer {
-		class CommentLTSBangDash : public Parser {
-		public: // Methods
-			inline explicit
-			CommentLTSBangDash(Tokenizer &tokenizer)
-				: Parser(tokenizer) {}
+namespace HTML::Tokenizer {
+	class CommentLTSBangDash : public Parser {
+	public: // Methods
+		inline explicit
+		CommentLTSBangDash(Tokenizer &tokenizer)
+			: Parser(tokenizer) {}
 
-			~CommentLTSBangDash() override = default;
+		~CommentLTSBangDash() override = default;
 
-			bool
-			Parse() override;
-		};
-	}
+		bool
+		Parse() override;
+	};
 }

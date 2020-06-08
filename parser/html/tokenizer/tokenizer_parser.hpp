@@ -8,23 +8,21 @@
 
 #include "parser/html/tokenizer.hpp"
 
-namespace HTML {
-	namespace Tokenizer {
-		class Parser {
-		public: // References
-			Context &context;
-			Tokenizer &tokenizer;
-		public: // Methods
-			inline
-			Parser(Tokenizer &tokenizer)
-				: context(tokenizer.context), tokenizer(tokenizer) {}
+namespace HTML::Tokenizer {
+	class Parser {
+	public: // References
+		Context &context;
+		Tokenizer &tokenizer;
+	public: // Methods
+		inline
+		Parser(Tokenizer &tokenizer)
+			: context(tokenizer.context), tokenizer(tokenizer) {}
 
-			inline virtual
-			~Parser() {
-			}
+		inline virtual
+		~Parser() {
+		}
 
-			virtual bool
-			Parse() = 0;
-		};
-	}
+		virtual bool
+		Parse() = 0;
+	};
 }

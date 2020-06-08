@@ -8,18 +8,16 @@
 
 #include "tokenizer_parser.hpp"
 
-namespace HTML {
-	namespace Tokenizer {
-		class AttributeValueSQ : public Parser {
-		public: // Methods
-			inline explicit
-			AttributeValueSQ(Tokenizer &tokenizer)
-				: Parser(tokenizer) {}
+namespace HTML::Tokenizer {
+	class AttributeValueSQ : public Parser {
+	public: // Methods
+		inline explicit
+		AttributeValueSQ(Tokenizer &tokenizer)
+			: Parser(tokenizer) {}
 
-			~AttributeValueSQ() override = default;
+		~AttributeValueSQ() override = default;
 
-			bool
-			Parse() override;
-		};
-	}
+		bool
+		Parse() override;
+	};
 }

@@ -8,18 +8,17 @@
 
 #include "tokenizer_parser.hpp"
 
-namespace HTML {
-	namespace Tokenizer {
-		class TagEndOpen : public Parser {
-		public: // Methods
-			inline explicit
-			TagEndOpen(Tokenizer &tokenizer)
-				: Parser(tokenizer) {}
+namespace HTML::Tokenizer {
+	class TagEndOpen : public Parser {
+	public: // Methods
+		inline explicit
+		TagEndOpen(Tokenizer &tokenizer)
+			: Parser(tokenizer) {}
 
-			~TagEndOpen() override = default;
+		~TagEndOpen() override = default;
 
-			bool
-			Parse() override;
-		};
-	}
+		bool
+		Parse() override;
+	};
 }
+
