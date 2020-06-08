@@ -270,18 +270,54 @@ namespace Net {
 		}
 
 		HTTPConnectionError
+		HTTPConnection::ConsumeHeaders(HTTPResponseInfo *response) {
+			do {
+				auto singleCharacter = connectionInfo.ReadChar();
+				if (!singleCharacter.has_value())
+					return HTTPConnectionError::FAILED_READ_GENERIC;
+
+				if (singleCharacter.value() == '\r') {
+					singleCharacter = connectionInfo.ReadChar();
+					if (!singleCharacter.has_value() || singleCharacter != '\n')
+						Logger::Warning("HTTPConnection::Request", "Incorrect CRLF");
+					break;
+				}
+
+				auto error = ConsumeHeaderField(response, singleCharacter.value());
+				if (error != HTTPConnectionError::NO_ERROR)
+					return error;
+			} while (true);
+
+			return HTTPConnectionError::NO_ERROR;
+		}
+
+		HTTPConnectionError
+		HTTPConnection::ConsumeMessageBody(HTTPResponseInfo *response) {
+			std::optional<size_t> contentLength = response->GetHeaderUnsigned("content-length");
+			if (contentLength.has_value()) {
+				/* Make space in HTTPResponseInfo::MessageBody */
+				response->messageBody.resize(contentLength.value());
+
+				if (!connectionInfo.Read(response->messageBody.data(), contentLength.value())) {
+					return HTTPConnectionError::FAILED_READ_MESSAGE_BODY;
+				}
+			}
+
+			return HTTPConnectionError::NO_ERROR;
+		}
+
+		HTTPConnectionError
 		HTTPConnection::Request(HTTPResponseInfo *response, const std::string &method, const std::string &path) {
 			if (!connectionInfo.connected ||
 				(connectionInfo.secure && !connectionInfo.isAuthenticated)) {
 				return HTTPConnectionError::NOT_CONNECTED;
 			}
 
-			std::optional<char> singleCharacter;
-			std::stringstream request;
 			HTTPConnectionError subroutineError;
 
 			// TODO A stringstream isn't really needed at this point, so should
 			// we use a vector for performance reasons?
+			std::stringstream request;
 			request << method << ' ' << path << " HTTP/1.1\r\n";
 			request << "Host: " << connectionInfo.hostName << "\r\n";
 			request << "TE: Trailers\r\n";
@@ -318,41 +354,20 @@ namespace Net {
 
 			/* Consume new-line after 'reason-phrase', the carriage-return is
 			 * already consumed by ConsumeReasonPhrase. */
-			singleCharacter = connectionInfo.ReadChar();
+			auto singleCharacter = connectionInfo.ReadChar();
 			if (!singleCharacter.has_value())
 				return HTTPConnectionError::FAILED_READ_GENERIC;
 
 			if (singleCharacter.value() != '\n')
 				return HTTPConnectionError::INCORRECT_START_LINE;
 
-			do {
-				singleCharacter = connectionInfo.ReadChar();
-				if (!singleCharacter.has_value())
-					return HTTPConnectionError::FAILED_READ_GENERIC;
+			subroutineError = ConsumeHeaders(response);
+			if (subroutineError != HTTPConnectionError::NO_ERROR)
+				return subroutineError;
 
-				if (singleCharacter.value() == '\r') {
-					singleCharacter = connectionInfo.ReadChar();
-					if (!singleCharacter.has_value() || singleCharacter != '\n')
-						Logger::Warning("HTTPConnection::Request", "Incorrect CRLF");
-					break;
-				}
-
-				subroutineError = ConsumeHeaderField(response, singleCharacter.value());
-
-				if (subroutineError != HTTPConnectionError::NO_ERROR)
-					return subroutineError;
-			} while (true);
-
-			/* Consume message-body */
-			std::optional<size_t> contentLength = response->GetHeaderUnsigned("content-length");
-			if (contentLength.has_value()) {
-				/* Make space in HTTPResponseInfo::MessageBody */
-				response->messageBody.resize(contentLength.value());
-
-				if (!connectionInfo.Read(response->messageBody.data(), contentLength.value())) {
-					return HTTPConnectionError::FAILED_READ_MESSAGE_BODY;
-				}
-			}
+			subroutineError = ConsumeMessageBody(response);
+			if (subroutineError != HTTPConnectionError::NO_ERROR)
+				return subroutineError;
 
 			return HTTPConnectionError::NO_ERROR;
 		}

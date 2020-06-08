@@ -74,6 +74,12 @@ namespace Net {
 			HTTPConnectionError
 			ConsumeWhiteSpace();
 
+			HTTPConnectionError
+			ConsumeHeaders(HTTPResponseInfo *);
+
+			HTTPConnectionError
+			ConsumeMessageBody(HTTPResponseInfo *);
+
 		public: // Methods
 			HTTPConnectionError
 			Request(HTTPResponseInfo *, const std::string &method, const std::string &path);
