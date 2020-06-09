@@ -100,6 +100,8 @@ namespace HTML {
 
 		// TODO 7.3
 
+		(void) synchronousCustomElementsFlag;
+
 		return element;
 	}
 
@@ -156,6 +158,8 @@ namespace HTML {
 		// 		}
 		//
 		// TODO
+		(void) nameSpace;
+		(void) parent;
 	}
 
 	std::shared_ptr<DOM::Element>
@@ -169,6 +173,8 @@ namespace HTML {
 		element->document = context.parserContext.documentNode;
 		context.parserContext.documentNode->children.push_back(element);
 		openElementsStack.push_back(element);
+
+		(void) attributes;
 
 		return element;
 	}
