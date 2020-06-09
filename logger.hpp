@@ -38,4 +38,4 @@ namespace Logger {
 	void
 	Crash(const std::string &, const std::string &);
 
-}
+} // namespace Logger

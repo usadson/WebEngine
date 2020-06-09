@@ -26,7 +26,7 @@ Logger::Info(const std::string &source, const std::string &message) {
 }
 
 void
-Logger::Severe(const std::string & source, const std::string &message) {
+Logger::Severe(const std::string &source, const std::string &message) {
 	std::cerr << "\033[1;91m[" << source << "] [SEVERE] " << message << "\033[1;0m" << std::endl;
 }
 
