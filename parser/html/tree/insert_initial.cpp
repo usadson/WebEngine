@@ -116,13 +116,9 @@ IsQuirkyDoctype(HTML::Tokenizer::DoctypeToken *token, bool isIFrameSrcDoc) {
 
 bool
 HTML::InsertionModes::Initial::EmitToken(HTML::Tokenizer::Token &inToken) {
-	HTML::Tokenizer::CharacterToken *characterToken;
-	HTML::Tokenizer::CommentToken *commentToken;
-	HTML::Tokenizer::DoctypeToken *doctypeToken;
-
 	switch (inToken.type()) {
-		case HTML::Tokenizer::TokenType::CHARACTER:
-			characterToken = dynamic_cast<HTML::Tokenizer::CharacterToken *>(&inToken);
+		case HTML::Tokenizer::TokenType::CHARACTER: {
+			auto characterToken = dynamic_cast<HTML::Tokenizer::CharacterToken *>(&inToken);
 			switch (characterToken->character) {
 				case Unicode::CHARACTER_TABULATION:
 				case Unicode::LINE_FEED:
@@ -137,18 +133,20 @@ HTML::InsertionModes::Initial::EmitToken(HTML::Tokenizer::Token &inToken) {
 					break;
 			}
 			break;
+		}
 		case HTML::Tokenizer::TokenType::COMMENT:
-			commentToken = dynamic_cast<HTML::Tokenizer::CommentToken *>(&inToken);
-			context.parserContext.documentNode->childNodes.push_back(DOM::Comment(commentToken->contents));
+			context.parserContext.documentNode->childNodes.push_back(
+				std::make_shared<DOM::Comment>(dynamic_cast<HTML::Tokenizer::CommentToken *>(&inToken)->contents));
 			return false;
-		case HTML::Tokenizer::TokenType::DOCTYPE:
-			doctypeToken = dynamic_cast<HTML::Tokenizer::DoctypeToken *>(&inToken);
+		case HTML::Tokenizer::TokenType::DOCTYPE: {
+			auto doctypeToken = dynamic_cast<HTML::Tokenizer::DoctypeToken *>(&inToken);
 
 			if (IsQuirkyDoctype(doctypeToken, false /* TODO */))
 				context.parserContext.documentNode->mode = DOM::QuirksMode::QUIRKS;
 
 			constructor.currentMode = HTML::InsertionModeType::BEFORE_HTML;
 			return false;
+		}
 		default:
 			break;
 	}

@@ -24,8 +24,8 @@ namespace HTML {
 	  public: // Properties
 		Tokenizer::Context &context;
 		InsertionModeType currentMode;
-		std::vector<std::shared_ptr<DOM::Element> > openElementsStack;
-		std::map<InsertionModeType, std::shared_ptr<InsertionMode> > insertionModes;
+		std::vector<std::shared_ptr<DOM::Element>> openElementsStack;
+		std::map<InsertionModeType, std::shared_ptr<InsertionMode>> insertionModes;
 
 		bool executeScript{ false };
 		bool fosterParenting{ false };

@@ -33,7 +33,7 @@ HTML::InsertionModes::BeforeHead::HandleCharacter(HTML::Tokenizer::Token &token)
 HTML::InsertionModeSubroutineStatus
 HTML::InsertionModes::BeforeHead::HandleComment(HTML::Tokenizer::Token &token) {
 	context.parserContext.documentNode->childNodes.push_back(
-		DOM::Comment(dynamic_cast<HTML::Tokenizer::CommentToken *>(&token)->contents));
+		std::make_shared<DOM::Comment>(dynamic_cast<HTML::Tokenizer::CommentToken *>(&token)->contents));
 	return HTML::InsertionModeSubroutineStatus::IGNORE;
 }
 
@@ -66,24 +66,7 @@ HTML::InsertionModes::BeforeHead::HandleEndTag(HTML::Tokenizer::Token &token) {
 
 HTML::InsertionModeSubroutineStatus
 HTML::InsertionModes::BeforeHead::HandleStartTag(HTML::Tokenizer::Token &token) {
-	auto startTagToken = dynamic_cast<HTML::Tokenizer::StartTagToken *>(&token);
-
-	if (startTagToken->tagName.EqualsA("html")) {
-		std::shared_ptr<DOM::Element> element = std::make_shared<DOM::Element>();
-		element->namespaceURI = HTML::Constants::HTMLNamespace;
-		element->localName = startTagToken->tagName;
-		element->document = context.parserContext.documentNode;
-		context.parserContext.documentNode->children.push_back(element);
-		constructor.openElementsStack.push_back(element);
-
-		for (auto const &attribute : startTagToken->attributes) {
-			element->internalAttributes.insert(attribute);
-		}
-
-		constructor.currentMode = HTML::InsertionModeType::BEFORE_HEAD;
-		return HTML::InsertionModeSubroutineStatus::IGNORE;
-	} else
-		std::cout << startTagToken->tagName << " != html" << std::endl;
+	(void) token;
 
 	return HTML::InsertionModeSubroutineStatus::CONTINUE;
 }
@@ -107,15 +90,5 @@ HTML::InsertionModes::BeforeHead::EmitToken(HTML::Tokenizer::Token &inToken) {
 			return true;
 	}
 
-	// This is just repeating the STARTTAG thing, so maybe create a subroutine?
-	// also, the 'Application Cache Selection Algorithm' should be executed.
-	std::shared_ptr<DOM::Element> element = std::make_shared<DOM::Element>();
-	element->namespaceURI = HTML::Constants::HTMLNamespace;
-	element->localName = Unicode::UString("head");
-	element->document = context.parserContext.documentNode;
-	context.parserContext.documentNode->children.push_back(element);
-	constructor.openElementsStack.push_back(element);
-
-	constructor.currentMode = HTML::InsertionModeType::BEFORE_HEAD;
 	return true;
 }

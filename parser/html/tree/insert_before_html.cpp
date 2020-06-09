@@ -32,7 +32,7 @@ HTML::InsertionModes::BeforeHTML::HandleCharacter(HTML::Tokenizer::Token &token)
 HTML::InsertionModeSubroutineStatus
 HTML::InsertionModes::BeforeHTML::HandleComment(HTML::Tokenizer::Token &token) {
 	context.parserContext.documentNode->childNodes.push_back(
-		DOM::Comment(dynamic_cast<HTML::Tokenizer::CommentToken *>(&token)->contents));
+		std::make_shared<DOM::Comment>(dynamic_cast<HTML::Tokenizer::CommentToken *>(&token)->contents));
 	return HTML::InsertionModeSubroutineStatus::IGNORE;
 }
 
@@ -69,16 +69,11 @@ HTML::InsertionModes::BeforeHTML::HandleStartTag(HTML::Tokenizer::Token &token) 
 	auto startTagToken = dynamic_cast<HTML::Tokenizer::StartTagToken *>(&token);
 
 	if (startTagToken->tagName.EqualsA("html")) {
-		std::shared_ptr<DOM::Element> element = std::make_shared<DOM::Element>();
-		element->namespaceURI = HTML::Constants::HTMLNamespace;
-		element->localName = startTagToken->tagName;
-		element->document = context.parserContext.documentNode;
-		context.parserContext.documentNode->children.push_back(element);
+		auto element = constructor.CreateElementForToken(*startTagToken, HTML::Constants::HTMLNamespace, context.parserContext.documentNode);
+		context.parserContext.documentNode->childNodes.push_back(element);
 		constructor.openElementsStack.push_back(element);
 
-		for (auto const &attribute : startTagToken->attributes) {
-			element->internalAttributes.insert(attribute);
-		}
+		/* Future service-worker stuff */
 
 		constructor.currentMode = HTML::InsertionModeType::BEFORE_HEAD;
 		return HTML::InsertionModeSubroutineStatus::IGNORE;
