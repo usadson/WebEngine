@@ -19,4 +19,4 @@ namespace Options {
 	std::optional<const std::optional<std::string> *>
 	GetCommandLineParameter(const std::string &);
 
-}
+} // namespace Options

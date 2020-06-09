@@ -18,4 +18,4 @@ namespace CCompat {
 	void
 	CloseStandardIO();
 
-}
+} // namespace CCompat
