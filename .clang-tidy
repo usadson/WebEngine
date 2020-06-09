@@ -1,0 +1,14 @@
+---
+  Checks:          '*,
+                    -fuchsia-default-arguments-calls,
+                    -hicpp-no-array-decay,
+                    -modernize-use-trailing-return-type,
+                    -google-readability-braces-around-statements,
+                    -hicpp-braces-around-statements,
+                    -readability-braces-around-statements,
+                    -cppcoreguidelines-avoid-magic-numbers,
+                    -readability-magic-numbers,
+                    -*-namespace-comments'
+
+...
+
