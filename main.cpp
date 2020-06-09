@@ -92,8 +92,8 @@ RunDocumentTest() {
 
 inline std::shared_ptr<Rendering::Renderer>
 CreateRenderer(const std::vector<Rendering::RendererType> &supportedRenderers) {
-	if (std::find(std::cbegin(supportedRenderers), std::cend(supportedRenderers),
-				  Rendering::RendererType::OPENGL) != std::end(supportedRenderers)) {
+	if (std::find(std::cbegin(supportedRenderers), std::cend(supportedRenderers), Rendering::RendererType::OPENGL)
+		!= std::end(supportedRenderers)) {
 		return std::make_shared<Rendering::GLRenderer>();
 	}
 
@@ -111,26 +111,24 @@ RunRenderingTest() {
 
 	if (renderer == nullptr) {
 		Logger::Severe("RunRenderingTest", "No supported renderer for window "
-										 "system " + window->windowManagerName);
+										   "system "
+											   + window->windowManagerName);
 		return;
 	}
 
 	auto result = window->PrepareForRenderer(renderer->type);
 	if (!result.first) {
 		Logger::Severe("RunRenderingTest", "The creation of renderer context "
-										   "for renderer for window system " +
-										   window->windowManagerName +
-										   " failed.");
+										   "for renderer for window system "
+											   + window->windowManagerName + " failed.");
 		return;
 	}
 
-	std::shared_ptr<Rendering::DrawRect> rectangle
-			= std::make_shared<Rendering::DrawRect>();
+	std::shared_ptr<Rendering::DrawRect> rectangle = std::make_shared<Rendering::DrawRect>();
 	rectangle->bounds = { 0, 200, 0, 200 };
 	rectangle->color.value = 0x83ff08ff;
 
-	std::shared_ptr<Rendering::DrawText> text
-			= std::make_shared<Rendering::DrawText>();
+	std::shared_ptr<Rendering::DrawText> text = std::make_shared<Rendering::DrawText>();
 	text->bounds = { 300, 600, 300, 600 };
 	text->color.value = 0x8308ffff;
 	text->text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed\
@@ -156,8 +154,7 @@ RunNetHTTP2Test(const char *name) {
 	connectInfo.tlsALPNProtocols = Net::ALPNProtocols::http2;
 	if (!connectInfo.Connect()) {
 		std::stringstream information;
-		information << "Failed to connect! Host: \"" << connectInfo.hostName
-					<< "\":" << connectInfo.port;
+		information << "Failed to connect! Host: \"" << connectInfo.hostName << "\":" << connectInfo.port;
 		Logger::Error("HTTPConnection", information.str());
 		return;
 	}
@@ -165,24 +162,18 @@ RunNetHTTP2Test(const char *name) {
 	Net::HTTP::HTTP2Connection connection(&connectInfo);
 	Net::HTTP::HTTPResponseInfo response;
 	Net::HTTP::HTTP2Error error = connection.RequestNavigation(&response, "/");
-	std::cout << "Error: " << error
-			<< "\nVersion: " << response.httpVersion
-			<< "\nStatusCode: " << response.statusCode
-			<< "\nReasonPhrase: " << response.reasonPhrase
-			<< "\nHeaders: " << response.headers.size()
-			<< std::endl;
+	std::cout << "Error: " << error << "\nVersion: " << response.httpVersion << "\nStatusCode: " << response.statusCode
+			  << "\nReasonPhrase: " << response.reasonPhrase << "\nHeaders: " << response.headers.size() << std::endl;
 
 	for (const auto &headerField : response.headers) {
-		std::cout << "\t\"" << headerField.fieldName << "\" = \""
-				  << headerField.fieldValue << '\"' << std::endl;
+		std::cout << "\t\"" << headerField.fieldName << "\" = \"" << headerField.fieldValue << '\"' << std::endl;
 	}
 
 	std::string start = "============ Message Body ============";
-	std::string end   = "======================================";
-	std::cout << "MessageBodySize: " << response.messageBody.size()
-			  << std::endl << start << std::string(response.messageBody.data(),
-				response.messageBody.size())
-			  << '\n' << end << std::endl;
+	std::string end = "======================================";
+	std::cout << "MessageBodySize: " << response.messageBody.size() << std::endl
+			  << start << std::string(response.messageBody.data(), response.messageBody.size()) << '\n'
+			  << end << std::endl;
 }
 
 int
