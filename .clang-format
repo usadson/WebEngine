@@ -6,6 +6,9 @@ BinPackParameters: false
 ConstructorInitializerAllOnOneLineOrOnePerLine: false
 FixNamespaceComments: true
 
+ColumnLimit: 120
+SpaceBeforeParens: ControlStatements
+
 # Indentation
 IndentCaseLabels: true
 IndentWidth: 4
