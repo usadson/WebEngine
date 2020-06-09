@@ -6,6 +6,7 @@ BinPackParameters: false
 ConstructorInitializerAllOnOneLineOrOnePerLine: false
 FixNamespaceComments: true
 
+AlwaysBreakAfterReturnType: All
 ColumnLimit: 120
 SpaceBeforeParens: ControlStatements
 
