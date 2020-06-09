@@ -29,12 +29,14 @@ HTML::Tokenizer::AfterDoctypePublicIdentifier::Parse() {
 				context.state = HTML::Tokenizer::ParserState::DATA;
 				break;
 			case '"':
-				context.LogError(HTML::Tokenizer::ParserError::MISSING_WHITESPACE_BETWEEN_DOCTYPE_PUBLIC_AND_SYSTEM_IDENTIFIERS);
+				context.LogError(
+					HTML::Tokenizer::ParserError::MISSING_WHITESPACE_BETWEEN_DOCTYPE_PUBLIC_AND_SYSTEM_IDENTIFIERS);
 				context.doctypeToken.systemIdentifier.emplace("");
 				context.state = HTML::Tokenizer::ParserState::DOCTYPE_SYSTEM_IDENTIFIER_DQ;
 				break;
 			case '\'':
-				context.LogError(HTML::Tokenizer::ParserError::MISSING_WHITESPACE_BETWEEN_DOCTYPE_PUBLIC_AND_SYSTEM_IDENTIFIERS);
+				context.LogError(
+					HTML::Tokenizer::ParserError::MISSING_WHITESPACE_BETWEEN_DOCTYPE_PUBLIC_AND_SYSTEM_IDENTIFIERS);
 				context.doctypeToken.systemIdentifier.emplace("");
 				context.state = HTML::Tokenizer::ParserState::DOCTYPE_SYSTEM_IDENTIFIER_SQ;
 				break;

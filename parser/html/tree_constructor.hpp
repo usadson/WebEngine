@@ -21,18 +21,17 @@ namespace HTML {
 
 namespace HTML {
 	class TreeConstructor {
-	public: // Properties
+	  public: // Properties
 		Tokenizer::Context &context;
 		InsertionModeType currentMode;
-		std::vector<std::shared_ptr<DOM::Element>> openElementsStack;
-		std::map<InsertionModeType, std::shared_ptr<InsertionMode>> insertionModes;
+		std::vector<std::shared_ptr<DOM::Element> > openElementsStack;
+		std::map<InsertionModeType, std::shared_ptr<InsertionMode> > insertionModes;
 
-		bool executeScript { false };
-		bool fosterParenting { false };
+		bool executeScript{ false };
+		bool fosterParenting{ false };
 
-	public: // Methods
-		explicit
-		TreeConstructor(Tokenizer::Context &);
+	  public: // Methods
+		explicit TreeConstructor(Tokenizer::Context &);
 
 		void
 		EmitCharacterToken(char);
@@ -57,23 +56,19 @@ namespace HTML {
 					  const Unicode::UString &nameSpace,
 					  std::optional<Unicode::UString> prefix,
 					  std::optional<Unicode::UString> is,
-					  bool synchronousCustomElementsFlag
-		);
+					  bool synchronousCustomElementsFlag);
 
 		std::shared_ptr<DOM::Element>
 		CreateElementForToken(HTML::Tokenizer::StartTagToken &,
 							  const Unicode::UString &nameSpace,
-							  std::shared_ptr<DOM::Node> intendedParent
-		);
+							  std::shared_ptr<DOM::Node> intendedParent);
 
 		void
-		InsertForeignElement(const Unicode::UString &nameSpace,
-							 std::shared_ptr<DOM::Node> parent);
+		InsertForeignElement(const Unicode::UString &nameSpace, std::shared_ptr<DOM::Node> parent);
 
 		inline std::shared_ptr<DOM::Element>
-		InsertHTMLElement(Unicode::UString &tagName,
-						  std::map<Unicode::UString, Unicode::UString> &attributes) {
+		InsertHTMLElement(Unicode::UString &tagName, std::map<Unicode::UString, Unicode::UString> &attributes) {
 			return InsertElement(tagName, HTML::Constants::HTMLNamespace, attributes);
 		}
 	};
-}
+} // namespace HTML

@@ -34,8 +34,10 @@ HTML::Tokenizer::DoctypeName::Parse() {
 				context.doctypeToken.name = context.doctypeToken.name.value() + Unicode::REPLACEMENT_CHARACTER;
 				break;
 			default:
-				if (context.character >= 0x41 && context.character <= 0x5A) {// Is uppercase
-					context.doctypeToken.name = context.doctypeToken.name.value() + static_cast<char>(context.character + 0x20);;
+				if (context.character >= 0x41 && context.character <= 0x5A) { // Is uppercase
+					context.doctypeToken.name
+						= context.doctypeToken.name.value() + static_cast<char>(context.character + 0x20);
+					;
 				} else {
 					context.doctypeToken.name = context.doctypeToken.name.value() + context.character;
 				}

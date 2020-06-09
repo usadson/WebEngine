@@ -10,18 +10,18 @@
 
 namespace HTML::InsertionModes {
 	class BeforeHTML : public HTML::InsertionMode {
-	public: // Methods
-		inline explicit
-		BeforeHTML(TreeConstructor &constructor)
-			: HTML::InsertionMode(constructor, constructor.context) {}
+	  public: // Methods
+		inline explicit BeforeHTML(TreeConstructor &constructor)
+			: HTML::InsertionMode(constructor, constructor.context) {
+		}
 
 		~BeforeHTML() = default;
 
-	public: // Public Methods
+	  public: // Public Methods
 		bool
 		EmitToken(HTML::Tokenizer::Token &inToken) override;
 
-	private: // Private Methods
+	  private: // Private Methods
 		HTML::InsertionModeSubroutineStatus
 		HandleCharacter(HTML::Tokenizer::Token &);
 
@@ -34,4 +34,4 @@ namespace HTML::InsertionModes {
 		HTML::InsertionModeSubroutineStatus
 		HandleStartTag(HTML::Tokenizer::Token &);
 	};
-}
+} // namespace HTML::InsertionModes

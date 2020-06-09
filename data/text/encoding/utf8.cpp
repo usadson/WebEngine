@@ -84,9 +84,7 @@ namespace TextEncoding {
 				}
 
 				std::stringstream info;
-				info << "Octet out of scope: 0x"
-						<< std::hex << static_cast<uint16_t>(currentByte)
-						<< std::dec;
+				info << "Octet out of scope: 0x" << std::hex << static_cast<uint16_t>(currentByte) << std::dec;
 				Logger::Error("TextEncoding::UTF8::Decode", info.str());
 				return false;
 			}
@@ -100,10 +98,9 @@ namespace TextEncoding {
 				UpperBoundary = 0xBF;
 				// TODO 'Prepend byte to stream'
 				std::stringstream info;
-				info << "Character out of boundaries: [0x" << std::hex
-					 << static_cast<uint16_t>(LowerBoundary) << ", 0x"
-					 << static_cast<uint16_t>(UpperBoundary) << "], value: 0x"
-					 << static_cast<uint16_t>(currentByte) << std::dec;
+				info << "Character out of boundaries: [0x" << std::hex << static_cast<uint16_t>(LowerBoundary) << ", 0x"
+					 << static_cast<uint16_t>(UpperBoundary) << "], value: 0x" << static_cast<uint16_t>(currentByte)
+					 << std::dec;
 				Logger::Error("TextEncoding::UTF8::Decode", info.str());
 				return false;
 			}
@@ -120,4 +117,4 @@ namespace TextEncoding {
 			BytesSeen = 0;
 		}
 	}
-}
+} // namespace TextEncoding

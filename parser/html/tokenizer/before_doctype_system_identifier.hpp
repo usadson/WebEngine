@@ -10,14 +10,13 @@
 
 namespace HTML::Tokenizer {
 	class BeforeDoctypeSystemIdentifier : public Parser {
-	public: // Methods
-		inline explicit
-		BeforeDoctypeSystemIdentifier(Tokenizer &tokenizer)
-			: Parser(tokenizer) {}
+	  public: // Methods
+		inline explicit BeforeDoctypeSystemIdentifier(Tokenizer &tokenizer) : Parser(tokenizer) {
+		}
 
 		~BeforeDoctypeSystemIdentifier() override = default;
 
 		bool
 		Parse() override;
 	};
-}
+} // namespace HTML::Tokenizer

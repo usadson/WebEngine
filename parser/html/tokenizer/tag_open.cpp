@@ -33,10 +33,9 @@ HTML::Tokenizer::TagOpen::Parse() {
 					context.reconsume = true;
 					context.state = HTML::Tokenizer::ParserState::TAG_NAME;
 				} else {
-					std::cout << "DEBUG: Unexpected context.character: "
-							  << context.character 
-							  << context.document->data[context.i + 1] 
-							  << context.document->data[context.i + 2] << std::endl;
+					std::cout << "DEBUG: Unexpected context.character: " << context.character
+							  << context.document->data[context.i + 1] << context.document->data[context.i + 2]
+							  << std::endl;
 					context.LogError(HTML::Tokenizer::ParserError::INVALID_FIRST_CHARACTER_OF_TAG_NAME);
 					context.reconsume = true;
 					tokenizer.treeConstructor.EmitCharacterToken('>');

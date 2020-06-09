@@ -19,14 +19,14 @@ namespace HTML::Tokenizer {
 
 namespace HTML {
 	class ParserContext {
-	public:
+	  public:
 		std::shared_ptr<DOM::Document> documentNode = std::make_shared<DOM::Document>();
 	};
-}
+} // namespace HTML
 
 namespace HTML::Tokenizer {
 	class Context {
-	public:
+	  public:
 		HTML::ParserContext &parserContext;
 
 		ParserState state = ParserState::DATA;
@@ -41,11 +41,11 @@ namespace HTML::Tokenizer {
 		Unicode::UString ncRefBuffer;
 
 		Unicode::CodePoint character;
-		HTML::Tokenizer::CommentToken commentToken { HTML::Tokenizer::CommentToken::INVALID_TYPE };
+		HTML::Tokenizer::CommentToken commentToken{ HTML::Tokenizer::CommentToken::INVALID_TYPE };
 		HTML::Tokenizer::DoctypeToken doctypeToken;
 		HTML::Tokenizer::EndTagToken endTagToken;
 		bool eof;
-		Resources::DocumentResource *document { nullptr };
+		Resources::DocumentResource *document{ nullptr };
 		size_t documentSize;
 		size_t i;
 		bool isEndTag;
@@ -54,10 +54,8 @@ namespace HTML::Tokenizer {
 		size_t toConsumeNext;
 		size_t unknownStateCount;
 
-	public: // Methods
-		inline explicit
-		Context(HTML::ParserContext &context)
-			: parserContext(context) {
+	  public: // Methods
+		inline explicit Context(HTML::ParserContext &context) : parserContext(context) {
 		}
 
 		void
@@ -65,9 +63,8 @@ namespace HTML::Tokenizer {
 
 		inline AmbiguousTagToken &
 		GetCurrentTagToken() {
-			return isEndTag ?
-				static_cast<AmbiguousTagToken &>(endTagToken) :
-				static_cast<AmbiguousTagToken &>(startTagToken);
+			return isEndTag ? static_cast<AmbiguousTagToken &>(endTagToken)
+							: static_cast<AmbiguousTagToken &>(startTagToken);
 		}
 	};
-}
+} // namespace HTML::Tokenizer

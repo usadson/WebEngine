@@ -11,28 +11,28 @@
 
 #include <GL/glew.h>
 
-#include "rendering/drawables/draw_rect.hpp"
 #include "logger.hpp"
+#include "rendering/drawables/draw_rect.hpp"
 
 namespace Rendering {
 
-	GLRenderer::GLRenderer()
-		: Renderer(RendererType::OPENGL) {
+	GLRenderer::GLRenderer() : Renderer(RendererType::OPENGL) {
 	}
 
-	void GLRenderer::Prepare() {
+	void
+	GLRenderer::Prepare() {
 		glewInit();
 		/* Map */
 		std::stringstream info;
-		info << "WindowSize={ width=" << internalWindow->width
-			 << " height=" << internalWindow->height << " }";
+		info << "WindowSize={ width=" << internalWindow->width << " height=" << internalWindow->height << " }";
 		Logger::Debug(__PRETTY_FUNCTION__, info.str());
 		glOrtho(0, internalWindow->width, internalWindow->height, 0, 0, 1);
-// 		glGenVertexArrays(1, &VertexArrayID);
-// 		glBindVertexArray(VertexArrayID);
+		// 		glGenVertexArrays(1, &VertexArrayID);
+		// 		glBindVertexArray(VertexArrayID);
 	}
 
-	void GLRenderer::DrawFrame() {
+	void
+	GLRenderer::DrawFrame() {
 		DrawRect *rect;
 
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -48,15 +48,12 @@ namespace Rendering {
 						continue;
 					}
 
-					glColor4f(rect->color.components.r / 255.0,
-							  rect->color.components.g / 255.0,
-							  rect->color.components.b / 255.0,
-							  rect->color.components.a / 255.0
-					);
+					glColor4f(rect->color.components.r / 255.0, rect->color.components.g / 255.0,
+							  rect->color.components.b / 255.0, rect->color.components.a / 255.0);
 
 					glBegin(GL_QUADS);
-					glVertex2f(rect->bounds.left,  rect->bounds.top);
-					glVertex2f(rect->bounds.left,  rect->bounds.bottom);
+					glVertex2f(rect->bounds.left, rect->bounds.top);
+					glVertex2f(rect->bounds.left, rect->bounds.bottom);
 					glVertex2f(rect->bounds.right, rect->bounds.bottom);
 					glVertex2f(rect->bounds.right, rect->bounds.top);
 					glEnd();
@@ -69,21 +66,22 @@ namespace Rendering {
 		internalWindow->SwapBuffers();
 	}
 
-	void GLRenderer::Enqueue(RenderObject *object) {
+	void
+	GLRenderer::Enqueue(RenderObject *object) {
 		renderObjects.push_back(object);
 	}
 
-	void GLRenderer::Dequeue(RenderObject *object) {
+	void
+	GLRenderer::Dequeue(RenderObject *object) {
 		auto it = std::find(renderObjects.begin(), renderObjects.end(), object);
 
 		if (it == renderObjects.end()) {
 			std::stringstream info;
-			info << "Invalid RenderObject! Pointer: " << object
-				 << " renderObjects.size: " << renderObjects.size();
+			info << "Invalid RenderObject! Pointer: " << object << " renderObjects.size: " << renderObjects.size();
 			Logger::Warning(__PRETTY_FUNCTION__, info.str());
 		} else {
 			renderObjects.erase(it);
 		}
 	}
 
-}
+} // namespace Rendering

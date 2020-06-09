@@ -13,19 +13,18 @@
 namespace Rendering {
 
 	class WindowGLFW : public WindowBase {
-	private: // Private Properties
+	  private: // Private Properties
 		GLFWwindow *internalWindow;
 
-	public: // Con/destructor
+	  public: // Con/destructor
 		WindowGLFW();
 		~WindowGLFW();
 
-	public: // Public Methods
+	  public: // Public Methods
 		std::vector<RendererType>
 		GetSupportedRenderers() override;
 
-		std::pair<bool, std::optional<void *>>
-		PrepareForRenderer(RendererType) override;
+		std::pair<bool, std::optional<void *> > PrepareForRenderer(RendererType) override;
 
 		bool
 		PollClose() override;
@@ -36,9 +35,9 @@ namespace Rendering {
 		void
 		SwapBuffers() override;
 
-	private: // Private Methods
+	  private: // Private Methods
 		bool
 		InternalPrepareGL();
 	};
 
-}
+} // namespace Rendering

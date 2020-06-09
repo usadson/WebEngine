@@ -18,8 +18,8 @@ namespace DOM {
 	class Document;
 
 	struct Node {
-	public: // Properties
+	  public: // Properties
 		std::vector<Node> childNodes;
-		std::optional<std::shared_ptr<DOM::Document>> document;
+		std::optional<std::shared_ptr<DOM::Document> > document;
 	};
-}
+} // namespace DOM

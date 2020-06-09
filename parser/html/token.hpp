@@ -16,15 +16,7 @@
 #include "data/text/ustring.hpp"
 
 namespace HTML::Tokenizer {
-	enum class TokenType {
-		CHARACTER,
-		COMMENT,
-		DOCTYPE,
-		ENDTAG,
-		EOF_TYPE,
-		INVALID,
-		STARTTAG
-	};
+	enum class TokenType { CHARACTER, COMMENT, DOCTYPE, ENDTAG, EOF_TYPE, INVALID, STARTTAG };
 
 	// From context.hpp:
 	class Context;
@@ -37,15 +29,14 @@ namespace HTML::Tokenizer {
 	}
 
 	struct Token {
-	private:
+	  private:
 		TokenType internalType;
-	public:
-		inline explicit
-		Token(TokenType inType) : internalType(inType) {
+
+	  public:
+		inline explicit Token(TokenType inType) : internalType(inType) {
 		}
 
-		virtual
-		~Token() = default;
+		virtual ~Token() = default;
 
 		inline TokenType
 		type() {
@@ -62,8 +53,7 @@ namespace HTML::Tokenizer {
 		// Initial state is off (= false)
 		bool forceQuirks = false;
 
-		inline
-		DoctypeToken() : Token(TokenType::DOCTYPE) {
+		inline DoctypeToken() : Token(TokenType::DOCTYPE) {
 		}
 	};
 
@@ -76,8 +66,7 @@ namespace HTML::Tokenizer {
 		Unicode::UString attributeName;
 		Unicode::UString attributeValue;
 
-		inline explicit
-		AmbiguousTagToken(TokenType type) : Token(type) {
+		inline explicit AmbiguousTagToken(TokenType type) : Token(type) {
 		}
 
 		void
@@ -87,16 +76,14 @@ namespace HTML::Tokenizer {
 	};
 
 	struct StartTagToken : public AmbiguousTagToken {
-		inline
-		StartTagToken() : AmbiguousTagToken(TokenType::STARTTAG) {
+		inline StartTagToken() : AmbiguousTagToken(TokenType::STARTTAG) {
 		}
 
 		static const StartTagToken INVALID_TYPE_START_TAG;
 	};
 
 	struct EndTagToken : public AmbiguousTagToken {
-		inline
-		EndTagToken() : AmbiguousTagToken(TokenType::ENDTAG) {
+		inline EndTagToken() : AmbiguousTagToken(TokenType::ENDTAG) {
 		}
 
 		static const EndTagToken INVALID_TYPE_END_TAG;
@@ -105,8 +92,7 @@ namespace HTML::Tokenizer {
 	struct CommentToken : public Token {
 		Unicode::UString contents;
 
-		inline explicit
-		CommentToken(const Unicode::UString &inContents)
+		inline explicit CommentToken(const Unicode::UString &inContents)
 			: Token(TokenType::COMMENT), contents(inContents) {
 		}
 
@@ -116,16 +102,13 @@ namespace HTML::Tokenizer {
 	struct CharacterToken : public Token {
 		Unicode::CodePoint character;
 
-		inline explicit
-		CharacterToken(Unicode::CodePoint character)
+		inline explicit CharacterToken(Unicode::CodePoint character)
 			: Token(TokenType::CHARACTER), character(character) {
 		}
 	};
 
 	struct EOFToken : public Token {
-		inline
-		EOFToken()
-			: Token(TokenType::EOF_TYPE) {
+		inline EOFToken() : Token(TokenType::EOF_TYPE) {
 		}
 	};
-}
+} // namespace HTML::Tokenizer

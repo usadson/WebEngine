@@ -59,20 +59,19 @@ namespace Net::HTTP {
 	}
 
 	class HTTPConnection {
-	public: // Public Properties
+	  public: // Public Properties
 		Net::ConnectionInfo connectionInfo;
 
-	private: // Private Properties
+	  private: // Private Properties
 		HTTPResponseInfo *response;
 
-	public: // Con/destructors
+	  public: // Con/destructors
 		// Constructors setup the connection using 'connectionInfo'.
-		explicit
-		HTTPConnection(const Net::ConnectionInfo &);
+		explicit HTTPConnection(const Net::ConnectionInfo &);
 
 		~HTTPConnection();
 
-	private: // Private Methods
+	  private: // Private Methods
 		HTTPConnectionError
 		ConsumeHeaderField(char);
 
@@ -103,11 +102,11 @@ namespace Net::HTTP {
 		HTTPConnectionError
 		ConsumeNewLine();
 
-	public: // Methods
+	  public: // Methods
 		HTTPConnectionError
 		Request(HTTPResponseInfo *, const std::string &method, const std::string &path);
 
 		HTTPConnectionError
 		RequestNavigation(HTTPResponseInfo *, const std::string &path);
 	};
-}
+} // namespace Net::HTTP

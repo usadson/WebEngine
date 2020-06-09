@@ -13,9 +13,9 @@
 namespace Resources {
 
 	class MediaType {
-	public:
+	  public:
 		std::string type;
 		std::map<std::string, std::string> parameters;
 	};
 
-}
+} // namespace Resources

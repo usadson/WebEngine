@@ -35,14 +35,15 @@ HTML::Tokenizer::AttributeValueNQ::Parse() {
 			if (context.isEndTag)
 				context.startTagToken = HTML::Tokenizer::StartTagToken();
 			else
-				context.endTagToken  = HTML::Tokenizer::EndTagToken();
+				context.endTagToken = HTML::Tokenizer::EndTagToken();
 			break;
 		case '\0':
 			context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
 			context.GetCurrentTagToken().attributeValue += Unicode::REPLACEMENT_CHARACTER;
 			break;
 		default:
-			if (context.character == '"' || context.character == '\'' || context.character == '<' || context.character == '=' || context.character == '`')
+			if (context.character == '"' || context.character == '\'' || context.character == '<'
+				|| context.character == '=' || context.character == '`')
 				context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_CHARACTER_IN_UNQOUTED_ATTRIBUTE_VALUE);
 			context.GetCurrentTagToken().attributeValue += context.character;
 			break;

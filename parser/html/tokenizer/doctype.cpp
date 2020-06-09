@@ -28,7 +28,8 @@ HTML::Tokenizer::Doctype::Parse() {
 				context.state = HTML::Tokenizer::ParserState::BEFORE_DOCTYPE_NAME;
 				break;
 			default:
-				std::cout << "\ninvalid context.character: (" << static_cast<size_t>(context.character) << ")\n" << std::endl;
+				std::cout << "\ninvalid context.character: (" << static_cast<size_t>(context.character) << ")\n"
+						  << std::endl;
 				context.LogError(HTML::Tokenizer::ParserError::MISSING_WHITESPACE_BEFORE_DOCTYPE_NAME);
 				context.reconsume = true;
 				context.state = HTML::Tokenizer::ParserState::BEFORE_DOCTYPE_NAME;

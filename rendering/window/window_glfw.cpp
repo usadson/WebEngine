@@ -9,8 +9,8 @@
 #include <iostream>
 
 #include <GL/gl.h>
-#include <GL/glx.h>
 #include <GL/glu.h>
+#include <GL/glx.h>
 
 #include "logger.hpp"
 
@@ -19,8 +19,7 @@ namespace Rendering {
 	/* Since the window is the most important thing of the application, there
 	 * isn't really need for graceful error handling (I think). Therefore I can
 	 * call std::runtime_error() */
-	WindowGLFW::WindowGLFW()
-		: WindowBase("GLFW"), internalWindow(nullptr) {
+	WindowGLFW::WindowGLFW() : WindowBase("GLFW"), internalWindow(nullptr) {
 		if (!glfwInit()) {
 			throw std::runtime_error("GLFW initialization failed.");
 		}
@@ -38,7 +37,7 @@ namespace Rendering {
 		return { RendererType::OPENGL };
 	}
 
-	std::pair<bool, std::optional<void *>>
+	std::pair<bool, std::optional<void *> >
 	WindowGLFW::PrepareForRenderer(RendererType type) {
 		switch (type) {
 			case RendererType::OPENGL:
@@ -51,7 +50,7 @@ namespace Rendering {
 
 	void
 	GLFWErrorHandler(int error, const char *message) {
-		(void) error;
+		(void)error;
 		Logger::Error("GLFW", message);
 	}
 
@@ -110,7 +109,7 @@ namespace Rendering {
 
 	void
 	WindowGLFW::SetTitle(Unicode::UString title) {
-		(void) title; // BUG
+		(void)title; // BUG
 	}
 
 	void
@@ -118,4 +117,4 @@ namespace Rendering {
 		glfwSwapBuffers(internalWindow);
 	}
 
-}
+} // namespace Rendering

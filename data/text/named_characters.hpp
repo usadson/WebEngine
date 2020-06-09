@@ -34,4 +34,4 @@ namespace NamedCharacters {
 	void
 	Setup();
 
-}
+} // namespace NamedCharacters

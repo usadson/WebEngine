@@ -10,19 +10,19 @@
 
 namespace HTML::Tokenizer {
 	class Parser {
-	public: // References
+	  public: // References
 		Context &context;
 		Tokenizer &tokenizer;
-	public: // Methods
-		inline
-		Parser(Tokenizer &tokenizer)
-			: context(tokenizer.context), tokenizer(tokenizer) {}
 
-		inline virtual
-		~Parser() {
+	  public: // Methods
+		inline Parser(Tokenizer &tokenizer) : context(tokenizer.context), tokenizer(tokenizer) {
+		}
+
+		inline virtual ~Parser() {
 		}
 
 		virtual bool
-		Parse() = 0;
+		Parse()
+			= 0;
 	};
-}
+} // namespace HTML::Tokenizer

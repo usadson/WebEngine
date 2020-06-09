@@ -12,17 +12,13 @@
 #include "node.hpp"
 
 namespace DOM {
-	enum class QuirksMode {
-		LIMITED_QUIRKS,
-		NO_QUIRKS,
-		QUIRKS
-	};
+	enum class QuirksMode { LIMITED_QUIRKS, NO_QUIRKS, QUIRKS };
 
 	class Document : public Node {
-	public: // Properties
+	  public: // Properties
 		QuirksMode mode;
 
 		// Children should govern the Node::ChildNodes vector somehow.
-		std::vector<std::shared_ptr<DOM::Element>> children;
+		std::vector<std::shared_ptr<DOM::Element> > children;
 	};
-}
+} // namespace DOM

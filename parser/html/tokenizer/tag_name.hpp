@@ -10,14 +10,13 @@
 
 namespace HTML::Tokenizer {
 	class TagName : public Parser {
-	public: // Methods
-		inline explicit
-		TagName(Tokenizer &tokenizer)
-			: Parser(tokenizer) {}
+	  public: // Methods
+		inline explicit TagName(Tokenizer &tokenizer) : Parser(tokenizer) {
+		}
 
 		~TagName() override = default;
 
 		bool
 		Parse() override;
 	};
-}
+} // namespace HTML::Tokenizer

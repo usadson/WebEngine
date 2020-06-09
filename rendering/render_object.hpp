@@ -10,27 +10,22 @@
 
 namespace Rendering {
 
-	enum class RenderObjectType {
-		RECT,
-		TEXT
-	};
+	enum class RenderObjectType { RECT, TEXT };
 
 	class RenderObject {
-	public: // Properties
+	  public: // Properties
 		RenderBounds bounds;
 
-	public: // Internal Properties
+	  public: // Internal Properties
 		void *renderContext;
 		RenderObjectType type;
 
-	public: // Methods
-		inline explicit
-		RenderObject(RenderObjectType inType)
+	  public: // Methods
+		inline explicit RenderObject(RenderObjectType inType)
 			: bounds({ 0, 0, 0, 0 }), renderContext(nullptr), type(inType) {
 		}
 
-		virtual
-		~RenderObject() = default;
+		virtual ~RenderObject() = default;
 	};
 
-}
+} // namespace Rendering

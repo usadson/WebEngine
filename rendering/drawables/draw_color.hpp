@@ -28,4 +28,4 @@ namespace Rendering {
 		uint32_t value;
 	};
 
-}
+} // namespace Rendering

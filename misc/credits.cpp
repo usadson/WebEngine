@@ -435,6 +435,5 @@ Credits::PrintAuthorsToCommandLine() {
 			  << "- GLEW\n"
 			  << "- FreeType2\n"
 			  << "- GLFW\n"
-			  << "To view the copyright information, specify the --credits flag."
-			  << std::endl;
+			  << "To view the copyright information, specify the --credits flag." << std::endl;
 }

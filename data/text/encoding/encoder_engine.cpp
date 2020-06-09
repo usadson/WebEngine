@@ -46,9 +46,9 @@ namespace Encoders {
 	std::shared_ptr<TextEncoding::Encoding> Windows1257 = std::make_shared<TextEncoding::Windows1257>();
 	std::shared_ptr<TextEncoding::Encoding> Windows1258 = std::make_shared<TextEncoding::Windows1258>();
 	std::shared_ptr<TextEncoding::Encoding> XMacCyrillic = std::make_shared<TextEncoding::XMacCyrillic>();
-}
+} // namespace Encoders
 
-std::map<std::string, std::shared_ptr<TextEncoding::Encoding>> Map = {
+std::map<std::string, std::shared_ptr<TextEncoding::Encoding> > Map = {
 	{ "unicode-1-1-utf-8", Encoders::UTF8 },
 	{ "utf-8", Encoders::UTF8 },
 	{ "utf8", Encoders::UTF8 },
@@ -66,7 +66,7 @@ std::map<std::string, std::shared_ptr<TextEncoding::Encoding>> Map = {
 	{ "iso_8859-2", Encoders::ISO8859_2 },
 	{ "iso_8859-2:1987", Encoders::ISO8859_2 },
 	{ "l2", Encoders::ISO8859_2 },
-	{ "latin2" , Encoders::ISO8859_2 },
+	{ "latin2", Encoders::ISO8859_2 },
 
 	{ "csisolatin3", Encoders::ISO8859_3 },
 	{ "iso-8859-3", Encoders::ISO8859_3 },
@@ -137,9 +137,9 @@ std::map<std::string, std::shared_ptr<TextEncoding::Encoding>> Map = {
 	{ "iso_8859-8:1988", Encoders::ISO8859_8 },
 	{ "visual", Encoders::ISO8859_8 },
 
-/*	{ ISO-8859-8-I 	"csiso88598i"
-	{ "iso-8859-8-i"
-	{ "logical"*/
+	/*	{ ISO-8859-8-I 	"csiso88598i"
+		{ "iso-8859-8-i"
+		{ "logical"*/
 	{ "csisolatin6", Encoders::ISO8859_10 },
 	{ "iso-8859-10", Encoders::ISO8859_10 },
 	{ "iso-ir-157", Encoders::ISO8859_10 },
@@ -250,13 +250,8 @@ std::map<std::string, std::shared_ptr<TextEncoding::Encoding>> Map = {
 };
 
 std::vector<Unicode::CodePoint>
-TextEncoding::EncoderEngine::DecodeData(const char *data, size_t size,
-										std::string encoding) {
-	std::transform(encoding.begin(), encoding.end(), encoding.begin(),
-		[](unsigned char c) {
-			return std::tolower(c);
-		}
-	);
+TextEncoding::EncoderEngine::DecodeData(const char *data, size_t size, std::string encoding) {
+	std::transform(encoding.begin(), encoding.end(), encoding.begin(), [](unsigned char c) { return std::tolower(c); });
 
 	auto it = Map.find(encoding);
 	if (it == Map.end()) {

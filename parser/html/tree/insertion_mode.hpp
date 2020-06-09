@@ -18,19 +18,20 @@ namespace HTML {
 		IGNORE,
 		RECONSUME,
 		PARSER_ERROR, // PARSER_ERROR -> effectively also IGNORE
-		CONTINUE // Continue Execution
+		CONTINUE	  // Continue Execution
 	};
 
 	class InsertionMode {
-	public: // References
+	  public: // References
 		TreeConstructor &constructor;
 		Tokenizer::Context &context;
-	public: // Methods
-		inline InsertionMode(TreeConstructor &constructor, Tokenizer::Context &context)
-			: constructor(constructor), context(context) {}
 
-		inline virtual
-		~InsertionMode() {
+	  public: // Methods
+		inline InsertionMode(TreeConstructor &constructor, Tokenizer::Context &context)
+			: constructor(constructor), context(context) {
+		}
+
+		inline virtual ~InsertionMode() {
 		}
 
 		/*
@@ -38,6 +39,7 @@ namespace HTML {
 		 * reprocessed in the next insertion mode.
 		 */
 		virtual bool
-		EmitToken(HTML::Tokenizer::Token &inToken) = 0;
+		EmitToken(HTML::Tokenizer::Token &inToken)
+			= 0;
 	};
-}
+} // namespace HTML

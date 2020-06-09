@@ -16,18 +16,19 @@
 
 namespace Net::HTTP {
 	class HTTPResponseInfo {
-	public: // Properties
+	  public: // Properties
 		std::string httpVersion;
 		uint16_t statusCode;
 		std::string reasonPhrase;
 
 		std::vector<HTTPHeaderField> headers;
 		std::vector<char> messageBody;
-	public: // Methods
+
+	  public: // Methods
 		std::optional<const char *>
 		GetHeader(const char *) const;
 
 		std::optional<size_t>
 		GetHeaderUnsigned(const char *) const;
 	};
-}
+} // namespace Net::HTTP

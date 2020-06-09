@@ -11,9 +11,9 @@
 
 #include "dom/comment.hpp"
 #include "dom/element.hpp"
+#include "logger.hpp"
 #include "parser/html/constants.hpp"
 #include "parser/html/context.hpp"
-#include "logger.hpp"
 
 HTML::InsertionModeSubroutineStatus
 HTML::InsertionModes::BeforeHTML::HandleCharacter(HTML::Tokenizer::Token &token) {
@@ -32,8 +32,7 @@ HTML::InsertionModes::BeforeHTML::HandleCharacter(HTML::Tokenizer::Token &token)
 HTML::InsertionModeSubroutineStatus
 HTML::InsertionModes::BeforeHTML::HandleComment(HTML::Tokenizer::Token &token) {
 	context.parserContext.documentNode->childNodes.push_back(
-		DOM::Comment(dynamic_cast<HTML::Tokenizer::CommentToken *>(&token)->contents)
-	);
+		DOM::Comment(dynamic_cast<HTML::Tokenizer::CommentToken *>(&token)->contents));
 	return HTML::InsertionModeSubroutineStatus::IGNORE;
 }
 
@@ -60,9 +59,8 @@ HTML::InsertionModes::BeforeHTML::HandleEndTag(HTML::Tokenizer::Token &token) {
 
 	*/
 
-
 	// FIXME Workaround:
-	(void) token;
+	(void)token;
 	return HTML::InsertionModeSubroutineStatus::IGNORE;
 }
 
@@ -95,19 +93,17 @@ HTML::InsertionModes::BeforeHTML::EmitToken(HTML::Tokenizer::Token &inToken) {
 	if (inToken.type() == HTML::Tokenizer::TokenType::DOCTYPE)
 		return false; // Parse error. Ignore the token.
 
-	std::map<HTML::Tokenizer::TokenType, HTML::InsertionModeSubroutineStatus (BeforeHTML::*)(HTML::Tokenizer::Token &)> funcMap = {
-		{ HTML::Tokenizer::TokenType::CHARACTER, &BeforeHTML::HandleCharacter },
-		{ HTML::Tokenizer::TokenType::COMMENT, &BeforeHTML::HandleComment },
-		{ HTML::Tokenizer::TokenType::ENDTAG, &BeforeHTML::HandleEndTag },
-		{ HTML::Tokenizer::TokenType::STARTTAG, &BeforeHTML::HandleStartTag }
-	};
+	std::map<HTML::Tokenizer::TokenType, HTML::InsertionModeSubroutineStatus (BeforeHTML::*)(HTML::Tokenizer::Token &)>
+		funcMap = { { HTML::Tokenizer::TokenType::CHARACTER, &BeforeHTML::HandleCharacter },
+					{ HTML::Tokenizer::TokenType::COMMENT, &BeforeHTML::HandleComment },
+					{ HTML::Tokenizer::TokenType::ENDTAG, &BeforeHTML::HandleEndTag },
+					{ HTML::Tokenizer::TokenType::STARTTAG, &BeforeHTML::HandleStartTag } };
 
 	auto it = funcMap.find(inToken.type());
 	if (it != std::end(funcMap)) {
 		auto status = (this->*(it->second))(inToken);
-		if (status == HTML::InsertionModeSubroutineStatus::IGNORE ||
-			status == HTML::InsertionModeSubroutineStatus::PARSER_ERROR
-		) {
+		if (status == HTML::InsertionModeSubroutineStatus::IGNORE
+			|| status == HTML::InsertionModeSubroutineStatus::PARSER_ERROR) {
 			return false;
 		}
 		if (status == HTML::InsertionModeSubroutineStatus::RECONSUME)

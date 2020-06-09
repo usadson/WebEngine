@@ -36,9 +36,8 @@ namespace Net {
 			if (close(this->socket) == -1) {
 				int errorCode = errno;
 				std::stringstream information;
-				information << "Error on close() socket: "
-							<< CCompat::GetErrnoName(errorCode)
-							<< " (" << errorCode << ")";
+				information << "Error on close() socket: " << CCompat::GetErrnoName(errorCode) << " (" << errorCode
+							<< ")";
 				Logger::Warning("Net::ConnectionInfo::~", information.str());
 			}
 			this->socket = 0;
@@ -93,7 +92,8 @@ namespace Net {
 			connectAddress.sin_port = htons(port);
 
 			auto startConnect = std::chrono::high_resolution_clock::now();
-			if (connect(this->socket, reinterpret_cast<struct sockaddr *>(&connectAddress), sizeof(struct sockaddr_in)) != -1) {
+			if (connect(this->socket, reinterpret_cast<struct sockaddr *>(&connectAddress), sizeof(struct sockaddr_in))
+				!= -1) {
 				timingConnect = FormatTime(std::chrono::high_resolution_clock::now() - startConnect);
 				timingPing = FormatTime(startConnect - startPing);
 				freeaddrinfo(result);
@@ -141,10 +141,17 @@ namespace Net {
 		}
 
 		Logger::Debug("Net::ConnectionInfo::Connect", "Timings:\n"
-					  "\tDNS Resolving:             " + timingDNS + "\n"
-					  "\tPinging other hosts:       " + timingPing + "\n"
-					  "\tConnection Establishment:  " + timingConnect + "\n"
-					  "\tTLS Handshake:             " + timingTLS);
+													  "\tDNS Resolving:             "
+														  + timingDNS
+														  + "\n"
+															"\tPinging other hosts:       "
+														  + timingPing
+														  + "\n"
+															"\tConnection Establishment:  "
+														  + timingConnect
+														  + "\n"
+															"\tTLS Handshake:             "
+														  + timingTLS);
 		return true;
 	}
 
@@ -196,4 +203,4 @@ namespace Net {
 		return true;
 	}
 
-}
+} // namespace Net

@@ -6,18 +6,17 @@
  * See the COPYING file for licensing information.
  */
 
-#include "rendering/render_object.hpp"
 #include "draw_color.hpp"
+#include "rendering/render_object.hpp"
 
 namespace Rendering {
 	class DrawRect : public RenderObject {
-	public:
+	  public:
 		/* RGBA */
 		DrawColor color;
-	public:
-		inline
-		DrawRect()
-			: RenderObject(RenderObjectType::RECT) {
+
+	  public:
+		inline DrawRect() : RenderObject(RenderObjectType::RECT) {
 		}
 	};
-}
+} // namespace Rendering

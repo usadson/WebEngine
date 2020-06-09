@@ -6,22 +6,20 @@
  * See the COPYING file for licensing information.
  */
 
-#include "encoding.hpp"
 #include "data/text/unicode.hpp"
+#include "encoding.hpp"
 
 namespace TextEncoding {
 	class UTF8 : public Encoding {
-	private:
+	  private:
 		Unicode::CodePoint CodePoint;
 		size_t BytesSeen;
 		uint_fast8_t BytesNeeded;
 		uint_fast8_t LowerBoundary;
 		uint_fast8_t UpperBoundary;
 
-	public: // Methods
-		inline
-		UTF8() noexcept : CodePoint(0), BytesSeen(0), BytesNeeded(0),
-				LowerBoundary(0x80), UpperBoundary(0xBF) {
+	  public: // Methods
+		inline UTF8() noexcept : CodePoint(0), BytesSeen(0), BytesNeeded(0), LowerBoundary(0x80), UpperBoundary(0xBF) {
 		}
 
 		bool
@@ -30,4 +28,4 @@ namespace TextEncoding {
 		static std::vector<Unicode::CodePoint>
 		ASCIIDecode(const char *data, size_t size);
 	};
-}
+} // namespace TextEncoding

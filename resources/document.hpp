@@ -12,8 +12,8 @@
 namespace Resources {
 
 	class DocumentResource : public Resource {
-	public:
+	  public:
 		Unicode::UString data;
 	};
 
-}
+} // namespace Resources

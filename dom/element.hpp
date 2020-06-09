@@ -18,12 +18,7 @@ namespace DOM {
 	 * Spec:
 	 * https://dom.spec.whatwg.org/#interface-element
 	 */
-	enum class CustomElementState {
-		CUSTOM,
-		FAILED,
-		UNCUSTOMIZED,
-		UNDEFINED
-	};
+	enum class CustomElementState { CUSTOM, FAILED, UNCUSTOMIZED, UNDEFINED };
 
 	/**
 	 * In the following class, if std::optional<T> is used, it often means that
@@ -32,12 +27,13 @@ namespace DOM {
 	 * is effectively null.
 	 */
 	class Element : public Node {
-	public: // Internal Properties
+	  public: // Internal Properties
 		std::map<Unicode::UString, Unicode::UString> internalAttributes;
-	public: // Destructor
-		virtual
-		~Element() = default;
-	public: // DOM Attributes
+
+	  public: // Destructor
+		virtual ~Element() = default;
+
+	  public: // DOM Attributes
 		/* Readonly */
 		std::optional<Unicode::UString> namespaceURI;
 		std::optional<Unicode::UString> namespacePrefix;
@@ -53,6 +49,6 @@ namespace DOM {
 		Unicode::UString className;
 
 		// Children should govern the Node::ChildNodes vector somehow.
-		std::vector<std::shared_ptr<DOM::Element>> children;
+		std::vector<std::shared_ptr<DOM::Element> > children;
 	};
-}
+} // namespace DOM

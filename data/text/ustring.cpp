@@ -12,21 +12,17 @@
 #include "logger.hpp"
 
 namespace Unicode {
-	UString::UString() noexcept
-		   : data({}) {
+	UString::UString() noexcept : data({}) {
 	}
 
-	UString::UString(std::vector<Unicode::CodePoint> characters) noexcept
-		   : data(std::move(characters)) {
+	UString::UString(std::vector<Unicode::CodePoint> characters) noexcept : data(std::move(characters)) {
 	}
 
-	UString::UString(Unicode::CodePoint character) noexcept
-		   : data({ character }) {
+	UString::UString(Unicode::CodePoint character) noexcept : data({ character }) {
 	}
-
 
 	UString::UString(const char *characters, size_t size) noexcept
-		   : data(TextEncoding::UTF8::ASCIIDecode(characters, size)) {
+		: data(TextEncoding::UTF8::ASCIIDecode(characters, size)) {
 	}
 
 	UString &
@@ -62,9 +58,12 @@ namespace Unicode {
 
 		size_t i = 0;
 		for (; i < lhs.data.size(); i++) {
-			if (rhs.data.size() == i - 1)	return  1;
-			if (*p2 > *p1)					return -1;
-			if (*p1 > *p2)					return  1;
+			if (rhs.data.size() == i - 1)
+				return 1;
+			if (*p2 > *p1)
+				return -1;
+			if (*p1 > *p2)
+				return 1;
 
 			p1++;
 			p2++;
@@ -164,4 +163,4 @@ namespace Unicode {
 
 		return stream;
 	}
-}
+} // namespace Unicode

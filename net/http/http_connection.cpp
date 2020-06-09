@@ -19,8 +19,7 @@
 
 namespace Net {
 	namespace HTTP {
-		HTTPConnection::HTTPConnection(const Net::ConnectionInfo &inConnectionInfo)
-				: connectionInfo(inConnectionInfo) {
+		HTTPConnection::HTTPConnection(const Net::ConnectionInfo &inConnectionInfo) : connectionInfo(inConnectionInfo) {
 			if (!connectionInfo.Connect()) {
 				std::stringstream information;
 				information << "Failed to connect! Host: \"" << connectionInfo.hostName << "\":" << connectionInfo.port;
@@ -49,7 +48,8 @@ namespace Net {
 
 			/* Check if version is 'HTTP/1.1' */
 			if (protocolData[5] != '1' || protocolData[7] != '1')
-				Logger::Warning("HTTPConnection::ConsumeVersion", "HTTP Version isn't \"HTTP/1.1\": \"" + response->httpVersion + "\".");
+				Logger::Warning("HTTPConnection::ConsumeVersion",
+								"HTTP Version isn't \"HTTP/1.1\": \"" + response->httpVersion + "\".");
 
 			return HTTPConnectionError::NO_ERROR;
 		}
@@ -64,7 +64,8 @@ namespace Net {
 			statusCode.push_back('\0');
 
 			/* Validate HTTP Version */
-			if (std::any_of(std::cbegin(statusCode), std::cend(statusCode), [](auto character) { return character < 0x30 || character > 0x39; })) {
+			if (std::any_of(std::cbegin(statusCode), std::cend(statusCode),
+							[](auto character) { return character < 0x30 || character > 0x39; })) {
 				// Treat as a '400 Bad Request' status code (right?)
 				Logger::Warning("HTTPConnection::ConsumeStatusCode",
 								std::string("Incorrect status-code (should be a digit): ") + statusCode.data());
@@ -76,9 +77,7 @@ namespace Net {
 								std::string("Incorrect status-code (uncategorized): ") + statusCode.data());
 			}
 
-			response->statusCode = (statusCode[0] - 0x30) * 100
-								 + (statusCode[1] - 0x30) * 10
-								 + (statusCode[2] - 0x30);
+			response->statusCode = (statusCode[0] - 0x30) * 100 + (statusCode[1] - 0x30) * 10 + (statusCode[2] - 0x30);
 
 			return HTTPConnectionError::NO_ERROR;
 		}
@@ -190,7 +189,7 @@ namespace Net {
 
 				if ((character >= 0x21 && character <= 0x7E) || // VCHAR
 					(character >= 0x80 && character <= 0xFF) || // obs-text
-					 character == ' '  || character == '\t')	// SP / HTAB
+					character == ' ' || character == '\t')		// SP / HTAB
 					dest->push_back(character.value());
 				else
 					return HTTPConnectionError::INCORRECT_HEADER_FIELD_VALUE;
@@ -205,11 +204,8 @@ namespace Net {
 
 		HTTPConnectionError
 		HTTPConnection::ConsumeHeaderFieldName(std::vector<char> *dest) {
-			static const std::vector<char> unreservedCharacters = {
-				'!',  '#', '$', '%', '&',
-				'\'', '*', '+', '-', '.',
-				'^',  '_', '`', '|', '~'
-			};
+			static const std::vector<char> unreservedCharacters
+				= { '!', '#', '$', '%', '&', '\'', '*', '+', '-', '.', '^', '_', '`', '|', '~' };
 
 			std::optional<char> character;
 
@@ -223,11 +219,11 @@ namespace Net {
 					return HTTPConnectionError::NO_ERROR;
 
 				if (std::find(std::begin(unreservedCharacters), std::end(unreservedCharacters),
-						   character.value()) != std::end(unreservedCharacters) ||
-					(character.value() >= 0x30 && character.value() <= 0x39) || // DIGIT
-					(character.value() >= 0x41 && character.value() <= 0x5A) || // ALPHA (UPPER)
-					(character.value() >= 0x61 && character.value() <= 0x7A)
-				) {
+							  character.value())
+						!= std::end(unreservedCharacters)
+					|| (character.value() >= 0x30 && character.value() <= 0x39) || // DIGIT
+					(character.value() >= 0x41 && character.value() <= 0x5A) ||	   // ALPHA (UPPER)
+					(character.value() >= 0x61 && character.value() <= 0x7A)) {
 					dest->push_back(character.value());
 				} else /* Invalid character */
 					return HTTPConnectionError::INCORRECT_HEADER_FIELD_NAME;
@@ -295,8 +291,7 @@ namespace Net {
 
 		HTTPConnectionError
 		HTTPConnection::Request(HTTPResponseInfo *response, const std::string &method, const std::string &path) {
-			if (!connectionInfo.connected ||
-				(connectionInfo.secure && !connectionInfo.isAuthenticated)) {
+			if (!connectionInfo.connected || (connectionInfo.secure && !connectionInfo.isAuthenticated)) {
 				return HTTPConnectionError::NOT_CONNECTED;
 			}
 
@@ -314,16 +309,10 @@ namespace Net {
 			if (!connectionInfo.Write(str.c_str(), str.length()))
 				return HTTPConnectionError::FAILED_WRITE_REQUEST;
 
-			for (const auto &subroutine : {
-				&HTTPConnection::ConsumeHTTPVersion,
-				&HTTPConnection::ConsumeWhiteSpace,
-				&HTTPConnection::ConsumeStatusCode,
-				&HTTPConnection::ConsumeWhiteSpace,
-				&HTTPConnection::ConsumeReasonPhrase,
-				&HTTPConnection::ConsumeNewLine,
-				&HTTPConnection::ConsumeHeaders,
-				&HTTPConnection::ConsumeMessageBody
-			}) {
+			for (const auto &subroutine : { &HTTPConnection::ConsumeHTTPVersion, &HTTPConnection::ConsumeWhiteSpace,
+											&HTTPConnection::ConsumeStatusCode, &HTTPConnection::ConsumeWhiteSpace,
+											&HTTPConnection::ConsumeReasonPhrase, &HTTPConnection::ConsumeNewLine,
+											&HTTPConnection::ConsumeHeaders, &HTTPConnection::ConsumeMessageBody }) {
 				auto error = (this->*subroutine)();
 				if (error != HTTPConnectionError::NO_ERROR)
 					return error;
@@ -336,5 +325,5 @@ namespace Net {
 		HTTPConnection::RequestNavigation(HTTPResponseInfo *response, const std::string &path) {
 			return Request(response, "GET", path);
 		}
-	}
-}
+	} // namespace HTTP
+} // namespace Net

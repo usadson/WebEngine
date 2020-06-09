@@ -15,17 +15,16 @@
 namespace Rendering {
 
 	class GLRenderer : public Renderer {
-	public: // Public Properties
+	  public: // Public Properties
 		std::vector<RenderObject *> renderObjects;
 
-	public: // Con/destructors
+	  public: // Con/destructors
 		GLRenderer();
 
-		inline
-		~GLRenderer() override {
+		inline ~GLRenderer() override {
 		}
 
-	public: // Public Methods
+	  public: // Public Methods
 		void
 		Dequeue(RenderObject *) override;
 
@@ -39,4 +38,4 @@ namespace Rendering {
 		Prepare() override;
 	};
 
-}
+} // namespace Rendering

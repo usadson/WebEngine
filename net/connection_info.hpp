@@ -13,7 +13,7 @@
 
 namespace Net {
 	class ConnectionInfo {
-	public: // Properties
+	  public: // Properties
 		/* The HostName, as entered by the client. */
 		std::string hostName;
 
@@ -47,21 +47,19 @@ namespace Net {
 		/* The time it took to setup the TLS context (handshaking etc.) */
 		std::string timingTLS;
 
-	private: // Private Properties
+	  private: // Private Properties
 		int socket;
 		void *tlsContext;
 
-	public: // Methods
+	  public: // Methods
 		ConnectionInfo(const std::string &inHostName, uint16_t inPort)
-			: hostName(inHostName), port(inPort), connected(false),
-			  secure(false), isAuthenticated(false), tlsALPNProtocols(""),
-			  socket(0), tlsContext(nullptr) {
+			: hostName(inHostName), port(inPort), connected(false), secure(false), isAuthenticated(false),
+			  tlsALPNProtocols(""), socket(0), tlsContext(nullptr) {
 		}
 
 		ConnectionInfo(const std::string &inHostName, uint16_t inPort, bool inSecure)
-			: hostName(inHostName), port(inPort), connected(false),
-			  secure(inSecure), isAuthenticated(false), tlsALPNProtocols(""),
-			  socket(0), tlsContext(nullptr) {
+			: hostName(inHostName), port(inPort), connected(false), secure(inSecure), isAuthenticated(false),
+			  tlsALPNProtocols(""), socket(0), tlsContext(nullptr) {
 		}
 
 		~ConnectionInfo();
@@ -81,7 +79,7 @@ namespace Net {
 		bool
 		Write(const char *, size_t);
 
-	private: // Private Methods for different TLS implementations:
+	  private: // Private Methods for different TLS implementations:
 		void
 		TLSDestroy();
 
@@ -97,4 +95,4 @@ namespace Net {
 		bool
 		TLSWrite(const char *, size_t);
 	};
-}
+} // namespace Net

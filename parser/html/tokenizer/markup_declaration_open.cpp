@@ -12,9 +12,8 @@
 bool
 HTML::Tokenizer::MarkupDeclarationOpen::Parse() {
 	if (!context.eof) {
-		if (context.i + 1 < context.documentSize
-			&& context.character == '-'
-			&& context.document->data[context.i+1] == '-') {
+		if (context.i + 1 < context.documentSize && context.character == '-'
+			&& context.document->data[context.i + 1] == '-') {
 			context.toConsumeNext = 1;
 
 			context.commentToken = HTML::Tokenizer::CommentToken(Unicode::UString(""));

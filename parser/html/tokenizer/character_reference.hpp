@@ -10,14 +10,13 @@
 
 namespace HTML::Tokenizer {
 	class CharacterReference : public Parser {
-	public: // Methods
-		inline explicit
-		CharacterReference(Tokenizer &tokenizer)
-			: Parser(tokenizer) {}
+	  public: // Methods
+		inline explicit CharacterReference(Tokenizer &tokenizer) : Parser(tokenizer) {
+		}
 
 		~CharacterReference() override = default;
 
 		bool
 		Parse() override;
 	};
-}
+} // namespace HTML::Tokenizer

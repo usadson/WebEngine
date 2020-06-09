@@ -11,8 +11,8 @@
 namespace Resources {
 
 	class Resource {
-	public: // Properties
+	  public: // Properties
 		MediaType mediaType;
 	};
 
-}
+} // namespace Resources

@@ -27,9 +27,8 @@ namespace Net {
 			{ HTTP2Error::NOT_CONNECTED, "NOT_CONNECTED" },
 		};
 
-		HTTP2Connection::HTTP2Connection(Net::ConnectionInfo *inConnectionInfo)
-				: connectionInfo(inConnectionInfo) {
-			if (!connectionInfo->Write(HTTP2_PREFACE, sizeof(HTTP2_PREFACE)/sizeof(HTTP2_PREFACE[0])-1)) {
+		HTTP2Connection::HTTP2Connection(Net::ConnectionInfo *inConnectionInfo) : connectionInfo(inConnectionInfo) {
+			if (!connectionInfo->Write(HTTP2_PREFACE, sizeof(HTTP2_PREFACE) / sizeof(HTTP2_PREFACE[0]) - 1)) {
 				Logger::Warning(__PRETTY_FUNCTION__, "Failed to send preface.");
 				return;
 			}
@@ -47,12 +46,11 @@ namespace Net {
 
 		HTTP2Error
 		HTTP2Connection::Request(HTTPResponseInfo *response, std::string method, std::string path) {
-			(void) response;
-			(void) method;
-			(void) path;
+			(void)response;
+			(void)method;
+			(void)path;
 
-			if (!connectionInfo->connected ||
-				(connectionInfo->secure && !connectionInfo->isAuthenticated)) {
+			if (!connectionInfo->connected || (connectionInfo->secure && !connectionInfo->isAuthenticated)) {
 				return HTTP2Error::NOT_CONNECTED;
 			}
 
@@ -68,7 +66,9 @@ namespace Net {
 							HandleFrameGoaway(frame);
 							break;
 						default:
-							std::cout << "[UNKNOWN FRAME] Information about the frame:\n\tLength: " << frame.length << "\n\tType: " << (uint16_t)frame.type << "\n\tFlags: " << (uint16_t)frame.flags << "\n\tStream: " << frame.stream << std::endl;
+							std::cout << "[UNKNOWN FRAME] Information about the frame:\n\tLength: " << frame.length
+									  << "\n\tType: " << (uint16_t)frame.type << "\n\tFlags: " << (uint16_t)frame.flags
+									  << "\n\tStream: " << frame.stream << std::endl;
 							break;
 					}
 				} catch (const H2::Exception &exception) {
@@ -92,15 +92,15 @@ namespace Net {
 			 * functions are needed. */
 			std::vector<char> buf(9 + frame.payload.size());
 
-			buf[0] = (uint8_t) frame.length >> 16;
-			buf[1] = (uint8_t) frame.length >> 8;
-			buf[2] = (uint8_t) frame.length;
+			buf[0] = (uint8_t)frame.length >> 16;
+			buf[1] = (uint8_t)frame.length >> 8;
+			buf[2] = (uint8_t)frame.length;
 			buf[3] = frame.type;
 			buf[4] = frame.flags;
-			buf[5] = (uint8_t) frame.stream >> 24;
-			buf[6] = (uint8_t) frame.stream >> 16;
-			buf[7] = (uint8_t) frame.stream >> 8;
-			buf[8] = (uint8_t) frame.stream;
+			buf[5] = (uint8_t)frame.stream >> 24;
+			buf[6] = (uint8_t)frame.stream >> 16;
+			buf[7] = (uint8_t)frame.stream >> 8;
+			buf[8] = (uint8_t)frame.stream;
 
 			if (frame.payload.size() != 0)
 				buf.insert(buf.end(), frame.payload.begin(), frame.payload.end());
@@ -116,7 +116,7 @@ namespace Net {
 				throw H2::Exception(HTTP2Error::FAILED_READ, "Failed to ReadFrame() [Fields]");
 
 			H2::Frame frame;
-			frame.length = ((buf[0] & 0xFF) << 16) | ((buf[1] & 0xFF)  << 8) | (buf[2] & 0xFF);
+			frame.length = ((buf[0] & 0xFF) << 16) | ((buf[1] & 0xFF) << 8) | (buf[2] & 0xFF);
 
 			if (frame.length > localSettings.maxFrameSize) {
 				std::stringstream info("Failed to ReadFrame(): Frame size ");
@@ -143,7 +143,8 @@ namespace Net {
 
 			if (frame.flags & H2::FrameFlags::ACK) {
 				if (frame.length != 0)
-					throw H2::Exception(HTTP2Error::SETTINGS_ACK_FLAG_INVALID_SIZE, "Received a SETTINGS frame with ACK flag set but length != 0");
+					throw H2::Exception(HTTP2Error::SETTINGS_ACK_FLAG_INVALID_SIZE,
+										"Received a SETTINGS frame with ACK flag set but length != 0");
 
 				return;
 			}
@@ -158,7 +159,8 @@ namespace Net {
 				const char *buf = frame.payload.data() + i * 6;
 
 				uint16_t identifier = ((buf[0] & 0xFF) << 8) | (buf[1] & 0xFF);
-				uint32_t value = ((buf[2] & 0xFF) << 24) | ((buf[3] & 0xFF) << 16) | ((buf[4] & 0xFF) << 8) | (buf[5] & 0xFF);
+				uint32_t value
+					= ((buf[2] & 0xFF) << 24) | ((buf[3] & 0xFF) << 16) | ((buf[4] & 0xFF) << 8) | (buf[5] & 0xFF);
 
 				switch (identifier) {
 					case H2::Settings::HEADER_TABLE_SIZE:
@@ -198,8 +200,10 @@ namespace Net {
 
 		void
 		HTTP2Connection::HandleFrameGoaway(H2::Frame frame) {
-			uint32_t lastStream = ((frame.payload[0] & 0xFF) << 24) | ((frame.payload[1] & 0xFF) << 16) | ((frame.payload[2] & 0xFF) << 8) | (frame.payload[3] & 0xFF);
-			uint32_t errorCode = ((frame.payload[4] & 0xFF) << 24) | ((frame.payload[5] & 0xFF) << 16) | ((frame.payload[6] & 0xFF) << 8) | (frame.payload[7] & 0xFF);
+			uint32_t lastStream = ((frame.payload[0] & 0xFF) << 24) | ((frame.payload[1] & 0xFF) << 16)
+								  | ((frame.payload[2] & 0xFF) << 8) | (frame.payload[3] & 0xFF);
+			uint32_t errorCode = ((frame.payload[4] & 0xFF) << 24) | ((frame.payload[5] & 0xFF) << 16)
+								 | ((frame.payload[6] & 0xFF) << 8) | (frame.payload[7] & 0xFF);
 
 			std::stringstream info;
 			info << "GOAWAY Information: LastStream: " << lastStream << " ErrorCode: " << errorCode;
@@ -209,5 +213,5 @@ namespace Net {
 				for (size_t i = 8; i < frame.length; i++)
 					printf(" > 0x%hhX (%c)\n", (unsigned char)frame.payload[i], frame.payload[i]);
 		}
-	}
-}
+	} // namespace HTTP
+} // namespace Net

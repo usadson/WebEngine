@@ -10,14 +10,13 @@
 
 namespace HTML::Tokenizer {
 	class AfterDoctypePublicIdentifier : public Parser {
-	public: // Methods
-		inline explicit
-		AfterDoctypePublicIdentifier(Tokenizer &tokenizer)
-			: Parser(tokenizer) {}
+	  public: // Methods
+		inline explicit AfterDoctypePublicIdentifier(Tokenizer &tokenizer) : Parser(tokenizer) {
+		}
 
 		~AfterDoctypePublicIdentifier() override = default;
 
 		bool
 		Parse() override;
 	};
-}
+} // namespace HTML::Tokenizer

@@ -10,8 +10,8 @@
 
 namespace Net::HTTP {
 	struct HTTPHeaderField {
-	public: // Properties
+	  public: // Properties
 		std::string fieldName;
 		std::string fieldValue;
 	};
-}
+} // namespace Net::HTTP

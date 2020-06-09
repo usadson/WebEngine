@@ -10,14 +10,13 @@
 
 namespace HTML::Tokenizer {
 	class BeforeAttributeName : public Parser {
-	public: // Methods
-		inline explicit
-		BeforeAttributeName(Tokenizer &tokenizer)
-			: Parser(tokenizer) {}
+	  public: // Methods
+		inline explicit BeforeAttributeName(Tokenizer &tokenizer) : Parser(tokenizer) {
+		}
 
 		~BeforeAttributeName() override = default;
 
 		bool
 		Parse() override;
 	};
-}
+} // namespace HTML::Tokenizer

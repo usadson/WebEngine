@@ -15,4 +15,4 @@ namespace Rendering {
 		float bottom;
 	};
 
-}
+} // namespace Rendering

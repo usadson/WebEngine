@@ -10,14 +10,13 @@
 
 namespace HTML::Tokenizer {
 	class CommentStartDash : public Parser {
-	public: // Methods
-		inline explicit
-		CommentStartDash(Tokenizer &tokenizer)
-			: Parser(tokenizer) {}
+	  public: // Methods
+		inline explicit CommentStartDash(Tokenizer &tokenizer) : Parser(tokenizer) {
+		}
 
 		~CommentStartDash() override = default;
 
 		bool
 		Parse() override;
 	};
-}
+} // namespace HTML::Tokenizer

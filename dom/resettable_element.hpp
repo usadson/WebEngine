@@ -10,11 +10,12 @@
 
 namespace DOM {
 	class ResettableElement : public Element {
-	public:
+	  public:
 		/* Spec:
 		 * https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#concept-form-reset
 		 */
 		virtual void
-		reset() = 0;
+		reset()
+			= 0;
 	};
-}
+} // namespace DOM

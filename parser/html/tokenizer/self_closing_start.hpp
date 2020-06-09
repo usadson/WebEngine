@@ -10,14 +10,13 @@
 
 namespace HTML::Tokenizer {
 	class SelfClosingStart : public Parser {
-	public: // Methods
-		inline explicit
-		SelfClosingStart(Tokenizer &tokenizer)
-			: Parser(tokenizer) {}
+	  public: // Methods
+		inline explicit SelfClosingStart(Tokenizer &tokenizer) : Parser(tokenizer) {
+		}
 
 		~SelfClosingStart() override = default;
 
 		bool
 		Parse() override;
 	};
-}
+} // namespace HTML::Tokenizer

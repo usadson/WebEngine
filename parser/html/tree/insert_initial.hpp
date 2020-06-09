@@ -10,16 +10,14 @@
 
 namespace HTML::InsertionModes {
 	class Initial : public HTML::InsertionMode {
-	public: // Methods
-		inline explicit
-		Initial(TreeConstructor &constructor)
-			: HTML::InsertionMode(constructor, constructor.context) {}
+	  public: // Methods
+		inline explicit Initial(TreeConstructor &constructor) : HTML::InsertionMode(constructor, constructor.context) {
+		}
 
-		inline
-		~Initial() override {
+		inline ~Initial() override {
 		}
 
 		bool
 		EmitToken(HTML::Tokenizer::Token &inToken) override;
 	};
-}
+} // namespace HTML::InsertionModes

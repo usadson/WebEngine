@@ -10,14 +10,13 @@
 
 namespace HTML::Tokenizer {
 	class CommentLTSBangDash : public Parser {
-	public: // Methods
-		inline explicit
-		CommentLTSBangDash(Tokenizer &tokenizer)
-			: Parser(tokenizer) {}
+	  public: // Methods
+		inline explicit CommentLTSBangDash(Tokenizer &tokenizer) : Parser(tokenizer) {
+		}
 
 		~CommentLTSBangDash() override = default;
 
 		bool
 		Parse() override;
 	};
-}
+} // namespace HTML::Tokenizer

@@ -10,13 +10,12 @@
 
 namespace DOM {
 	class Comment : public CharacterData {
-	public: // Methods
-		inline
-		Comment() : CharacterData() {}
+	  public: // Methods
+		inline Comment() : CharacterData() {
+		}
 
-		inline explicit
-		Comment(const Unicode::UString &data) {
+		inline explicit Comment(const Unicode::UString &data) {
 			this->data = data;
 		}
 	};
-}
+} // namespace DOM

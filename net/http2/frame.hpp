@@ -38,4 +38,4 @@ namespace Net::HTTP::H2 {
 		uint32_t stream;
 		std::vector<char> payload;
 	};
-}
+} // namespace Net::HTTP::H2

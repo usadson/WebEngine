@@ -10,14 +10,13 @@
 
 namespace HTML::Tokenizer {
 	class Comment : public Parser {
-	public: // Methods
-		inline explicit
-		Comment(Tokenizer &tokenizer)
-			: Parser(tokenizer) {}
+	  public: // Methods
+		inline explicit Comment(Tokenizer &tokenizer) : Parser(tokenizer) {
+		}
 
 		~Comment() override = default;
 
 		bool
 		Parse() override;
 	};
-}
+} // namespace HTML::Tokenizer

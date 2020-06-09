@@ -16,4 +16,4 @@ namespace TextEncoding {
 		std::vector<Unicode::CodePoint>
 		DecodeData(const char *data, size_t size, std::string encoding);
 	}
-}
+} // namespace TextEncoding

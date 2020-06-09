@@ -14,14 +14,15 @@
 
 namespace TextEncoding {
 	class Encoding {
-	public: // Properties
+	  public: // Properties
 		std::vector<Unicode::CodePoint> Output;
 
-	public: // Methods
-		inline virtual
-		~Encoding() {}
+	  public: // Methods
+		inline virtual ~Encoding() {
+		}
 
 		virtual bool
-		Decode(const char *data, size_t size) = 0;
+		Decode(const char *data, size_t size)
+			= 0;
 	};
-}
+} // namespace TextEncoding

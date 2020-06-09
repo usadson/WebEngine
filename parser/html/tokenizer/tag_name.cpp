@@ -38,7 +38,7 @@ HTML::Tokenizer::TagName::Parse() {
 				tagToken.tagName += Unicode::REPLACEMENT_CHARACTER;
 				break;
 			default:
-				if (context.character >= 0x41 && context.character <= 0x5A) {// Is uppercase
+				if (context.character >= 0x41 && context.character <= 0x5A) { // Is uppercase
 					tagToken.tagName += static_cast<char>(context.character + 0x20);
 				} else {
 					tagToken.tagName += context.character;

@@ -9,9 +9,9 @@
 #include <map>
 #include <utility>
 
-#include "net/http/http_response_info.hpp"
-#include "net/connection_info.hpp"
 #include "frame.hpp"
+#include "net/connection_info.hpp"
+#include "net/http/http_response_info.hpp"
 
 namespace Net::HTTP {
 	enum class HTTP2Error {
@@ -31,8 +31,7 @@ namespace Net::HTTP {
 			HTTP2Error error;
 			std::string message;
 
-			inline Exception(HTTP2Error error, const std::string &message)
-				: error(error), message(message) {
+			inline Exception(HTTP2Error error, const std::string &message) : error(error), message(message) {
 			}
 		};
 
@@ -48,7 +47,7 @@ namespace Net::HTTP {
 			uint32_t maxFrameSize = 0x4000;
 			std::optional<uint32_t> maxHeaderListSize;
 		};
-	}
+	} // namespace H2
 
 	inline std::ostream &
 	operator<<(std::ostream &stream, const HTTP2Error &type) {
@@ -56,19 +55,18 @@ namespace Net::HTTP {
 	}
 
 	class HTTP2Connection {
-	public: // Properties
+	  public: // Properties
 		Net::ConnectionInfo *connectionInfo;
 		H2::LocalSettings localSettings;
 		H2::RemoteSettings remoteSettings;
 
-	public: // Con/destructors
+	  public: // Con/destructors
 		// Constructors setup the connection using 'connectionInfo'.
-		explicit
-		HTTP2Connection(Net::ConnectionInfo *);
+		explicit HTTP2Connection(Net::ConnectionInfo *);
 
 		~HTTP2Connection();
 
-	public: // Methods
+	  public: // Methods
 		// Return value: "" on success, otherwise the error.
 		HTTP2Error
 		Request(HTTPResponseInfo *, std::string method, std::string path);
@@ -76,17 +74,14 @@ namespace Net::HTTP {
 		HTTP2Error
 		RequestNavigation(HTTPResponseInfo *, const std::string &path);
 
-	private: // Private Methods
-		void
-		HandleFrameGoaway(H2::Frame);
+	  private: // Private Methods
+		void HandleFrameGoaway(H2::Frame);
 
-		void
-		HandleFrameSettings(H2::Frame);
+		void HandleFrameSettings(H2::Frame);
 
 		H2::Frame
 		ReadFrame();
 
-		bool
-		SendFrame(H2::Frame);
+		bool SendFrame(H2::Frame);
 	};
-}
+} // namespace Net::HTTP

@@ -22,7 +22,8 @@ HTML::Tokenizer::DoctypeSystemIdentifierSQ::Parse() {
 				break;
 			case '\0':
 				context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
-				context.doctypeToken.systemIdentifier = context.doctypeToken.systemIdentifier.value() + Unicode::REPLACEMENT_CHARACTER;
+				context.doctypeToken.systemIdentifier
+					= context.doctypeToken.systemIdentifier.value() + Unicode::REPLACEMENT_CHARACTER;
 				break;
 			case '>':
 				context.LogError(HTML::Tokenizer::ParserError::ABRUBT_DOCTYPE_SYSTEM_IDENTIFIER);
@@ -32,7 +33,8 @@ HTML::Tokenizer::DoctypeSystemIdentifierSQ::Parse() {
 				context.state = HTML::Tokenizer::ParserState::DATA;
 				break;
 			default:
-				context.doctypeToken.systemIdentifier = context.doctypeToken.systemIdentifier.value() + context.character;
+				context.doctypeToken.systemIdentifier
+					= context.doctypeToken.systemIdentifier.value() + context.character;
 				break;
 		}
 	}

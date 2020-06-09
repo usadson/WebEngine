@@ -11,9 +11,9 @@
 #include <sstream>
 #include <vector>
 
-#include "logger.hpp"
 #include "data/text/ustring.hpp"
 #include "dom/resettable_element.hpp"
+#include "logger.hpp"
 #include "parser/html/context.hpp"
 #include "parser/html/tree/insert_before_head.hpp"
 #include "parser/html/tree/insert_before_html.hpp"
@@ -22,17 +22,18 @@
 namespace HTML {
 
 	TreeConstructor::TreeConstructor(Tokenizer::Context &context)
-		: context(context), currentMode(InsertionModeType::INITIAL), insertionModes({
-			{ InsertionModeType::INITIAL, std::make_shared<InsertionModes::Initial>(*this) },
-			{ InsertionModeType::BEFORE_HTML, std::make_shared<InsertionModes::BeforeHTML>(*this) },
-			{ InsertionModeType::BEFORE_HEAD, std::make_shared<InsertionModes::BeforeHead>(*this) },
-		}) {
+		: context(context), currentMode(InsertionModeType::INITIAL),
+		  insertionModes({
+			  { InsertionModeType::INITIAL, std::make_shared<InsertionModes::Initial>(*this) },
+			  { InsertionModeType::BEFORE_HTML, std::make_shared<InsertionModes::BeforeHTML>(*this) },
+			  { InsertionModeType::BEFORE_HEAD, std::make_shared<InsertionModes::BeforeHead>(*this) },
+		  }) {
 	}
 
 	void
 	TreeConstructor::EmitToken(HTML::Tokenizer::Token &inToken) {
-		bool	reprocess = false;
-		size_t	reprocessCount = 0;
+		bool reprocess = false;
+		size_t reprocessCount = 0;
 
 		do {
 			if (reprocessCount == 10) {
@@ -83,11 +84,11 @@ namespace HTML {
 	 */
 	std::shared_ptr<DOM::Element>
 	TreeConstructor::CreateElement(std::shared_ptr<DOM::Document> document,
-					const Unicode::UString &localName,
-					const Unicode::UString &nameSpace,
-					std::optional<Unicode::UString> prefix,
-					std::optional<Unicode::UString> is,
-					bool synchronousCustomElementsFlag) {
+								   const Unicode::UString &localName,
+								   const Unicode::UString &nameSpace,
+								   std::optional<Unicode::UString> prefix,
+								   std::optional<Unicode::UString> is,
+								   bool synchronousCustomElementsFlag) {
 		// TODO Check for custom element definition
 		auto element = std::make_shared<DOM::Element>();
 		element->namespaceURI = nameSpace;
@@ -107,26 +108,19 @@ namespace HTML {
 	 * https://html.spec.whatwg.org/multipage/parsing.html#create-an-element-for-the-token
 	 */
 	std::shared_ptr<DOM::Element>
-	TreeConstructor::CreateElementForToken(
-						  HTML::Tokenizer::StartTagToken &tagToken,
-						  const Unicode::UString &nameSpace,
-						  std::shared_ptr<DOM::Node> intendedParent) {
+	TreeConstructor::CreateElementForToken(HTML::Tokenizer::StartTagToken &tagToken,
+										   const Unicode::UString &nameSpace,
+										   std::shared_ptr<DOM::Node> intendedParent) {
 		std::optional<Unicode::UString> is;
 
 		auto attr = std::find_if(std::begin(tagToken.attributes), std::end(tagToken.attributes),
-								 [] (const auto &attr) {
-									 return attr.first.EqualsIgnoreCaseA(2, "is");
-								 });
+								 [](const auto &attr) { return attr.first.EqualsIgnoreCaseA(2, "is"); });
 
 		if (attr != std::end(tagToken.attributes))
 			is = { attr->second };
 
-		auto element = CreateElement(intendedParent->document.value(),
-									 tagToken.tagName,
-									 nameSpace,
-									 {},
-									 is,
-									 executeScript);
+		auto element
+			= CreateElement(intendedParent->document.value(), tagToken.tagName, nameSpace, {}, is, executeScript);
 		/* Maybe, because the lifetime of the Token ends here, we can do a swap
 		 * between the tokens attributes and the elements internalAttributes?
 		 *
@@ -134,8 +128,7 @@ namespace HTML {
 		 * straightforward:
 		 * https://dom.spec.whatwg.org/#concept-element-attributes-change-ext
 		 */
-		element->internalAttributes.insert(std::begin(tagToken.attributes),
-										   std::end(tagToken.attributes));
+		element->internalAttributes.insert(std::begin(tagToken.attributes), std::end(tagToken.attributes));
 		/** TODO xmlns attribute check */
 
 		auto resettableElement = std::dynamic_pointer_cast<DOM::ResettableElement>(element);
@@ -152,18 +145,16 @@ namespace HTML {
 	 * https://html.spec.whatwg.org/multipage/parsing.html#insert-a-foreign-element
 	 */
 	void
-	TreeConstructor::InsertForeignElement(
-		const Unicode::UString &nameSpace,
-		std::shared_ptr<DOM::Node> parent
-	) {
-// 		auto element = CreateElementForToken(nameSpace,
-//
-//
-// 		// https://html.spec.whatwg.org/multipage/parsing.html#appropriate-place-for-inserting-a-node
-// 		if (fosterParenting) {
-// 			Logger::Crash(std::string(static_cast<const char *>(__PRETTY_FUNCTION__)), "Foster parenting not implemented yet.");
-// 		}
-//
+	TreeConstructor::InsertForeignElement(const Unicode::UString &nameSpace, std::shared_ptr<DOM::Node> parent) {
+		// 		auto element = CreateElementForToken(nameSpace,
+		//
+		//
+		// 		// https://html.spec.whatwg.org/multipage/parsing.html#appropriate-place-for-inserting-a-node
+		// 		if (fosterParenting) {
+		// 			Logger::Crash(std::string(static_cast<const char *>(__PRETTY_FUNCTION__)), "Foster parenting not
+		// implemented yet.");
+		// 		}
+		//
 		// TODO
 	}
 
@@ -181,4 +172,4 @@ namespace HTML {
 
 		return element;
 	}
-}
+} // namespace HTML

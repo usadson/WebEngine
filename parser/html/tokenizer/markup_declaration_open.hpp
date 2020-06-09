@@ -10,14 +10,13 @@
 
 namespace HTML::Tokenizer {
 	class MarkupDeclarationOpen : public Parser {
-	public: // Methods
-		inline explicit
-		MarkupDeclarationOpen(Tokenizer &tokenizer)
-			: Parser(tokenizer) {}
+	  public: // Methods
+		inline explicit MarkupDeclarationOpen(Tokenizer &tokenizer) : Parser(tokenizer) {
+		}
 
 		~MarkupDeclarationOpen() override = default;
 
 		bool
 		Parse() override;
 	};
-}
+} // namespace HTML::Tokenizer

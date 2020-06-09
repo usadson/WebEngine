@@ -20,15 +20,15 @@ namespace Net {
 	void
 	ConnectionInfo::TLSDestroy() {
 		Logger::Debug(__PRETTY_FUNCTION__, "Called");
-		tls_close((struct tls *) tlsContext);
-		tls_free((struct tls *) tlsContext);
+		tls_close((struct tls *)tlsContext);
+		tls_free((struct tls *)tlsContext);
 		tlsContext = nullptr;
 	}
 
 	bool
 	ConnectionInfo::TLSRead(char *buf, size_t len) {
 		do {
-			ssize_t ret = tls_read((struct tls *) tlsContext, buf, len);
+			ssize_t ret = tls_read((struct tls *)tlsContext, buf, len);
 			if (ret == TLS_WANT_POLLIN || ret == TLS_WANT_POLLOUT)
 				continue;
 
@@ -46,7 +46,7 @@ namespace Net {
 	ConnectionInfo::TLSReadChar() {
 		char character;
 
-		if (tls_read((struct tls *) tlsContext, &character, 1) == -1)
+		if (tls_read((struct tls *)tlsContext, &character, 1) == -1)
 			return std::optional<char>();
 
 		return std::optional<char>(character);
@@ -77,7 +77,8 @@ namespace Net {
 
 		if (tls_configure(context, config) == -1) {
 			const char *error = tls_error(context);
-			Logger::Severe("ConnectionInfo::TLSSetup[libtls]", std::string("Failed to configure TLS context: ") + error);
+			Logger::Severe("ConnectionInfo::TLSSetup[libtls]",
+						   std::string("Failed to configure TLS context: ") + error);
 			tls_free(context);
 			tls_config_free(config);
 			return false;
@@ -88,27 +89,28 @@ namespace Net {
 
 		if (tls_connect_socket(context, socket, hostName.c_str()) == -1) {
 			const char *error = tls_error(context);
-			Logger::Warning("ConnectionInfo::TLSSetup[libtls]", std::string("Failed to setup secure connection with ") + hostName + ": " + error);
+			Logger::Warning("ConnectionInfo::TLSSetup[libtls]",
+							std::string("Failed to setup secure connection with ") + hostName + ": " + error);
 			tls_free(context);
 			return false;
 		}
 
 		if (tls_handshake(context) == -1) {
 			const char *error = tls_error(context);
-			Logger::Warning("ConnectionInfo::TLSSetup[libtls]", std::string("Failed to setup secure connection (handshake) with ") + hostName + ": " + error);
+			Logger::Warning("ConnectionInfo::TLSSetup[libtls]",
+							std::string("Failed to setup secure connection (handshake) with ") + hostName + ": "
+								+ error);
 			tls_free(context);
 			return false;
 		}
 
 		std::cout << "TLS Information:"
-				  << "\nTLSVersion=" << tls_conn_version(context)
-				  << "\nCipher=" << tls_conn_cipher(context)
+				  << "\nTLSVersion=" << tls_conn_version(context) << "\nCipher=" << tls_conn_cipher(context)
 				  << "\nCipherStrength=" << tls_conn_cipher_strength(context)
 				  << "\nServerName=" << tls_conn_servername(context)
 				  << "\nCertificateIssuer=" << tls_peer_cert_issuer(context)
 				  << "\nCertificateSubject=" << tls_peer_cert_subject(context)
-				  << "\nCertificateHash=" << tls_peer_cert_hash(context)
-				  << std::endl;
+				  << "\nCertificateHash=" << tls_peer_cert_hash(context) << std::endl;
 
 		tlsContext = context;
 		isAuthenticated = true;
@@ -118,7 +120,7 @@ namespace Net {
 	bool
 	ConnectionInfo::TLSWrite(const char *buf, size_t len) {
 		do {
-			ssize_t ret = tls_write((struct tls *) tlsContext, buf, len);
+			ssize_t ret = tls_write((struct tls *)tlsContext, buf, len);
 
 			if (ret == TLS_WANT_POLLIN || ret == TLS_WANT_POLLOUT)
 				continue;
@@ -133,4 +135,4 @@ namespace Net {
 		return true;
 	}
 
-}
+} // namespace Net

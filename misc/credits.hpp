@@ -14,4 +14,4 @@ namespace Credits {
 	void
 	PrintAuthorsToCommandLine();
 
-}
+} // namespace Credits

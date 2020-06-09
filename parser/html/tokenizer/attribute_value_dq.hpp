@@ -10,14 +10,13 @@
 
 namespace HTML::Tokenizer {
 	class AttributeValueDQ : public Parser {
-	public: // Methods
-		inline explicit
-		AttributeValueDQ(Tokenizer &tokenizer)
-			: Parser(tokenizer) {}
+	  public: // Methods
+		inline explicit AttributeValueDQ(Tokenizer &tokenizer) : Parser(tokenizer) {
+		}
 
 		~AttributeValueDQ() override = default;
 
 		bool
 		Parse() override;
 	};
-}
+} // namespace HTML::Tokenizer

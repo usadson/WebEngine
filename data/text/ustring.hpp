@@ -15,33 +15,29 @@
 
 namespace Unicode {
 	class UString {
-	/**
-	 * The following property should be private but since the functions outside
-	 * this class (inside namespace Unicode) need this data.
-	 */
-	public: // Private Property
+		/**
+		 * The following property should be private but since the functions outside
+		 * this class (inside namespace Unicode) need this data.
+		 */
+	  public: // Private Property
 		std::vector<Unicode::CodePoint> data;
 
-	public: // Constructor Methods
+	  public: // Constructor Methods
 		UString() noexcept;
 
-		explicit
-		UString(std::vector<Unicode::CodePoint>) noexcept;
+		explicit UString(std::vector<Unicode::CodePoint>) noexcept;
 
 		// cppcheck-suppress[noExplicitConstructor]
-		explicit
-		UString(Unicode::CodePoint) noexcept;
+		explicit UString(Unicode::CodePoint) noexcept;
 
 		/* Only for ASCII characters: */
-		explicit
-		UString(const char *, size_t) noexcept;
+		explicit UString(const char *, size_t) noexcept;
 
 		// cppcheck-suppress noExplicitConstructor
-		inline explicit
-		UString(const char *ascii) noexcept
-			: UString(ascii, strlen(ascii)) {}
+		inline explicit UString(const char *ascii) noexcept : UString(ascii, strlen(ascii)) {
+		}
 
-	public: // Methods
+	  public: // Methods
 		inline const Unicode::CodePoint &
 		operator[](size_t index) const noexcept {
 			return data[index];
@@ -71,8 +67,7 @@ namespace Unicode {
 		operator+=(const char *) noexcept;
 
 		/* Is the character at position <size_t> an ASCII character? */
-		bool
-		IsASCIIAlpha(size_t) const noexcept;
+		bool IsASCIIAlpha(size_t) const noexcept;
 
 		/* Equals Ignore-case ASCII at index */
 		bool
@@ -90,8 +85,8 @@ namespace Unicode {
 		EqualsA(const char *) const noexcept;
 	};
 
-	std::ostream
-	&operator<<(std::ostream &stream, const UString &string);
+	std::ostream &
+	operator<<(std::ostream &stream, const UString &string);
 
 	int
 	CompareStatic(const UString &lhs, const UString &rhs) noexcept;
@@ -99,4 +94,4 @@ namespace Unicode {
 	bool
 	operator<(const UString &lhs, const UString &rhs) noexcept;
 
-}
+} // namespace Unicode

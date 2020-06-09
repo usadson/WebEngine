@@ -10,14 +10,13 @@
 
 namespace HTML::Tokenizer {
 	class BogusDoctype : public Parser {
-	public: // Methods
-		inline explicit
-		BogusDoctype(Tokenizer &tokenizer)
-			: Parser(tokenizer) {}
+	  public: // Methods
+		inline explicit BogusDoctype(Tokenizer &tokenizer) : Parser(tokenizer) {
+		}
 
 		~BogusDoctype() override = default;
 
 		bool
 		Parse() override;
 	};
-}
+} // namespace HTML::Tokenizer

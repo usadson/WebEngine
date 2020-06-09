@@ -10,14 +10,13 @@
 
 namespace HTML::Tokenizer {
 	class TagOpen : public Parser {
-	public: // Methods
-		inline explicit
-		TagOpen(Tokenizer &tokenizer)
-			: Parser(tokenizer) {}
+	  public: // Methods
+		inline explicit TagOpen(Tokenizer &tokenizer) : Parser(tokenizer) {
+		}
 
 		~TagOpen() override = default;
 
 		bool
 		Parse() override;
 	};
-}
+} // namespace HTML::Tokenizer

@@ -17,16 +17,15 @@ namespace TextEncoding {
 	 * The Abstract SingleByte Encodings
 	 */
 	class AbstractSBEncoding : public Encoding {
-	private: // Private Properties
+	  private: // Private Properties
 		const std::vector<Unicode::CodePoint> &Indices;
 
-	public:
-		inline explicit
-		AbstractSBEncoding(const std::vector<Unicode::CodePoint> &indices)
-			: Indices(indices) {}
+	  public:
+		inline explicit AbstractSBEncoding(const std::vector<Unicode::CodePoint> &indices) : Indices(indices) {
+		}
 
-		inline
-		~AbstractSBEncoding() override {}
+		inline ~AbstractSBEncoding() override {
+		}
 
 		bool
 		Decode(const char *data, size_t size) override;
@@ -141,4 +140,4 @@ namespace TextEncoding {
 		XMacCyrillic();
 	};
 
-}
+} // namespace TextEncoding

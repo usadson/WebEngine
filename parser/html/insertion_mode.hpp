@@ -41,4 +41,4 @@ namespace HTML {
 	operator<<(std::ostream &stream, InsertionModeType &state) {
 		return stream << insertionModeTypeNames[state];
 	}
-}
+} // namespace HTML

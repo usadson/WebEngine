@@ -10,14 +10,13 @@
 
 namespace HTML::Tokenizer {
 	class DoctypeSystemIdentifierSQ : public Parser {
-	public: // Methods
-		inline explicit
-		DoctypeSystemIdentifierSQ(Tokenizer &tokenizer)
-			: Parser(tokenizer) {}
+	  public: // Methods
+		inline explicit DoctypeSystemIdentifierSQ(Tokenizer &tokenizer) : Parser(tokenizer) {
+		}
 
 		~DoctypeSystemIdentifierSQ() override = default;
 
 		bool
 		Parse() override;
 	};
-}
+} // namespace HTML::Tokenizer

@@ -69,46 +69,73 @@
 
 void
 HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
-	// clear && find . | grep .hpp | cut -d'/' -f 2 | cut -d'.' -f 1 | awk '{print "{ HTML::Tokenizer::ParserState::" toupper($0) ", std::make_shared<HTML::Tokenizer::AAAAAAAAA>(*this) },"}' | sort
-	const std::map<HTML::Tokenizer::ParserState, std::shared_ptr<HTML::Tokenizer::Parser>> parserMap = {
-		{ HTML::Tokenizer::ParserState::AFTER_ATTRIBUTE_NAME, std::make_shared<HTML::Tokenizer::AfterAttributeName>(*this) },
-		{ HTML::Tokenizer::ParserState::AFTER_ATTRIBUTE_VALUE_QUOTED, std::make_shared<HTML::Tokenizer::AfterAttributeValueQuoted>(*this) },
-		{ HTML::Tokenizer::ParserState::AFTER_DOCTYPE_NAME, std::make_shared<HTML::Tokenizer::AfterDoctypeName>(*this) },
-		{ HTML::Tokenizer::ParserState::AFTER_DOCTYPE_PUBLIC_IDENTIFIER, std::make_shared<HTML::Tokenizer::AfterDoctypePublicIdentifier>(*this) },
-		{ HTML::Tokenizer::ParserState::AFTER_DOCTYPE_PUBLIC_KEYWORD, std::make_shared<HTML::Tokenizer::AfterDoctypePublicKeyword>(*this) },
-		{ HTML::Tokenizer::ParserState::AFTER_DOCTYPE_SYSTEM_IDENTIFIER, std::make_shared<HTML::Tokenizer::AfterDoctypeSystemIdentifier>(*this) },
-		{ HTML::Tokenizer::ParserState::AFTER_DOCTYPE_SYSTEM_KEYWORD, std::make_shared<HTML::Tokenizer::AfterDoctypeSystemKeyword>(*this) },
+	// clear && find . | grep .hpp | cut -d'/' -f 2 | cut -d'.' -f 1 | awk '{print "{ HTML::Tokenizer::ParserState::"
+	// toupper($0) ", std::make_shared<HTML::Tokenizer::AAAAAAAAA>(*this) },"}' | sort
+	const std::map<HTML::Tokenizer::ParserState, std::shared_ptr<HTML::Tokenizer::Parser> > parserMap = {
+		{ HTML::Tokenizer::ParserState::AFTER_ATTRIBUTE_NAME,
+		  std::make_shared<HTML::Tokenizer::AfterAttributeName>(*this) },
+		{ HTML::Tokenizer::ParserState::AFTER_ATTRIBUTE_VALUE_QUOTED,
+		  std::make_shared<HTML::Tokenizer::AfterAttributeValueQuoted>(*this) },
+		{ HTML::Tokenizer::ParserState::AFTER_DOCTYPE_NAME,
+		  std::make_shared<HTML::Tokenizer::AfterDoctypeName>(*this) },
+		{ HTML::Tokenizer::ParserState::AFTER_DOCTYPE_PUBLIC_IDENTIFIER,
+		  std::make_shared<HTML::Tokenizer::AfterDoctypePublicIdentifier>(*this) },
+		{ HTML::Tokenizer::ParserState::AFTER_DOCTYPE_PUBLIC_KEYWORD,
+		  std::make_shared<HTML::Tokenizer::AfterDoctypePublicKeyword>(*this) },
+		{ HTML::Tokenizer::ParserState::AFTER_DOCTYPE_SYSTEM_IDENTIFIER,
+		  std::make_shared<HTML::Tokenizer::AfterDoctypeSystemIdentifier>(*this) },
+		{ HTML::Tokenizer::ParserState::AFTER_DOCTYPE_SYSTEM_KEYWORD,
+		  std::make_shared<HTML::Tokenizer::AfterDoctypeSystemKeyword>(*this) },
 		{ HTML::Tokenizer::ParserState::ATTRIBUTE_NAME, std::make_shared<HTML::Tokenizer::AttributeName>(*this) },
-		{ HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_DQ, std::make_shared<HTML::Tokenizer::AttributeValueDQ>(*this) },
-		{ HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_NQ, std::make_shared<HTML::Tokenizer::AttributeValueNQ>(*this) },
-		{ HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_SQ, std::make_shared<HTML::Tokenizer::AttributeValueSQ>(*this) },
-		{ HTML::Tokenizer::ParserState::BEFORE_ATTRIBUTE_NAME, std::make_shared<HTML::Tokenizer::BeforeAttributeName>(*this) },
-		{ HTML::Tokenizer::ParserState::BEFORE_ATTRIBUTE_VALUE, std::make_shared<HTML::Tokenizer::BeforeAttributeValue>(*this) },
-		{ HTML::Tokenizer::ParserState::BEFORE_DOCTYPE_NAME, std::make_shared<HTML::Tokenizer::BeforeDoctypeName>(*this) },
-		{ HTML::Tokenizer::ParserState::BEFORE_DOCTYPE_PUBLIC_IDENTIFIER, std::make_shared<HTML::Tokenizer::BeforeDoctypePublicIdentifier>(*this) },
-		{ HTML::Tokenizer::ParserState::BEFORE_DOCTYPE_SYSTEM_IDENTIFIER, std::make_shared<HTML::Tokenizer::BeforeDoctypeSystemIdentifier>(*this) },
-		{ HTML::Tokenizer::ParserState::BETWEEN_DOCTYPE_PUBLIC_SYSTEM_IDENTIFIER, std::make_shared<HTML::Tokenizer::BetweenDoctypePublicSystemIdentifier>(*this) },
+		{ HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_DQ,
+		  std::make_shared<HTML::Tokenizer::AttributeValueDQ>(*this) },
+		{ HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_NQ,
+		  std::make_shared<HTML::Tokenizer::AttributeValueNQ>(*this) },
+		{ HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_SQ,
+		  std::make_shared<HTML::Tokenizer::AttributeValueSQ>(*this) },
+		{ HTML::Tokenizer::ParserState::BEFORE_ATTRIBUTE_NAME,
+		  std::make_shared<HTML::Tokenizer::BeforeAttributeName>(*this) },
+		{ HTML::Tokenizer::ParserState::BEFORE_ATTRIBUTE_VALUE,
+		  std::make_shared<HTML::Tokenizer::BeforeAttributeValue>(*this) },
+		{ HTML::Tokenizer::ParserState::BEFORE_DOCTYPE_NAME,
+		  std::make_shared<HTML::Tokenizer::BeforeDoctypeName>(*this) },
+		{ HTML::Tokenizer::ParserState::BEFORE_DOCTYPE_PUBLIC_IDENTIFIER,
+		  std::make_shared<HTML::Tokenizer::BeforeDoctypePublicIdentifier>(*this) },
+		{ HTML::Tokenizer::ParserState::BEFORE_DOCTYPE_SYSTEM_IDENTIFIER,
+		  std::make_shared<HTML::Tokenizer::BeforeDoctypeSystemIdentifier>(*this) },
+		{ HTML::Tokenizer::ParserState::BETWEEN_DOCTYPE_PUBLIC_SYSTEM_IDENTIFIER,
+		  std::make_shared<HTML::Tokenizer::BetweenDoctypePublicSystemIdentifier>(*this) },
 		{ HTML::Tokenizer::ParserState::BOGUS_DOCTYPE, std::make_shared<HTML::Tokenizer::BogusDoctype>(*this) },
-		{ HTML::Tokenizer::ParserState::CHARACTER_REFERENCE, std::make_shared<HTML::Tokenizer::CharacterReference>(*this) },
+		{ HTML::Tokenizer::ParserState::CHARACTER_REFERENCE,
+		  std::make_shared<HTML::Tokenizer::CharacterReference>(*this) },
 		{ HTML::Tokenizer::ParserState::COMMENT, std::make_shared<HTML::Tokenizer::Comment>(*this) },
 		{ HTML::Tokenizer::ParserState::COMMENT_END, std::make_shared<HTML::Tokenizer::CommentEnd>(*this) },
 		{ HTML::Tokenizer::ParserState::COMMENT_END_BANG, std::make_shared<HTML::Tokenizer::CommentEndBang>(*this) },
 		{ HTML::Tokenizer::ParserState::COMMENT_END_DASH, std::make_shared<HTML::Tokenizer::CommentEndDash>(*this) },
 		{ HTML::Tokenizer::ParserState::COMMENT_LTS, std::make_shared<HTML::Tokenizer::CommentLTS>(*this) },
 		{ HTML::Tokenizer::ParserState::COMMENT_LTS_BANG, std::make_shared<HTML::Tokenizer::CommentLTSBang>(*this) },
-		{ HTML::Tokenizer::ParserState::COMMENT_LTS_BANG_DASH, std::make_shared<HTML::Tokenizer::CommentLTSBangDash>(*this) },
-		{ HTML::Tokenizer::ParserState::COMMENT_LTS_BANG_DASH_DASH, std::make_shared<HTML::Tokenizer::CommentLTSBangDashDash>(*this) },
+		{ HTML::Tokenizer::ParserState::COMMENT_LTS_BANG_DASH,
+		  std::make_shared<HTML::Tokenizer::CommentLTSBangDash>(*this) },
+		{ HTML::Tokenizer::ParserState::COMMENT_LTS_BANG_DASH_DASH,
+		  std::make_shared<HTML::Tokenizer::CommentLTSBangDashDash>(*this) },
 		{ HTML::Tokenizer::ParserState::COMMENT_START, std::make_shared<HTML::Tokenizer::CommentStart>(*this) },
-		{ HTML::Tokenizer::ParserState::COMMENT_START_DASH, std::make_shared<HTML::Tokenizer::CommentStartDash>(*this) },
+		{ HTML::Tokenizer::ParserState::COMMENT_START_DASH,
+		  std::make_shared<HTML::Tokenizer::CommentStartDash>(*this) },
 		{ HTML::Tokenizer::ParserState::DATA, std::make_shared<HTML::Tokenizer::Data>(*this) },
 		{ HTML::Tokenizer::ParserState::DOCTYPE, std::make_shared<HTML::Tokenizer::Doctype>(*this) },
 		{ HTML::Tokenizer::ParserState::DOCTYPE_NAME, std::make_shared<HTML::Tokenizer::DoctypeName>(*this) },
-		{ HTML::Tokenizer::ParserState::DOCTYPE_PUBLIC_IDENTIFIER_DQ, std::make_shared<HTML::Tokenizer::DoctypePublicIdentifierDQ>(*this) },
-		{ HTML::Tokenizer::ParserState::DOCTYPE_PUBLIC_IDENTIFIER_SQ, std::make_shared<HTML::Tokenizer::DoctypePublicIdentifierSQ>(*this) },
-		{ HTML::Tokenizer::ParserState::DOCTYPE_SYSTEM_IDENTIFIER_DQ, std::make_shared<HTML::Tokenizer::DoctypeSystemIdentifierDQ>(*this) },
-		{ HTML::Tokenizer::ParserState::DOCTYPE_SYSTEM_IDENTIFIER_SQ, std::make_shared<HTML::Tokenizer::DoctypeSystemIdentifierSQ>(*this) },
-		{ HTML::Tokenizer::ParserState::MARKUP_DECLARATION_OPEN, std::make_shared<HTML::Tokenizer::MarkupDeclarationOpen>(*this) },
-		{ HTML::Tokenizer::ParserState::SELF_CLOSING_START, std::make_shared<HTML::Tokenizer::SelfClosingStart>(*this) },
+		{ HTML::Tokenizer::ParserState::DOCTYPE_PUBLIC_IDENTIFIER_DQ,
+		  std::make_shared<HTML::Tokenizer::DoctypePublicIdentifierDQ>(*this) },
+		{ HTML::Tokenizer::ParserState::DOCTYPE_PUBLIC_IDENTIFIER_SQ,
+		  std::make_shared<HTML::Tokenizer::DoctypePublicIdentifierSQ>(*this) },
+		{ HTML::Tokenizer::ParserState::DOCTYPE_SYSTEM_IDENTIFIER_DQ,
+		  std::make_shared<HTML::Tokenizer::DoctypeSystemIdentifierDQ>(*this) },
+		{ HTML::Tokenizer::ParserState::DOCTYPE_SYSTEM_IDENTIFIER_SQ,
+		  std::make_shared<HTML::Tokenizer::DoctypeSystemIdentifierSQ>(*this) },
+		{ HTML::Tokenizer::ParserState::MARKUP_DECLARATION_OPEN,
+		  std::make_shared<HTML::Tokenizer::MarkupDeclarationOpen>(*this) },
+		{ HTML::Tokenizer::ParserState::SELF_CLOSING_START,
+		  std::make_shared<HTML::Tokenizer::SelfClosingStart>(*this) },
 		{ HTML::Tokenizer::ParserState::TAG_END_OPEN, std::make_shared<HTML::Tokenizer::TagEndOpen>(*this) },
 		{ HTML::Tokenizer::ParserState::TAG_NAME, std::make_shared<HTML::Tokenizer::TagName>(*this) },
 		{ HTML::Tokenizer::ParserState::TAG_OPEN, std::make_shared<HTML::Tokenizer::TagOpen>(*this) },
@@ -140,7 +167,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 	for (context.i = 0; context.i <= context.documentSize; context.i++) {
 		context.character = '\0';
 
-// 		std::cout << "index=" << context.i << " state=" << context.state << std::endl;
+		// 		std::cout << "index=" << context.i << " state=" << context.state << std::endl;
 		if (context.reconsume) {
 			context.i--;
 			context.reconsume = false;
@@ -181,9 +208,8 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 		} else {
 			if (!parser->second->Parse()) {
 				std::stringstream info("ParserError: ");
-				info << context.state << " failed on " << context.linePosition
-					 << ':' << context.lineCount;
-				Logger::Error(std::string(static_cast<const char*>(__PRETTY_FUNCTION__)), info.str());
+				info << context.state << " failed on " << context.linePosition << ':' << context.lineCount;
+				Logger::Error(std::string(static_cast<const char *>(__PRETTY_FUNCTION__)), info.str());
 
 				/* FIXME: Handle Error */
 				return;
