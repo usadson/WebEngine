@@ -16,9 +16,6 @@
 
 namespace Rendering {
 
-	GLRenderer::GLRenderer() : Renderer(RendererType::OPENGL) {
-	}
-
 	void
 	GLRenderer::Prepare() {
 		glewInit();
