@@ -1,0 +1,19 @@
+BasedOnStyle: GNU
+
+# Generic
+AllowShortFunctionsOnASingleLine: false
+BinPackParameters: false
+ConstructorInitializerAllOnOneLineOrOnePerLine: false
+FixNamespaceComments: true
+
+# Indentation
+IndentCaseLabels: true
+IndentWidth: 4
+NamespaceIndentation: All
+TabWidth: 4
+UseCRLF: false
+UseTab: Always
+
+# Braces
+Cpp11BracedListStyle: false
+BreakBeforeBraces: Attach
