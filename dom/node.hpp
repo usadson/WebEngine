@@ -20,6 +20,6 @@ namespace DOM {
 	struct Node {
 	  public: // Properties
 		std::vector<std::shared_ptr<Node>> childNodes;
-		std::optional<std::shared_ptr<DOM::Document> > document;
+		std::optional<std::shared_ptr<DOM::Document>> document;
 	};
 } // namespace DOM
