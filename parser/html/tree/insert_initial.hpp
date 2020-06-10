@@ -19,5 +19,12 @@ namespace HTML::InsertionModes {
 
 		bool
 		EmitToken(HTML::Tokenizer::Token &inToken) override;
+
+	private:
+		HTML::InsertionModeSubroutineStatus
+		HandleDoctype(HTML::Tokenizer::Token &);
+
+		void
+		CheckDoctypeParserErrors(HTML::Tokenizer::DoctypeToken *) const noexcept;
 	};
 } // namespace HTML::InsertionModes

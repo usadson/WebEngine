@@ -87,7 +87,7 @@ IsQuirkyDoctype(HTML::Tokenizer::DoctypeToken *token, bool isIFrameSrcDoc) {
 	if (!token->name.has_value())
 		return true;
 
-	if (token->name.value().EqualsA("html"))
+	if (!token->name.value().EqualsA("html"))
 		return true;
 
 	if (token->systemIdentifier.has_value()) {
@@ -114,12 +114,35 @@ IsQuirkyDoctype(HTML::Tokenizer::DoctypeToken *token, bool isIFrameSrcDoc) {
 	return false;
 }
 
+void
+HTML::InsertionModes::Initial::CheckDoctypeParserErrors(HTML::Tokenizer::DoctypeToken *token) const noexcept {
+	if (!token->name.has_value())
+		context.parserContext.ReportParserError("DoctypeParser", "No DOCTYPE name specified");
+	if (!token->name.value().EqualsA("html"))
+		context.parserContext.ReportParserError("DoctypeParser", "No DOCTYPE name not equal to \"html\"");
+	if (token->publicIdentifier.has_value())
+		context.parserContext.ReportParserError("DoctypeParser", "DOCTYPEs shouldn't have a PUBLIC attribute");
+	if (token->systemIdentifier.has_value() && !token->systemIdentifier.value().EqualsA("about:legacy-compat"))
+		context.parserContext.ReportParserError("DoctypeParser", "DOCTYPEs shouldn't have a SYSTEM identifier not equal to \"about:legacy-compat\". You can either omit the SYSTEM attribute or change its identifier to \"about:legacy-compat\"");
+}
+
+HTML::InsertionModeSubroutineStatus
+HTML::InsertionModes::Initial::HandleDoctype(HTML::Tokenizer::Token &token) {
+	auto doctypeToken = dynamic_cast<HTML::Tokenizer::DoctypeToken *>(&token);
+	CheckDoctypeParserErrors(doctypeToken);
+
+	if (IsQuirkyDoctype(doctypeToken, false /* TODO */))
+		context.parserContext.documentNode->mode = DOM::QuirksMode::QUIRKS;
+
+	constructor.currentMode = HTML::InsertionModeType::BEFORE_HTML;
+	return HTML::InsertionModeSubroutineStatus::IGNORE;
+}
+
 bool
 HTML::InsertionModes::Initial::EmitToken(HTML::Tokenizer::Token &inToken) {
 	switch (inToken.type()) {
-		case HTML::Tokenizer::TokenType::CHARACTER: {
-			auto characterToken = dynamic_cast<HTML::Tokenizer::CharacterToken *>(&inToken);
-			switch (characterToken->character) {
+		case HTML::Tokenizer::TokenType::CHARACTER:
+			switch (dynamic_cast<HTML::Tokenizer::CharacterToken *>(&inToken)->character) {
 				case Unicode::CHARACTER_TABULATION:
 				case Unicode::LINE_FEED:
 				case Unicode::FORM_FEED:
@@ -128,25 +151,15 @@ HTML::InsertionModes::Initial::EmitToken(HTML::Tokenizer::Token &inToken) {
 					// Ignore this token:
 					return false;
 				default:
-					Logger::Warning("InitialInsertionMode::EmitToken", "Invalid character token!");
-					context.parserContext.documentNode->mode = DOM::QuirksMode::QUIRKS;
 					break;
 			}
 			break;
-		}
 		case HTML::Tokenizer::TokenType::COMMENT:
 			context.parserContext.documentNode->childNodes.push_back(
 				std::make_shared<DOM::Comment>(dynamic_cast<HTML::Tokenizer::CommentToken *>(&inToken)->contents));
 			return false;
-		case HTML::Tokenizer::TokenType::DOCTYPE: {
-			auto doctypeToken = dynamic_cast<HTML::Tokenizer::DoctypeToken *>(&inToken);
-
-			if (IsQuirkyDoctype(doctypeToken, false /* TODO */))
-				context.parserContext.documentNode->mode = DOM::QuirksMode::QUIRKS;
-
-			constructor.currentMode = HTML::InsertionModeType::BEFORE_HTML;
-			return false;
-		}
+		case HTML::Tokenizer::TokenType::DOCTYPE:
+			HandleDoctype(inToken);
 		default:
 			break;
 	}
@@ -156,6 +169,7 @@ HTML::InsertionModes::Initial::EmitToken(HTML::Tokenizer::Token &inToken) {
 	std::cerr << "\tTokenType: " << inToken.type() << std::endl;
 
 	// In any other case:
+	context.parserContext.documentNode->mode = DOM::QuirksMode::QUIRKS;
 	constructor.currentMode = HTML::InsertionModeType::BEFORE_HTML;
 	return true;
 }

@@ -15,8 +15,8 @@ namespace HTML {
 
 namespace HTML {
 	enum class InsertionModeSubroutineStatus {
-		IGNORE,
-		RECONSUME,
+		IGNORE,		  // Parsing was OK
+		RECONSUME,	  // Parsing should be done again but in a different (already-specified) mode
 		PARSER_ERROR, // PARSER_ERROR -> effectively also IGNORE
 		CONTINUE	  // Continue Execution
 	};
