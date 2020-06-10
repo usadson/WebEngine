@@ -142,6 +142,20 @@ namespace Unicode {
 	UString::EqualsA(const char *ascii) const noexcept {
 		size_t length = strlen(ascii);
 
+		if (length != data.size())
+			return false;
+
+		for (size_t i = 0; i < length; i++)
+			if (static_cast<uint8_t>(data[i]) != ascii[i])
+				return false;
+
+		return true;
+	}
+
+	bool
+	UString::StartsWithA(const char *ascii) {
+		size_t length = strlen(ascii);
+
 		if (length > data.size())
 			return false;
 

@@ -83,6 +83,9 @@ namespace Unicode {
 
 		bool
 		EqualsA(const char *) const noexcept;
+
+		bool
+		StartsWithA(const char *);
 	};
 
 	std::ostream &
