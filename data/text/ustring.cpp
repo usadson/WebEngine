@@ -103,7 +103,7 @@ namespace Unicode {
 
 	bool
 	UString::EqualsIgnoreCaseAL(size_t index, const char *ascii, size_t length) const noexcept {
-		if (index + length >= data.size()) {
+		if (index + length != data.size()) {
 			return false;
 		}
 
@@ -127,7 +127,7 @@ namespace Unicode {
 
 	bool
 	UString::EqualsAL(size_t index, const char *ascii, size_t length) const noexcept {
-		if (index + length >= data.size())
+		if (index + length != data.size())
 			return false;
 
 		for (size_t i = 0; i < length; i++) {

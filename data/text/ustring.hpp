@@ -67,7 +67,8 @@ namespace Unicode {
 		operator+=(const char *) noexcept;
 
 		/* Is the character at position <size_t> an ASCII character? */
-		bool IsASCIIAlpha(size_t) const noexcept;
+		bool
+		IsASCIIAlpha(size_t) const noexcept;
 
 		/* Equals Ignore-case ASCII at index */
 		bool
