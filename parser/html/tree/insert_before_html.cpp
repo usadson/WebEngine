@@ -37,6 +37,13 @@ HTML::InsertionModes::BeforeHTML::HandleComment(HTML::Tokenizer::Token &token) {
 }
 
 HTML::InsertionModeSubroutineStatus
+HTML::InsertionModes::BeforeHTML::HandleDoctype(HTML::Tokenizer::Token &token) {
+	(void)token;
+	context.parserContext.ReportParserError("BeforeHTMLInsertionMode", "DOCTYPEs should be declared only once");
+	return HTML::InsertionModeSubroutineStatus::IGNORE;
+}
+
+HTML::InsertionModeSubroutineStatus
 HTML::InsertionModes::BeforeHTML::HandleEndTag(HTML::Tokenizer::Token &token) {
 	/*
 	 * Wait... what is going on here?
@@ -91,6 +98,7 @@ HTML::InsertionModes::BeforeHTML::EmitToken(HTML::Tokenizer::Token &inToken) {
 	std::map<HTML::Tokenizer::TokenType, HTML::InsertionModeSubroutineStatus (BeforeHTML::*)(HTML::Tokenizer::Token &)>
 		funcMap = { { HTML::Tokenizer::TokenType::CHARACTER, &BeforeHTML::HandleCharacter },
 					{ HTML::Tokenizer::TokenType::COMMENT, &BeforeHTML::HandleComment },
+					{ HTML::Tokenizer::TokenType::DOCTYPE, &BeforeHTML::HandleDoctype },
 					{ HTML::Tokenizer::TokenType::ENDTAG, &BeforeHTML::HandleEndTag },
 					{ HTML::Tokenizer::TokenType::STARTTAG, &BeforeHTML::HandleStartTag } };
 

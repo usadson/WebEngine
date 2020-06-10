@@ -29,6 +29,9 @@ namespace HTML::InsertionModes {
 		HandleComment(HTML::Tokenizer::Token &);
 
 		HTML::InsertionModeSubroutineStatus
+		HandleDoctype(HTML::Tokenizer::Token &);
+
+		HTML::InsertionModeSubroutineStatus
 		HandleEndTag(HTML::Tokenizer::Token &);
 
 		HTML::InsertionModeSubroutineStatus
