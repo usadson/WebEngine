@@ -12,6 +12,7 @@
 #include "parser/html/context.hpp"
 
 #include "dom/comment.hpp"
+#include "dom/document_type.hpp"
 #include "logger.hpp"
 
 const std::vector<const char *> quirkyPublicIdentifiersMissingSystem
@@ -130,6 +131,14 @@ HTML::InsertionModeSubroutineStatus
 HTML::InsertionModes::Initial::HandleDoctype(HTML::Tokenizer::Token &token) {
 	auto doctypeToken = dynamic_cast<HTML::Tokenizer::DoctypeToken *>(&token);
 	CheckDoctypeParserErrors(doctypeToken);
+
+	auto documentTypeNode = std::make_shared<DOM::DocumentType>(
+		doctypeToken->name.has_value() ? doctypeToken->name.value() : Unicode::UString(),
+		doctypeToken->publicIdentifier.has_value() ? doctypeToken->publicIdentifier.value() : Unicode::UString(),
+		doctypeToken->systemIdentifier.has_value() ? doctypeToken->systemIdentifier.value() : Unicode::UString());
+
+	context.parserContext.documentNode->doctype = documentTypeNode;
+	context.parserContext.documentNode->childNodes.push_back(documentTypeNode);
 
 	if (IsQuirkyDoctype(doctypeToken, false /* TODO */))
 		context.parserContext.documentNode->mode = DOM::QuirksMode::QUIRKS;
