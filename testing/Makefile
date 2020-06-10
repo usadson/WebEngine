@@ -41,11 +41,13 @@ TESTING_LDFLAGS = `pkg-config --static --libs gtest` bin/logger.o
 
 TESTING_TARGETS = \
 	bin/testing/directory.txt \
-	bin/testing/data/text/encoding/utf8
+	bin/testing/data/text/encoding/utf8 \
+	bin/testing/data/text/ustring
 
 # the 'test' target executes every test
 test:
 	bin/testing/data/text/encoding/utf8
+	bin/testing/data/text/ustring
 
 bin/testing/directory.txt:
 	@mkdir bin/testing
@@ -54,8 +56,13 @@ bin/testing/directory.txt:
 	@mkdir bin/testing/data/text/encoding
 	@touch bin/testing/directory.txt
 
-# The 'engine' target will build the final binary executable.
 bin/testing/data/text/encoding/utf8: testing/data/text/encoding/utf8.cpp \
 	data/text/encoding/utf8.hpp \
 	bin/data/text/encoding/utf8.o
 	$(CXX) $(TESTING_CXXFLAGS) -o $@ testing/data/text/encoding/utf8.cpp bin/data/text/encoding/utf8.o $(TESTING_LDFLAGS)
+
+bin/testing/data/text/ustring: testing/data/text/ustring.cpp \
+	data/text/ustring.hpp \
+	bin/data/text/encoding/utf8.o \
+	bin/data/text/ustring.o
+	$(CXX) $(TESTING_CXXFLAGS) -o $@ testing/data/text/ustring.cpp bin/data/text/ustring.o bin/data/text/encoding/utf8.o $(TESTING_LDFLAGS)
