@@ -177,15 +177,25 @@ HTML::InsertionModes::Initial::EmitToken(HTML::Tokenizer::Token &inToken) {
 			context.parserContext.documentNode->childNodes.push_back(
 				std::make_shared<DOM::Comment>(dynamic_cast<HTML::Tokenizer::CommentToken *>(&inToken)->contents));
 			return false;
-		case HTML::Tokenizer::TokenType::DOCTYPE:
-			HandleDoctype(inToken);
+		case HTML::Tokenizer::TokenType::DOCTYPE: {
+			auto status = HandleDoctype(inToken);
+			if (status == HTML::InsertionModeSubroutineStatus::IGNORE ||
+				status == HTML::InsertionModeSubroutineStatus::PARSER_ERROR) {
+				return false;
+			}
+			if (status == HTML::InsertionModeSubroutineStatus::RECONSUME)
+				return true;
+			break;
+		}
 		default:
 			break;
 	}
-	// SMALL TODO 'If the document is not an iframe srcdoc document'.
 
-	Logger::Warning("InitialInsertionMode::EmitToken", "Parser Error: Invalid token in INITIAL insertion mode!");
-	std::cerr << "\tTokenType: " << inToken.type() << std::endl;
+	if (!context.parserContext.isIframeSrcdoc) {
+		// Maybe include the token's type for verbosity? This may clash with
+		// future I18n translations, though.
+		context.parserContext.ReportParserError("DoctypeParser", "Invalid token in \"initial\" insertion mode");
+	}
 
 	// In any other case:
 	context.parserContext.documentNode->mode = DOM::QuirksMode::QUIRKS;
