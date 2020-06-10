@@ -110,7 +110,6 @@ HTML::InsertionModes::BeforeHTML::EmitToken(HTML::Tokenizer::Token &inToken) {
 	std::shared_ptr<DOM::Element> element = std::make_shared<DOM::Element>();
 	element->namespaceURI = HTML::Constants::HTMLNamespace;
 	element->localName = Unicode::UString("html");
-	element->document = context.parserContext.documentNode;
 	context.parserContext.documentNode->children.push_back(element);
 	constructor.openElementsStack.push_back(element);
 

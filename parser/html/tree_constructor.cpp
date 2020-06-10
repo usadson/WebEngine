@@ -96,7 +96,6 @@ namespace HTML {
 		element->localName = localName;
 		element->customElementState = DOM::CustomElementState::UNCUSTOMIZED;
 		element->is = is;
-		element->document = document;
 
 		// TODO 7.3
 
@@ -122,7 +121,7 @@ namespace HTML {
 			is = { attr->second };
 
 		auto element
-			= CreateElement(intendedParent->document.value(), tagToken.tagName, nameSpace, {}, is, executeScript);
+			= CreateElement(context.parserContext.documentNode, tagToken.tagName, nameSpace, {}, is, executeScript);
 		/* Maybe, because the lifetime of the Token ends here, we can do a swap
 		 * between the tokens attributes and the elements internalAttributes?
 		 *
@@ -170,7 +169,6 @@ namespace HTML {
 		auto element = std::make_shared<DOM::Element>();
 		element->namespaceURI = std::move(nameSpace);
 		element->localName = std::move(tagName);
-		element->document = context.parserContext.documentNode;
 		context.parserContext.documentNode->children.push_back(element);
 		openElementsStack.push_back(element);
 
