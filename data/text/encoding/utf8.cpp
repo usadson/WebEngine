@@ -17,7 +17,7 @@ namespace TextEncoding {
 		std::vector<Unicode::CodePoint> result(size);
 
 		for (size_t i = 0; i < size; i++)
-			result.push_back(static_cast<Unicode::CodePoint>(data[i]));
+			result[i] = static_cast<Unicode::CodePoint>(data[i]);
 
 		return result;
 	}
