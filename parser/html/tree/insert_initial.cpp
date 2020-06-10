@@ -78,28 +78,29 @@ const std::vector<const char *> quirkyPublicIdentifiers
 		"-//WebTechs//DTD Mozilla HTML 2.0//",
 		"-//WebTechs//DTD Mozilla HTML//" };
 
-bool
-IsQuirkyDoctype(HTML::Tokenizer::DoctypeToken *token, bool isIFrameSrcDoc) {
-	(void)isIFrameSrcDoc;
+DOM::QuirksMode
+DetectQuirksMode(HTML::Tokenizer::DoctypeToken *token, bool isIFrameSrcDoc) {
+	if (isIFrameSrcDoc)
+		return DOM::QuirksMode::NO_QUIRKS;
 
 	if (token->forceQuirks)
-		return true;
+		return DOM::QuirksMode::QUIRKS;
 
 	if (!token->name.has_value())
-		return true;
+		return DOM::QuirksMode::QUIRKS;
 
 	if (!token->name.value().EqualsA("html"))
-		return true;
+		return DOM::QuirksMode::QUIRKS;
 
 	if (token->systemIdentifier.has_value()) {
 		if (token->name.value().EqualsA("html"))
 			if (token->systemIdentifier.value().EqualsA("http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd")) {
-				return true;
+				return DOM::QuirksMode::QUIRKS;
 			}
 	} else if (token->publicIdentifier.has_value()) {
 		for (const auto &string : quirkyPublicIdentifiersMissingSystem) {
 			if (token->publicIdentifier.value().EqualsA(string)) {
-				return true;
+				return DOM::QuirksMode::QUIRKS;
 			}
 		}
 	}
@@ -107,12 +108,20 @@ IsQuirkyDoctype(HTML::Tokenizer::DoctypeToken *token, bool isIFrameSrcDoc) {
 	if (token->publicIdentifier.has_value()) {
 		for (const auto &string : quirkyPublicIdentifiers) {
 			if (token->publicIdentifier.value().EqualsA(string)) {
-				return true;
+				return DOM::QuirksMode::QUIRKS;
 			}
 		}
 	}
 
-	return false;
+	if (token->publicIdentifier.has_value() && (token->publicIdentifier.StartsWithA("-//W3C//DTD XHTML 1.0 Frameset//") || token->publicIdentifier.StartsWithA("-//W3C//DTD XHTML 1.0 Transitional//"))) {
+		return DOM::QuirksMode::LIMITED_QUIRKS;
+	}
+
+	if (token->systemIdentifier.has_value() && (token->systemIdentifier.StartsWithA("-//W3C//DTD HTML 4.01 Frameset//") || token->systemIdentifier.StartsWithA("-//W3C//DTD HTML 4.01 Transitional//"))) {
+		return DOM::QuirksMode::LIMITED_QUIRKS;
+	}
+
+	return DOM::QuirksMode::NO_QUIRKS;
 }
 
 void
@@ -136,12 +145,13 @@ HTML::InsertionModes::Initial::HandleDoctype(HTML::Tokenizer::Token &token) {
 		doctypeToken->name.has_value() ? doctypeToken->name.value() : Unicode::UString(),
 		doctypeToken->publicIdentifier.has_value() ? doctypeToken->publicIdentifier.value() : Unicode::UString(),
 		doctypeToken->systemIdentifier.has_value() ? doctypeToken->systemIdentifier.value() : Unicode::UString());
+	// The spec states that the other attributes must be set to null/empty, but
+	// this is done by default by the constructor, right?
 
 	context.parserContext.documentNode->doctype = documentTypeNode;
 	context.parserContext.documentNode->childNodes.push_back(documentTypeNode);
 
-	if (IsQuirkyDoctype(doctypeToken, false /* TODO */))
-		context.parserContext.documentNode->mode = DOM::QuirksMode::QUIRKS;
+	context.parserContext.documentNode->mode = DetectQuirksMode(doctypeToken, context.parserContext.isIframeSrcdoc);
 
 	constructor.currentMode = HTML::InsertionModeType::BEFORE_HTML;
 	return HTML::InsertionModeSubroutineStatus::IGNORE;
