@@ -127,13 +127,13 @@ DetectQuirksMode(HTML::Tokenizer::DoctypeToken *token, bool isIFrameSrcDoc) {
 void
 HTML::InsertionModes::Initial::CheckDoctypeParserErrors(HTML::Tokenizer::DoctypeToken *token) const noexcept {
 	if (!token->name.has_value())
-		context.parserContext.ReportParserError("DoctypeParser", "No DOCTYPE name specified");
+		context.parserContext.ReportParserError("InitialInsertionMode", "No DOCTYPE name specified");
 	if (!token->name.value().EqualsA("html"))
-		context.parserContext.ReportParserError("DoctypeParser", "No DOCTYPE name not equal to \"html\"");
+		context.parserContext.ReportParserError("InitialInsertionMode", "No DOCTYPE name not equal to \"html\"");
 	if (token->publicIdentifier.has_value())
-		context.parserContext.ReportParserError("DoctypeParser", "DOCTYPEs shouldn't have a PUBLIC attribute");
+		context.parserContext.ReportParserError("InitialInsertionMode", "DOCTYPEs shouldn't have a PUBLIC attribute");
 	if (token->systemIdentifier.has_value() && !token->systemIdentifier.value().EqualsA("about:legacy-compat"))
-		context.parserContext.ReportParserError("DoctypeParser", "DOCTYPEs shouldn't have a SYSTEM identifier not equal to \"about:legacy-compat\". You can either omit the SYSTEM attribute or change its identifier to \"about:legacy-compat\"");
+		context.parserContext.ReportParserError("InitialInsertionMode", "DOCTYPEs shouldn't have a SYSTEM identifier not equal to \"about:legacy-compat\". You can either omit the SYSTEM attribute or change its identifier to \"about:legacy-compat\"");
 }
 
 HTML::InsertionModeSubroutineStatus
@@ -194,7 +194,7 @@ HTML::InsertionModes::Initial::EmitToken(HTML::Tokenizer::Token &inToken) {
 	if (!context.parserContext.isIframeSrcdoc) {
 		// Maybe include the token's type for verbosity? This may clash with
 		// future I18n translations, though.
-		context.parserContext.ReportParserError("DoctypeParser", "Invalid token in \"initial\" insertion mode");
+		context.parserContext.ReportParserError("InitialInsertionMode", "Invalid token in \"initial\" insertion mode");
 	}
 
 	// In any other case:
