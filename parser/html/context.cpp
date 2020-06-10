@@ -8,6 +8,8 @@
 
 #include <iostream>
 
+#include "logger.hpp"
+
 void
 HTML::Tokenizer::Context::LogError(const HTML::Tokenizer::ParserError &error) {
 	std::cerr << "\033[1;31mParserError: \033[1;33m" << error.name << "\033[1;31m at \033[1;35m" << lineCount << ':'
@@ -19,3 +21,9 @@ HTML::Tokenizer::Context::LogError(const HTML::Tokenizer::ParserError &error) {
 	std::cerr << "\033[1;31m (character: '" << currentCharacter << "' i.e. 0x" << std::hex << (size_t)currentCharacter
 			  << std::dec << ")\033[1;0m" << std::endl;
 }
+
+void
+HTML::ParserContext::ReportParserError(const std::string &source, const std::string &message) {
+	Logger::Warning("HTMLParser", "Parser Error in " + source + ": " + message);
+}
+

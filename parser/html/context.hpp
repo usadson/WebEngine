@@ -19,8 +19,11 @@ namespace HTML::Tokenizer {
 
 namespace HTML {
 	class ParserContext {
-	  public:
+	public:
 		std::shared_ptr<DOM::Document> documentNode = std::make_shared<DOM::Document>();
+
+		void
+		ReportParserError(const std::string &source, const std::string &message);
 	};
 } // namespace HTML
 
