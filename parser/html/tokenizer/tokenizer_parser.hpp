@@ -15,7 +15,8 @@ namespace HTML::Tokenizer {
 		Tokenizer &tokenizer;
 
 	  public: // Methods
-		inline Parser(Tokenizer &tokenizer) : context(tokenizer.context), tokenizer(tokenizer) {
+		explicit inline
+		Parser(Tokenizer &tokenizer) : context(tokenizer.context), tokenizer(tokenizer) {
 		}
 
 		inline virtual ~Parser() {

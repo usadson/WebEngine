@@ -11,6 +11,9 @@
 namespace DOM {
 	class ResettableElement : public Element {
 	  public:
+		virtual
+		~ResettableElement() = default;
+
 		/* Spec:
 		 * https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#concept-form-reset
 		 */
