@@ -149,7 +149,6 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 	context.linePosition = 0;
 
 	context.documentSize = context.document->data.length();
-	std::cout << "InputDataSize: " << context.documentSize << std::endl;
 
 	// Don't use 'character' if context.eof is true.
 	context.eof = false;
@@ -202,7 +201,9 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 		auto parser = parserMap.find(context.state);
 
 		if (parser == std::end(parserMap)) {
-			std::cout << "Unknown state(" << ++context.unknownStateCount << "): " << context.state << std::endl;
+			std::stringstream info;
+			info << "Unknown state(" << ++context.unknownStateCount << "): " << context.state << '\n';
+			Logger::Warning("HTMLTokenizer::Run", info.str());
 		} else {
 			if (!parser->second->Parse()) {
 				std::stringstream info("ParserError: ");
