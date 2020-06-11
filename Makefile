@@ -113,6 +113,7 @@ BINARIES = bin/ccompat.o \
 	   bin/parser/html/tokenizer/tag_open.o \
 	   bin/parser/html/tree/insert_before_head.o \
 	   bin/parser/html/tree/insert_before_html.o \
+	   bin/parser/html/tree/insert_in_head.o \
 	   bin/parser/html/tree/insert_intial.o \
 	   bin/parser/html/tree_constructor.o \
 	   bin/rendering/opengl/gl_renderer.o \
@@ -607,6 +608,15 @@ bin/parser/html/tree/insert_before_html.o: parser/html/tree/insert_before_html.c
 	parser/html/tree/insertion_mode.hpp \
 	logger.hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ parser/html/tree/insert_before_html.cpp
+
+bin/parser/html/tree/insert_in_head.o: parser/html/tree/insert_in_head.cpp \
+	parser/html/tree/insert_in_head.hpp \
+	dom/comment.hpp \
+	dom/element.hpp \
+	parser/html/constants.hpp \
+	parser/html/tree/insertion_mode.hpp \
+	logger.hpp
+	$(CXX) $(CXXFLAGS) -c -o $@ parser/html/tree/insert_in_head.cpp
 
 bin/parser/html/tree/insert_intial.o: parser/html/tree/insert_initial.cpp \
 	parser/html/tree/insert_initial.hpp \

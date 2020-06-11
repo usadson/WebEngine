@@ -66,8 +66,8 @@ HTML::InsertionModes::BeforeHead::HandleStartTag(HTML::Tokenizer::Token &token) 
 	}
 
 	if (startTagToken->tagName.EqualsIgnoreCaseA(0, "html")) {
-		constructor.insertionModes.find(HTML::InsertionModeType::IN_BODY)->second->EmitToken(token);
-		return HTML::InsertionModeSubroutineStatus::IGNORE;
+		auto status = constructor.insertionModes.find(HTML::InsertionModeType::IN_BODY)->second->EmitToken(token);
+		return status ? HTML::InsertionModeSubroutineStatus::RECONSUME : HTML::InsertionModeSubroutineStatus::IGNORE;
 	}
 
 	return HTML::InsertionModeSubroutineStatus::CONTINUE;

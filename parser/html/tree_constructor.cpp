@@ -17,6 +17,7 @@
 #include "parser/html/context.hpp"
 #include "parser/html/tree/insert_before_head.hpp"
 #include "parser/html/tree/insert_before_html.hpp"
+#include "parser/html/tree/insert_in_head.hpp"
 #include "parser/html/tree/insert_initial.hpp"
 
 namespace HTML {
@@ -27,6 +28,7 @@ namespace HTML {
 			  { InsertionModeType::INITIAL, std::make_shared<InsertionModes::Initial>(*this) },
 			  { InsertionModeType::BEFORE_HTML, std::make_shared<InsertionModes::BeforeHTML>(*this) },
 			  { InsertionModeType::BEFORE_HEAD, std::make_shared<InsertionModes::BeforeHead>(*this) },
+			  { InsertionModeType::IN_HEAD, std::make_shared<InsertionModes::InHead>(*this) },
 		  }) {
 	}
 
