@@ -19,7 +19,8 @@ namespace Rendering {
 		std::vector<RenderObject *> renderObjects;
 
 	  public: // Con/destructors
-		inline GLRenderer() : Renderer(RendererType::OPENGL) {}
+		inline GLRenderer() : Renderer(RendererType::OPENGL) {
+		}
 
 		inline ~GLRenderer() override {
 		}

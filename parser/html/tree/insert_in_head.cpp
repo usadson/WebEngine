@@ -15,7 +15,6 @@
 #include "dom/document_type.hpp"
 #include "logger.hpp"
 
-
 HTML::InsertionModeSubroutineStatus
 HTML::InsertionModes::InHead::HandleCharacter(HTML::Tokenizer::Token &token) {
 	switch (dynamic_cast<HTML::Tokenizer::CharacterToken *>(&token)->character) {
@@ -56,10 +55,8 @@ HTML::InsertionModes::InHead::HandleStartTag(HTML::Tokenizer::Token &token) {
 		return HTML::InsertionModeSubroutineStatus::IGNORE;
 	}
 
-
 	return HTML::InsertionModeSubroutineStatus::CONTINUE;
 }
-
 
 bool
 HTML::InsertionModes::InHead::EmitToken(HTML::Tokenizer::Token &inToken) {

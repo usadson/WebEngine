@@ -13,13 +13,12 @@
 namespace Unicode {
 
 	class UStringTest : public ::testing::Test {
-	protected:
-		UString normalString { "Hello world" };
+	  protected:
+		UString normalString{ "Hello world" };
 	};
 
 	TEST_F(UStringTest, StringUtilities) {
-		ASSERT_EQ(normalString.length(), 11)
-			<< "Invalid size detected";
+		ASSERT_EQ(normalString.length(), 11) << "Invalid size detected";
 
 		// EqualsIgnoreCaseA
 		ASSERT_TRUE(normalString.EqualsIgnoreCaseA(0, "HELLO WORLD"));
@@ -56,8 +55,7 @@ namespace Unicode {
 		ASSERT_FALSE(normalString.StartsWithA("something else"));
 
 		// StartsWithIgnoreCaseAL
-		bool
-		StartsWithIgnoreCaseAL(size_t pos, const char *ascii, size_t length);
+		bool StartsWithIgnoreCaseAL(size_t pos, const char *ascii, size_t length);
 		ASSERT_TRUE(normalString.StartsWithIgnoreCaseAL(0, "", 0));
 		ASSERT_TRUE(normalString.StartsWithIgnoreCaseAL(0, "hello world", 11));
 		ASSERT_TRUE(normalString.StartsWithIgnoreCaseAL(0, "hello world", 5));
@@ -72,11 +70,10 @@ namespace Unicode {
 		ASSERT_FALSE(normalString.StartsWithIgnoreCaseAL(3, "something else", 11));
 	}
 
-} // namespace TextEncoding
+} // namespace Unicode
 
 int
 main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
 }
-

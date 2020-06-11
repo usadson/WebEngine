@@ -100,7 +100,7 @@ namespace HTML {
 
 		// TODO 7.3
 
-		(void) synchronousCustomElementsFlag;
+		(void)synchronousCustomElementsFlag;
 
 		return element;
 	}
@@ -120,8 +120,7 @@ namespace HTML {
 		if (attr != std::end(tagToken.attributes))
 			is = { attr->second };
 
-		auto element
-			= CreateElement(tagToken.tagName, nameSpace, {}, is, executeScript);
+		auto element = CreateElement(tagToken.tagName, nameSpace, {}, is, executeScript);
 		/* Maybe, because the lifetime of the Token ends here, we can do a swap
 		 * between the tokens attributes and the elements internalAttributes?
 		 *
@@ -145,8 +144,9 @@ namespace HTML {
 	// https://html.spec.whatwg.org/multipage/parsing.html#appropriate-place-for-inserting-a-node
 	void
 	TreeConstructor::InsertNodeInAppropriateLocation(std::shared_ptr<DOM::Node> node,
-									std::optional<std::shared_ptr<DOM::Node>> overrideTarget) {
-		std::shared_ptr<DOM::Node> target = overrideTarget.has_value() ? overrideTarget.value() : openElementsStack.back();
+													 std::optional<std::shared_ptr<DOM::Node> > overrideTarget) {
+		std::shared_ptr<DOM::Node> target
+			= overrideTarget.has_value() ? overrideTarget.value() : openElementsStack.back();
 		/* TODO Foster parenting */
 		target->childNodes.push_back(node);
 	}
@@ -156,8 +156,7 @@ namespace HTML {
 	 * https://html.spec.whatwg.org/multipage/parsing.html#insert-a-foreign-element
 	 */
 	std::shared_ptr<DOM::Element>
-	TreeConstructor::InsertForeignElement(HTML::Tokenizer::StartTagToken &token,
-										  const Unicode::UString &nameSpace) {
+	TreeConstructor::InsertForeignElement(HTML::Tokenizer::StartTagToken &token, const Unicode::UString &nameSpace) {
 		auto element = CreateElementForToken(token, nameSpace);
 		InsertNodeInAppropriateLocation(element);
 
@@ -178,7 +177,7 @@ namespace HTML {
 		context.parserContext.documentNode->children.push_back(element);
 		openElementsStack.push_back(element);
 
-		(void) attributes;
+		(void)attributes;
 
 		return element;
 	}

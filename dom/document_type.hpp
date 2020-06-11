@@ -19,9 +19,7 @@ namespace DOM {
 		const Unicode::UString publicId;
 		const Unicode::UString systemId;
 
-		DocumentType(const Unicode::UString &name,
-					 const Unicode::UString &publicId,
-					 const Unicode::UString &systemId)
+		DocumentType(const Unicode::UString &name, const Unicode::UString &publicId, const Unicode::UString &systemId)
 			: name(name), publicId(publicId), systemId(systemId) {
 		}
 	};

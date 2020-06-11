@@ -20,7 +20,7 @@ namespace HTML::InsertionModes {
 		bool
 		EmitToken(HTML::Tokenizer::Token &inToken) override;
 
-	private:
+	  private:
 		HTML::InsertionModeSubroutineStatus
 		HandleDoctype(HTML::Tokenizer::Token &);
 

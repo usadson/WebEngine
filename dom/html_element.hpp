@@ -19,18 +19,18 @@ namespace DOM {
 	// Specification:
 	// https://html.spec.whatwg.org/multipage/dom.html#htmlelement
 	class HTMLElement : public Element {
-	public: // DOM Attributes
+	  public: // DOM Attributes
 		std::optional<Unicode::UString> title;
 		std::optional<Unicode::UString> lang;
-		bool translate { false };
+		bool translate{ false };
 		std::optional<Unicode::UString> dir;
 
-		bool hidden { false };
+		bool hidden{ false };
 		std::optional<Unicode::UString> accessKey;
-		const std::optional<Unicode::UString> accessKeyLabel {};
-		bool draggable { false };
-		bool spellcheck { false };
-		bool autocapitalize { false };
+		const std::optional<Unicode::UString> accessKeyLabel{};
+		bool draggable{ false };
+		bool spellcheck{ false };
+		bool autocapitalize{ false };
 
 		// The 'innerText' variable, but in a getter.
 		// This function is TODO
@@ -39,9 +39,9 @@ namespace DOM {
 			return {};
 		}
 
-		ElementInternals attachInternals();
+		ElementInternals
+		attachInternals();
 	};
 
-	class HTMLUnknownElement : public HTMLElement {
-	};
+	class HTMLUnknownElement : public HTMLElement {};
 } // namespace DOM

@@ -87,27 +87,40 @@ DetectQuirksMode(HTML::Tokenizer::DoctypeToken *token, bool isIFrameSrcDoc) {
 		return DOM::QuirksMode::QUIRKS;
 
 	if (token->systemIdentifier.has_value()) {
-		if (token->name.value().EqualsIgnoreCaseA(0, "html") && token->systemIdentifier.value().EqualsIgnoreCaseA(0, "http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd"))
+		if (token->name.value().EqualsIgnoreCaseA(0, "html")
+			&& token->systemIdentifier.value().EqualsIgnoreCaseA(
+				0, "http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd"))
 			return DOM::QuirksMode::QUIRKS;
 	} else if (token->publicIdentifier.has_value()) {
-		if (std::find_if(std::begin(quirkyPublicIdentifiersMissingSystem), std::end(quirkyPublicIdentifiersMissingSystem),
-				[token](const auto &string) -> bool { return token->publicIdentifier.value().EqualsIgnoreCaseA(0, string); }) == std::end(quirkyPublicIdentifiersMissingSystem)) {
+		if (std::find_if(std::begin(quirkyPublicIdentifiersMissingSystem),
+						 std::end(quirkyPublicIdentifiersMissingSystem),
+						 [token](const auto &string) -> bool {
+							 return token->publicIdentifier.value().EqualsIgnoreCaseA(0, string);
+						 })
+			== std::end(quirkyPublicIdentifiersMissingSystem)) {
 			return DOM::QuirksMode::QUIRKS;
 		}
 	}
 
 	if (token->publicIdentifier.has_value()) {
 		if (std::find_if(std::begin(quirkyPublicIdentifiers), std::end(quirkyPublicIdentifiers),
-				[token](const auto &string) -> bool { return token->publicIdentifier.value().EqualsIgnoreCaseA(0, string); }) == std::end(quirkyPublicIdentifiers)) {
+						 [token](const auto &string) -> bool {
+							 return token->publicIdentifier.value().EqualsIgnoreCaseA(0, string);
+						 })
+			== std::end(quirkyPublicIdentifiers)) {
 			return DOM::QuirksMode::QUIRKS;
 		}
 	}
 
-	if (token->publicIdentifier.has_value() && (token->publicIdentifier->StartsWithA("-//W3C//DTD XHTML 1.0 Frameset//") || token->publicIdentifier->StartsWithA("-//W3C//DTD XHTML 1.0 Transitional//"))) {
+	if (token->publicIdentifier.has_value()
+		&& (token->publicIdentifier->StartsWithA("-//W3C//DTD XHTML 1.0 Frameset//")
+			|| token->publicIdentifier->StartsWithA("-//W3C//DTD XHTML 1.0 Transitional//"))) {
 		return DOM::QuirksMode::LIMITED_QUIRKS;
 	}
 
-	if (token->systemIdentifier.has_value() && (token->systemIdentifier->StartsWithA("-//W3C//DTD HTML 4.01 Frameset//") || token->systemIdentifier->StartsWithA("-//W3C//DTD HTML 4.01 Transitional//"))) {
+	if (token->systemIdentifier.has_value()
+		&& (token->systemIdentifier->StartsWithA("-//W3C//DTD HTML 4.01 Frameset//")
+			|| token->systemIdentifier->StartsWithA("-//W3C//DTD HTML 4.01 Transitional//"))) {
 		return DOM::QuirksMode::LIMITED_QUIRKS;
 	}
 
@@ -122,8 +135,12 @@ HTML::InsertionModes::Initial::CheckDoctypeParserErrors(HTML::Tokenizer::Doctype
 		context.parserContext.ReportParserError("InitialInsertionMode", "No DOCTYPE name not equal to \"html\"");
 	if (token->publicIdentifier.has_value())
 		context.parserContext.ReportParserError("InitialInsertionMode", "DOCTYPEs shouldn't have a PUBLIC attribute");
-	if (token->systemIdentifier.has_value() && !token->systemIdentifier.value().EqualsIgnoreCaseA(0, "about:legacy-compat"))
-		context.parserContext.ReportParserError("InitialInsertionMode", "DOCTYPEs shouldn't have a SYSTEM identifier not equal to \"about:legacy-compat\". You can either omit the SYSTEM attribute or change its identifier to \"about:legacy-compat\"");
+	if (token->systemIdentifier.has_value()
+		&& !token->systemIdentifier.value().EqualsIgnoreCaseA(0, "about:legacy-compat"))
+		context.parserContext.ReportParserError(
+			"InitialInsertionMode",
+			"DOCTYPEs shouldn't have a SYSTEM identifier not equal to \"about:legacy-compat\". You can either omit the "
+			"SYSTEM attribute or change its identifier to \"about:legacy-compat\"");
 }
 
 HTML::InsertionModeSubroutineStatus
@@ -169,8 +186,8 @@ HTML::InsertionModes::Initial::EmitToken(HTML::Tokenizer::Token &inToken) {
 			return false;
 		case HTML::Tokenizer::TokenType::DOCTYPE: {
 			auto status = HandleDoctype(inToken);
-			if (status == HTML::InsertionModeSubroutineStatus::IGNORE ||
-				status == HTML::InsertionModeSubroutineStatus::PARSER_ERROR) {
+			if (status == HTML::InsertionModeSubroutineStatus::IGNORE
+				|| status == HTML::InsertionModeSubroutineStatus::PARSER_ERROR) {
 				return false;
 			}
 			if (status == HTML::InsertionModeSubroutineStatus::RECONSUME)

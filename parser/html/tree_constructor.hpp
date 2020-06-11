@@ -25,13 +25,13 @@ namespace HTML {
 	  public: // Properties
 		Tokenizer::Context &context;
 		InsertionModeType currentMode;
-		std::vector<std::shared_ptr<DOM::Element>> openElementsStack;
-		std::map<InsertionModeType, std::shared_ptr<InsertionMode>> insertionModes;
+		std::vector<std::shared_ptr<DOM::Element> > openElementsStack;
+		std::map<InsertionModeType, std::shared_ptr<InsertionMode> > insertionModes;
 
 		bool executeScript{ false };
 		bool fosterParenting{ false };
 
-		std::shared_ptr<DOM::HTMLHeadElement> headElementPointer { nullptr };
+		std::shared_ptr<DOM::HTMLHeadElement> headElementPointer{ nullptr };
 
 	  public: // Methods
 		explicit TreeConstructor(Tokenizer::Context &);
@@ -61,15 +61,14 @@ namespace HTML {
 					  bool synchronousCustomElementsFlag);
 
 		std::shared_ptr<DOM::Element>
-		CreateElementForToken(HTML::Tokenizer::StartTagToken &,
-							  const Unicode::UString &nameSpace);
+		CreateElementForToken(HTML::Tokenizer::StartTagToken &, const Unicode::UString &nameSpace);
 
 		void
-		InsertNodeInAppropriateLocation(std::shared_ptr<DOM::Node> node, std::optional<std::shared_ptr<DOM::Node>> overrideTarget = {});
+		InsertNodeInAppropriateLocation(std::shared_ptr<DOM::Node> node,
+										std::optional<std::shared_ptr<DOM::Node> > overrideTarget = {});
 
 		std::shared_ptr<DOM::Element>
-		InsertForeignElement(HTML::Tokenizer::StartTagToken &,
-							 const Unicode::UString &nameSpace);
+		InsertForeignElement(HTML::Tokenizer::StartTagToken &, const Unicode::UString &nameSpace);
 
 		inline std::shared_ptr<DOM::Element>
 		InsertHTMLElement(HTML::Tokenizer::StartTagToken &token) {

@@ -19,6 +19,6 @@ namespace DOM {
 
 	struct Node {
 	  public: // Properties
-		std::vector<std::shared_ptr<Node>> childNodes;
+		std::vector<std::shared_ptr<Node> > childNodes;
 	};
 } // namespace DOM

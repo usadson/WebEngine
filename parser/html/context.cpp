@@ -26,4 +26,3 @@ void
 HTML::ParserContext::ReportParserError(const std::string &source, const std::string &message) {
 	Logger::Warning("HTMLParser", "Parser Error in " + source + ": " + message);
 }
-

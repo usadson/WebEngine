@@ -8,8 +8,8 @@
 
 #include <memory>
 
-#include "dom/element.hpp"
 #include "dom/document_type.hpp"
+#include "dom/element.hpp"
 #include "dom/node.hpp"
 
 namespace DOM {
