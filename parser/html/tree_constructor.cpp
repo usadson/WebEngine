@@ -83,8 +83,7 @@ namespace HTML {
 	 * https://dom.spec.whatwg.org/#concept-create-element
 	 */
 	std::shared_ptr<DOM::Element>
-	TreeConstructor::CreateElement(std::shared_ptr<DOM::Document> document,
-								   const Unicode::UString &localName,
+	TreeConstructor::CreateElement(const Unicode::UString &localName,
 								   const Unicode::UString &nameSpace,
 								   std::optional<Unicode::UString> prefix,
 								   std::optional<Unicode::UString> is,
@@ -121,7 +120,7 @@ namespace HTML {
 			is = { attr->second };
 
 		auto element
-			= CreateElement(context.parserContext.documentNode, tagToken.tagName, nameSpace, {}, is, executeScript);
+			= CreateElement(tagToken.tagName, nameSpace, {}, is, executeScript);
 		/* Maybe, because the lifetime of the Token ends here, we can do a swap
 		 * between the tokens attributes and the elements internalAttributes?
 		 *
@@ -138,6 +137,7 @@ namespace HTML {
 
 		/** TODO Form-associated element */
 
+		intendedParent->childNodes.push_back(element);
 		return element;
 	}
 

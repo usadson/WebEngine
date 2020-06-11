@@ -51,8 +51,7 @@ namespace HTML {
 					  std::map<Unicode::UString, Unicode::UString> &attributes);
 
 		std::shared_ptr<DOM::Element>
-		CreateElement(std::shared_ptr<DOM::Document> document,
-					  const Unicode::UString &localName,
+		CreateElement(const Unicode::UString &localName,
 					  const Unicode::UString &nameSpace,
 					  std::optional<Unicode::UString> prefix,
 					  std::optional<Unicode::UString> is,

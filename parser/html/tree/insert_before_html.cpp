@@ -62,7 +62,6 @@ HTML::InsertionModes::BeforeHTML::HandleStartTag(HTML::Tokenizer::Token &token) 
 
 	if (startTagToken->tagName.EqualsA("html")) {
 		auto element = constructor.CreateElementForToken(*startTagToken, HTML::Constants::HTMLNamespace, context.parserContext.documentNode);
-		context.parserContext.documentNode->childNodes.push_back(element);
 		constructor.openElementsStack.push_back(element);
 
 		/* Future service-worker stuff */
