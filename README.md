@@ -34,6 +34,11 @@ Unfortunately, due to namespace's and C++'s long names, a 80-character line-limi
 but try to conform to that rule when writing comments, and seperating the argument list by newlines
 to prevent long-lines is good practice.
 
+For the most part, use `clang-format` to format the code. The configuration of this tool still needs some tweaking, but in general it works.
+Known issues:
+* Things like: `std::optional<std::vector<std::string>>` will be converted to `std::optional<std::vector<std::string> >`
+* class keywords (public, protected, private) use two-space indentation instead of tabs.
+
 ## Directory Structure
 The project is seperated into different directories.
 * [bin](bin) is the auto-generated directory for object files. Note however that the main executable is the `./engine` file.
