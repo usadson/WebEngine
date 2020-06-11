@@ -19,7 +19,7 @@ namespace Net {
 
 	void
 	ConnectionInfo::TLSDestroy() {
-		Logger::Debug(__PRETTY_FUNCTION__, "Called");
+		Logger::Debug(static_cast<const char *>(__PRETTY_FUNCTION__), "Called");
 		tls_close(static_cast<struct tls *>(tlsContext));
 		tls_free(static_cast<struct tls *>(tlsContext));
 		tlsContext = nullptr;
@@ -56,7 +56,7 @@ namespace Net {
 	ConnectionInfo::TLSSetup() {
 		struct tls_config *config = tls_config_new();
 
-		if (!config) {
+		if (config == nullptr) {
 			Logger::Severe("ConnectionInfo::TLSSetup[libtls]", "Failed to create configuration! (Out of memory!)");
 			return false;
 		}
@@ -69,7 +69,7 @@ namespace Net {
 		}
 
 		struct tls *context = tls_client();
-		if (context == NULL) {
+		if (context == nullptr) {
 			Logger::Severe("ConnectionInfo::TLSSetup[libtls]", "Failed to create tls_client (Out of memory!)");
 			tls_config_free(config);
 			return false;
