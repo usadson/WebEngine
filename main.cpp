@@ -196,6 +196,11 @@ main(int argc, const char *argv[]) {
 	NamedCharacters::Setup();
 
 	/** Execution Section **/
+	if (Options::GetCommandLineParameter("gui").has_value()) {
+		RunRenderingTest();
+		return EXIT_SUCCESS;
+	}
+
 	RunDocumentTest();
 
 	/** Shutdown Section **/

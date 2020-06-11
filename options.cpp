@@ -50,9 +50,10 @@ Options::GetCommandLineParameter(const std::string &name) {
 
 bool
 ParseEqualsOption(const std::string_view &strview, std::optional<std::string_view> *prevName, bool isLastOption) {
-	static const std::array<CommandLineParser::Input, 3> inputs = { {
+	static const std::array<CommandLineParser::Input, 4> inputs = { {
 		{ "copyright", false },
 		{ "credits", false },
+		{ "gui", false },
 		{ "test", true },
 	} };
 
