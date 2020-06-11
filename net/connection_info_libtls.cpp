@@ -20,15 +20,15 @@ namespace Net {
 	void
 	ConnectionInfo::TLSDestroy() {
 		Logger::Debug(__PRETTY_FUNCTION__, "Called");
-		tls_close((struct tls *)tlsContext);
-		tls_free((struct tls *)tlsContext);
+		tls_close(static_cast<struct tls *>(tlsContext));
+		tls_free(static_cast<struct tls *>(tlsContext));
 		tlsContext = nullptr;
 	}
 
 	bool
 	ConnectionInfo::TLSRead(char *buf, std::size_t len) {
 		do {
-			ssize_t ret = tls_read((struct tls *)tlsContext, buf, len);
+			ssize_t ret = tls_read(static_cast<struct tls *>(tlsContext), buf, len);
 			if (ret == TLS_WANT_POLLIN || ret == TLS_WANT_POLLOUT)
 				continue;
 
@@ -46,7 +46,7 @@ namespace Net {
 	ConnectionInfo::TLSReadChar() {
 		char character;
 
-		if (tls_read((struct tls *)tlsContext, &character, 1) == -1)
+		if (tls_read(static_cast<struct tls *>(tlsContext), &character, 1) == -1)
 			return std::optional<char>();
 
 		return std::optional<char>(character);
@@ -120,7 +120,7 @@ namespace Net {
 	bool
 	ConnectionInfo::TLSWrite(const char *buf, std::size_t len) {
 		do {
-			ssize_t ret = tls_write((struct tls *)tlsContext, buf, len);
+			ssize_t ret = tls_write(static_cast<struct tls *>(tlsContext), buf, len);
 
 			if (ret == TLS_WANT_POLLIN || ret == TLS_WANT_POLLOUT)
 				continue;
