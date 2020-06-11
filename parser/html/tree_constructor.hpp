@@ -14,6 +14,7 @@ namespace HTML {
 }
 
 #include "dom/element.hpp"
+#include "dom/html_head_element.hpp"
 #include "parser/html/constants.hpp"
 #include "parser/html/insertion_mode.hpp"
 #include "parser/html/token.hpp"
@@ -30,6 +31,7 @@ namespace HTML {
 		bool executeScript{ false };
 		bool fosterParenting{ false };
 
+		std::shared_ptr<DOM::HTMLHeadElement> headElementPointer { nullptr };
 	  public: // Methods
 		explicit TreeConstructor(Tokenizer::Context &);
 
@@ -59,15 +61,18 @@ namespace HTML {
 
 		std::shared_ptr<DOM::Element>
 		CreateElementForToken(HTML::Tokenizer::StartTagToken &,
-							  const Unicode::UString &nameSpace,
-							  std::shared_ptr<DOM::Node> intendedParent);
+							  const Unicode::UString &nameSpace);
 
 		void
-		InsertForeignElement(const Unicode::UString &nameSpace, std::shared_ptr<DOM::Node> parent);
+		InsertNodeInAppropriateLocation(std::shared_ptr<DOM::Node> node, std::optional<std::shared_ptr<DOM::Node>> overrideTarget = {});
+
+		std::shared_ptr<DOM::Element>
+		InsertForeignElement(HTML::Tokenizer::StartTagToken &,
+							 const Unicode::UString &nameSpace);
 
 		inline std::shared_ptr<DOM::Element>
-		InsertHTMLElement(Unicode::UString &tagName, std::map<Unicode::UString, Unicode::UString> &attributes) {
-			return InsertElement(tagName, HTML::Constants::HTMLNamespace, attributes);
+		InsertHTMLElement(HTML::Tokenizer::StartTagToken &token) {
+			return InsertForeignElement(token, HTML::Constants::HTMLNamespace);
 		}
 	};
 } // namespace HTML

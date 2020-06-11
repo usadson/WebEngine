@@ -109,8 +109,7 @@ namespace HTML {
 	 */
 	std::shared_ptr<DOM::Element>
 	TreeConstructor::CreateElementForToken(HTML::Tokenizer::StartTagToken &tagToken,
-										   const Unicode::UString &nameSpace,
-										   std::shared_ptr<DOM::Node> intendedParent) {
+										   const Unicode::UString &nameSpace) {
 		std::optional<Unicode::UString> is;
 
 		auto attr = std::find_if(std::begin(tagToken.attributes), std::end(tagToken.attributes),
@@ -140,24 +139,30 @@ namespace HTML {
 		return element;
 	}
 
+	// Spec:
+	// https://html.spec.whatwg.org/multipage/parsing.html#appropriate-place-for-inserting-a-node
+	void
+	TreeConstructor::InsertNodeInAppropriateLocation(std::shared_ptr<DOM::Node> node,
+									std::optional<std::shared_ptr<DOM::Node>> overrideTarget) {
+		std::shared_ptr<DOM::Node> target = overrideTarget.has_value() ? overrideTarget.value() : openElementsStack.back();
+		/* TODO Foster parenting */
+		target->childNodes.push_back(node);
+	}
+
 	/**
 	 * Spec:
 	 * https://html.spec.whatwg.org/multipage/parsing.html#insert-a-foreign-element
 	 */
-	void
-	TreeConstructor::InsertForeignElement(const Unicode::UString &nameSpace, std::shared_ptr<DOM::Node> parent) {
-		// 		auto element = CreateElementForToken(nameSpace,
-		//
-		//
-		// 		// https://html.spec.whatwg.org/multipage/parsing.html#appropriate-place-for-inserting-a-node
-		// 		if (fosterParenting) {
-		// 			Logger::Crash(std::string(static_cast<const char *>(__PRETTY_FUNCTION__)), "Foster parenting not
-		// implemented yet.");
-		// 		}
-		//
-		// TODO
-		(void) nameSpace;
-		(void) parent;
+	std::shared_ptr<DOM::Element>
+	TreeConstructor::InsertForeignElement(HTML::Tokenizer::StartTagToken &token,
+										  const Unicode::UString &nameSpace) {
+		auto element = CreateElementForToken(token, nameSpace);
+		InsertNodeInAppropriateLocation(element);
+
+		/* ... Element reactions ... */
+
+		openElementsStack.push_back(element);
+		return element;
 	}
 
 	std::shared_ptr<DOM::Element>

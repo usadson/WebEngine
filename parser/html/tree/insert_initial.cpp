@@ -87,18 +87,18 @@ DetectQuirksMode(HTML::Tokenizer::DoctypeToken *token, bool isIFrameSrcDoc) {
 		return DOM::QuirksMode::QUIRKS;
 
 	if (token->systemIdentifier.has_value()) {
-		if (token->name.value().EqualsA("html") && token->systemIdentifier.value().EqualsA("http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd"))
+		if (token->name.value().EqualsIgnoreCaseA(0, "html") && token->systemIdentifier.value().EqualsIgnoreCaseA(0, "http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd"))
 			return DOM::QuirksMode::QUIRKS;
 	} else if (token->publicIdentifier.has_value()) {
 		if (std::find_if(std::begin(quirkyPublicIdentifiersMissingSystem), std::end(quirkyPublicIdentifiersMissingSystem),
-				[token](const auto &string) -> bool { return token->publicIdentifier.value().EqualsA(string); }) == std::end(quirkyPublicIdentifiersMissingSystem)) {
+				[token](const auto &string) -> bool { return token->publicIdentifier.value().EqualsIgnoreCaseA(0, string); }) == std::end(quirkyPublicIdentifiersMissingSystem)) {
 			return DOM::QuirksMode::QUIRKS;
 		}
 	}
 
 	if (token->publicIdentifier.has_value()) {
 		if (std::find_if(std::begin(quirkyPublicIdentifiers), std::end(quirkyPublicIdentifiers),
-				[token](const auto &string) -> bool { return token->publicIdentifier.value().EqualsA(string); }) == std::end(quirkyPublicIdentifiers)) {
+				[token](const auto &string) -> bool { return token->publicIdentifier.value().EqualsIgnoreCaseA(0, string); }) == std::end(quirkyPublicIdentifiers)) {
 			return DOM::QuirksMode::QUIRKS;
 		}
 	}
@@ -118,11 +118,11 @@ void
 HTML::InsertionModes::Initial::CheckDoctypeParserErrors(HTML::Tokenizer::DoctypeToken *token) const noexcept {
 	if (!token->name.has_value())
 		context.parserContext.ReportParserError("InitialInsertionMode", "No DOCTYPE name specified");
-	if (!token->name.value().EqualsA("html"))
+	if (!token->name.value().EqualsIgnoreCaseA(0, "html"))
 		context.parserContext.ReportParserError("InitialInsertionMode", "No DOCTYPE name not equal to \"html\"");
 	if (token->publicIdentifier.has_value())
 		context.parserContext.ReportParserError("InitialInsertionMode", "DOCTYPEs shouldn't have a PUBLIC attribute");
-	if (token->systemIdentifier.has_value() && !token->systemIdentifier.value().EqualsA("about:legacy-compat"))
+	if (token->systemIdentifier.has_value() && !token->systemIdentifier.value().EqualsIgnoreCaseA(0, "about:legacy-compat"))
 		context.parserContext.ReportParserError("InitialInsertionMode", "DOCTYPEs shouldn't have a SYSTEM identifier not equal to \"about:legacy-compat\". You can either omit the SYSTEM attribute or change its identifier to \"about:legacy-compat\"");
 }
 

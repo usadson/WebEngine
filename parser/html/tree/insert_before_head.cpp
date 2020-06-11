@@ -11,10 +11,11 @@
 #include <vector>
 
 #include "dom/comment.hpp"
-#include "dom/element.hpp"
+#include "dom/html_head_element.hpp"
 #include "logger.hpp"
 #include "parser/html/constants.hpp"
 #include "parser/html/context.hpp"
+#include "parser/html/token.hpp"
 
 HTML::InsertionModeSubroutineStatus
 HTML::InsertionModes::BeforeHead::HandleCharacter(HTML::Tokenizer::Token &token) {
@@ -41,8 +42,8 @@ HTML::InsertionModeSubroutineStatus
 HTML::InsertionModes::BeforeHead::HandleEndTag(HTML::Tokenizer::Token &token) {
 	auto endTagToken = dynamic_cast<HTML::Tokenizer::EndTagToken *>(&token);
 
-	if (endTagToken->tagName.EqualsA("head") || endTagToken->tagName.EqualsA("body")
-		|| endTagToken->tagName.EqualsA("html") || endTagToken->tagName.EqualsA("br")) {
+	if (endTagToken->tagName.EqualsIgnoreCaseA(0, "head") || endTagToken->tagName.EqualsIgnoreCaseA(0, "body")
+		|| endTagToken->tagName.EqualsIgnoreCaseA(0, "html") || endTagToken->tagName.EqualsIgnoreCaseA(0, "br")) {
 		return HTML::InsertionModeSubroutineStatus::CONTINUE;
 	}
 
@@ -52,7 +53,22 @@ HTML::InsertionModes::BeforeHead::HandleEndTag(HTML::Tokenizer::Token &token) {
 
 HTML::InsertionModeSubroutineStatus
 HTML::InsertionModes::BeforeHead::HandleStartTag(HTML::Tokenizer::Token &token) {
-	(void) token;
+	auto startTagToken = dynamic_cast<HTML::Tokenizer::StartTagToken *>(&token);
+
+	if (startTagToken->tagName.EqualsIgnoreCaseA(0, "head")) {
+		auto element = constructor.CreateElementForToken(*startTagToken, HTML::Constants::HTMLNamespace);
+		constructor.openElementsStack.push_back(element);
+		context.parserContext.documentNode->childNodes.push_back(element);
+		constructor.headElementPointer = std::dynamic_pointer_cast<DOM::HTMLHeadElement>(element);
+
+		constructor.currentMode = HTML::InsertionModeType::IN_HEAD;
+		return HTML::InsertionModeSubroutineStatus::IGNORE;
+	}
+
+	if (startTagToken->tagName.EqualsIgnoreCaseA(0, "html")) {
+		constructor.insertionModes.find(HTML::InsertionModeType::IN_BODY)->second->EmitToken(token);
+		return HTML::InsertionModeSubroutineStatus::IGNORE;
+	}
 
 	return HTML::InsertionModeSubroutineStatus::CONTINUE;
 }
@@ -76,5 +92,12 @@ HTML::InsertionModes::BeforeHead::EmitToken(HTML::Tokenizer::Token &inToken) {
 			return true;
 	}
 
+	HTML::Tokenizer::StartTagToken simulatedStartTagToken;
+	simulatedStartTagToken.tagName = Unicode::UString("head");
+
+	auto element = constructor.InsertHTMLElement(simulatedStartTagToken);
+	constructor.headElementPointer = std::dynamic_pointer_cast<DOM::HTMLHeadElement>(element);
+
+	constructor.currentMode = HTML::InsertionModeType::IN_HEAD;
 	return true;
 }

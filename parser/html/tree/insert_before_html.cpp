@@ -11,7 +11,7 @@
 
 #include "dom/comment.hpp"
 #include "dom/element.hpp"
-#include "dom/html_element.hpp"
+#include "dom/html_html_element.hpp"
 #include "logger.hpp"
 #include "parser/html/constants.hpp"
 #include "parser/html/context.hpp"
@@ -48,8 +48,8 @@ HTML::InsertionModeSubroutineStatus
 HTML::InsertionModes::BeforeHTML::HandleEndTag(HTML::Tokenizer::Token &token) {
 	auto endTagToken = dynamic_cast<HTML::Tokenizer::EndTagToken *>(&token);
 
-	if (endTagToken->tagName.EqualsA("head") || endTagToken->tagName.EqualsA("body")
-		|| endTagToken->tagName.EqualsA("html") || endTagToken->tagName.EqualsA("br")) {
+	if (endTagToken->tagName.EqualsIgnoreCaseA(0, "head") || endTagToken->tagName.EqualsIgnoreCaseA(0, "body")
+		|| endTagToken->tagName.EqualsIgnoreCaseA(0, "html") || endTagToken->tagName.EqualsIgnoreCaseA(0, "br")) {
 		return HTML::InsertionModeSubroutineStatus::CONTINUE;
 	}
 
@@ -61,8 +61,8 @@ HTML::InsertionModeSubroutineStatus
 HTML::InsertionModes::BeforeHTML::HandleStartTag(HTML::Tokenizer::Token &token) {
 	auto startTagToken = dynamic_cast<HTML::Tokenizer::StartTagToken *>(&token);
 
-	if (startTagToken->tagName.EqualsA("html")) {
-		auto element = constructor.CreateElementForToken(*startTagToken, HTML::Constants::HTMLNamespace, context.parserContext.documentNode);
+	if (startTagToken->tagName.EqualsIgnoreCaseA(0, "html")) {
+		auto element = constructor.CreateElementForToken(*startTagToken, HTML::Constants::HTMLNamespace);
 		constructor.openElementsStack.push_back(element);
 		context.parserContext.documentNode->childNodes.push_back(element);
 
