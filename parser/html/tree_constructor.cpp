@@ -137,7 +137,6 @@ namespace HTML {
 
 		/** TODO Form-associated element */
 
-		intendedParent->childNodes.push_back(element);
 		return element;
 	}
 

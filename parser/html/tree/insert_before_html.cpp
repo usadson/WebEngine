@@ -11,6 +11,7 @@
 
 #include "dom/comment.hpp"
 #include "dom/element.hpp"
+#include "dom/html_element.hpp"
 #include "logger.hpp"
 #include "parser/html/constants.hpp"
 #include "parser/html/context.hpp"
@@ -63,13 +64,13 @@ HTML::InsertionModes::BeforeHTML::HandleStartTag(HTML::Tokenizer::Token &token) 
 	if (startTagToken->tagName.EqualsA("html")) {
 		auto element = constructor.CreateElementForToken(*startTagToken, HTML::Constants::HTMLNamespace, context.parserContext.documentNode);
 		constructor.openElementsStack.push_back(element);
+		context.parserContext.documentNode->childNodes.push_back(element);
 
-		/* Future service-worker stuff */
+		/* Future service-worker and manifest caching stuff */
 
 		constructor.currentMode = HTML::InsertionModeType::BEFORE_HEAD;
 		return HTML::InsertionModeSubroutineStatus::IGNORE;
-	} else
-		std::cout << startTagToken->tagName << " != html" << std::endl;
+	}
 
 	return HTML::InsertionModeSubroutineStatus::CONTINUE;
 }
@@ -99,11 +100,11 @@ HTML::InsertionModes::BeforeHTML::EmitToken(HTML::Tokenizer::Token &inToken) {
 
 	// This is just repeating the STARTTAG thing, so maybe create a subroutine?
 	// also, the 'Application Cache Selection Algorithm' should be executed.
-	std::shared_ptr<DOM::Element> element = std::make_shared<DOM::Element>();
-	element->namespaceURI = HTML::Constants::HTMLNamespace;
-	element->localName = Unicode::UString("html");
-	context.parserContext.documentNode->children.push_back(element);
-	constructor.openElementsStack.push_back(element);
+	auto htmlElement = std::make_shared<DOM::HTMLElement>();
+	constructor.openElementsStack.push_back(htmlElement);
+	context.parserContext.documentNode->childNodes.push_back(htmlElement);
+
+	/* Future service-worker and manifest caching stuff */
 
 	constructor.currentMode = HTML::InsertionModeType::BEFORE_HEAD;
 	return true;
