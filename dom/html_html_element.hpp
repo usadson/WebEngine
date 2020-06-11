@@ -9,7 +9,7 @@
 #include <map>
 #include <memory>
 
-#include "dom/element.hpp"
+#include "dom/html_element.hpp"
 
 namespace DOM {
 
