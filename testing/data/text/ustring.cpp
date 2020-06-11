@@ -17,10 +17,11 @@ namespace Unicode {
 		UString normalString { "Hello world" };
 	};
 
-	TEST_F(UStringTest, ValidInputs) {
+	TEST_F(UStringTest, StringUtilities) {
 		ASSERT_EQ(normalString.length(), 11)
 			<< "Invalid size detected";
 
+		// EqualsIgnoreCaseA
 		ASSERT_TRUE(normalString.EqualsIgnoreCaseA(0, "HELLO WORLD"));
 		ASSERT_TRUE(normalString.EqualsIgnoreCaseA(0, "hello world"));
 		ASSERT_TRUE(normalString.EqualsIgnoreCaseA(0, "hElLo wOrLd"));
@@ -35,14 +36,24 @@ namespace Unicode {
 		ASSERT_FALSE(normalString.EqualsIgnoreCaseA(0, "sameLength"));
 		ASSERT_FALSE(normalString.EqualsIgnoreCaseA(0, ""));
 
+		// EqualsA
 		ASSERT_TRUE(normalString.EqualsA("Hello world"));
-		ASSERT_TRUE(normalString.EqualsAL(0, "Hello world", 11));
-
 		ASSERT_FALSE(normalString.EqualsA("Helo world"));
 		ASSERT_FALSE(normalString.EqualsA(""));
 
+		// EqualsAL
+		ASSERT_TRUE(normalString.EqualsAL(0, "Hello world", 11));
 		ASSERT_FALSE(normalString.EqualsAL(0, "nope", 4));
 		ASSERT_FALSE(normalString.EqualsAL(0, "", 0));
+
+		// StartsWithA
+		ASSERT_TRUE(normalString.StartsWithA(""));
+		ASSERT_TRUE(normalString.StartsWithA("Hello"));
+		ASSERT_TRUE(normalString.StartsWithA("Hello world"));
+
+		ASSERT_FALSE(normalString.StartsWithA("Hello warld"));
+		ASSERT_FALSE(normalString.StartsWithA("Helo"));
+		ASSERT_FALSE(normalString.StartsWithA("something else"));
 	}
 
 } // namespace TextEncoding
