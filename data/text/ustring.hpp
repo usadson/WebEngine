@@ -87,6 +87,9 @@ namespace Unicode {
 
 		bool
 		StartsWithA(const char *);
+
+		bool
+		StartsWithIgnoreCaseAL(size_t pos, const char *ascii, size_t length);
 	};
 
 	std::ostream &

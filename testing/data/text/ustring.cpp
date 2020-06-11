@@ -54,6 +54,23 @@ namespace Unicode {
 		ASSERT_FALSE(normalString.StartsWithA("Hello warld"));
 		ASSERT_FALSE(normalString.StartsWithA("Helo"));
 		ASSERT_FALSE(normalString.StartsWithA("something else"));
+
+		// StartsWithIgnoreCaseAL
+		bool
+		StartsWithIgnoreCaseAL(size_t pos, const char *ascii, size_t length);
+		ASSERT_TRUE(normalString.StartsWithIgnoreCaseAL(0, "", 0));
+		ASSERT_TRUE(normalString.StartsWithIgnoreCaseAL(0, "hello world", 11));
+		ASSERT_TRUE(normalString.StartsWithIgnoreCaseAL(0, "hello world", 5));
+		ASSERT_TRUE(normalString.StartsWithIgnoreCaseAL(0, "HELLO", 5));
+		ASSERT_TRUE(normalString.StartsWithIgnoreCaseAL(0, "hElLO wORl garbage text", 10));
+
+		ASSERT_TRUE(normalString.StartsWithIgnoreCaseAL(6, "wOrlD", 5));
+		ASSERT_TRUE(normalString.StartsWithIgnoreCaseAL(3, "lo wOrlD", 8));
+
+		ASSERT_FALSE(normalString.StartsWithIgnoreCaseAL(0, "HEllA WORLD", 11));
+		ASSERT_FALSE(normalString.StartsWithIgnoreCaseAL(0, "something else", 14));
+		ASSERT_FALSE(normalString.StartsWithIgnoreCaseAL(3, "something else", 11));
+
 	}
 
 } // namespace TextEncoding

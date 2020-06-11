@@ -166,6 +166,29 @@ namespace Unicode {
 		return true;
 	}
 
+	bool
+	UString::StartsWithIgnoreCaseAL(size_t pos, const char *ascii, size_t length) {
+		if (pos + length > data.size())
+			return false;
+
+		for (size_t i = pos; i < length; i++) {
+			auto ucharacter = static_cast<uint8_t>(data[pos + i]);
+			auto acharacter = static_cast<uint8_t>(ascii[i]);
+
+			if (ucharacter >= 0x41 && ucharacter <= 0x5A)
+				ucharacter += 0x20;
+
+			if (acharacter >= 0x41 && acharacter <= 0x5A)
+				acharacter += 0x20;
+
+			if (acharacter != ucharacter) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	std::ostream &
 	operator<<(std::ostream &stream, const UString &string) {
 		for (const auto &character : string.data) {

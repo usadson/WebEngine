@@ -167,7 +167,6 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 	for (context.i = 0; context.i <= context.documentSize; context.i++) {
 		context.character = '\0';
 
-		// 		std::cout << "index=" << context.i << " state=" << context.state << std::endl;
 		if (context.reconsume) {
 			context.i--;
 			context.reconsume = false;
@@ -186,7 +185,6 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 					context.lineCount += 1;
 					context.linePosition = 1;
 				} else {
-					// std::cout << "CharAt(" << context.i << ") = " << context.character << std::endl;
 					context.linePosition += 1;
 				}
 

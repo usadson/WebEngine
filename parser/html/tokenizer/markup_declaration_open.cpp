@@ -22,7 +22,7 @@ HTML::Tokenizer::MarkupDeclarationOpen::Parse() {
 		}
 
 		if (context.i + 6 < context.documentSize) {
-			if (context.document->data.EqualsIgnoreCaseAL(context.i, "DOCTYPE", 7)) {
+			if (context.document->data.StartsWithIgnoreCaseAL(context.i, "DOCTYPE", 7)) {
 				context.toConsumeNext = 6;
 				context.state = HTML::Tokenizer::ParserState::DOCTYPE;
 				return true;
