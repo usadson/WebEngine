@@ -16,7 +16,7 @@ namespace DOM {
 
 	// The <html> element, *not* the base class for HTML elements, i.e. HTMLElement
 	// Specification:
-	// https://html.spec.whatwg.org/multipage/dom.html#htmlelement
+	// https://html.spec.whatwg.org/multipage/semantics.html#the-html-element
 	class HTMLHtmlElement : public HTMLElement {
 	public:
 	};
