@@ -70,7 +70,6 @@ namespace Unicode {
 		ASSERT_FALSE(normalString.StartsWithIgnoreCaseAL(0, "HEllA WORLD", 11));
 		ASSERT_FALSE(normalString.StartsWithIgnoreCaseAL(0, "something else", 14));
 		ASSERT_FALSE(normalString.StartsWithIgnoreCaseAL(3, "something else", 11));
-
 	}
 
 } // namespace TextEncoding
