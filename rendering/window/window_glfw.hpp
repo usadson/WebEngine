@@ -29,8 +29,7 @@ namespace Rendering {
 		bool
 		PollClose() override;
 
-		void
-		SetTitle(Unicode::UString string) override;
+		void SetTitle(Unicode::UString) override;
 
 		void
 		SwapBuffers() override;

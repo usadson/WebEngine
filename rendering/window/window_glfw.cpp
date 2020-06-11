@@ -20,7 +20,7 @@ namespace Rendering {
 	 * isn't really need for graceful error handling (I think). Therefore I can
 	 * call std::runtime_error() */
 	WindowGLFW::WindowGLFW() : WindowBase("GLFW"), internalWindow(nullptr) {
-		if (!glfwInit()) {
+		if (glfwInit() == GLFW_FALSE) {
 			throw std::runtime_error("GLFW initialization failed.");
 		}
 	}
@@ -58,33 +58,29 @@ namespace Rendering {
 	WindowGLFW::InternalPrepareGL() {
 		glfwSetErrorCallback(GLFWErrorHandler);
 
-		GLFWmonitor *monitor;
-		float sizeFactor;
-		const GLFWvidmode *videoMode;
-
-		sizeFactor = 0.8;
+		float sizeFactor = 0.8;
 
 		if (internalWindow != nullptr) {
 			Logger::Severe("GLFW", "InternalPrepareGL() called twice! Quitting...");
 			throw std::runtime_error("InternalPrepareGL called twice!");
 		}
 
-		monitor = glfwGetPrimaryMonitor();
-		if (!monitor) {
+		GLFWmonitor *monitor = glfwGetPrimaryMonitor();
+		if (monitor == nullptr) {
 			Logger::Error("GLFW", "Failed to retrieve monitor information.");
 			return false;
 		}
 
-		videoMode = glfwGetVideoMode(monitor);
-		if (!videoMode) {
+		const GLFWvidmode *videoMode = glfwGetVideoMode(monitor);
+		if (videoMode == nullptr) {
 			Logger::Error("GLFW", "Failed to retrieve monitor information.");
 			return false;
 		}
 
 		std::cout << "Width: " << videoMode->width << " Height: " << videoMode->height << std::endl;
 
-		width = videoMode->width * sizeFactor;
-		height = videoMode->height * sizeFactor;
+		width = static_cast<uint32_t>(static_cast<float>(videoMode->width) * sizeFactor);
+		height = static_cast<uint32_t>(static_cast<float>(videoMode->height) * sizeFactor);
 
 		std::cout << "Width: " << this->width << " Height: " << this->height << std::endl;
 
@@ -95,7 +91,8 @@ namespace Rendering {
 		}
 
 		/* Center the window */
-		glfwSetWindowPos(internalWindow, (videoMode->width - this->width) / 2, (videoMode->height - this->height) / 2);
+		glfwSetWindowPos(internalWindow, static_cast<uint32_t>((videoMode->width - this->width) / 2),
+						 static_cast<uint32_t>((videoMode->height - this->height) / 2));
 
 		glfwMakeContextCurrent(internalWindow);
 		return true;
@@ -104,7 +101,7 @@ namespace Rendering {
 	bool
 	WindowGLFW::PollClose() {
 		glfwPollEvents();
-		return glfwWindowShouldClose(internalWindow);
+		return glfwWindowShouldClose(internalWindow) == GLFW_TRUE;
 	}
 
 	void
