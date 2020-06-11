@@ -32,6 +32,7 @@ namespace HTML {
 		bool fosterParenting{ false };
 
 		std::shared_ptr<DOM::HTMLHeadElement> headElementPointer { nullptr };
+
 	  public: // Methods
 		explicit TreeConstructor(Tokenizer::Context &);
 
