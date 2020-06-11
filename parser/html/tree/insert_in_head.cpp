@@ -39,17 +39,19 @@ HTML::InsertionModes::InHead::HandleComment(HTML::Tokenizer::Token &token) {
 
 HTML::InsertionModeSubroutineStatus
 HTML::InsertionModes::InHead::HandleDoctype(HTML::Tokenizer::Token &token) {
+	(void)token;
 	return HTML::InsertionModeSubroutineStatus::CONTINUE;
 }
 
 HTML::InsertionModeSubroutineStatus
 HTML::InsertionModes::InHead::HandleEndTag(HTML::Tokenizer::Token &token) {
+	(void)token;
 	return HTML::InsertionModeSubroutineStatus::CONTINUE;
 }
 
 HTML::InsertionModeSubroutineStatus
 HTML::InsertionModes::InHead::HandleStartTag(HTML::Tokenizer::Token &token) {
-	auto startTagToken = dynamic_cast<HTML::Tokenizer::StartTagToken *>(&token);
+	auto *startTagToken = dynamic_cast<HTML::Tokenizer::StartTagToken *>(&token);
 	if (startTagToken->tagName.EqualsIgnoreCaseA(0, "head")) {
 		context.parserContext.ReportParserError("InHeadInsertionMode", "Found <head> tag inside another head element");
 		return HTML::InsertionModeSubroutineStatus::IGNORE;

@@ -46,7 +46,7 @@ HTML::InsertionModes::BeforeHTML::HandleDoctype(HTML::Tokenizer::Token &token) {
 
 HTML::InsertionModeSubroutineStatus
 HTML::InsertionModes::BeforeHTML::HandleEndTag(HTML::Tokenizer::Token &token) {
-	auto endTagToken = dynamic_cast<HTML::Tokenizer::EndTagToken *>(&token);
+	auto *endTagToken = dynamic_cast<HTML::Tokenizer::EndTagToken *>(&token);
 
 	if (endTagToken->tagName.EqualsIgnoreCaseA(0, "head") || endTagToken->tagName.EqualsIgnoreCaseA(0, "body")
 		|| endTagToken->tagName.EqualsIgnoreCaseA(0, "html") || endTagToken->tagName.EqualsIgnoreCaseA(0, "br")) {
@@ -59,7 +59,7 @@ HTML::InsertionModes::BeforeHTML::HandleEndTag(HTML::Tokenizer::Token &token) {
 
 HTML::InsertionModeSubroutineStatus
 HTML::InsertionModes::BeforeHTML::HandleStartTag(HTML::Tokenizer::Token &token) {
-	auto startTagToken = dynamic_cast<HTML::Tokenizer::StartTagToken *>(&token);
+	auto *startTagToken = dynamic_cast<HTML::Tokenizer::StartTagToken *>(&token);
 
 	if (startTagToken->tagName.EqualsIgnoreCaseA(0, "html")) {
 		auto element = constructor.CreateElementForToken(*startTagToken, HTML::Constants::HTMLNamespace);
