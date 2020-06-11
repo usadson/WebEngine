@@ -83,33 +83,23 @@ DetectQuirksMode(HTML::Tokenizer::DoctypeToken *token, bool isIFrameSrcDoc) {
 	if (isIFrameSrcDoc)
 		return DOM::QuirksMode::NO_QUIRKS;
 
-	if (token->forceQuirks)
-		return DOM::QuirksMode::QUIRKS;
-
-	if (!token->name.has_value())
-		return DOM::QuirksMode::QUIRKS;
-
-	if (!token->name.value().EqualsA("html"))
+	if (token->forceQuirks || !token->name.has_value() || !token->name.value().EqualsA("html"))
 		return DOM::QuirksMode::QUIRKS;
 
 	if (token->systemIdentifier.has_value()) {
-		if (token->name.value().EqualsA("html"))
-			if (token->systemIdentifier.value().EqualsA("http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd")) {
-				return DOM::QuirksMode::QUIRKS;
-			}
+		if (token->name.value().EqualsA("html") && token->systemIdentifier.value().EqualsA("http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd"))
+			return DOM::QuirksMode::QUIRKS;
 	} else if (token->publicIdentifier.has_value()) {
-		for (const auto &string : quirkyPublicIdentifiersMissingSystem) {
-			if (token->publicIdentifier.value().EqualsA(string)) {
-				return DOM::QuirksMode::QUIRKS;
-			}
+		if (std::find_if(std::begin(quirkyPublicIdentifiersMissingSystem), std::end(quirkyPublicIdentifiersMissingSystem),
+				[token](const auto &string) -> bool { return token->publicIdentifier.value().EqualsA(string); }) == std::end(quirkyPublicIdentifiersMissingSystem)) {
+			return DOM::QuirksMode::QUIRKS;
 		}
 	}
 
 	if (token->publicIdentifier.has_value()) {
-		for (const auto &string : quirkyPublicIdentifiers) {
-			if (token->publicIdentifier.value().EqualsA(string)) {
-				return DOM::QuirksMode::QUIRKS;
-			}
+		if (std::find_if(std::begin(quirkyPublicIdentifiers), std::end(quirkyPublicIdentifiers),
+				[token](const auto &string) -> bool { return token->publicIdentifier.value().EqualsA(string); }) == std::end(quirkyPublicIdentifiers)) {
+			return DOM::QuirksMode::QUIRKS;
 		}
 	}
 
