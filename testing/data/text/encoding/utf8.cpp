@@ -10,6 +10,8 @@
 
 #include <gtest/gtest.h>
 
+#include "logger.hpp"
+
 namespace TextEncoding {
 
 	class UTF8Test : public ::testing::Test {
@@ -159,6 +161,7 @@ namespace TextEncoding {
 
 int
 main(int argc, char **argv) {
+	Logger::SetOutputState(false);
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
 }

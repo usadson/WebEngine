@@ -40,4 +40,7 @@ namespace Logger {
 	void
 	Crash(const std::string &, const std::string &);
 
+	void
+	SetOutputState(bool);
+
 } // namespace Logger
