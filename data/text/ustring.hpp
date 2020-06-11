@@ -25,7 +25,7 @@ namespace Unicode {
 	  public: // Constructor Methods
 		UString() noexcept;
 
-		explicit UString(std::vector<Unicode::CodePoint> &) noexcept;
+		explicit UString(const std::vector<Unicode::CodePoint> &) noexcept;
 
 		// cppcheck-suppress[noExplicitConstructor]
 		explicit UString(Unicode::CodePoint) noexcept;
@@ -86,10 +86,10 @@ namespace Unicode {
 		EqualsA(const char *) const noexcept;
 
 		bool
-		StartsWithA(const char *);
+		StartsWithA(const char *) const noexcept;
 
 		bool
-		StartsWithIgnoreCaseAL(size_t pos, const char *ascii, size_t length);
+		StartsWithIgnoreCaseAL(size_t pos, const char *ascii, size_t length) const noexcept;
 	};
 
 	std::ostream &

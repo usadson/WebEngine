@@ -15,7 +15,7 @@ namespace Unicode {
 	UString::UString() noexcept : data({}) {
 	}
 
-	UString::UString(std::vector<Unicode::CodePoint> &characters) noexcept : data(characters) {
+	UString::UString(const std::vector<Unicode::CodePoint> &characters) noexcept : data(characters) {
 	}
 
 	UString::UString(Unicode::CodePoint character) noexcept : data({ character }) {
@@ -153,7 +153,7 @@ namespace Unicode {
 	}
 
 	bool
-	UString::StartsWithA(const char *ascii) {
+	UString::StartsWithA(const char *ascii) const noexcept {
 		size_t length = strlen(ascii);
 
 		if (length > data.size())
@@ -167,7 +167,7 @@ namespace Unicode {
 	}
 
 	bool
-	UString::StartsWithIgnoreCaseAL(size_t pos, const char *ascii, size_t length) {
+	UString::StartsWithIgnoreCaseAL(size_t pos, const char *ascii, size_t length) const noexcept {
 		if (pos + length > data.size())
 			return false;
 
