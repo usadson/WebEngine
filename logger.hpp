@@ -29,8 +29,10 @@ namespace Logger {
 	void
 	Severe(const std::string &, const std::string &);
 
+#ifndef Success
 	void
-	SuccessLog(const std::string &, const std::string &);
+	Success(const std::string &, const std::string &);
+#endif /* Success */
 
 	void
 	Warning(const std::string &, const std::string &);

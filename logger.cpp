@@ -31,7 +31,7 @@ Logger::Severe(const std::string &source, const std::string &message) {
 }
 
 void
-Logger::SuccessLog(const std::string &source, const std::string &message) {
+Logger::Success(const std::string &source, const std::string &message) {
 	std::cout << "\033[1;32m[" << source << "] [SUCCESS] " << message << "\033[1;0m" << std::endl;
 }
 
