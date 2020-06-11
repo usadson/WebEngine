@@ -10,7 +10,6 @@
 #include <memory>
 
 #include "dom/element.hpp"
-#include "dom/element_internals.hpp"
 
 namespace DOM {
 
