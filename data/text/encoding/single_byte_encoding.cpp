@@ -8,16 +8,14 @@
 
 namespace TextEncoding {
 	bool
-	AbstractSBEncoding::Decode(const char *data, size_t size) {
-		size_t i;
-
+	AbstractSBEncoding::Decode(const char *data, std::size_t size) {
 		// We could call v.clear(); and v.resize(); or v.clear(); and
 		// v.push_back() * size, but this is a waste of resources since the
 		// vector may already have enough space.
 
 		Output.reserve(size);
 
-		for (i = 0; i < size; i++) {
+		for (std::size_t i = 0; i < size; i++) {
 			auto value = static_cast<uint32_t>(data[i]);
 			Unicode::CodePoint character = value < 0x80 ? value : Indices[value - 0x80];
 

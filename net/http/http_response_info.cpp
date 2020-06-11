@@ -26,16 +26,16 @@ namespace Net {
 				return std::optional<const char *>(result->fieldValue.c_str());
 		}
 
-		std::optional<size_t>
+		std::optional<std::size_t>
 		HTTPResponseInfo::GetHeaderUnsigned(const char *name) const {
-			size_t res;
+			std::size_t res;
 			std::optional<const char *> value;
 
 			value = GetHeader(name);
 			if (value.has_value() && sscanf(value.value(), "%zu", &res) == 1)
 				return res;
 
-			return std::optional<size_t>();
+			return std::optional<std::size_t>();
 		}
 	} // namespace HTTP
 } // namespace Net

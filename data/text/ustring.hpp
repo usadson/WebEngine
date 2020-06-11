@@ -31,7 +31,7 @@ namespace Unicode {
 		explicit UString(Unicode::CodePoint) noexcept;
 
 		/* Only for ASCII characters: */
-		explicit UString(const char *, size_t) noexcept;
+		explicit UString(const char *, std::size_t) noexcept;
 
 		// cppcheck-suppress noExplicitConstructor
 		inline explicit UString(const char *ascii) noexcept : UString(ascii, strlen(ascii)) {
@@ -39,11 +39,11 @@ namespace Unicode {
 
 	  public: // Methods
 		inline const Unicode::CodePoint &
-		operator[](size_t index) const noexcept {
+		operator[](std::size_t index) const noexcept {
 			return data[index];
 		}
 
-		inline size_t
+		inline std::size_t
 		length() const noexcept {
 			return data.size();
 		}
@@ -66,20 +66,20 @@ namespace Unicode {
 		UString &
 		operator+=(const char *) noexcept;
 
-		/* Is the character at position <size_t> an ASCII character? */
-		bool IsASCIIAlpha(size_t) const noexcept;
+		/* Is the character at position <std::size_t> an ASCII character? */
+		bool IsASCIIAlpha(std::size_t) const noexcept;
 
 		/* Equals Ignore-case ASCII at index */
 		bool
-		EqualsIgnoreCaseA(size_t, const char *) const noexcept;
+		EqualsIgnoreCaseA(std::size_t, const char *) const noexcept;
 
 		/* Equals Ignore-case ASCII at index + length */
 		bool
-		EqualsIgnoreCaseAL(size_t, const char *, size_t) const noexcept;
+		EqualsIgnoreCaseAL(std::size_t, const char *, std::size_t) const noexcept;
 
 		/* Equals case-sensitivily ASCII at index + length */
 		bool
-		EqualsAL(size_t, const char *, size_t) const noexcept;
+		EqualsAL(std::size_t, const char *, std::size_t) const noexcept;
 
 		bool
 		EqualsA(const char *) const noexcept;
@@ -88,7 +88,7 @@ namespace Unicode {
 		StartsWithA(const char *) const noexcept;
 
 		bool
-		StartsWithIgnoreCaseAL(size_t pos, const char *ascii, size_t length) const noexcept;
+		StartsWithIgnoreCaseAL(std::size_t pos, const char *ascii, size_t length) const noexcept;
 	};
 
 	std::ostream &

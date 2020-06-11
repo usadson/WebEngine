@@ -23,7 +23,7 @@ namespace NamedCharacters {
 	Find(const Unicode::UString &string, Unicode::CodePoint *result) {
 		std::shared_ptr<NCNode> node = rootNode;
 
-		for (size_t i = 0; i < string.length(); i++) {
+		for (std::size_t i = 0; i < string.length(); i++) {
 			if (string[i] > 0x80)
 				return NCStatus::INVALID_STRING;
 
@@ -2283,9 +2283,9 @@ namespace NamedCharacters {
 
 		for (const auto &entry : GlobalMap) {
 			std::shared_ptr<NCNode> &node = rootNode;
-			size_t length = strlen(entry.first);
+			std::size_t length = strlen(entry.first);
 
-			for (size_t i = 0; i < length; i++) {
+			for (std::size_t i = 0; i < length; i++) {
 				char character = entry.first[i];
 
 				auto iterator = node->children.find(character);

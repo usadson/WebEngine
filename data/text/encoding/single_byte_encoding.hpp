@@ -28,7 +28,7 @@ namespace TextEncoding {
 		}
 
 		bool
-		Decode(const char *data, size_t size) override;
+		Decode(const char *data, std::size_t size) override;
 	};
 
 	/* https://encoding.spec.whatwg.org/index-ibm866.txt */

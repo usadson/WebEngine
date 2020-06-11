@@ -38,8 +38,8 @@ namespace HTML::Tokenizer {
 		// The state at the start of each the tokenizer loop. This is a
 		// lot of times the same as 'State'.
 		ParserState beginLoopState = ParserState::DATA;
-		size_t lineCount = 0;
-		size_t linePosition = 0;
+		std::size_t lineCount = 0;
+		std::size_t linePosition = 0;
 		char currentCharacter = '\0';
 		std::vector<Unicode::CodePoint> temporaryBuffer;
 		Unicode::UString ncRefBuffer;
@@ -50,13 +50,13 @@ namespace HTML::Tokenizer {
 		HTML::Tokenizer::EndTagToken endTagToken;
 		bool eof;
 		Resources::DocumentResource *document{ nullptr };
-		size_t documentSize;
-		size_t i;
+		std::size_t documentSize;
+		std::size_t i;
 		bool isEndTag;
 		bool reconsume;
 		HTML::Tokenizer::StartTagToken startTagToken;
-		size_t toConsumeNext;
-		size_t unknownStateCount;
+		std::size_t toConsumeNext;
+		std::size_t unknownStateCount;
 
 	  public: // Methods
 		inline explicit Context(HTML::ParserContext &context) : parserContext(context) {

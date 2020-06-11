@@ -26,7 +26,7 @@ namespace Net {
 	}
 
 	bool
-	ConnectionInfo::TLSRead(char *buf, size_t len) {
+	ConnectionInfo::TLSRead(char *buf, std::size_t len) {
 		do {
 			ssize_t ret = tls_read((struct tls *)tlsContext, buf, len);
 			if (ret == TLS_WANT_POLLIN || ret == TLS_WANT_POLLOUT)
@@ -118,7 +118,7 @@ namespace Net {
 	}
 
 	bool
-	ConnectionInfo::TLSWrite(const char *buf, size_t len) {
+	ConnectionInfo::TLSWrite(const char *buf, std::size_t len) {
 		do {
 			ssize_t ret = tls_write((struct tls *)tlsContext, buf, len);
 

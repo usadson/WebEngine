@@ -35,7 +35,7 @@ namespace HTML {
 	void
 	TreeConstructor::EmitToken(HTML::Tokenizer::Token &inToken) {
 		bool reprocess = false;
-		size_t reprocessCount = 0;
+		std::size_t reprocessCount = 0;
 
 		do {
 			if (reprocessCount == 10) {

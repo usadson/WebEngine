@@ -21,7 +21,7 @@ namespace Unicode {
 	UString::UString(Unicode::CodePoint character) noexcept : data({ character }) {
 	}
 
-	UString::UString(const char *characters, size_t size) noexcept
+	UString::UString(const char *characters, std::size_t size) noexcept
 		: data(TextEncoding::UTF8::ASCIIDecode(characters, size)) {
 	}
 
@@ -56,7 +56,7 @@ namespace Unicode {
 		const Unicode::CodePoint *p1 = lhs.data.data();
 		const Unicode::CodePoint *p2 = rhs.data.data();
 
-		size_t i = 0;
+		std::size_t i = 0;
 		for (; i < lhs.data.size(); i++) {
 			if (rhs.data.size() == i - 1)
 				return 1;
@@ -91,23 +91,23 @@ namespace Unicode {
 	}
 
 	bool
-	UString::IsASCIIAlpha(size_t index) const noexcept {
+	UString::IsASCIIAlpha(std::size_t index) const noexcept {
 		auto character = data[index];
 		return (character >= 0x41 && character <= 0x5A) || (character >= 0x61 && character <= 0x7A);
 	}
 
 	bool
-	UString::EqualsIgnoreCaseA(size_t index, const char *ascii) const noexcept {
+	UString::EqualsIgnoreCaseA(std::size_t index, const char *ascii) const noexcept {
 		return UString::EqualsIgnoreCaseAL(index, ascii, strlen(ascii));
 	}
 
 	bool
-	UString::EqualsIgnoreCaseAL(size_t index, const char *ascii, size_t length) const noexcept {
+	UString::EqualsIgnoreCaseAL(std::size_t index, const char *ascii, std::size_t length) const noexcept {
 		if (index + length != data.size()) {
 			return false;
 		}
 
-		for (size_t i = 0; i < length; i++) {
+		for (std::size_t i = 0; i < length; i++) {
 			auto ucharacter = static_cast<uint8_t>(data[index + i]);
 			auto acharacter = static_cast<uint8_t>(ascii[i]);
 
@@ -126,11 +126,11 @@ namespace Unicode {
 	}
 
 	bool
-	UString::EqualsAL(size_t index, const char *ascii, size_t length) const noexcept {
+	UString::EqualsAL(std::size_t index, const char *ascii, std::size_t length) const noexcept {
 		if (index + length != data.size())
 			return false;
 
-		for (size_t i = 0; i < length; i++) {
+		for (std::size_t i = 0; i < length; i++) {
 			if (static_cast<uint8_t>(data[index + i]) != ascii[i])
 				return false;
 		}
@@ -140,12 +140,12 @@ namespace Unicode {
 
 	bool
 	UString::EqualsA(const char *ascii) const noexcept {
-		size_t length = strlen(ascii);
+		std::size_t length = strlen(ascii);
 
 		if (length != data.size())
 			return false;
 
-		for (size_t i = 0; i < length; i++)
+		for (std::size_t i = 0; i < length; i++)
 			if (static_cast<uint8_t>(data[i]) != ascii[i])
 				return false;
 
@@ -154,12 +154,12 @@ namespace Unicode {
 
 	bool
 	UString::StartsWithA(const char *ascii) const noexcept {
-		size_t length = strlen(ascii);
+		std::size_t length = strlen(ascii);
 
 		if (length > data.size())
 			return false;
 
-		for (size_t i = 0; i < length; i++)
+		for (std::size_t i = 0; i < length; i++)
 			if (static_cast<uint8_t>(data[i]) != ascii[i])
 				return false;
 
@@ -167,11 +167,11 @@ namespace Unicode {
 	}
 
 	bool
-	UString::StartsWithIgnoreCaseAL(size_t pos, const char *ascii, size_t length) const noexcept {
+	UString::StartsWithIgnoreCaseAL(std::size_t pos, const char *ascii, std::size_t length) const noexcept {
 		if (pos + length > data.size())
 			return false;
 
-		for (size_t i = pos; i < length; i++) {
+		for (std::size_t i = pos; i < length; i++) {
 			auto ucharacter = static_cast<uint8_t>(data[pos + i]);
 			auto acharacter = static_cast<uint8_t>(ascii[i]);
 

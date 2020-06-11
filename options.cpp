@@ -83,7 +83,7 @@ Options::ParseCommandLine(int argc, const char **argv) {
 
 	std::optional<std::string_view> prevName;
 
-	for (size_t i = 1; i < static_cast<size_t>(argc); i++) {
+	for (std::size_t i = 1; i < static_cast<std::size_t>(argc); i++) {
 		std::string_view strview(argv[i]);
 
 		if (argv[i][0] == '\0')
@@ -105,7 +105,7 @@ Options::ParseCommandLine(int argc, const char **argv) {
 			}
 
 			if (equals == std::string::npos) {
-				if (!ParseEqualsOption(strview, &prevName, i == static_cast<size_t>(argc) - 1))
+				if (!ParseEqualsOption(strview, &prevName, i == static_cast<std::size_t>(argc) - 1))
 					return false;
 			} else {
 				CommandLineParser::outputs.emplace_back(std::string(std::begin(strview) + 2, equals - 2),

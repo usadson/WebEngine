@@ -9,7 +9,7 @@
 #include <iostream>
 #include <vector>
 
-static const size_t keywordLength = 6;
+static const std::size_t keywordLength = 6;
 static const std::string publicKeyword = "PUBLIC";
 static const std::string systemKeyword = "PUBLIC";
 

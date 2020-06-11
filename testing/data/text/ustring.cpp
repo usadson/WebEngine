@@ -55,7 +55,6 @@ namespace Unicode {
 		ASSERT_FALSE(normalString.StartsWithA("something else"));
 
 		// StartsWithIgnoreCaseAL
-		bool StartsWithIgnoreCaseAL(size_t pos, const char *ascii, size_t length);
 		ASSERT_TRUE(normalString.StartsWithIgnoreCaseAL(0, "", 0));
 		ASSERT_TRUE(normalString.StartsWithIgnoreCaseAL(0, "hello world", 11));
 		ASSERT_TRUE(normalString.StartsWithIgnoreCaseAL(0, "hello world", 5));

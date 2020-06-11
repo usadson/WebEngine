@@ -156,7 +156,7 @@ namespace Net {
 	}
 
 	bool
-	ConnectionInfo::Write(const char *buf, size_t len) {
+	ConnectionInfo::Write(const char *buf, std::size_t len) {
 		if (secure)
 			return TLSWrite(buf, len);
 
@@ -186,7 +186,7 @@ namespace Net {
 	}
 
 	bool
-	ConnectionInfo::Read(char *buf, size_t len) {
+	ConnectionInfo::Read(char *buf, std::size_t len) {
 		if (secure)
 			return TLSRead(buf, len);
 

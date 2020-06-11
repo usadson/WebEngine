@@ -13,18 +13,18 @@
 
 namespace TextEncoding {
 	std::vector<Unicode::CodePoint>
-	UTF8::ASCIIDecode(const char *data, size_t size) {
+	UTF8::ASCIIDecode(const char *data, std::size_t size) {
 		std::vector<Unicode::CodePoint> result(size);
 
-		for (size_t i = 0; i < size; i++)
+		for (std::size_t i = 0; i < size; i++)
 			result[i] = static_cast<Unicode::CodePoint>(data[i]);
 
 		return result;
 	}
 
 	bool
-	UTF8::Decode(const char *data, size_t size) {
-		size_t bytePosition;
+	UTF8::Decode(const char *data, std::size_t size) {
+		std::size_t bytePosition;
 
 		bytePosition = 0;
 

@@ -139,8 +139,6 @@ namespace Net {
 
 		void
 		HTTP2Connection::HandleFrameSettings(H2::Frame frame) {
-			size_t i;
-
 			if (frame.flags & H2::FrameFlags::ACK) {
 				if (frame.length != 0)
 					throw H2::Exception(HTTP2Error::SETTINGS_ACK_FLAG_INVALID_SIZE,
@@ -155,7 +153,7 @@ namespace Net {
 				throw H2::Exception(HTTP2Error::SETTINGS_INVALID_SIZE, info.str());
 			}
 
-			for (i = 0; i < frame.length / 6; i++) {
+			for (std::size_t i = 0; i < frame.length / 6; i++) {
 				const char *buf = frame.payload.data() + i * 6;
 
 				uint16_t identifier = ((buf[0] & 0xFF) << 8) | (buf[1] & 0xFF);
@@ -210,7 +208,7 @@ namespace Net {
 			Logger::Warning(__PRETTY_FUNCTION__, info.str());
 
 			if (frame.length > 8)
-				for (size_t i = 8; i < frame.length; i++)
+				for (std::size_t i = 8; i < frame.length; i++)
 					printf(" > 0x%hhX (%c)\n", (unsigned char)frame.payload[i], frame.payload[i]);
 		}
 	} // namespace HTTP

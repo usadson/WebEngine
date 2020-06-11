@@ -28,7 +28,7 @@ namespace Net::HTTP {
 		std::optional<const char *>
 		GetHeader(const char *) const;
 
-		std::optional<size_t>
+		std::optional<std::size_t>
 		GetHeaderUnsigned(const char *) const;
 	};
 } // namespace Net::HTTP

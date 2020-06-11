@@ -266,7 +266,7 @@ namespace Net {
 
 		HTTPConnectionError
 		HTTPConnection::ConsumeMessageBody() {
-			std::optional<size_t> contentLength = response->GetHeaderUnsigned("content-length");
+			std::optional<std::size_t> contentLength = response->GetHeaderUnsigned("content-length");
 			if (contentLength.has_value()) {
 				/* Make space in HTTPResponseInfo::MessageBody */
 				response->messageBody.resize(contentLength.value());

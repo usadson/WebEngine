@@ -52,14 +52,14 @@ namespace TextEncoding {
 	}
 
 	TEST_F(UTF8Test, NormalDecoding) {
-		for (size_t i = 0; i < inputs.size(); i++) {
+		for (std::size_t i = 0; i < inputs.size(); i++) {
 			ASSERT_TRUE(encoders[i].Decode(inputs[i].c_str(), inputs[i].length()))
 				<< "Decode() failed on string: \"" << inputs[i] << '"';
 
 			ASSERT_EQ(encoders[i].Output.size(), expectedOutputs[i].size())
 				<< "Incorrect output size for string: \"" << inputs[i] << '"';
 
-			for (size_t j = 0; j < encoders[i].Output.size(); j++) {
+			for (std::size_t j = 0; j < encoders[i].Output.size(); j++) {
 				ASSERT_EQ(encoders[i].Output[j], expectedOutputs[i][j])
 					<< "Incorrect decoding of string: \"" << inputs[i] << "\", the " << j
 					<< "th character is incorrect.";
@@ -107,8 +107,8 @@ namespace TextEncoding {
 	};
 
 	TEST_F(UTF8BoundaryTests, BoundaryTests) {
-		for (size_t i = 0; i < boundaryInputs.size(); i++) {
-			for (size_t j = 0; j < boundaryInputs[i].size(); j++) {
+		for (std::size_t i = 0; i < boundaryInputs.size(); i++) {
+			for (std::size_t j = 0; j < boundaryInputs[i].size(); j++) {
 				ASSERT_TRUE(encoders[i][j].Decode(reinterpret_cast<const char *>(boundaryInputs[i][j].data()),
 												  boundaryInputs[i][j].size()))
 					<< "Boundary Test failed for Test " << i << '.' << j;
@@ -139,7 +139,7 @@ namespace TextEncoding {
 	TEST_F(UTF8FuzzTest, TwoOctetsTest) {
 		for (unsigned char i = 0xC2; i <= 0xDF; i++) {
 			data[0] = static_cast<char>(i);
-			for (size_t j = 0; j <= 255; j++) {
+			for (std::size_t j = 0; j <= 255; j++) {
 				data[1] = static_cast<char>(j);
 
 				if (j >= 0x80 && j <= 0xBF) {

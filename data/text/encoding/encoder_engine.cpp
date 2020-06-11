@@ -250,7 +250,7 @@ std::map<std::string, std::shared_ptr<TextEncoding::Encoding> > Map = {
 };
 
 std::vector<Unicode::CodePoint>
-TextEncoding::EncoderEngine::DecodeData(const char *data, size_t size, std::string encoding) {
+TextEncoding::EncoderEngine::DecodeData(const char *data, std::size_t size, std::string encoding) {
 	std::transform(encoding.begin(), encoding.end(), encoding.begin(), [](unsigned char c) { return std::tolower(c); });
 
 	auto it = Map.find(encoding);

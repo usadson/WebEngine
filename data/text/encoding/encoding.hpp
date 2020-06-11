@@ -22,7 +22,7 @@ namespace TextEncoding {
 		}
 
 		virtual bool
-		Decode(const char *data, size_t size)
+		Decode(const char *data, std::size_t size)
 			= 0;
 	};
 } // namespace TextEncoding

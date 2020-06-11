@@ -68,7 +68,7 @@ namespace Net {
 		Connect();
 
 		bool
-		Read(char *, size_t);
+		Read(char *, std::size_t);
 
 		std::optional<char>
 		ReadChar();
@@ -77,14 +77,14 @@ namespace Net {
 		ResolveHostName();
 
 		bool
-		Write(const char *, size_t);
+		Write(const char *, std::size_t);
 
 	  private: // Private Methods for different TLS implementations:
 		void
 		TLSDestroy();
 
 		bool
-		TLSRead(char *, size_t);
+		TLSRead(char *, std::size_t);
 
 		std::optional<char>
 		TLSReadChar();
@@ -93,6 +93,6 @@ namespace Net {
 		TLSSetup();
 
 		bool
-		TLSWrite(const char *, size_t);
+		TLSWrite(const char *, std::size_t);
 	};
 } // namespace Net
