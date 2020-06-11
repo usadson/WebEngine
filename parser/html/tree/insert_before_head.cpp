@@ -39,28 +39,14 @@ HTML::InsertionModes::BeforeHead::HandleComment(HTML::Tokenizer::Token &token) {
 
 HTML::InsertionModeSubroutineStatus
 HTML::InsertionModes::BeforeHead::HandleEndTag(HTML::Tokenizer::Token &token) {
-	/*
-	 * Wait... what is going on here?
-	 * FIXME since June 8th 2020
+	auto endTagToken = dynamic_cast<HTML::Tokenizer::EndTagToken *>(&token);
 
-	if (startTagToken == nullptr) {
-		Logger::Warning("HTMLParser::InsertBeforeHTML", "Invalid structure! ENDTAG before STARTTAG");
-		return HTML::InsertionModeSubroutineStatus::PARSER_ERROR;
+	if (endTagToken->tagName.EqualsA("head") || endTagToken->tagName.EqualsA("body")
+		|| endTagToken->tagName.EqualsA("html") || endTagToken->tagName.EqualsA("br")) {
+		return HTML::InsertionModeSubroutineStatus::CONTINUE;
 	}
 
-	if (!startTagToken->tagName.EqualsA("html") &&
-		!startTagToken->tagName.EqualsA("body") &&
-		!startTagToken->tagName.EqualsA("html") &&
-		!startTagToken->tagName.EqualsA("br")) {
-		// Parse error. Ignore the token.
-		return HTML::InsertionModeSubroutineStatus::PARSER_ERROR;
-	}
-
-	return HTML::InsertionModeSubroutineStatus::CONTINUE;
-	*/
-
-	// FIXME Workaround:
-	(void)token;
+	context.parserContext.ReportParserError("BeforeHTMLInsertionMode", "Unexpected end tag!");
 	return HTML::InsertionModeSubroutineStatus::IGNORE;
 }
 

@@ -103,8 +103,11 @@ DetectQuirksMode(HTML::Tokenizer::DoctypeToken *token, bool isIFrameSrcDoc) {
 		}
 	}
 
-	if (token->publicIdentifier.has_value() && (token->publicIdentifier->StartsWithA("-//W3C//DTD XHTML 1.0 Frameset//") || token->publicIdentifier->StartsWithA("-//W3C//DTD XHTML 1.0 Transitional//")) ||
-		token->systemIdentifier.has_value() && (token->systemIdentifier->StartsWithA("-//W3C//DTD HTML 4.01 Frameset//") || token->systemIdentifier->StartsWithA("-//W3C//DTD HTML 4.01 Transitional//"))) {
+	if (token->publicIdentifier.has_value() && (token->publicIdentifier->StartsWithA("-//W3C//DTD XHTML 1.0 Frameset//") || token->publicIdentifier->StartsWithA("-//W3C//DTD XHTML 1.0 Transitional//"))) {
+		return DOM::QuirksMode::LIMITED_QUIRKS;
+	}
+
+	if (token->systemIdentifier.has_value() && (token->systemIdentifier->StartsWithA("-//W3C//DTD HTML 4.01 Frameset//") || token->systemIdentifier->StartsWithA("-//W3C//DTD HTML 4.01 Transitional//"))) {
 		return DOM::QuirksMode::LIMITED_QUIRKS;
 	}
 
