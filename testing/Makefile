@@ -38,22 +38,33 @@
 
 TESTING_CXXFLAGS = $(CXXFLAGS) -I..
 TESTING_LDFLAGS = `pkg-config --static --libs gtest` bin/logger.o
+TESTING_LDFLAGS_NET_HTTP = `pkg-config --static --libs gtest libtls` \
+			   bin/logger.o \
+			   bin/ccompat.o \
+			   bin/net/connection_info.o \
+			   bin/net/connection_info_libtls.o \
+			   bin/net/http/http_connection.o \
+			   bin/net/http/http_response_info.o
 
 TESTING_TARGETS = \
 	bin/testing/directory.txt \
 	bin/testing/data/text/encoding/utf8 \
-	bin/testing/data/text/ustring
+	bin/testing/data/text/ustring \
+	bin/testing/net/http/http_connection
 
 # the 'test' target executes every test
 test:
 	bin/testing/data/text/encoding/utf8
 	bin/testing/data/text/ustring
+	bin/testing/net/http/http_connection
 
 bin/testing/directory.txt:
 	@mkdir bin/testing
 	@mkdir bin/testing/data
 	@mkdir bin/testing/data/text
 	@mkdir bin/testing/data/text/encoding
+	@mkdir bin/testing/net
+	@mkdir bin/testing/net/http
 	@touch bin/testing/directory.txt
 
 bin/testing/data/text/encoding/utf8: testing/data/text/encoding/utf8.cpp \
@@ -66,3 +77,10 @@ bin/testing/data/text/ustring: testing/data/text/ustring.cpp \
 	bin/data/text/encoding/utf8.o \
 	bin/data/text/ustring.o
 	$(CXX) $(TESTING_CXXFLAGS) -o $@ testing/data/text/ustring.cpp bin/data/text/ustring.o bin/data/text/encoding/utf8.o $(TESTING_LDFLAGS)
+
+bin/testing/net/http/http_connection: testing/net/http/http_connection.cpp \
+	net/connection_info.hpp \
+	net/http/http_connection.hpp \
+	logger.hpp
+	$(CXX) $(TESTING_CXXFLAGS) -o $@ testing/net/http/http_connection.cpp $(TESTING_LDFLAGS_NET_HTTP)
+
