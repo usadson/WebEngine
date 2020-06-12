@@ -26,7 +26,6 @@ namespace Rendering {
 		std::shared_ptr<Rendering::WindowBase> internalWindow{ nullptr };
 
 	  protected:
-
 		inline explicit Renderer(RendererType type) : rendererType(type) {
 		}
 
