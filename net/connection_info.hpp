@@ -62,12 +62,13 @@ namespace Net {
 			  tlsALPNProtocols(""), socket(0), tlsContext(nullptr) {
 		}
 
+		virtual
 		~ConnectionInfo();
 
-		bool
+		virtual bool
 		Connect();
 
-		bool
+		virtual bool
 		Read(char *, std::size_t);
 
 		std::optional<char>
@@ -76,7 +77,7 @@ namespace Net {
 		bool
 		ResolveHostName();
 
-		bool
+		virtual bool
 		Write(const char *, std::size_t);
 
 	  private: // Private Methods for different TLS implementations:
