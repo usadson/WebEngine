@@ -116,7 +116,7 @@ RunRenderingTest() {
 		return;
 	}
 
-	auto result = window->PrepareForRenderer(renderer->type);
+	auto result = window->PrepareForRenderer(renderer->type());
 	if (!result.first) {
 		Logger::Severe("RunRenderingTest", "The creation of renderer context "
 										   "for renderer for window system "

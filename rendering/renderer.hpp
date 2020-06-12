@@ -21,13 +21,18 @@ namespace Rendering {
 namespace Rendering {
 
 	class Renderer {
-	  public: // Properties
-		const RendererType type;
-
-	  protected:
+	  private: // Properties
+		const RendererType rendererType;
 		std::shared_ptr<Rendering::WindowBase> internalWindow{ nullptr };
 
-		inline explicit Renderer(RendererType type) : type(type) {
+	  protected:
+
+		inline explicit Renderer(RendererType type) : rendererType(type) {
+		}
+
+		[[nodiscard]] inline std::shared_ptr<Rendering::WindowBase>
+		window() const noexcept {
+			return internalWindow;
 		}
 
 	  public: // Methods
@@ -53,8 +58,13 @@ namespace Rendering {
 			= 0;
 
 		virtual inline void
-		SetWindow(const std::shared_ptr<Rendering::WindowBase> &window) {
+		SetWindow(const std::shared_ptr<Rendering::WindowBase> &window) noexcept {
 			internalWindow = window;
+		}
+
+		[[nodiscard]] inline RendererType
+		type() const noexcept {
+			return rendererType;
 		}
 	};
 
