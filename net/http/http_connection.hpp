@@ -48,6 +48,7 @@ namespace Net::HTTP {
 			{ HTTPConnectionError::INCORRECT_HEADER_FIELD_GENERIC, "INCORRECT_HEADER_FIELD_GENERIC" },
 			{ HTTPConnectionError::INCORRECT_HEADER_FIELD_NAME, "INCORRECT_HEADER_FIELD_NAME" },
 			{ HTTPConnectionError::INCORRECT_HEADER_FIELD_VALUE, "INCORRECT_HEADER_FIELD_VALUE" },
+			{ HTTPConnectionError::INCORRECT_PROTOCOL, "INCORRECT_PROTOCOL" },
 			{ HTTPConnectionError::INCORRECT_REASON_PHRASE, "INCORRECT_REASON_PHRASE" },
 			{ HTTPConnectionError::INCORRECT_START_LINE, "INCORRECT_START_LINE" },
 			{ HTTPConnectionError::NO_ERROR, "NO_ERROR" },
@@ -62,7 +63,11 @@ namespace Net::HTTP {
 	  public: // Public Properties
 		Net::ConnectionInfo &connectionInfo;
 
+#ifdef HTTP_CONNECTION_ENABLE_TESTING
+	  public: // Public Properties (for testing)
+#else
 	  private: // Private Properties
+#endif
 		HTTPResponseInfo *response;
 
 	  public: // Con/destructors
