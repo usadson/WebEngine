@@ -4,11 +4,15 @@
                     -hicpp-no-array-decay,
                     -modernize-use-trailing-return-type,
                     -google-readability-braces-around-statements,
-                    -hicpp-braces-around-statements,
                     -readability-braces-around-statements,
                     -cppcoreguidelines-avoid-magic-numbers,
                     -readability-magic-numbers,
-                    -*-namespace-comments'
-
+                    -llvm-header-guard,                             # We use #pragma once
+                    # Duplicate checks:
+                    -hicpp-special-member-functions,
+                    -hicpp-braces-around-statements,
+                    -hicpp-special-member-functions
+                    '
+  CheckOptions:
+  - { key: cppcoreguidelines-special-member-functions.AllowSoleDefaultDtor, value: '1' }
 ...
-
