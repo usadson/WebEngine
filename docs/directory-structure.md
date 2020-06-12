@@ -1,4 +1,4 @@
-##Directory Structure
+# Directory Structure
 The project is seperated into different directories. This document explains what each folder contains.
 
 * `bin` is the auto-generated directory for object files. Note however that the main executable is the `./engine` file.
