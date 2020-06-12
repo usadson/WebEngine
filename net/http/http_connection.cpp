@@ -19,7 +19,7 @@
 
 namespace Net {
 	namespace HTTP {
-		HTTPConnection::HTTPConnection(const Net::ConnectionInfo &inConnectionInfo) : connectionInfo(inConnectionInfo) {
+		HTTPConnection::HTTPConnection(Net::ConnectionInfo &inConnectionInfo) : connectionInfo(inConnectionInfo) {
 			if (!connectionInfo.Connect()) {
 				std::stringstream information;
 				information << "Failed to connect! Host: \"" << connectionInfo.hostName << "\":" << connectionInfo.port;
