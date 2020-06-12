@@ -21,9 +21,9 @@ namespace Rendering {
 		glewInit();
 		/* Map */
 		std::stringstream info;
-		info << "WindowSize={ width=" << internalWindow->width << " height=" << internalWindow->height << " }";
+		info << "WindowSize={ width=" << window()->width << " height=" << window()->height << " }";
 		Logger::Debug(__PRETTY_FUNCTION__, info.str());
-		glOrtho(0, internalWindow->width, internalWindow->height, 0, 0, 1);
+		glOrtho(0, window()->width, window()->height, 0, 0, 1);
 		// 		glGenVertexArrays(1, &VertexArrayID);
 		// 		glBindVertexArray(VertexArrayID);
 	}
@@ -60,7 +60,7 @@ namespace Rendering {
 			}
 		}
 
-		internalWindow->SwapBuffers();
+		window()->SwapBuffers();
 	}
 
 	void
