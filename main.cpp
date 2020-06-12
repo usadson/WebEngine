@@ -178,6 +178,34 @@ RunNetHTTP2Test(const char *name) {
 
 void
 RunNetworkTest() {
+	Net::ConnectionInfo connectInfo("httpbin.org", 443, true);
+	connectInfo.tlsALPNProtocols = Net::ALPNProtocols::http11;
+
+	if (!connectInfo.Connect()) {
+		std::stringstream information;
+		information << "Failed to connect! Host: \"" << connectInfo.hostName << "\":" << connectInfo.port;
+		Logger::Error("HTTPConnection", information.str());
+		return;
+	}
+
+	Net::HTTP::HTTPConnection connection(connectInfo);
+	Net::HTTP::HTTPResponseInfo response;
+
+	auto error = connection.Request(&response, "GET", "/get");
+	if (error != Net::HTTP::HTTPConnectionError::NO_ERROR) {
+		std::stringstream information;
+		information << "Request failed: " << error;
+		Logger::Error("RunNetworkTest", information.str());
+		return;
+	}
+
+	std::stringstream information;
+	information << "Response information: statusCode=" << response.statusCode << " headerCount=" << response.headers.size() << " bodySize=" << response.messageBody.size();
+
+	Logger::Info("RunNetworkTest", information.str());
+
+
+	std::cout << "====== Response Message Body ======\n" << response.messageBody.data() << "\n===================================\n";
 }
 
 int
