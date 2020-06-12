@@ -47,9 +47,13 @@ namespace Net {
 			response->httpVersion = std::string(protocolData.data());
 
 			/* Check if version is 'HTTP/1.1' */
-			if (protocolData[5] != '1' || protocolData[7] != '1')
+			if (protocolData[5] != '1' || protocolData[7] != '1') {
+				if (protocolData[5] < '0' || protocolData[5] > '9' || protocolData[7] < '0' || protocolData[7] > '9') {
+					return HTTPConnectionError::INCORRECT_PROTOCOL;
+				}
 				Logger::Warning("HTTPConnection::ConsumeVersion",
 								"HTTP Version isn't \"HTTP/1.1\": \"" + response->httpVersion + "\".");
+			}
 
 			return HTTPConnectionError::NO_ERROR;
 		}
