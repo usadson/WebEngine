@@ -60,18 +60,22 @@ namespace Net::HTTP {
 
 	class HTTPConnection {
 	  public: // Public Properties
-		Net::ConnectionInfo connectionInfo;
+		Net::ConnectionInfo &connectionInfo;
 
 	  private: // Private Properties
 		HTTPResponseInfo *response;
 
 	  public: // Con/destructors
 		// Constructors setup the connection using 'connectionInfo'.
-		explicit HTTPConnection(const Net::ConnectionInfo &);
+		explicit HTTPConnection(Net::ConnectionInfo &);
 
 		~HTTPConnection();
 
-	  private: // Private Methods
+#ifdef HTTP_CONNECTION_ENABLE_TESTING
+	  public: // Public Methods (for testing)
+#else
+	  protected: // Protected Methods
+#endif
 		HTTPConnectionError
 		ConsumeHeaderField(char);
 
