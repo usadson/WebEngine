@@ -3,7 +3,7 @@ language: c
 compiler:
   - clang
   - gcc
-script: make bin/test.txt && make -j`grep -c ^processor /proc/cpuinfo | awk '{print $1 * 1.5}'` objects && make all test
+script: tools/build-fast.sh
 before_install:
   # LibreSSL
   - sudo mkdir -p /usr/local/include/openssl
