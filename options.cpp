@@ -53,7 +53,6 @@ ParseEqualsOption(const std::string_view &strview, std::optional<std::string_vie
 	static const std::array<CommandLineParser::Input, 4> inputs = { {
 		{ "copyright", false },
 		{ "credits", false },
-		{ "gui", false },
 		{ "test", true },
 	} };
 

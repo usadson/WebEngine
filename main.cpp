@@ -176,6 +176,10 @@ RunNetHTTP2Test(const char *name) {
 			  << end << std::endl;
 }
 
+void
+RunNetworkTest() {
+}
+
 int
 main(int argc, const char *argv[]) {
 	/** Initialization Section **/
@@ -195,13 +199,25 @@ main(int argc, const char *argv[]) {
 
 	NamedCharacters::Setup();
 
-	/** Execution Section **/
-	if (Options::GetCommandLineParameter("gui").has_value()) {
-		RunRenderingTest();
-		return EXIT_SUCCESS;
-	}
+	const char *optionName = "test";
 
-	RunDocumentTest();
+	/** Execution Section **/
+	if (!Options::GetCommandLineParameter(optionName).has_value()
+		|| !Options::GetCommandLineParameter(optionName).value()->has_value()
+		|| Options::GetCommandLineParameter(optionName).value()->value().empty()) {
+		RunDocumentTest();
+	} else {
+		const char *testModule = Options::GetCommandLineParameter(optionName).value()->value().c_str();
+		if (strcasecmp(testModule, "document") == 0) {
+			RunDocumentTest();
+		} else if (strcasecmp(testModule, "network") == 0) {
+			RunNetworkTest();
+		} else if (strcasecmp(testModule, "rendering") == 0) {
+			RunRenderingTest();
+		} else {
+			Logger::Error("MainExecutionPath", "Unknown testing module!");
+		}
+	}
 
 	/** Shutdown Section **/
 	CCompat::CloseStandardIO();
