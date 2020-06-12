@@ -5,20 +5,6 @@
 
 This project is the repository of WebEngine, a free-and-open-source web-browser project. This isn't a full-fledged browser — of course — and is just a hobbyist project. Feel free to look through the code and maybe even contribute to the project.
 
-## Dependencies
-This project uses [LibreSSL](https://libressl.org/) as its TLS library,
-GLFW for the window manager class (this can be changed, and using a different implementation is possible by deriving from the [Rendering::Window](rendering/window/window.hpp).
-WebEngine chooses from the supported renderers, this *will include* [OpenGL](https://www.opengl.org/),
-[Vulkan](https://www.khronos.org/vulkan/), a software renderer, and maybe [DirectX](https://en.wikipedia.org/wiki/DirectX/).
-For OpenGL, the project depends on [GLEW](http://glew.sourceforge.net/), an OpenGL loader.
-To draw fonts, this project uses [FreeType](https://www.freetype.org/).
-
-## Building
-To build the project, make sure you have the required dependencies stated above.
-To make a simple build on Linux, a call to `make` is adequate.
-This will use the clang compiler and uses pkg-config to locate the dependencies.
-To change the default compilation, edit the [Makefile](Makefile).
-
 ## Code Style
 This code of this project mainly consists of C/C++17 code.
 The code style closest to the code in this project is the [OpenBSD style](https://man.openbsd.org/style).
