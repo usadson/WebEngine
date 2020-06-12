@@ -40,14 +40,11 @@ Clang-tidy is a tool made by the LLVM development team and is part of the [LLVM 
 
 Clang-tidy is a clever analyzer which makes sure modern C++ is used, copy reduction is at its highest, best practices are followed, etc. To install the tool, visit the [website](https://releases.llvm.org/download.html) or install it using your package manager.
 
-There isn't an easy command to use `clang-tidy` yet, but you can use the following command:
+There isn't an easy command to use `clang-tidy` yet on multiple files, but you can use the following command to run it on a single file:
 ```sh
-$ clang-tidy -checks=* <filename> -- -I. -std=c++17
+$ clang-tidy <filename> -- -I. -std=c++17
 ```
-Some projects and companies have included their own set of rules and recommendations, which often are non-applicable, duplicate, or unnecessary. You can omit certain tools by adding filters to the `-check` option, e.g.:
-```sh
-$ clang-tidy -checks=*,-fuchsia-*,-modernize-use-trailing-return-type <filename> -- -I. -std=c++17
-```
+Some projects and companies have included their own set of rules and recommendations, which often are non-applicable, duplicate, or unnecessary. You can omit certain tools by adding filters to the .clang-tidy configuration file.
 ### Cppcheck <a name="static-analyzers-cppcheck"></a>
 Cppcheck is an open-source tool for finding bugs by looking at the source code. Visit the [website](http://cppcheck.sourceforge.net/) for download instructions. A Makefile target is included for running `cppcheck` with recommended settings:
 ```sh
