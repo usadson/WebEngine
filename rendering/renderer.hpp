@@ -23,14 +23,15 @@ namespace Rendering {
 	class Renderer {
 	  public: // Properties
 		const RendererType type;
-		std::shared_ptr<Rendering::WindowBase> internalWindow;
 
-	  public: // Methods
+	  protected:
+		std::shared_ptr<Rendering::WindowBase> internalWindow{ nullptr };
+
 		inline explicit Renderer(RendererType type) : type(type) {
 		}
 
-		virtual ~Renderer() {
-		}
+	  public: // Methods
+		virtual ~Renderer() = default;
 
 		virtual void
 		Dequeue(RenderObject *)
@@ -52,7 +53,7 @@ namespace Rendering {
 			= 0;
 
 		virtual inline void
-		SetWindow(std::shared_ptr<Rendering::WindowBase> window) {
+		SetWindow(const std::shared_ptr<Rendering::WindowBase> &window) {
 			internalWindow = window;
 		}
 	};
