@@ -44,7 +44,8 @@ There isn't an easy command to use `clang-tidy` yet on multiple files, but you c
 ```sh
 $ clang-tidy <filename> -- -I. -std=c++17
 ```
-Some projects and companies have included their own set of rules and recommendations, which often are non-applicable, duplicate, or unnecessary. You can omit certain tools by adding filters to the .clang-tidy configuration file.
+Some projects and companies have included their own set of rules and recommendations, which often are non-applicable, duplicate, or unnecessary.
+You can omit certain tools by adding filters to the [.clang-tidy](../.clang-tidy) configuration file.
 ### Cppcheck <a name="static-analyzers-cppcheck"></a>
 Cppcheck is an open-source tool for finding bugs by looking at the source code. Visit the [website](http://cppcheck.sourceforge.net/) for download instructions. A Makefile target is included for running `cppcheck` with recommended settings:
 ```sh
