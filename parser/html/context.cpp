@@ -19,7 +19,8 @@ HTML::Tokenizer::Context::LogError(const HTML::Tokenizer::ParserError &error) {
 	if (beginLoopState != state)
 		info << "\033[1;31m (begin was: \033[1;33m" << beginLoopState << ')';
 
-	info << "\033[1;31m (character: '" << currentCharacter << "' i.e. 0x" << std::hex << static_cast<std::size_t>(currentCharacter) << std::dec << ")\033[1;0m";
+	info << "\033[1;31m (character: '" << currentCharacter << "' i.e. 0x" << std::hex
+		 << static_cast<std::size_t>(currentCharacter) << std::dec << ")\033[1;0m";
 
 	Logger::Error("HTMLTokenizer", info.str());
 }
