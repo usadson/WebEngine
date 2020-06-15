@@ -236,7 +236,7 @@ main(int argc, const char *argv[]) {
 	if (!Options::GetCommandLineParameter(optionName).has_value()
 		|| !Options::GetCommandLineParameter(optionName).value()->has_value()
 		|| Options::GetCommandLineParameter(optionName).value()->value().empty()) {
-					RunDocumentTest();
+		RunDocumentTest();
 	} else {
 		const char *testModule = Options::GetCommandLineParameter(optionName).value()->value().c_str();
 		if (strcasecmp(testModule, "document") == 0) {
