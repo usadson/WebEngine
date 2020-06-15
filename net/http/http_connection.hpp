@@ -64,8 +64,10 @@ namespace Net::HTTP {
 		Net::ConnectionInfo &connectionInfo;
 
 #ifdef HTTP_CONNECTION_ENABLE_TESTING
+
 	  public: // Public Properties (for testing)
 #else
+
 	  private: // Private Properties
 #endif
 		HTTPResponseInfo *response;
@@ -77,8 +79,10 @@ namespace Net::HTTP {
 		~HTTPConnection();
 
 #ifdef HTTP_CONNECTION_ENABLE_TESTING
+
 	  public: // Public Methods (for testing)
 #else
+
 	  protected: // Protected Methods
 #endif
 		HTTPConnectionError
