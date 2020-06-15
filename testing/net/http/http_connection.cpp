@@ -75,11 +75,15 @@ namespace Net::HTTP {
 	public:
 		Net::BufferedConnectionInfo connectionInfo;
 		HTTPResponseInfo dummyResponseInfo;
+		HTTPConnection connection;
+
+		HTTPConnectionTest() :
+			connectionInfo(), dummyResponseInfo(), connection(connectionInfo) {
+			connection.response = &dummyResponseInfo;
+		}
 	};
 
 	TEST_F(HTTPConnectionTest, ConsumeReasonPhrase) {
-		HTTPConnection connection(connectionInfo);
-		connection.response = &dummyResponseInfo;
 		std::vector<char> input;
 
 		std::vector<std::string> validInputs = { "\r", " \r", " ok \r", "agjia;h skghah aghaha;hj \r" };
@@ -94,6 +98,7 @@ namespace Net::HTTP {
 		for (char i = 0; i < 20; i++) {
 			if (i == '\t' || i == '\r')
 				continue;
+
 			input[0] = i;
 			connectionInfo.SetInputBuffer(input);
 			ASSERT_EQ(connection.ConsumeReasonPhrase(), Net::HTTP::HTTPConnectionError::INCORRECT_REASON_PHRASE)
@@ -102,11 +107,6 @@ namespace Net::HTTP {
 	}
 
 	TEST_F(HTTPConnectionTest, ConsumeStatusCode) {
-		HTTPConnection connection(connectionInfo);
-		connection.response = &dummyResponseInfo;
-
-		Logger::SetOutputState(false);
-
 		// Valid Inputs
 		std::vector<char> input = { '2', '0', '0' };
 		for (char a = '1'; a <= '5'; a++) {
@@ -135,17 +135,18 @@ namespace Net::HTTP {
 			{ '7', '9', '9' },
 			{ '8', '2', '6' } };
 
+		Logger::SetOutputState(false);
+
 		for (size_t i = 0; i < invalidInputs.size(); i++) {
 			connectionInfo.SetInputBuffer(invalidInputs[i]);
 			ASSERT_EQ(connection.ConsumeStatusCode(), Net::HTTP::HTTPConnectionError::INCORRECT_STATUS_CODE)
 				<< "invalidInputs[" << i << "]";
 		}
+
+		Logger::SetOutputState(true);
 	}
 
 	TEST_F(HTTPConnectionTest, ConsumeHTTPVersion) {
-		HTTPConnection connection(connectionInfo);
-		connection.response = &dummyResponseInfo;
-
 		Logger::SetOutputState(false);
 
 		// Valid Inputs
@@ -181,43 +182,6 @@ namespace Net::HTTP {
 			ASSERT_EQ(connection.ConsumeHTTPVersion(), Net::HTTP::HTTPConnectionError::INCORRECT_PROTOCOL)
 				<< "invalidInputs[" << i << "]";
 		}
-
-		/*
-		 * An idea for a kind of fuzzer, but running it single-threadedly is impossible.
-		std::vector<char> input(8);
-		for (uint16_t a = 0; a <= 0xFF; a++) {
-			input[0] = static_cast<char>(a);
-			for (uint16_t b = 0; b <= 0xFF; b++) {
-				input[1] = static_cast<char>(b);
-				for (uint16_t c = 0; c <= 0xFF; c++) {
-					input[2] = static_cast<char>(c);
-					for (uint16_t d = 0; d <= 0xFF; d++) {
-						input[3] = static_cast<char>(d);
-						for (uint16_t e = 0; e <= 0xFF; e++) {
-							input[4] = static_cast<char>(e);
-							for (char major = '0'; major <= '9'; major++) {
-								input[5] = major;
-								for (uint16_t f = 0; f <= 0xFF; f++) {
-									input[6] = static_cast<char>(f);
-									for (char minor = '0'; minor <= '9'; minor++) {
-										std::cout << std::hex << a << b << c << d << e << major << f << minor << '\r';z
-										input[7] = minor;
-										connectionInfo.SetInputBuffer(input);
-										if (a == 'H' && b == 'T' && c == 'T' && d == 'P' && e == '/' && f == '.' &&
-		major >= '0' && major >= '0' && major <= '9' && minor >= '0' && minor <= '9') {
-											ASSERT_EQ(connection.ConsumeHTTPVersion(),
-		Net::HTTP::HTTPConnectionError::NO_ERROR); } else { ASSERT_EQ(connection.ConsumeHTTPVersion(),
-		Net::HTTP::HTTPConnectionError::INCORRECT_PROTOCOL);
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		*/
 
 		Logger::SetOutputState(true);
 	}
