@@ -82,12 +82,7 @@ namespace Net::HTTP {
 		connection.response = &dummyResponseInfo;
 		std::vector<char> input;
 
-		std::vector<std::string> validInputs = {
-			"\r",
-			" \r",
-			" ok \r",
-			"agjia;h skghah aghaha;hj \r"
-		};
+		std::vector<std::string> validInputs = { "\r", " \r", " ok \r", "agjia;h skghah aghaha;hj \r" };
 
 		for (const auto &string : validInputs) {
 			input.insert(std::begin(input), std::begin(string), std::end(string));
