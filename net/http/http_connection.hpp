@@ -93,31 +93,31 @@ namespace Net::HTTP {
 		ConsumeHeaderField(char);
 
 		HTTPConnectionError
-		ConsumeHTTPVersion();
-
-		HTTPConnectionError
-		ConsumeReasonPhrase();
-
-		HTTPConnectionError
-		ConsumeStatusCode();
-
-		HTTPConnectionError
 		ConsumeHeaderFieldName(std::vector<char> *);
 
 		HTTPConnectionError
 		ConsumeHeaderFieldValue(std::vector<char> *);
 
 		HTTPConnectionError
-		ConsumeSingleSpace();
+		ConsumeHeaders();
 
 		HTTPConnectionError
-		ConsumeHeaders();
+		ConsumeHTTPVersion();
 
 		HTTPConnectionError
 		ConsumeMessageBody();
 
 		HTTPConnectionError
 		ConsumeNewLine();
+
+		HTTPConnectionError
+		ConsumeReasonPhrase();
+
+		HTTPConnectionError
+		ConsumeSingleSpace();
+
+		HTTPConnectionError
+		ConsumeStatusCode();
 
 	  public: // Methods
 		HTTPConnectionError
