@@ -1,11 +1,13 @@
 BasedOnStyle: GNU
 
 # Generic
-AllowShortFunctionsOnASingleLine: false
-BinPackParameters: false
-ConstructorInitializerAllOnOneLineOrOnePerLine: false
+Language: Cpp
+Standard: c++17
 FixNamespaceComments: true
+BinPackArguments: false
+AllowAllArgumentsOnNextLine: false
 
+SpaceBeforeCpp11BracedList: true
 AlwaysBreakAfterReturnType: All
 ColumnLimit: 120
 SpaceBeforeParens: ControlStatements
@@ -17,7 +19,11 @@ NamespaceIndentation: All
 TabWidth: 4
 UseCRLF: false
 UseTab: Always
+AccessModifierOffset: -4
 
 # Braces
 Cpp11BracedListStyle: false
 BreakBeforeBraces: Attach
+AlignAfterOpenBracket: DontAlign
+AllowShortFunctionsOnASingleLine: false
+ConstructorInitializerAllOnOneLineOrOnePerLine: false
