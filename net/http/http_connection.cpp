@@ -61,24 +61,17 @@ namespace Net {
 		HTTPConnectionError
 		HTTPConnection::ConsumeStatusCode() {
 			/* Read status code */
-			std::vector<char> statusCode(4);
+			std::vector<char> statusCode(3);
 
 			if (!connectionInfo.Read(statusCode.data(), 3))
 				return HTTPConnectionError::FAILED_READ_STATUS_CODE;
-			statusCode.push_back('\0');
 
-			/* Validate HTTP Version */
-			if (std::any_of(std::cbegin(statusCode), std::cend(statusCode),
-							[](auto character) { return character < 0x30 || character > 0x39; })) {
-				// Treat as a '400 Bad Request' status code (right?)
-				Logger::Warning("HTTPConnection::ConsumeStatusCode",
-								std::string("Incorrect status-code (should be a digit): ") + statusCode.data());
-				return HTTPConnectionError::NO_ERROR;
-			}
-
-			if (statusCode[0] < 0x31 || statusCode[0] > 0x35) {
-				Logger::Warning("HTTPConnection::ConsumeStatusCode",
-								std::string("Incorrect status-code (uncategorized): ") + statusCode.data());
+			/* Validate status code */
+			if ((statusCode[0] < '1' || statusCode[0] > '5') || (statusCode[1] < '0' || statusCode[1] > '9') || (statusCode[2] < '0' || statusCode[2] > '9')) {
+				std::stringstream info;
+				info << std::hex << "Incorrect status-code: " << static_cast<uint16_t>(statusCode.at(0)) << static_cast<uint16_t>(statusCode.at(1)) << static_cast<uint16_t>(statusCode.at(2)) << std::dec;
+				Logger::Warning("HTTPConnection::ConsumeStatusCode", info.str());
+				return HTTPConnectionError::INCORRECT_STATUS_CODE;
 			}
 
 			response->statusCode = (statusCode[0] - 0x30) * 100 + (statusCode[1] - 0x30) * 10 + (statusCode[2] - 0x30);

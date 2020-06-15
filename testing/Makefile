@@ -38,13 +38,17 @@
 
 TESTING_CXXFLAGS = $(CXXFLAGS) -I..
 TESTING_LDFLAGS = `pkg-config --static --libs gtest` bin/logger.o
+
+
+TESTING_INCLUDES_NET_HTTP = bin/logger.o \
+			    bin/ccompat.o \
+			    bin/net/connection_info.o \
+			    bin/net/connection_info_libtls.o \
+			    bin/net/http/http_connection.o \
+			    bin/net/http/http_response_info.o
+
 TESTING_LDFLAGS_NET_HTTP = `pkg-config --static --libs gtest libtls` \
-			   bin/logger.o \
-			   bin/ccompat.o \
-			   bin/net/connection_info.o \
-			   bin/net/connection_info_libtls.o \
-			   bin/net/http/http_connection.o \
-			   bin/net/http/http_response_info.o
+			   $(TESTING_INCLUDES_NET_HTTP)
 
 TESTING_TARGETS = \
 	bin/testing/directory.txt \
@@ -81,6 +85,7 @@ bin/testing/data/text/ustring: testing/data/text/ustring.cpp \
 bin/testing/net/http/http_connection: testing/net/http/http_connection.cpp \
 	net/connection_info.hpp \
 	net/http/http_connection.hpp \
-	logger.hpp
+	logger.hpp \
+	$(TESTING_INCLUDES_NET_HTTP)
 	$(CXX) $(TESTING_CXXFLAGS) -o $@ testing/net/http/http_connection.cpp $(TESTING_LDFLAGS_NET_HTTP)
 

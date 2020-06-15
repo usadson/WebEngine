@@ -42,9 +42,7 @@ namespace Net {
 		bool
 		Read(char *out, std::size_t length) override {
 			if (inputBuffer.size() < position + length) {
-				std::stringstream info;
-				info << "Read() outside the buffer size! paramLength=" << length << " position=" << position << " inputBuffer.size()=" << inputBuffer.size();
-				Logger::Error("BufferedConnectionInfo", info.str());
+				std::cerr << "Read() outside the buffer size! paramLength=" << length << " position=" << position << " inputBuffer.size()=" << inputBuffer.size() << '\n';
 				return false;
 			}
 
@@ -68,6 +66,50 @@ namespace Net::HTTP {
 		  Net::BufferedConnectionInfo connectionInfo;
 		  HTTPResponseInfo dummyResponseInfo;
 	};
+
+	TEST_F(HTTPConnectionTest, ConsumeStatusCode) {
+		HTTPConnection connection(connectionInfo);
+		connection.response = &dummyResponseInfo;
+
+		Logger::SetOutputState(false);
+
+		// Valid Inputs
+		std::vector<char> input = { '2', '0', '0' };
+		for (char a = '1'; a <= '5'; a++) {
+			input[0] = a;
+			for (char b = '0'; b <= '9'; b++) {
+				input[1] = b;
+				for (char c = '0'; c <= '9'; c++) {
+					input[2] = c;
+					connectionInfo.SetInputBuffer(input);
+					ASSERT_EQ(connection.ConsumeStatusCode(), Net::HTTP::HTTPConnectionError::NO_ERROR)
+						<< "input: " << a << b << c;
+				}
+			}
+		}
+
+		std::vector<std::vector<char>> invalidInputs = {
+			{ 'A', '0', '0' },
+			{ '2', 'A', '0' },
+			{ '2', '0', 'A' },
+			{ '2', 'A', 'A' },
+			{ 'A', 'A', '0' },
+			{ 'A', 'A', 'A' },
+			{ '0', '0', '0' },
+			{ '0', '0', '1' },
+			{ '0', '1', '0' },
+			{ '6', '0', '0' },
+			{ '7', '9', '9' },
+			{ '8', '2', '6' }
+		};
+
+		for (size_t i = 0; i < invalidInputs.size(); i++) {
+			connectionInfo.SetInputBuffer(invalidInputs[i]);
+			ASSERT_EQ(connection.ConsumeStatusCode(), Net::HTTP::HTTPConnectionError::INCORRECT_STATUS_CODE)
+				<< "invalidInputs[" << i << "]";
+		}
+	}
+
 
 	TEST_F(HTTPConnectionTest, ConsumeHTTPVersion) {
 		HTTPConnection connection(connectionInfo);
