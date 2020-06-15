@@ -13,7 +13,7 @@
  */
 
 #include <iostream>
-#include <memory>
+  #include <memory>
 #include <sstream>
 #include <vector>
 
@@ -50,7 +50,7 @@ DecodeText(Resources::DocumentResource *documentResource, std::vector<char> inpu
 			return false;
 		}
 
-		documentResource->data = Unicode::UString(utf8Encoding.Output);
+                                		documentResource->data = Unicode::UString(utf8Encoding.Output);
 		return true;
 	}
 
