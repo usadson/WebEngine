@@ -51,6 +51,15 @@ namespace Net {
 			return true;
 		}
 
+		std::optional<char>
+		ReadChar() override {
+			if (inputBuffer.size() < position) {
+				std::cerr << "ReadChar() outside the buffer size! inputBuffer.size()=" << inputBuffer.size() << '\n';
+				return {};
+			}
+			return { inputBuffer[position++] };
+		}
+
 		bool
 		Write(const char *in, std::size_t length) override {
 			outputBuffer.insert(std::begin(outputBuffer), in, in + length);
@@ -67,6 +76,35 @@ namespace Net::HTTP {
 		Net::BufferedConnectionInfo connectionInfo;
 		HTTPResponseInfo dummyResponseInfo;
 	};
+
+	TEST_F(HTTPConnectionTest, ConsumeReasonPhrase) {
+		HTTPConnection connection(connectionInfo);
+		connection.response = &dummyResponseInfo;
+		std::vector<char> input;
+
+		std::vector<std::string> validInputs = {
+			"\r",
+			" \r",
+			" ok \r",
+			"agjia;h skghah aghaha;hj \r"
+		};
+
+		for (const auto &string : validInputs) {
+			input.insert(std::begin(input), std::begin(string), std::end(string));
+			connectionInfo.SetInputBuffer(input);
+			ASSERT_EQ(connection.ConsumeReasonPhrase(), Net::HTTP::HTTPConnectionError::NO_ERROR)
+				<< "String: '" << string << "\n' failed";
+		}
+
+		for (char i = 0; i < 20; i++) {
+			if (i == '\t' || i == '\r')
+				continue;
+			input[0] = i;
+			connectionInfo.SetInputBuffer(input);
+			ASSERT_EQ(connection.ConsumeReasonPhrase(), Net::HTTP::HTTPConnectionError::INCORRECT_REASON_PHRASE)
+				<< "Invalid: " << static_cast<uint16_t>(i);
+		}
+	}
 
 	TEST_F(HTTPConnectionTest, ConsumeStatusCode) {
 		HTTPConnection connection(connectionInfo);

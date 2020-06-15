@@ -71,7 +71,7 @@ namespace Net {
 		virtual bool
 		Read(char *, std::size_t);
 
-		std::optional<char>
+		virtual std::optional<char>
 		ReadChar();
 
 		bool

@@ -90,8 +90,7 @@ namespace Net {
 			std::optional<char> character;
 			while ((character = connectionInfo.ReadChar()).has_value()) {
 				if (character == '\r') {
-					reasonPhrase.push_back('\0');
-					response->reasonPhrase = reasonPhrase.data();
+					response->reasonPhrase = std::string(std::begin(reasonPhrase), std::end(reasonPhrase));
 					return HTTPConnectionError::NO_ERROR;
 				}
 
@@ -105,13 +104,11 @@ namespace Net {
 					continue;
 				}
 
-				reasonPhrase.push_back('\0');
-				response->reasonPhrase = reasonPhrase.data();
+				response->reasonPhrase = std::string(std::begin(reasonPhrase), std::end(reasonPhrase));
 				return HTTPConnectionError::INCORRECT_REASON_PHRASE;
 			}
 
-			reasonPhrase.push_back('\0');
-			response->reasonPhrase = reasonPhrase.data();
+			response->reasonPhrase = std::string(std::begin(reasonPhrase), std::end(reasonPhrase));
 			return HTTPConnectionError::FAILED_READ_REASON_PHRASE;
 		}
 
