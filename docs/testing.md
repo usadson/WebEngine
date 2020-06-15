@@ -79,3 +79,4 @@ To run the tool throughout the codebase, a useful command is made:
 $ tools/formatter.sh
 ```
 This will run clang-format using the rules of [`.clang-format`](https://github.com/usadson/WebEngine/blob/master/.clang-format) for all .hpp and .cpp files.
+Please note however that this tool is being executed automatically by [JanitorBot](https://github.com/JanitorBot), and manually running this tool is often unnecessary, because it might affect files that you weren't working on. It is recommended to run the tool if the code before your changes was passing the formatter, but after the changes not. If this is the case, you should preferably run the tool before commiting.
