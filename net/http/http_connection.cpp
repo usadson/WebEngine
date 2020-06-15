@@ -227,7 +227,7 @@ namespace Net {
 		}
 
 		HTTPConnectionError
-		HTTPConnection::ConsumeWhiteSpace() {
+		HTTPConnection::ConsumeSingleSpace() {
 			auto singleCharacter = connectionInfo.ReadChar();
 			if (!singleCharacter.has_value())
 				return HTTPConnectionError::FAILED_READ_GENERIC;
@@ -305,8 +305,8 @@ namespace Net {
 			if (!connectionInfo.Write(str.c_str(), str.length()))
 				return HTTPConnectionError::FAILED_WRITE_REQUEST;
 
-			for (const auto &subroutine : { &HTTPConnection::ConsumeHTTPVersion, &HTTPConnection::ConsumeWhiteSpace,
-											&HTTPConnection::ConsumeStatusCode, &HTTPConnection::ConsumeWhiteSpace,
+			for (const auto &subroutine : { &HTTPConnection::ConsumeHTTPVersion, &HTTPConnection::ConsumeSingleSpace,
+											&HTTPConnection::ConsumeStatusCode, &HTTPConnection::ConsumeSingleSpace,
 											&HTTPConnection::ConsumeReasonPhrase, &HTTPConnection::ConsumeNewLine,
 											&HTTPConnection::ConsumeHeaders, &HTTPConnection::ConsumeMessageBody }) {
 				auto error = (this->*subroutine)();

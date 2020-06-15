@@ -108,7 +108,7 @@ namespace Net::HTTP {
 		ConsumeHeaderFieldValue(std::vector<char> *);
 
 		HTTPConnectionError
-		ConsumeWhiteSpace();
+		ConsumeSingleSpace();
 
 		HTTPConnectionError
 		ConsumeHeaders();
