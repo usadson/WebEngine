@@ -22,7 +22,7 @@ namespace Net {
 	  private:
 		std::vector<char> inputBuffer;
 		std::vector<char> outputBuffer;
-		std::size_t position;
+		std::size_t position{ 0 };
 
 	  public:
 		BufferedConnectionInfo() : ConnectionInfo("destination.test", 80) {
