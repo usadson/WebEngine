@@ -32,6 +32,7 @@ namespace Net::HTTP {
 		INCORRECT_STATUS_CODE,
 		NO_ERROR,
 		NOT_CONNECTED,
+		WHITESPACE_EXPECTED,
 	};
 
 	inline std::ostream &
@@ -55,6 +56,7 @@ namespace Net::HTTP {
 			{ HTTPConnectionError::INCORRECT_STATUS_CODE, "INCORRECT_STATUS_CODE" },
 			{ HTTPConnectionError::NO_ERROR, "NO_ERROR" },
 			{ HTTPConnectionError::NOT_CONNECTED, "NOT_CONNECTED" },
+			{ HTTPConnectionError::WHITESPACE_EXPECTED, "WHITESPACE_EXPECTED" },
 		};
 
 		auto it = httpConnectionErrorNames.find(type);

@@ -233,7 +233,7 @@ namespace Net {
 				return HTTPConnectionError::FAILED_READ_GENERIC;
 
 			if (singleCharacter.value() != ' ')
-				return HTTPConnectionError::INCORRECT_START_LINE;
+				return HTTPConnectionError::WHITESPACE_EXPECTED;
 
 			return HTTPConnectionError::NO_ERROR;
 		}
