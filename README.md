@@ -5,4 +5,10 @@
 
 This project is the repository of WebEngine, a free-and-open-source web-browser project. This isn't a full-fledged browser — of course — and is just a hobbyist project. Feel free to look through the code and maybe even contribute to the project.
 
-Click [here](docs/readme.md) for documentation on the project.
+## Documentation
+1. [Building instructions](docs/building.md)
+2. [Code Style](docs/code-style.md)
+3. [Directory Structure](docs/directory-structure.md)
+4. [Licensing and Copyright Information](docs/license.md)
+5. [Testing](docs/testing.md)
+
