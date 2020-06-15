@@ -43,7 +43,7 @@ DecodeText(Resources::DocumentResource *documentResource, std::vector<char> inpu
 	}
 
 	// Labels: https://encoding.spec.whatwg.org/#names-and-labels
-	if (charset->second == "utf-8" || charset->second == "utf8" || charset->second == "unicode-1-1-utf-8") {
+	if    (charset->second == "utf-8" || charset->second == "utf8" || charset->second == "unicode-1-1-utf-8") {
 		TextEncoding::UTF8 utf8Encoding;
 		if (!utf8Encoding.Decode(inputData.data(), inputData.size())) {
 			Logger::Warning("TextDecoder", "Failed to decode text!");
