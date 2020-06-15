@@ -37,7 +37,7 @@ namespace Rendering {
 		return { RendererType::OPENGL };
 	}
 
-	std::pair<bool, std::optional<void *> >
+	std::pair<bool, std::optional<void *>>
 	WindowGLFW::PrepareForRenderer(RendererType type) {
 		switch (type) {
 			case RendererType::OPENGL:
@@ -91,8 +91,9 @@ namespace Rendering {
 		}
 
 		/* Center the window */
-		glfwSetWindowPos(internalWindow, static_cast<uint32_t>((videoMode->width - this->width) / 2),
-						 static_cast<uint32_t>((videoMode->height - this->height) / 2));
+		glfwSetWindowPos(internalWindow,
+			static_cast<uint32_t>((videoMode->width - this->width) / 2),
+			static_cast<uint32_t>((videoMode->height - this->height) / 2));
 
 		glfwMakeContextCurrent(internalWindow);
 		return true;

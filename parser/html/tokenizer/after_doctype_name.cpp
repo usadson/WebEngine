@@ -34,15 +34,17 @@ HTML::Tokenizer::AfterDoctypeName::Parse() {
 				break;
 			default:
 				if (context.i + keywordLength < context.documentSize) {
-					if (context.document->data.EqualsIgnoreCaseAL(context.i, publicKeyword.c_str(),
-																  systemKeyword.length())) {
+					if (context.document->data.EqualsIgnoreCaseAL(context.i,
+							publicKeyword.c_str(),
+							systemKeyword.length())) {
 						context.toConsumeNext = systemKeyword.length();
 						context.state = HTML::Tokenizer::ParserState::AFTER_DOCTYPE_PUBLIC_KEYWORD;
 						break;
 					}
 
-					if (context.document->data.EqualsIgnoreCaseAL(context.i, systemKeyword.c_str(),
-																  systemKeyword.length())) {
+					if (context.document->data.EqualsIgnoreCaseAL(context.i,
+							systemKeyword.c_str(),
+							systemKeyword.length())) {
 						context.toConsumeNext = systemKeyword.length();
 						context.state = HTML::Tokenizer::ParserState::AFTER_DOCTYPE_SYSTEM_KEYWORD;
 						break;

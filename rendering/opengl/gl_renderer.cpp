@@ -45,8 +45,10 @@ namespace Rendering {
 						continue;
 					}
 
-					glColor4f(rect->color.components.r / 255.0, rect->color.components.g / 255.0,
-							  rect->color.components.b / 255.0, rect->color.components.a / 255.0);
+					glColor4f(rect->color.components.r / 255.0,
+						rect->color.components.g / 255.0,
+						rect->color.components.b / 255.0,
+						rect->color.components.a / 255.0);
 
 					glBegin(GL_QUADS);
 					glVertex2f(rect->bounds.left, rect->bounds.top);

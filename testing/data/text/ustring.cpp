@@ -13,8 +13,8 @@
 namespace Unicode {
 
 	class UStringTest : public ::testing::Test {
-	  protected:
-		UString normalString{ "Hello world" };
+	protected:
+		UString normalString { "Hello world" };
 	};
 
 	TEST_F(UStringTest, StringUtilities) {

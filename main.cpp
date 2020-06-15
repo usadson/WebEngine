@@ -110,17 +110,19 @@ RunRenderingTest() {
 	renderer = CreateRenderer(window->GetSupportedRenderers());
 
 	if (renderer == nullptr) {
-		Logger::Severe("RunRenderingTest", "No supported renderer for window "
-										   "system "
-											   + window->windowManagerName);
+		Logger::Severe("RunRenderingTest",
+			"No supported renderer for window "
+			"system "
+				+ window->windowManagerName);
 		return;
 	}
 
 	auto result = window->PrepareForRenderer(renderer->type());
 	if (!result.first) {
-		Logger::Severe("RunRenderingTest", "The creation of renderer context "
-										   "for renderer for window system "
-											   + window->windowManagerName + " failed.");
+		Logger::Severe("RunRenderingTest",
+			"The creation of renderer context "
+			"for renderer for window system "
+				+ window->windowManagerName + " failed.");
 		return;
 	}
 

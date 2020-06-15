@@ -48,7 +48,7 @@ namespace Encoders {
 	std::shared_ptr<TextEncoding::Encoding> XMacCyrillic = std::make_shared<TextEncoding::XMacCyrillic>();
 } // namespace Encoders
 
-std::map<std::string, std::shared_ptr<TextEncoding::Encoding> > Map = {
+std::map<std::string, std::shared_ptr<TextEncoding::Encoding>> Map = {
 	{ "unicode-1-1-utf-8", Encoders::UTF8 },
 	{ "utf-8", Encoders::UTF8 },
 	{ "utf8", Encoders::UTF8 },

@@ -15,10 +15,11 @@ namespace Net {
 	namespace HTTP {
 		std::optional<const char *>
 		HTTPResponseInfo::GetHeader(const char *name) const {
-			auto result = std::find_if(std::begin(headers), std::end(headers),
-									   [name](const HTTPHeaderField &headerField) -> bool {
-										   return strcasecmp(headerField.fieldName.c_str(), name) == 0;
-									   });
+			auto result = std::find_if(std::begin(headers),
+				std::end(headers),
+				[name](const HTTPHeaderField &headerField) -> bool {
+					return strcasecmp(headerField.fieldName.c_str(), name) == 0;
+				});
 
 			if (result == std::end(headers))
 				return std::optional<const char *>();

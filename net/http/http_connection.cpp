@@ -52,7 +52,7 @@ namespace Net {
 					return HTTPConnectionError::INCORRECT_PROTOCOL;
 				}
 				Logger::Warning("HTTPConnection::ConsumeVersion",
-								"HTTP Version isn't \"HTTP/1.1\": \"" + response->httpVersion + "\".");
+					"HTTP Version isn't \"HTTP/1.1\": \"" + response->httpVersion + "\".");
 			}
 
 			return HTTPConnectionError::NO_ERROR;
@@ -214,8 +214,9 @@ namespace Net {
 				if (character.value() == ':')
 					return HTTPConnectionError::NO_ERROR;
 
-				if (std::find(std::begin(unreservedCharacters), std::end(unreservedCharacters),
-							  character.value())
+				if (std::find(std::begin(unreservedCharacters),
+						std::end(unreservedCharacters),
+						character.value())
 						!= std::end(unreservedCharacters)
 					|| (character.value() >= 0x30 && character.value() <= 0x39) || // DIGIT
 					(character.value() >= 0x41 && character.value() <= 0x5A) ||	   // ALPHA (UPPER)
@@ -305,10 +306,14 @@ namespace Net {
 			if (!connectionInfo.Write(str.c_str(), str.length()))
 				return HTTPConnectionError::FAILED_WRITE_REQUEST;
 
-			for (const auto &subroutine : { &HTTPConnection::ConsumeHTTPVersion, &HTTPConnection::ConsumeSingleSpace,
-											&HTTPConnection::ConsumeStatusCode, &HTTPConnection::ConsumeSingleSpace,
-											&HTTPConnection::ConsumeReasonPhrase, &HTTPConnection::ConsumeNewLine,
-											&HTTPConnection::ConsumeHeaders, &HTTPConnection::ConsumeMessageBody }) {
+			for (const auto &subroutine : { &HTTPConnection::ConsumeHTTPVersion,
+					 &HTTPConnection::ConsumeSingleSpace,
+					 &HTTPConnection::ConsumeStatusCode,
+					 &HTTPConnection::ConsumeSingleSpace,
+					 &HTTPConnection::ConsumeReasonPhrase,
+					 &HTTPConnection::ConsumeNewLine,
+					 &HTTPConnection::ConsumeHeaders,
+					 &HTTPConnection::ConsumeMessageBody }) {
 				auto error = (this->*subroutine)();
 				if (error != HTTPConnectionError::NO_ERROR)
 					return error;

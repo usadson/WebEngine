@@ -85,11 +85,9 @@ namespace HTML {
 	 * https://dom.spec.whatwg.org/#concept-create-element
 	 */
 	std::shared_ptr<DOM::Element>
-	TreeConstructor::CreateElement(const Unicode::UString &localName,
-								   const Unicode::UString &nameSpace,
-								   std::optional<Unicode::UString> prefix,
-								   std::optional<Unicode::UString> is,
-								   bool synchronousCustomElementsFlag) {
+	TreeConstructor::CreateElement(const Unicode::UString &localName, const Unicode::UString &nameSpace,
+		std::optional<Unicode::UString> prefix, std::optional<Unicode::UString> is,
+		bool synchronousCustomElementsFlag) {
 		// TODO Check for custom element definition
 		auto element = std::make_shared<DOM::Element>();
 		element->namespaceURI = nameSpace;
@@ -110,12 +108,13 @@ namespace HTML {
 	 * https://html.spec.whatwg.org/multipage/parsing.html#create-an-element-for-the-token
 	 */
 	std::shared_ptr<DOM::Element>
-	TreeConstructor::CreateElementForToken(HTML::Tokenizer::StartTagToken &tagToken,
-										   const Unicode::UString &nameSpace) {
+	TreeConstructor::CreateElementForToken(
+		HTML::Tokenizer::StartTagToken &tagToken, const Unicode::UString &nameSpace) {
 		std::optional<Unicode::UString> is;
 
-		auto attr = std::find_if(std::begin(tagToken.attributes), std::end(tagToken.attributes),
-								 [](const auto &attr) { return attr.first.EqualsIgnoreCaseA(2, "is"); });
+		auto attr = std::find_if(std::begin(tagToken.attributes), std::end(tagToken.attributes), [](const auto &attr) {
+			return attr.first.EqualsIgnoreCaseA(2, "is");
+		});
 
 		if (attr != std::end(tagToken.attributes))
 			is = { attr->second };
@@ -143,8 +142,8 @@ namespace HTML {
 	// Spec:
 	// https://html.spec.whatwg.org/multipage/parsing.html#appropriate-place-for-inserting-a-node
 	void
-	TreeConstructor::InsertNodeInAppropriateLocation(std::shared_ptr<DOM::Node> node,
-													 std::optional<std::shared_ptr<DOM::Node> > overrideTarget) {
+	TreeConstructor::InsertNodeInAppropriateLocation(
+		std::shared_ptr<DOM::Node> node, std::optional<std::shared_ptr<DOM::Node>> overrideTarget) {
 		std::shared_ptr<DOM::Node> target
 			= overrideTarget.has_value() ? overrideTarget.value() : openElementsStack.back();
 		/* TODO Foster parenting */
@@ -167,9 +166,8 @@ namespace HTML {
 	}
 
 	std::shared_ptr<DOM::Element>
-	TreeConstructor::InsertElement(const Unicode::UString &tagName,
-								   const Unicode::UString &nameSpace,
-								   std::map<Unicode::UString, Unicode::UString> &attributes) {
+	TreeConstructor::InsertElement(const Unicode::UString &tagName, const Unicode::UString &nameSpace,
+		std::map<Unicode::UString, Unicode::UString> &attributes) {
 		/* https://html.spec.whatwg.org/multipage/parsing.html#create-an-element-for-the-token */
 		auto element = std::make_shared<DOM::Element>();
 		element->namespaceURI = std::move(nameSpace);

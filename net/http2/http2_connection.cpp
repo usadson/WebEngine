@@ -142,7 +142,7 @@ namespace Net {
 			if (frame.flags & H2::FrameFlags::ACK) {
 				if (frame.length != 0)
 					throw H2::Exception(HTTP2Error::SETTINGS_ACK_FLAG_INVALID_SIZE,
-										"Received a SETTINGS frame with ACK flag set but length != 0");
+						"Received a SETTINGS frame with ACK flag set but length != 0");
 
 				return;
 			}
