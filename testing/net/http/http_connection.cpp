@@ -77,8 +77,7 @@ namespace Net::HTTP {
 		HTTPResponseInfo dummyResponseInfo;
 		HTTPConnection connection;
 
-		HTTPConnectionTest() :
-			connectionInfo(), dummyResponseInfo(), connection(connectionInfo) {
+		HTTPConnectionTest() : connectionInfo(), dummyResponseInfo(), connection(connectionInfo) {
 			connection.response = &dummyResponseInfo;
 		}
 	};
