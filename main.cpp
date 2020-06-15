@@ -200,12 +200,13 @@ RunNetworkTest() {
 	}
 
 	std::stringstream information;
-	information << "Response information: statusCode=" << response.statusCode << " headerCount=" << response.headers.size() << " bodySize=" << response.messageBody.size();
+	information << "Response information: statusCode=" << response.statusCode
+				<< " headerCount=" << response.headers.size() << " bodySize=" << response.messageBody.size();
 
 	Logger::Info("RunNetworkTest", information.str());
 
-
-	std::cout << "====== Response Message Body ======\n" << response.messageBody.data() << "\n===================================\n";
+	std::cout << "====== Response Message Body ======\n"
+			  << response.messageBody.data() << "\n===================================\n";
 }
 
 int

@@ -67,9 +67,11 @@ namespace Net {
 				return HTTPConnectionError::FAILED_READ_STATUS_CODE;
 
 			/* Validate status code */
-			if ((statusCode[0] < '1' || statusCode[0] > '5') || (statusCode[1] < '0' || statusCode[1] > '9') || (statusCode[2] < '0' || statusCode[2] > '9')) {
+			if ((statusCode[0] < '1' || statusCode[0] > '5') || (statusCode[1] < '0' || statusCode[1] > '9')
+				|| (statusCode[2] < '0' || statusCode[2] > '9')) {
 				std::stringstream info;
-				info << std::hex << "Incorrect status-code: " << static_cast<uint16_t>(statusCode.at(0)) << static_cast<uint16_t>(statusCode.at(1)) << static_cast<uint16_t>(statusCode.at(2)) << std::dec;
+				info << std::hex << "Incorrect status-code: " << static_cast<uint16_t>(statusCode.at(0))
+					 << static_cast<uint16_t>(statusCode.at(1)) << static_cast<uint16_t>(statusCode.at(2)) << std::dec;
 				Logger::Warning("HTTPConnection::ConsumeStatusCode", info.str());
 				return HTTPConnectionError::INCORRECT_STATUS_CODE;
 			}

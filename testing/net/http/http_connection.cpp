@@ -19,12 +19,12 @@
 namespace Net {
 
 	class BufferedConnectionInfo : public ConnectionInfo {
-	private:
+	  private:
 		std::vector<char> inputBuffer;
 		std::vector<char> outputBuffer;
 		std::size_t position;
 
-	public:
+	  public:
 		BufferedConnectionInfo() : ConnectionInfo("destination.test", 80) {
 		}
 
@@ -42,7 +42,8 @@ namespace Net {
 		bool
 		Read(char *out, std::size_t length) override {
 			if (inputBuffer.size() < position + length) {
-				std::cerr << "Read() outside the buffer size! paramLength=" << length << " position=" << position << " inputBuffer.size()=" << inputBuffer.size() << '\n';
+				std::cerr << "Read() outside the buffer size! paramLength=" << length << " position=" << position
+						  << " inputBuffer.size()=" << inputBuffer.size() << '\n';
 				return false;
 			}
 
@@ -63,8 +64,8 @@ namespace Net::HTTP {
 
 	class HTTPConnectionTest : public ::testing::Test {
 	  public:
-		  Net::BufferedConnectionInfo connectionInfo;
-		  HTTPResponseInfo dummyResponseInfo;
+		Net::BufferedConnectionInfo connectionInfo;
+		HTTPResponseInfo dummyResponseInfo;
 	};
 
 	TEST_F(HTTPConnectionTest, ConsumeStatusCode) {
@@ -88,20 +89,10 @@ namespace Net::HTTP {
 			}
 		}
 
-		std::vector<std::vector<char>> invalidInputs = {
-			{ 'A', '0', '0' },
-			{ '2', 'A', '0' },
-			{ '2', '0', 'A' },
-			{ '2', 'A', 'A' },
-			{ 'A', 'A', '0' },
-			{ 'A', 'A', 'A' },
-			{ '0', '0', '0' },
-			{ '0', '0', '1' },
-			{ '0', '1', '0' },
-			{ '6', '0', '0' },
-			{ '7', '9', '9' },
-			{ '8', '2', '6' }
-		};
+		std::vector<std::vector<char> > invalidInputs
+			= { { 'A', '0', '0' }, { '2', 'A', '0' }, { '2', '0', 'A' }, { '2', 'A', 'A' },
+				{ 'A', 'A', '0' }, { 'A', 'A', 'A' }, { '0', '0', '0' }, { '0', '0', '1' },
+				{ '0', '1', '0' }, { '6', '0', '0' }, { '7', '9', '9' }, { '8', '2', '6' } };
 
 		for (size_t i = 0; i < invalidInputs.size(); i++) {
 			connectionInfo.SetInputBuffer(invalidInputs[i]);
@@ -109,7 +100,6 @@ namespace Net::HTTP {
 				<< "invalidInputs[" << i << "]";
 		}
 	}
-
 
 	TEST_F(HTTPConnectionTest, ConsumeHTTPVersion) {
 		HTTPConnection connection(connectionInfo);
@@ -128,24 +118,15 @@ namespace Net::HTTP {
 			}
 		}
 
-		std::vector<std::vector<char>> invalidInputs = {
-			{ 'A', 'T', 'T', 'P', '/', '1', '.', '1' },
-			{ 'H', 'A', 'T', 'P', '/', '1', '.', '1' },
-			{ 'H', 'T', 'A', 'P', '/', '1', '.', '1' },
-			{ 'H', 'T', 'T', 'A', '/', '1', '.', '1' },
-			{ 'H', 'T', 'T', 'P', 'A', '1', '.', '1' },
-			{ 'H', 'T', 'T', 'P', 'P', 'A', '.', '1' },
-			{ 'H', 'T', 'T', 'P', '/', '1', 'A', '1' },
-			{ 'H', 'T', 'T', 'P', '/', '1', '.', 'A' },
-			{ 0x00, 'T', 'T', 'P', '/', '1', '.', '1' },
-			{ 'H', 0x00, 'T', 'P', '/', '1', '.', '1' },
-			{ 'H', 'T', 0x00, 'P', '/', '1', '.', '1' },
-			{ 'H', 'T', 'T', 0x00, '/', '1', '.', '1' },
-			{ 'H', 'T', 'T', 'P', 0x00, '1', '.', '1' },
-			{ 'H', 'T', 'T', 'P', '/', 0x00, '.', '1' },
-			{ 'H', 'T', 'T', 'P', '/', '1', 0x00, '1' },
-			{ 'H', 'T', 'T', 'P', '/', '1', '.', 0x00 }
-		};
+		std::vector<std::vector<char> > invalidInputs
+			= { { 'A', 'T', 'T', 'P', '/', '1', '.', '1' },	 { 'H', 'A', 'T', 'P', '/', '1', '.', '1' },
+				{ 'H', 'T', 'A', 'P', '/', '1', '.', '1' },	 { 'H', 'T', 'T', 'A', '/', '1', '.', '1' },
+				{ 'H', 'T', 'T', 'P', 'A', '1', '.', '1' },	 { 'H', 'T', 'T', 'P', 'P', 'A', '.', '1' },
+				{ 'H', 'T', 'T', 'P', '/', '1', 'A', '1' },	 { 'H', 'T', 'T', 'P', '/', '1', '.', 'A' },
+				{ 0x00, 'T', 'T', 'P', '/', '1', '.', '1' }, { 'H', 0x00, 'T', 'P', '/', '1', '.', '1' },
+				{ 'H', 'T', 0x00, 'P', '/', '1', '.', '1' }, { 'H', 'T', 'T', 0x00, '/', '1', '.', '1' },
+				{ 'H', 'T', 'T', 'P', 0x00, '1', '.', '1' }, { 'H', 'T', 'T', 'P', '/', 0x00, '.', '1' },
+				{ 'H', 'T', 'T', 'P', '/', '1', 0x00, '1' }, { 'H', 'T', 'T', 'P', '/', '1', '.', 0x00 } };
 
 		for (size_t i = 0; i < invalidInputs.size(); i++) {
 			connectionInfo.SetInputBuffer(invalidInputs[i]);
@@ -174,10 +155,11 @@ namespace Net::HTTP {
 										std::cout << std::hex << a << b << c << d << e << major << f << minor << '\r';z
 										input[7] = minor;
 										connectionInfo.SetInputBuffer(input);
-										if (a == 'H' && b == 'T' && c == 'T' && d == 'P' && e == '/' && f == '.' && major >= '0' && major >= '0' && major <= '9' && minor >= '0' && minor <= '9') {
-											ASSERT_EQ(connection.ConsumeHTTPVersion(), Net::HTTP::HTTPConnectionError::NO_ERROR);
-										} else {
-											ASSERT_EQ(connection.ConsumeHTTPVersion(), Net::HTTP::HTTPConnectionError::INCORRECT_PROTOCOL);
+										if (a == 'H' && b == 'T' && c == 'T' && d == 'P' && e == '/' && f == '.' &&
+		major >= '0' && major >= '0' && major <= '9' && minor >= '0' && minor <= '9') {
+											ASSERT_EQ(connection.ConsumeHTTPVersion(),
+		Net::HTTP::HTTPConnectionError::NO_ERROR); } else { ASSERT_EQ(connection.ConsumeHTTPVersion(),
+		Net::HTTP::HTTPConnectionError::INCORRECT_PROTOCOL);
 										}
 									}
 								}
