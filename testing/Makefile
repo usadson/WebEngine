@@ -54,13 +54,16 @@ TESTING_TARGETS = \
 	bin/testing/directory.txt \
 	bin/testing/data/text/encoding/utf8 \
 	bin/testing/data/text/ustring \
-	bin/testing/net/http/http_connection
+	bin/testing/net/http/http_connection \
+	bin/testing/net/http/http_response_info \
+
 
 # the 'test' target executes every test
 test:
 	bin/testing/data/text/encoding/utf8
 	bin/testing/data/text/ustring
 	bin/testing/net/http/http_connection
+	bin/testing/net/http/http_response_info
 
 bin/testing/directory.txt:
 	@mkdir bin/testing
@@ -88,4 +91,13 @@ bin/testing/net/http/http_connection: testing/net/http/http_connection.cpp \
 	logger.hpp \
 	$(TESTING_INCLUDES_NET_HTTP)
 	$(CXX) $(TESTING_CXXFLAGS) $(CONNECTION_INFO_TLS_IMPL) -o $@ testing/net/http/http_connection.cpp $(TESTING_LDFLAGS_NET_HTTP)
+
+bin/testing/net/http/http_response_info: testing/net/http/http_response_info.cpp \
+	net/connection_info.hpp \
+	net/http/http_response_info.cpp \
+	net/http/http_response_info.hpp \
+	net/http/http_header_field.hpp \
+	logger.hpp \
+	bin/net/http/http_response_info.o
+	$(CXX) $(TESTING_CXXFLAGS) -o $@ testing/net/http/http_response_info.cpp $(TESTING_LDFLAGS_NET_HTTP)
 
