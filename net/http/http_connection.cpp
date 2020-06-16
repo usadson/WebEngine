@@ -284,7 +284,7 @@ namespace Net {
 			if (!singleCharacter.has_value())
 				return HTTPConnectionError::FAILED_READ_GENERIC;
 			if (singleCharacter.value() != '\n')
-				return HTTPConnectionError::INCORRECT_START_LINE;
+				return HTTPConnectionError::NEWLINE_EXPECTED;
 			return HTTPConnectionError::NO_ERROR;
 		}
 

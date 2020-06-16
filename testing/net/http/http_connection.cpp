@@ -128,7 +128,7 @@ namespace Net::HTTP {
 			if (i == '\n')
 				ASSERT_EQ(connection.ConsumeNewLine(), Net::HTTP::HTTPConnectionError::NO_ERROR);
 			else
-				ASSERT_EQ(connection.ConsumeNewLine(), Net::HTTP::HTTPConnectionError::INCORRECT_START_LINE);
+				ASSERT_EQ(connection.ConsumeNewLine(), Net::HTTP::HTTPConnectionError::NEWLINE_EXPECTED);
 		}
 	}
 
