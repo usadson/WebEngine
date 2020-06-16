@@ -128,11 +128,11 @@ RunRenderingTest() {
 
 	std::shared_ptr<Rendering::DrawRect> rectangle = std::make_shared<Rendering::DrawRect>();
 	rectangle->bounds = { 0, 200, 0, 200 };
-	rectangle->color.value = 0x83ff08ff;
+	rectangle->color = Rendering::DrawColor(0x83ff08ff);
 
 	std::shared_ptr<Rendering::DrawText> text = std::make_shared<Rendering::DrawText>();
 	text->bounds = { 300, 600, 300, 600 };
-	text->color.value = 0x8308ffff;
+	text->color = Rendering::DrawColor(0x8308ffff);
 	text->text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed\
  do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
 

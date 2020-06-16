@@ -8,24 +8,24 @@
 
 namespace Rendering {
 
-	struct RGBAColor {
-		// FIXME This macro isn't standard and this hack is pretty shitty
-#if __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
-		uint8_t r;
-		uint8_t g;
-		uint8_t b;
-		uint8_t a;
-#else
-		uint8_t a;
-		uint8_t b;
-		uint8_t g;
-		uint8_t r;
-#endif
-	};
+	struct DrawColor {
+		uint8_t r { 0x00 };
+		uint8_t g { 0x00 };
+		uint8_t b { 0x00 };
+		uint8_t a { 0x00 };
 
-	union DrawColor {
-		RGBAColor components;
-		uint32_t value;
+		inline
+		DrawColor() = default;
+
+		inline
+		DrawColor(uint8_t r, uint8_t g, uint8_t b, uint8_t a) noexcept :
+			r(r), g(g), b(b), a(a) {
+		}
+
+		inline
+		DrawColor(uint32_t rgba) noexcept
+			: r((rgba & 0xFF000000) >> 24), g((rgba & 0x00FF0000) >> 16), b((rgba & 0x0000FF00) >> 8), a(rgba & 0x000000FF) {
+		}
 	};
 
 } // namespace Rendering
