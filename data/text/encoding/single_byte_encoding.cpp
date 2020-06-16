@@ -16,7 +16,7 @@ namespace TextEncoding {
 		Output.reserve(size);
 
 		for (std::size_t i = 0; i < size; i++) {
-			auto value = static_cast<uint32_t>(data[i]);
+			auto value = static_cast<unsigned char>(data[i]);
 			Unicode::CodePoint character = value < 0x80 ? value : Indices[value - 0x80];
 
 			if (Output.size() > i)
