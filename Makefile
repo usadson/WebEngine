@@ -42,7 +42,9 @@ ADDITIONAL_CXXFLAGS ?=
 
 CONNECTION_INFO_TLS_IMPL = -DCONNECTION_INFO_TLS_IMPL_OPENSSL
 CONNECTION_INFO_TLS_PKGNAME = openssl
-CONNECTION_INFO_TLS_OBJECT = bin/net/connection_info_openssl.o
+CONNECTION_INFO_TLS_NAME_IN_FILES = openssl
+CONNECTION_INFO_TLS_IMPL_FILE = net/connection_info_$(CONNECTION_INFO_TLS_NAME_IN_FILES).cpp
+CONNECTION_INFO_TLS_OBJECT = bin/net/connection_info_$(CONNECTION_INFO_TLS_NAME_IN_FILES).o
 
 GENERAL = -std=c++17 -g
 			# -Og
@@ -227,15 +229,10 @@ bin/net/connection_info.o: net/connection_info.cpp \
 	logger.hpp
 	$(CXX) $(CXXFLAGS) $(CONNECTION_INFO_TLS_IMPL) -c -o $@ net/connection_info.cpp
 
-#bin/net/connection_info_libtls.o: net/connection_info_libtls.cpp \
-#	net/connection_info.hpp \
-#	logger.hpp
-#	$(CXX) $(CXXFLAGS) $(CONNECTION_INFO_TLS_IMPL) -c -o $@ net/connection_info_libtls.cpp
-
-bin/net/connection_info_openssl.o: net/connection_info_openssl.cpp \
+$(CONNECTION_INFO_TLS_OBJECT): $(CONNECTION_INFO_TLS_IMPL_FILE) \
 	net/connection_info.hpp \
 	logger.hpp
-	$(CXX) $(CXXFLAGS) $(CONNECTION_INFO_TLS_IMPL) -c -o $@ net/connection_info_openssl.cpp
+	$(CXX) $(CXXFLAGS) $(CONNECTION_INFO_TLS_IMPL) -c -o $@ $(CONNECTION_INFO_TLS_IMPL_FILE)
 
 bin/net/http/http_connection.o: net/http/http_connection.cpp \
 	net/http/http_connection.hpp \
