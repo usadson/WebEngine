@@ -8,7 +8,7 @@ The project is seperated into different directories. This document explains what
 * [docs](../docs)
 * [dom](../dom) is the implementation of the [Document Object Model](https://dom.spec.whatwg.org/).
 * [misc](../misc) is the directory for small stuff not related to any big subjects.
-* [net](../net) is the network layer. This uses — at the moment — [POSIX/UNIX sockets](https://man.openbsd.org/socket.2) and an abstract TLS implementation (this is currently set to use the [libtls/LibreSSL](https://libressl.org/) library).
+* [net](../net) is the network layer. This uses — at the moment — [POSIX/UNIX sockets](https://man.openbsd.org/socket.2) and an abstract TLS implementation (this is currently set to use the [libssl/OpenSSL](https://openssl.org/) library).
   * [http](../net/http) is the [HTTP/1.1](https://www.rfc-editor.org/rfc/rfc7230.html) network layer implementation, which is used to retrieve documents and resources.
 * [parser](../parser) is the directory for major parsers (see [data](data) for small parser/converters).
   * [html](../parser/html) is the directory for the HTML parser, which should follow the [HTML Living Standard](https://html.spec.whatwg.org/multipage/).

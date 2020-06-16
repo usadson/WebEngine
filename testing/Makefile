@@ -47,7 +47,7 @@ TESTING_INCLUDES_NET_HTTP = bin/logger.o \
 			    bin/net/http/http_connection.o \
 			    bin/net/http/http_response_info.o
 
-TESTING_LDFLAGS_NET_HTTP = `pkg-config --static --libs gtest libtls` \
+TESTING_LDFLAGS_NET_HTTP = `pkg-config --static --libs gtest $(CONNECTION_INFO_TLS_PKGNAME)` \
 			   $(TESTING_INCLUDES_NET_HTTP)
 
 TESTING_TARGETS = \

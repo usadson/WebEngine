@@ -40,17 +40,17 @@
 
 ADDITIONAL_CXXFLAGS ?=
 
+CONNECTION_INFO_TLS_IMPL = -DCONNECTION_INFO_TLS_IMPL_OPENSSL
+CONNECTION_INFO_TLS_PKGNAME = openssl
+CONNECTION_INFO_TLS_OBJECT = bin/net/connection_info_openssl.o
+
 GENERAL = -std=c++17 -g
 			# -Og
 INCLUDES = -I.
 WARNINGS = -Wall -Wextra -Wpedantic
 CXXFLAGS += $(GENERAL) $(INCLUDES) $(WARNINGS) $(ADDITIONAL_CXXFLAGS)
 CXX = clang++
-#LDFLAGS = `pkg-config --static --libs libtls glfw3 glew freetype2`
-LDFLAGS = `pkg-config --static --libs openssl glfw3 glew freetype2`
-
-CONNECTION_INFO_TLS_IMPL = -DCONNECTION_INFO_TLS_IMPL_OPENSSL
-CONNECTION_INFO_TLS_OBJECT = bin/net/connection_info_openssl.o
+LDFLAGS = `pkg-config --static --libs $(CONNECTION_INFO_TLS_PKGNAME) glfw3 glew freetype2`
 
 # All the object files. By convention, each .cpp should have a corresponding
 # object file. For more information, see the explanation above.
