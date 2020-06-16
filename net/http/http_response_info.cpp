@@ -28,13 +28,17 @@ namespace Net::HTTP {
 
 	std::optional<std::size_t>
 	HTTPResponseInfo::GetHeaderUnsigned(const char *name) const {
-		std::size_t res;
 		std::optional<const char *> value;
 
 		value = GetHeader(name);
-		if (value.has_value() && sscanf(value.value(), "%zu", &res) == 1)
-			return res;
+		if (value.has_value()) {
+			try {
+				return { std::stoull(value.value()) };
+			} catch (const std::exception &) {
+				return {};
+			}
+		}
 
-		return std::optional<std::size_t>();
+		return {};
 	}
 } // namespace Net::HTTP
