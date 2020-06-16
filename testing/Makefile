@@ -37,7 +37,7 @@
 #	$(CXX) $(CXXFLAGS) -c -o $@ shapes/circle.cpp
 
 TESTING_CXXFLAGS = $(CXXFLAGS) -I..
-TESTING_LDFLAGS = `pkg-config --static --libs gtest` bin/logger.o
+TESTING_LDFLAGS = `pkg-config --static --libs gtest 2> /dev/null || echo -L/usr/local/lib -lgtest -lpthread` bin/logger.o
 
 
 TESTING_INCLUDES_NET_HTTP = bin/logger.o \
