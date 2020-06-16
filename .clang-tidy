@@ -7,6 +7,7 @@
                     -readability-braces-around-statements,
                     -cppcoreguidelines-avoid-magic-numbers,
                     -readability-magic-numbers,
+                    -google-readability-todo,
                     -llvm-header-guard,                             # We use #pragma once
                     # Duplicate checks:
                     -hicpp-special-member-functions,
