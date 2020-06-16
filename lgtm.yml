@@ -124,10 +124,10 @@ extraction:
     configure:
       command:
         - mkdir test && cd test
-        - sudo mkdir -p /usr/local/include/openssl && sudo mkdir -p /usr/local/lib/pkgconfig && sudo mkdir -p /usr/local/lib
-        - wget https://raw.githubusercontent.com/usadson/BuildCache/master/LibreSSL/libressl-includes.tar.gz && sudo tar -xzf libressl-includes.tar.gz -C /usr/local/include
-        - wget https://raw.githubusercontent.com/usadson/BuildCache/master/LibreSSL/libressl-binaries.tar.gz && sudo tar -xzf libressl-binaries.tar.gz -C /usr/local/lib
-        - wget https://raw.githubusercontent.com/usadson/BuildCache/master/LibreSSL/libressl-pc.tar.gz && sudo tar -xzf libressl-pc.tar.gz -C /usr/local/lib/pkgconfig
+        - mkdir -p /usr/local/include/openssl && mkdir -p /usr/local/lib/pkgconfig && mkdir -p /usr/local/lib
+        - wget https://raw.githubusercontent.com/usadson/BuildCache/master/LibreSSL/libressl-includes.tar.gz && tar -xzf libressl-includes.tar.gz -C /usr/local/include
+        - wget https://raw.githubusercontent.com/usadson/BuildCache/master/LibreSSL/libressl-binaries.tar.gz && tar -xzf libressl-binaries.tar.gz -C /usr/local/lib
+        - wget https://raw.githubusercontent.com/usadson/BuildCache/master/LibreSSL/libressl-pc.tar.gz && tar -xzf libressl-pc.tar.gz -C /usr/local/lib/pkgconfig
         - cd ..
     # Optional step. You should add a `before_index` step if you need to run commands
     # before the `index` step.
