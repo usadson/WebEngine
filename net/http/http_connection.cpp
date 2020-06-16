@@ -271,6 +271,8 @@ namespace Net {
 				if (!connectionInfo.Read(response->messageBody.data(), contentLength.value())) {
 					return HTTPConnectionError::FAILED_READ_MESSAGE_BODY;
 				}
+			} else if (response->GetHeader("content-length")) {
+				return HTTPConnectionError::INVALID_CONTENT_LENGTH;
 			}
 
 			return HTTPConnectionError::NO_ERROR;

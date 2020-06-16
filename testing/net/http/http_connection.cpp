@@ -82,6 +82,42 @@ namespace Net::HTTP {
 		}
 	};
 
+	TEST_F(HTTPConnectionTest, ConsumeMessageBody) {
+		dummyResponseInfo.messageBody.clear();
+		dummyResponseInfo.headers = {};
+		connectionInfo.SetInputBuffer({ 0x00, 0x01, 0x02, 0x03, 0x04, 0x05 });
+
+		// No message body
+		ASSERT_EQ(connection.ConsumeMessageBody(), Net::HTTP::HTTPConnectionError::NO_ERROR);
+		ASSERT_TRUE(dummyResponseInfo.messageBody.empty());
+
+		dummyResponseInfo.messageBody.clear();
+		dummyResponseInfo.headers.clear();
+		dummyResponseInfo.headers.push_back({ "content-length", "0" });
+		ASSERT_EQ(connection.ConsumeMessageBody(), Net::HTTP::HTTPConnectionError::NO_ERROR);
+		ASSERT_TRUE(dummyResponseInfo.messageBody.empty());
+
+		// A normal message body
+		dummyResponseInfo.messageBody.clear();
+		dummyResponseInfo.headers.clear();
+		dummyResponseInfo.headers.push_back({ "content-length", "6" });
+		ASSERT_EQ(connection.ConsumeMessageBody(), Net::HTTP::HTTPConnectionError::NO_ERROR);
+		ASSERT_EQ(dummyResponseInfo.messageBody.size(), 6);
+
+		dummyResponseInfo.messageBody.clear();
+		dummyResponseInfo.headers.clear();
+		dummyResponseInfo.headers.push_back({ "content-length", "5" });
+		ASSERT_EQ(connection.ConsumeMessageBody(), Net::HTTP::HTTPConnectionError::NO_ERROR);
+		ASSERT_EQ(dummyResponseInfo.messageBody.size(), 5);
+
+		// Invalid:
+		dummyResponseInfo.messageBody.clear();
+		dummyResponseInfo.headers.clear();
+		dummyResponseInfo.headers.push_back({ "content-length", "gjga" });
+		ASSERT_EQ(connection.ConsumeMessageBody(), Net::HTTP::HTTPConnectionError::INVALID_CONTENT_LENGTH);
+		ASSERT_TRUE(dummyResponseInfo.messageBody.empty());
+	}
+
 	TEST_F(HTTPConnectionTest, ConsumeNewLine) {
 		connectionInfo.SetInputBuffer({});
 		ASSERT_EQ(connection.ConsumeNewLine(), Net::HTTP::HTTPConnectionError::FAILED_READ_GENERIC);
