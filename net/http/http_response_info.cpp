@@ -22,8 +22,8 @@ namespace Net::HTTP {
 
 		if (result == std::end(headers))
 			return std::optional<const char *>();
-		else
-			return std::optional<const char *>(result->fieldValue.c_str());
+
+		return std::optional<const char *>(result->fieldValue.c_str());
 	}
 
 	std::optional<std::size_t>
