@@ -46,7 +46,11 @@ INCLUDES = -I.
 WARNINGS = -Wall -Wextra -Wpedantic
 CXXFLAGS += $(GENERAL) $(INCLUDES) $(WARNINGS) $(ADDITIONAL_CXXFLAGS)
 CXX = clang++
-LDFLAGS = `pkg-config --static --libs libtls glfw3 glew freetype2`
+#LDFLAGS = `pkg-config --static --libs libtls glfw3 glew freetype2`
+LDFLAGS = `pkg-config --static --libs openssl glfw3 glew freetype2`
+
+CONNECTION_INFO_TLS_IMPL = -DCONNECTION_INFO_TLS_IMPL_OPENSSL
+CONNECTION_INFO_TLS_OBJECT = bin/net/connection_info_openssl.o
 
 # All the object files. By convention, each .cpp should have a corresponding
 # object file. For more information, see the explanation above.
@@ -60,7 +64,7 @@ BINARIES = bin/ccompat.o \
 	   bin/data/text/encoding/utf8.o \
 	   bin/misc/credits.o \
 	   bin/net/connection_info.o \
-	   bin/net/connection_info_libtls.o \
+	   $(CONNECTION_INFO_TLS_OBJECT) \
 	   bin/net/http/http_connection.o \
 	   bin/net/http/http_response_info.o \
 	   bin/net/http2/http2_connection.o \
@@ -139,7 +143,7 @@ clean:
 engine: main.cpp \
 	parser/html/error.hpp \
 	parser/html/state.hpp $(BINARIES)
-	$(CXX) $(CXXFLAGS) -o $@ main.cpp $(BINARIES) $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) $(CONNECTION_INFO_TLS_IMPL) -o $@ main.cpp $(BINARIES) $(LDFLAGS)
 
 # The 'bin/test.txt' will ensure all directories required by the object files
 # are present. The bin/test.txt file will be touch'ed so that mkdir will only
@@ -221,19 +225,24 @@ bin/net/connection_info.o: net/connection_info.cpp \
 	net/connection_info.hpp \
 	ccompat.hpp \
 	logger.hpp
-	$(CXX) $(CXXFLAGS) -c -o $@ net/connection_info.cpp
+	$(CXX) $(CXXFLAGS) $(CONNECTION_INFO_TLS_IMPL) -c -o $@ net/connection_info.cpp
 
-bin/net/connection_info_libtls.o: net/connection_info_libtls.cpp \
+#bin/net/connection_info_libtls.o: net/connection_info_libtls.cpp \
+#	net/connection_info.hpp \
+#	logger.hpp
+#	$(CXX) $(CXXFLAGS) $(CONNECTION_INFO_TLS_IMPL) -c -o $@ net/connection_info_libtls.cpp
+
+bin/net/connection_info_openssl.o: net/connection_info_openssl.cpp \
 	net/connection_info.hpp \
 	logger.hpp
-	$(CXX) $(CXXFLAGS) -c -o $@ net/connection_info_libtls.cpp
+	$(CXX) $(CXXFLAGS) $(CONNECTION_INFO_TLS_IMPL) -c -o $@ net/connection_info_openssl.cpp
 
 bin/net/http/http_connection.o: net/http/http_connection.cpp \
 	net/http/http_connection.hpp \
 	net/http/http_response_info.hpp \
 	net/connection_info.hpp \
 	logger.hpp
-	$(CXX) $(CXXFLAGS) -c -o $@ net/http/http_connection.cpp
+	$(CXX) $(CXXFLAGS) $(CONNECTION_INFO_TLS_IMPL) -c -o $@ net/http/http_connection.cpp
 
 bin/net/http/http_response_info.o: net/http/http_response_info.cpp \
 	net/http/http_response_info.hpp \
@@ -247,7 +256,7 @@ bin/net/http2/http2_connection.o: net/http2/http2_connection.cpp \
 	net/http/http_response_info.hpp \
 	net/connection_info.hpp \
 	logger.hpp
-	$(CXX) $(CXXFLAGS) -c -o $@ net/http2/http2_connection.cpp
+	$(CXX) $(CXXFLAGS) $(CONNECTION_INFO_TLS_IMPL) -c -o $@ net/http2/http2_connection.cpp
 
 bin/parser/html/context.o: parser/html/context.cpp \
 	parser/html/context.hpp \

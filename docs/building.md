@@ -14,12 +14,12 @@ The project uses [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-conf
 
 ## Dependencies
 This project depends on various other open-source libraries.
-### LibreSSL
-[LibreSSL](https://libressl.org/) is used as the TLS stack library. It is a fork of [OpenSSL](https://openssl.org), and aims to provide a more secure API through various sub-libraries, like `libtls`.
+### OpenSSL
+[OpenSSL](https://openssl.org) is used as the TLS stack library.
 
-Even though LibreSSL is used by default, it is made possible to change the library by implementing a different source-code implementation of the TLS tools in [net/connection_info.hpp](../net/connection_info.hpp). LibreSSL is implemented as [net/connection_info_libtls.hpp](../net/connection_info_libtls.hpp).
+Even though OpenSSL is used by default, it is made possible to change the library by implementing a different source-code implementation of the TLS tools in [net/connection_info.hpp](../net/connection_info.hpp). OpenSSL is implemented as [net/connection_info_openssl.hpp](../net/connection_info_openssl.hpp).
 
-Click [here](https://www.libressl.org/releases.html) for instructions to install LibreSSL.
+Click [here](https://www.openssl.org/source/) for downloads and build/install instructions for OpenSSL.
 ### GLEW
 The renderer stack uses OpenGL by default as its rendering back-end, and to use modern OpenGL (GL 2.0+), [GLEW](http://glew.sourceforge.net/) is used.
 

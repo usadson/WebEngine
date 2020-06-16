@@ -5,18 +5,10 @@ compiler:
   - gcc
 script: tools/build-fast.sh
 before_install:
-  # LibreSSL
-  - sudo mkdir -p /usr/local/include/openssl
-  - sudo mkdir -p /usr/local/lib/pkgconfig
-  - sudo mkdir -p /usr/local/lib
-  - wget https://raw.githubusercontent.com/usadson/BuildCache/master/LibreSSL/libressl-includes.tar.gz
-  - sudo tar -xzf libressl-includes.tar.gz -C /usr/local/include
-  - wget https://raw.githubusercontent.com/usadson/BuildCache/master/LibreSSL/libressl-binaries.tar.gz
-  - sudo tar -xzf libressl-binaries.tar.gz -C /usr/local/lib
-  - wget https://raw.githubusercontent.com/usadson/BuildCache/master/LibreSSL/libressl-pc.tar.gz
-  - sudo tar -xzf libressl-pc.tar.gz -C /usr/local/lib/pkgconfig
   # Apt update database
   - sudo apt update -y
+  # OpenSSL
+  - sudo apt -y install openssl libssl-dev
   # GLEW + GLFW
   - sudo apt -y install libglew-dev libglfw3-dev
   # FreeType

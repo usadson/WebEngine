@@ -49,17 +49,35 @@ namespace Net {
 
 	  private: // Private Properties
 		int socket;
+
+#ifdef CONNECTION_INFO_TLS_IMPL_LIBRESSL
 		void *tlsContext;
+#elif CONNECTION_INFO_TLS_IMPL_OPENSSL
+		void *sslContext;
+		void *ssl;
+#endif
 
 	  public: // Methods
 		ConnectionInfo(const std::string &inHostName, uint16_t inPort)
 			: hostName(inHostName), port(inPort), connected(false), secure(false), isAuthenticated(false),
-			  tlsALPNProtocols(""), socket(0), tlsContext(nullptr) {
+			  tlsALPNProtocols(""), socket(0),
+#ifdef CONNECTION_INFO_TLS_IMPL_LIBRESSL
+			  tlsContext(nullptr)
+#elif CONNECTION_INFO_TLS_IMPL_OPENSSL
+			  sslContext(nullptr), ssl(nullptr)
+#endif
+			   {
 		}
 
 		ConnectionInfo(const std::string &inHostName, uint16_t inPort, bool inSecure)
 			: hostName(inHostName), port(inPort), connected(false), secure(inSecure), isAuthenticated(false),
-			  tlsALPNProtocols(""), socket(0), tlsContext(nullptr) {
+			  tlsALPNProtocols(""), socket(0),
+#ifdef CONNECTION_INFO_TLS_IMPL_LIBRESSL
+			  tlsContext(nullptr)
+#elif CONNECTION_INFO_TLS_IMPL_OPENSSL
+			  sslContext(nullptr), ssl(nullptr)
+#endif
+			   {
 		}
 
 		virtual

@@ -13,16 +13,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: LibreSSL-directories
-      run: sudo mkdir -p /usr/local/include/openssl && sudo mkdir -p /usr/local/lib/pkgconfig && sudo mkdir -p /usr/local/lib
-    - name: LibreSSL-includes
-      run: wget https://raw.githubusercontent.com/usadson/BuildCache/master/LibreSSL/libressl-includes.tar.gz && sudo tar -xzf libressl-includes.tar.gz -C /usr/local/include
-    - name: LibreSSL-binaries
-      run: wget https://raw.githubusercontent.com/usadson/BuildCache/master/LibreSSL/libressl-binaries.tar.gz && sudo tar -xzf libressl-binaries.tar.gz -C /usr/local/lib
-    - name: LibreSSL-pc
-      run: wget https://raw.githubusercontent.com/usadson/BuildCache/master/LibreSSL/libressl-pc.tar.gz && sudo tar -xzf libressl-pc.tar.gz -C /usr/local/lib/pkgconfig
     - name: update
       run: sudo apt -y update
+    - name: openssl-apt-deps
+      run: sudo apt -y install openssl libssl-dev
     - name: general-apt-deps
       run: sudo apt -y install libglew-dev libglfw3-dev
     - name: freetype-apt-deps
