@@ -104,11 +104,9 @@ namespace Net {
 					continue;
 				}
 
-				response->reasonPhrase = std::string(std::begin(reasonPhrase), std::end(reasonPhrase));
 				return HTTPConnectionError::INCORRECT_REASON_PHRASE;
 			}
 
-			response->reasonPhrase = std::string(std::begin(reasonPhrase), std::end(reasonPhrase));
 			return HTTPConnectionError::FAILED_READ_REASON_PHRASE;
 		}
 
