@@ -54,8 +54,8 @@ namespace Net {
 
 	bool
 	ConnectionInfo::TLSSetup() {
-// 		OpenSSL_add_all_algorithms();
-// 		SSL_load_error_strings();
+		// 		OpenSSL_add_all_algorithms();
+		// 		SSL_load_error_strings();
 
 		SSL_CTX *ctx = SSL_CTX_new(SSLv23_method());
 
