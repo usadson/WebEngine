@@ -94,7 +94,6 @@ namespace Net::HTTP {
 			else
 				ASSERT_EQ(connection.ConsumeSingleSpace(), Net::HTTP::HTTPConnectionError::WHITESPACE_EXPECTED);
 		}
-
 	}
 
 	TEST_F(HTTPConnectionTest, ConsumeReasonPhrase) {
