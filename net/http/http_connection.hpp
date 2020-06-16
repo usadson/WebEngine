@@ -76,13 +76,11 @@ namespace Net::HTTP {
 
 	  private: // Private Properties
 #endif
-		HTTPResponseInfo *response;
+		HTTPResponseInfo *response { nullptr };
 
 	  public: // Con/destructors
 		// Constructors setup the connection using 'connectionInfo'.
 		explicit HTTPConnection(Net::ConnectionInfo &);
-
-		~HTTPConnection();
 
 #ifdef HTTP_CONNECTION_ENABLE_TESTING
 
