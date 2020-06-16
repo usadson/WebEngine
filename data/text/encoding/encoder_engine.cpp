@@ -48,7 +48,7 @@ namespace Encoders {
 	std::shared_ptr<TextEncoding::Encoding> XMacCyrillic = std::make_shared<TextEncoding::XMacCyrillic>();
 } // namespace Encoders
 
-std::map<std::string, std::shared_ptr<TextEncoding::Encoding>> Map = {
+std::map<std::string, std::shared_ptr<TextEncoding::Encoding>> EncoderMap = {
 	{ "unicode-1-1-utf-8", Encoders::UTF8 },
 	{ "utf-8", Encoders::UTF8 },
 	{ "utf8", Encoders::UTF8 },
@@ -253,8 +253,8 @@ std::vector<Unicode::CodePoint>
 TextEncoding::EncoderEngine::DecodeData(const char *data, std::size_t size, std::string encoding) {
 	std::transform(encoding.begin(), encoding.end(), encoding.begin(), [](unsigned char c) { return std::tolower(c); });
 
-	auto it = Map.find(encoding);
-	if (it == Map.end()) {
+	auto it = EncoderMap.find(encoding);
+	if (it == EncoderMap.end()) {
 		Logger::Warning("TextEncoding::EncoderEngine::DecodeData", "Not found: " + encoding);
 		return {};
 	}
