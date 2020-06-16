@@ -53,7 +53,7 @@ namespace Net {
 
 		std::optional<char>
 		ReadChar() override {
-			if (inputBuffer.size() < position) {
+			if (inputBuffer.size() < position + 1) {
 				std::cerr << "ReadChar() outside the buffer size! inputBuffer.size()=" << inputBuffer.size() << '\n';
 				return {};
 			}
@@ -81,6 +81,21 @@ namespace Net::HTTP {
 			connection.response = &dummyResponseInfo;
 		}
 	};
+
+	TEST_F(HTTPConnectionTest, ConsumeSingleSpace) {
+		connectionInfo.SetInputBuffer({});
+		ASSERT_EQ(connection.ConsumeSingleSpace(), Net::HTTP::HTTPConnectionError::FAILED_READ_GENERIC);
+		connectionInfo.SetInputBuffer({ ' ' });
+		ASSERT_EQ(connection.ConsumeSingleSpace(), Net::HTTP::HTTPConnectionError::NO_ERROR);
+		for (uint16_t i = 0; i < 255; i++) {
+			connectionInfo.SetInputBuffer({ static_cast<char>(i) });
+			if (i == 0x20)
+				ASSERT_EQ(connection.ConsumeSingleSpace(), Net::HTTP::HTTPConnectionError::NO_ERROR);
+			else
+				ASSERT_EQ(connection.ConsumeSingleSpace(), Net::HTTP::HTTPConnectionError::WHITESPACE_EXPECTED);
+		}
+
+	}
 
 	TEST_F(HTTPConnectionTest, ConsumeReasonPhrase) {
 		std::vector<char> input;
