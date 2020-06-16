@@ -28,10 +28,6 @@ namespace Net {
 		BufferedConnectionInfo() : ConnectionInfo("destination.test", 80) {
 		}
 
-
-
-
-
 		bool
 		Connect() override {
 			return true;
