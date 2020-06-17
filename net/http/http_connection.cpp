@@ -126,8 +126,10 @@ namespace Net::HTTP {
 			if (!character.has_value())
 				return HTTPConnectionError::FAILED_READ_HEADER_FIELD_GENERIC;
 
-			if (character != ' ' && character != '\t')
+			if (character != ' ' && character != '\t') {
+				fieldValue.push_back(character.value());
 				break;
+			}
 		}
 
 		/* Consume header-value */
