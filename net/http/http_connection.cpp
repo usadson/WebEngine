@@ -166,7 +166,13 @@ namespace Net::HTTP {
 	HTTPConnection::ConsumeHeaderFieldValue(std::vector<char> *dest) {
 		/* obs-fold (optional line folding) isn't supported. */
 		std::optional<char> character;
-		do {
+		while (true) {
+			/* Set next character */
+			character = connectionInfo.ReadChar();
+
+			if (!character.has_value())
+				return HTTPConnectionError::FAILED_READ_HEADER_FIELD_VALUE;
+
 			if (character == '\r') {
 				character = connectionInfo.ReadChar();
 				if (!character.has_value())
@@ -178,17 +184,12 @@ namespace Net::HTTP {
 
 			if ((character >= 0x21 && character <= 0x7E) || // VCHAR
 				(character >= 0x80 && character <= 0xFF) || // obs-text
-				character == ' ' || character == '\t')		// SP / HTAB
+				character == ' ' || character == '\t') {	// SP / HTAB
 				dest->push_back(character.value());
-			else
+			} else {
 				return HTTPConnectionError::INCORRECT_HEADER_FIELD_VALUE;
-
-			/* Set next character */
-			character = connectionInfo.ReadChar();
-
-			if (!character.has_value())
-				return HTTPConnectionError::FAILED_READ_HEADER_FIELD_VALUE;
-		} while (true);
+			}
+		}
 	}
 
 	HTTPConnectionError
