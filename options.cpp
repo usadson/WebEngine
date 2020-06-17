@@ -111,14 +111,18 @@ Options::ParseCommandLine(int argc, const char **argv) {
 					CommandLineParser::outputs.emplace_back(std::string(std::begin(strview) + 2, equals - 2),
 						std::string(std::begin(strview) + equals + 1));
 				} else {
-					CommandLineParser::outputs.emplace_back(std::string(std::begin(strview) + 2, equals - 2), std::optional<std::string>());
+					CommandLineParser::outputs.emplace_back(std::string(std::begin(strview) + 2, equals - 2),
+						std::optional<std::string>());
 				}
 			}
 		} else if (prevName.has_value()) {
 			if (strview.empty())
-				CommandLineParser::outputs.emplace_back(std::string(std::begin(prevName.value()) + 2, std::end(prevName.value())), std::optional<std::string>());
+				CommandLineParser::outputs.emplace_back(
+					std::string(std::begin(prevName.value()) + 2, std::end(prevName.value())),
+					std::optional<std::string>());
 			else
-				CommandLineParser::outputs.emplace_back(std::string(std::begin(prevName.value()) + 2, std::end(prevName.value())),
+				CommandLineParser::outputs.emplace_back(
+					std::string(std::begin(prevName.value()) + 2, std::end(prevName.value())),
 					std::string(strview));
 			prevName.reset();
 		} else {
