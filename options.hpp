@@ -13,10 +13,15 @@
 
 namespace Options {
 
+	struct OptionLookupResult {
+		bool wasSpecified;
+		std::optional<std::string> value;
+	};
+
 	bool
 	ParseCommandLine(int, const char **);
 
-	std::optional<const std::optional<std::string> *>
+	OptionLookupResult
 	GetCommandLineParameter(const std::string &);
 
 } // namespace Options

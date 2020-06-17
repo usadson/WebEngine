@@ -220,27 +220,24 @@ main(int argc, const char *argv[]) {
 		return EXIT_FAILURE;
 	}
 
-	if (Options::GetCommandLineParameter("credits").has_value()) {
+	if (Options::GetCommandLineParameter("credits").wasSpecified) {
 		Credits::PrintAuthorsToCommandLine();
 		return EXIT_SUCCESS;
 	}
 
-	if (Options::GetCommandLineParameter("copyright").has_value()) {
+	if (Options::GetCommandLineParameter("copyright").wasSpecified) {
 		Credits::PrintCopyrightToCommandLine();
 		return EXIT_SUCCESS;
 	}
 
 	Hooks::ExecuteStartupHooks();
 
-	const char *optionName = "test";
-
 	/** Execution Section **/
-	if (!Options::GetCommandLineParameter(optionName).has_value()
-		|| !Options::GetCommandLineParameter(optionName).value()->has_value()
-		|| Options::GetCommandLineParameter(optionName).value()->value().empty()) {
+	auto result = Options::GetCommandLineParameter("test");
+	if (!result.wasSpecified || !result.value.has_value()) {
 		RunDocumentTest();
 	} else {
-		const char *testModule = Options::GetCommandLineParameter(optionName).value()->value().c_str();
+		const char *testModule = result.value.value().c_str();
 		if (strcasecmp(testModule, "document") == 0) {
 			RunDocumentTest();
 		} else if (strcasecmp(testModule, "network") == 0) {
