@@ -205,6 +205,9 @@ RunNetworkTest() {
 	information << "Response information: statusCode=" << response.statusCode
 				<< " headerCount=" << response.headers.size() << " bodySize=" << response.messageBody.size();
 
+	for (const auto &header : response.headers)
+		std::cout << "\tHeader[\"" << header.fieldName << "\"] = \"" << header.fieldValue << "\"\n";
+
 	Logger::Info("RunNetworkTest", information.str());
 
 	std::cout << "====== Response Message Body ======\n"
