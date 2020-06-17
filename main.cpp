@@ -17,10 +17,9 @@
 #include <sstream>
 #include <vector>
 
-#include "ccompat.hpp"
 #include "data/text/encoding/encoder_engine.hpp"
 #include "data/text/encoding/utf8.hpp"
-#include "data/text/named_characters.hpp"
+#include "hooks.hpp"
 #include "logger.hpp"
 #include "misc/credits.hpp"
 #include "net/alpn_protocols.hpp"
@@ -231,7 +230,7 @@ main(int argc, const char *argv[]) {
 		return EXIT_SUCCESS;
 	}
 
-	NamedCharacters::Setup();
+	Hooks::ExecuteStartupHooks();
 
 	const char *optionName = "test";
 
@@ -253,8 +252,7 @@ main(int argc, const char *argv[]) {
 		}
 	}
 
-	/** Shutdown Section **/
-	CCompat::CloseStandardIO();
+	Hooks::ExecuteShutdownHooks();
 
 	return EXIT_SUCCESS;
 }

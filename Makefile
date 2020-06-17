@@ -57,6 +57,7 @@ LDFLAGS = `pkg-config --static --libs $(CONNECTION_INFO_TLS_PKGNAME) glfw3 glew 
 # All the object files. By convention, each .cpp should have a corresponding
 # object file. For more information, see the explanation above.
 BINARIES = bin/ccompat.o \
+	   bin/hooks.o \
 	   bin/logger.o \
 	   bin/options.o \
 	   bin/data/text/named_characters.so \
@@ -176,6 +177,12 @@ bin/ccompat.o: ccompat.cpp\
 	ccompat.hpp \
 	logger.hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ ccompat.cpp
+
+bin/hooks.o: hooks.cpp \
+	hooks.hpp \
+	ccompat.hpp \
+	data/text/named_characters.hpp
+	$(CXX) $(CXXFLAGS) -c -o $@ hooks.cpp
 
 bin/logger.o: logger.cpp\
 	logger.hpp
