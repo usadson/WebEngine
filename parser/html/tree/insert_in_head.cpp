@@ -39,7 +39,8 @@ HTML::InsertionModes::InHead::HandleComment(HTML::Tokenizer::Token &token) {
 HTML::InsertionModeSubroutineStatus
 HTML::InsertionModes::InHead::HandleDoctype(HTML::Tokenizer::Token &token) {
 	(void)token;
-	return HTML::InsertionModeSubroutineStatus::CONTINUE;
+	context.parserContext.ReportParserError("InHeadInsertionMode", "Found DOCTYPE in unexpected location");
+	return HTML::InsertionModeSubroutineStatus::IGNORE;
 }
 
 HTML::InsertionModeSubroutineStatus
