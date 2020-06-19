@@ -53,6 +53,7 @@ TESTING_LDFLAGS_NET_HTTP = `pkg-config --static --libs gtest $(CONNECTION_INFO_T
 TESTING_TARGETS = \
 	bin/testing/directory.txt \
 	bin/testing/data/text/encoding/utf8 \
+	bin/testing/data/text/unicode \
 	bin/testing/data/text/ustring \
 	bin/testing/net/http/http_connection \
 	bin/testing/net/http/http_response_info \
@@ -61,6 +62,7 @@ TESTING_TARGETS = \
 # the 'test' target executes every test
 test:
 	bin/testing/data/text/encoding/utf8
+	bin/testing/data/text/unicode
 	bin/testing/data/text/ustring
 	bin/testing/net/http/http_connection
 	bin/testing/net/http/http_response_info
@@ -78,6 +80,10 @@ bin/testing/data/text/encoding/utf8: testing/data/text/encoding/utf8.cpp \
 	data/text/encoding/utf8.hpp \
 	bin/data/text/encoding/utf8.o
 	$(CXX) $(TESTING_CXXFLAGS) -o $@ testing/data/text/encoding/utf8.cpp bin/data/text/encoding/utf8.o $(TESTING_LDFLAGS)
+
+bin/testing/data/text/unicode: testing/data/text/unicode.cpp \
+	data/text/unicode.hpp
+	$(CXX) $(TESTING_CXXFLAGS) -o $@ testing/data/text/unicode.cpp $(TESTING_LDFLAGS)
 
 bin/testing/data/text/ustring: testing/data/text/ustring.cpp \
 	data/text/ustring.hpp \
