@@ -55,7 +55,7 @@ namespace Net {
 		ReadChar() override {
 			if (inputBuffer.size() < position + 1) {
 				std::cerr << "ReadChar() outside the buffer size! inputBuffer.size()=" << inputBuffer.size() << '\n';
-				return {};
+				return std::nullopt;
 			}
 			return { inputBuffer[position++] };
 		}

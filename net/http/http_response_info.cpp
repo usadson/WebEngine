@@ -34,10 +34,10 @@ namespace Net::HTTP {
 			try {
 				return { std::stoull(value.value()) };
 			} catch (const std::exception &) {
-				return {};
+				return std::nullopt;
 			}
 		}
 
-		return {};
+		return std::nullopt;
 	}
 } // namespace Net::HTTP

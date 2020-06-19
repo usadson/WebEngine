@@ -65,7 +65,7 @@ namespace HTML {
 			});
 
 			if (attr == std::end(attributes))
-				return {};
+				return std::nullopt;
 
 			return { attr->second };
 		}

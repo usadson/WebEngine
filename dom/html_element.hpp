@@ -36,7 +36,7 @@ namespace DOM {
 		// This function is TODO
 		inline std::optional<Unicode::UString>
 		innerText() const {
-			return {};
+			return std::nullopt;
 		}
 
 		ElementInternals
