@@ -4,9 +4,7 @@
  * See the COPYING file for licensing information.
  */
 
-#include "data/text/ustring.hpp"
-
-#include <climits>
+#include "data/text/unicode.hpp"
 
 #include <gtest/gtest.h>
 
