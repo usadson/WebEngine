@@ -180,8 +180,8 @@ namespace HTML {
 		std::map<Unicode::UString, Unicode::UString> &attributes) {
 		/* https://html.spec.whatwg.org/multipage/parsing.html#create-an-element-for-the-token */
 		auto element = std::make_shared<DOM::Element>();
-		element->namespaceURI = std::move(nameSpace);
-		element->localName = std::move(tagName);
+		element->namespaceURI = nameSpace;
+		element->localName = tagName;
 		context.parserContext.documentNode->children.push_back(element);
 		openElementsStack.push_back(element);
 
