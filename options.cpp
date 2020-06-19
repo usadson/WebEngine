@@ -7,14 +7,14 @@
 #include "options.hpp"
 
 #include <algorithm>
+#include <array>
 #include <iostream>
+#include <iterator>
 #include <optional>
 #include <string>
-#include <vector>
-#include <array>
-#include <iterator>
 #include <string_view>
 #include <utility>
+#include <vector>
 
 #include <strings.h>
 
