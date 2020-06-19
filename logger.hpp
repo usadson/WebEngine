@@ -43,4 +43,7 @@ namespace Logger {
 	void
 	SetOutputState(bool);
 
+	void
+	SetAbortFunction(void (*)());
+
 } // namespace Logger

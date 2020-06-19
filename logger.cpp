@@ -11,6 +11,7 @@
 #include <cstdlib>
 
 static bool shouldLog = true;
+static void (*abortFunction)() = &std::terminate;
 
 void
 Logger::Error(const std::string &source, const std::string &message) {
@@ -59,7 +60,12 @@ Logger::Crash(const std::string &source, const std::string &message) {
 	if (shouldLog) {
 		std::cout << "\033[1;33m[" << source << "] [CRASH] " << message << "\033[1;0m" << std::endl;
 	}
-	abort();
+	abortFunction();
+}
+
+void
+Logger::SetAbortFunction(void (*function)()) {
+	abortFunction = function;
 }
 
 void
