@@ -89,6 +89,9 @@ namespace Unicode {
 
 		bool
 		StartsWithIgnoreCaseAL(std::size_t pos, const char *ascii, size_t length) const noexcept;
+
+		bool
+		EqualsIgnoreCase(const UString &other) const noexcept;
 	};
 
 	std::ostream &
