@@ -9,9 +9,9 @@
 namespace Credits {
 
 	void
-	PrintCopyrightToCommandLine();
+	PrintAuthorsToCommandLine();
 
 	void
-	PrintAuthorsToCommandLine();
+	PrintCopyrightToCommandLine();
 
 } // namespace Credits
