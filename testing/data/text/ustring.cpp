@@ -35,6 +35,16 @@ namespace Unicode {
 		ASSERT_FALSE(normalString.EqualsIgnoreCaseA(0, "sameLength"));
 		ASSERT_FALSE(normalString.EqualsIgnoreCaseA(0, ""));
 
+		// EqualsIgnoreCase
+		ASSERT_FALSE(normalString.EqualsIgnoreCase(Unicode::UString("")));
+		ASSERT_FALSE(normalString.EqualsIgnoreCase(Unicode::UString("another string with another length")));
+		ASSERT_FALSE(normalString.EqualsIgnoreCase(Unicode::UString("sameLength")));
+
+		ASSERT_TRUE(normalString.EqualsIgnoreCase(Unicode::UString("Hello world")));
+		ASSERT_TRUE(normalString.EqualsIgnoreCase(Unicode::UString("hello world")));
+		ASSERT_TRUE(normalString.EqualsIgnoreCase(Unicode::UString("HELLO WORLD")));
+		ASSERT_TRUE(normalString.EqualsIgnoreCase(Unicode::UString("hElLo WoRlD")));
+
 		// EqualsA
 		ASSERT_TRUE(normalString.EqualsA("Hello world"));
 		ASSERT_FALSE(normalString.EqualsA("Helo world"));
