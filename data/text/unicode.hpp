@@ -52,7 +52,7 @@ namespace Unicode {
 			   || (character >= 0x61 && character <= 0x7A);
 	}
 
-	inline bool
+	inline CodePoint
 	ToLowerASCII(CodePoint character) {
 		/* Could use a ternary operator; this is cleaner. */
 		if (character >= 'A' && character <= 'Z')
