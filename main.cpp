@@ -13,9 +13,9 @@
  */
 
 #include <algorithm>
-#include <map>
 #include <iostream>
 #include <iterator>
+#include <map>
 #include <memory>
 #include <optional>
 #include <sstream> // IWYU pragma: keep
@@ -26,30 +26,30 @@
 #include <cstdlib>
 #include <strings.h>
 
-#include "net/connection_info.hpp"
-#include "net/http/http_header_field.hpp"
-#include "net/http/http_response_info.hpp"
-#include "parser/html/context.hpp"
-#include "rendering/drawables/draw_color.hpp"
-#include "rendering/render_bounds.hpp"
-#include "rendering/renderer.hpp"
-#include "rendering/window/window.hpp"
-#include "resources/media_type.hpp"
 #include "data/text/encoding/utf8.hpp"
 #include "data/text/ustring.hpp"
 #include "hooks.hpp"
 #include "logger.hpp"
 #include "misc/credits.hpp"
 #include "net/alpn_protocols.hpp"
+#include "net/connection_info.hpp"
 #include "net/http/http_connection.hpp"
+#include "net/http/http_header_field.hpp"
+#include "net/http/http_response_info.hpp"
 #include "net/http2/http2_connection.hpp"
 #include "options.hpp"
+#include "parser/html/context.hpp"
 #include "parser/html/tokenizer.hpp"
+#include "rendering/drawables/draw_color.hpp"
 #include "rendering/drawables/draw_rect.hpp"
 #include "rendering/drawables/draw_text.hpp"
 #include "rendering/opengl/gl_renderer.hpp"
+#include "rendering/render_bounds.hpp"
+#include "rendering/renderer.hpp"
+#include "rendering/window/window.hpp"
 #include "rendering/window/window_glfw.hpp"
 #include "resources/document.hpp"
+#include "resources/media_type.hpp"
 
 inline bool
 DecodeText(Resources::DocumentResource *documentResource, std::vector<char> inputData) {
