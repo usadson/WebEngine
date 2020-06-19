@@ -11,8 +11,12 @@
 #include <optional>
 #include <string>
 #include <vector>
+#include <array>
+#include <iterator>
+#include <string_view>
+#include <utility>
 
-#include <cstring>
+#include <strings.h>
 
 namespace CommandLineParser {
 
