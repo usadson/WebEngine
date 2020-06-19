@@ -28,6 +28,10 @@ namespace HTML {
 
 		void
 		AmbiguousTagToken::AddTokenAttribute(HTML::Tokenizer::Context &context) {
+			if (attributeName.length() == 0) {
+				Logger::Crash(__PRETTY_FUNCTION__, "0-length attributeName");
+			}
+
 			if (std::find_if(std::begin(attributes),
 					std::end(attributes),
 					[this](const auto &attribute) { return attribute.first.EqualsIgnoreCase(attributeName); })
