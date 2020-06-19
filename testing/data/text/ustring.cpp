@@ -17,10 +17,11 @@ namespace Unicode {
 		UString normalString { "Hello world" };
 	};
 
-	TEST_F(UStringTest, StringUtilities) {
+	TEST_F(UStringTest, LengthAssertion) {
 		ASSERT_EQ(normalString.length(), 11) << "Invalid size detected";
+	}
 
-		// EqualsIgnoreCaseA
+	TEST_F(UStringTest, EqualsIgnoreCaseA) {
 		ASSERT_TRUE(normalString.EqualsIgnoreCaseA(0, "HELLO WORLD"));
 		ASSERT_TRUE(normalString.EqualsIgnoreCaseA(0, "hello world"));
 		ASSERT_TRUE(normalString.EqualsIgnoreCaseA(0, "hElLo wOrLd"));
@@ -34,8 +35,9 @@ namespace Unicode {
 		ASSERT_FALSE(normalString.EqualsIgnoreCaseA(0, "another string with another length"));
 		ASSERT_FALSE(normalString.EqualsIgnoreCaseA(0, "sameLength"));
 		ASSERT_FALSE(normalString.EqualsIgnoreCaseA(0, ""));
+	}
 
-		// EqualsIgnoreCase
+	TEST_F(UStringTest, EqualsIgnoreCase) {
 		ASSERT_FALSE(normalString.EqualsIgnoreCase(Unicode::UString("")));
 		ASSERT_FALSE(normalString.EqualsIgnoreCase(Unicode::UString("another string with another length")));
 		ASSERT_FALSE(normalString.EqualsIgnoreCase(Unicode::UString("sameLength")));
@@ -44,18 +46,21 @@ namespace Unicode {
 		ASSERT_TRUE(normalString.EqualsIgnoreCase(Unicode::UString("hello world")));
 		ASSERT_TRUE(normalString.EqualsIgnoreCase(Unicode::UString("HELLO WORLD")));
 		ASSERT_TRUE(normalString.EqualsIgnoreCase(Unicode::UString("hElLo WoRlD")));
+	}
 
-		// EqualsA
+	TEST_F(UStringTest, EqualsA) {
 		ASSERT_TRUE(normalString.EqualsA("Hello world"));
 		ASSERT_FALSE(normalString.EqualsA("Helo world"));
 		ASSERT_FALSE(normalString.EqualsA(""));
+	}
 
-		// EqualsAL
+	TEST_F(UStringTest, EqualsAL) {
 		ASSERT_TRUE(normalString.EqualsAL(0, "Hello world", 11));
 		ASSERT_FALSE(normalString.EqualsAL(0, "nope", 4));
 		ASSERT_FALSE(normalString.EqualsAL(0, "", 0));
+	}
 
-		// StartsWithA
+	TEST_F(UStringTest, StartsWithA) {
 		ASSERT_TRUE(normalString.StartsWithA(""));
 		ASSERT_TRUE(normalString.StartsWithA("Hello"));
 		ASSERT_TRUE(normalString.StartsWithA("Hello world"));
@@ -63,8 +68,9 @@ namespace Unicode {
 		ASSERT_FALSE(normalString.StartsWithA("Hello warld"));
 		ASSERT_FALSE(normalString.StartsWithA("Helo"));
 		ASSERT_FALSE(normalString.StartsWithA("something else"));
+	}
 
-		// StartsWithIgnoreCaseAL
+	TEST_F(UStringTest, StartsWithIgnoreCaseAL) {
 		ASSERT_TRUE(normalString.StartsWithIgnoreCaseAL(0, "", 0));
 		ASSERT_TRUE(normalString.StartsWithIgnoreCaseAL(0, "hello world", 11));
 		ASSERT_TRUE(normalString.StartsWithIgnoreCaseAL(0, "hello world", 5));
