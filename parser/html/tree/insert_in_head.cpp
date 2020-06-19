@@ -52,10 +52,39 @@ HTML::InsertionModes::InHead::HandleEndTag(HTML::Tokenizer::Token &token) {
 HTML::InsertionModeSubroutineStatus
 HTML::InsertionModes::InHead::HandleStartTag(HTML::Tokenizer::Token &token) {
 	auto *startTagToken = dynamic_cast<HTML::Tokenizer::StartTagToken *>(&token);
+	if (startTagToken->tagName.EqualsIgnoreCaseA(0, "html")) {
+		auto status = constructor.insertionModes.find(HTML::InsertionModeType::IN_BODY)->second->EmitToken(token);
+		return status ? HTML::InsertionModeSubroutineStatus::RECONSUME : HTML::InsertionModeSubroutineStatus::IGNORE;
+	}
+
+	bool isMetaToken = startTagToken->tagName.EqualsIgnoreCaseA(0, "meta");
+	if (isMetaToken ||
+		startTagToken->tagName.EqualsIgnoreCaseA(0, "base") ||
+		startTagToken->tagName.EqualsIgnoreCaseA(0, "basefont") ||
+		startTagToken->tagName.EqualsIgnoreCaseA(0, "bgsound") ||
+		startTagToken->tagName.EqualsIgnoreCaseA(0, "link")) {
+		constructor.InsertSelfClosingToken(*startTagToken);
+
+		if (isMetaToken) {
+			auto attribute = startTagToken->GetAttribute(HTML::Constants::AttributeNameMeta);
+			if (attribute.has_value()) {
+				Logger::Crash(__PRETTY_FUNCTION__, "<meta charset> is not supported yet.");
+			}
+			attribute = startTagToken->GetAttribute(HTML::Constants::AttributeNameHTTPEquiv);
+			if (attribute.has_value()) {
+				Logger::Crash(__PRETTY_FUNCTION__, "<meta http-equiv> is not supported yet.");
+			}
+		}
+
+		return HTML::InsertionModeSubroutineStatus::IGNORE;
+	}
+
 	if (startTagToken->tagName.EqualsIgnoreCaseA(0, "head")) {
 		context.parserContext.ReportParserError("InHeadInsertionMode", "Found <head> tag inside another head element");
 		return HTML::InsertionModeSubroutineStatus::IGNORE;
 	}
+
+
 
 	return HTML::InsertionModeSubroutineStatus::CONTINUE;
 }
