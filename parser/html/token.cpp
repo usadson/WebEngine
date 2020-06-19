@@ -32,10 +32,10 @@ namespace HTML {
 				Logger::Crash(__PRETTY_FUNCTION__, "0-length attributeName");
 			}
 
-			if (std::find_if(std::begin(attributes),
-					std::end(attributes),
+			if (std::find_if(std::cbegin(attributes),
+					std::cend(attributes),
 					[this](const auto &attribute) { return attribute.first.EqualsIgnoreCase(attributeName); })
-				!= std::end(attributes)) {
+				!= std::cend(attributes)) {
 				context.LogError(HTML::Tokenizer::ParserError::DUPLICATE_ATTRIBUTES);
 				attributeName = Unicode::UString("");
 				attributeValue = Unicode::UString("");

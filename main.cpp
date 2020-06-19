@@ -110,7 +110,7 @@ RunDocumentTest() {
 inline std::shared_ptr<Rendering::Renderer>
 CreateRenderer(const std::vector<Rendering::RendererType> &supportedRenderers) {
 	if (std::find(std::cbegin(supportedRenderers), std::cend(supportedRenderers), Rendering::RendererType::OPENGL)
-		!= std::end(supportedRenderers)) {
+		!= std::cend(supportedRenderers)) {
 		return std::make_shared<Rendering::GLRenderer>();
 	}
 
