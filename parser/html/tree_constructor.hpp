@@ -77,5 +77,18 @@ namespace HTML {
 		InsertHTMLElement(HTML::Tokenizer::StartTagToken &token) {
 			return InsertForeignElement(token, HTML::Constants::HTMLNamespace);
 		}
+
+		/**
+		 * Specless; a helper function
+		 */
+		inline void
+		InsertSelfClosingToken(HTML::Tokenizer::StartTagToken &token) {
+			InsertHTMLElement(token);
+			openElementsStack.pop_back();
+
+			// """Acknowledge the token's self-closing flag, if it is set."""
+			// This line is redundant, because we already immediately pop off the
+			// element from the stack.
+		}
 	};
 } // namespace HTML
