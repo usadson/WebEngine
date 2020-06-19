@@ -22,7 +22,7 @@ namespace Rendering {
 			r(r), g(g), b(b), a(a) {
 		}
 
-		inline
+		explicit inline
 		DrawColor(uint32_t rgba) noexcept
 			: r((rgba & 0xFF000000) >> 24), g((rgba & 0x00FF0000) >> 16), b((rgba & 0x0000FF00) >> 8), a(rgba & 0x000000FF) {
 		}
