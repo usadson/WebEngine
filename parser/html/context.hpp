@@ -70,7 +70,7 @@ namespace HTML::Tokenizer {
 		inline explicit Context(HTML::ParserContext &context) : parserContext(context) {
 		}
 
-		void
+		virtual void
 		LogError(const HTML::Tokenizer::ParserError &error);
 
 		inline AmbiguousTagToken &
