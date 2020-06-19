@@ -32,8 +32,7 @@ HTML::InsertionModes::InHead::HandleCharacter(HTML::Tokenizer::Token &token) {
 
 HTML::InsertionModeSubroutineStatus
 HTML::InsertionModes::InHead::HandleComment(HTML::Tokenizer::Token &token) {
-	context.parserContext.documentNode->childNodes.push_back(
-		std::make_shared<DOM::Comment>(dynamic_cast<HTML::Tokenizer::CommentToken *>(&token)->contents));
+	constructor.InsertComment(dynamic_cast<HTML::Tokenizer::CommentToken *>(&token)->contents);
 	return HTML::InsertionModeSubroutineStatus::CONTINUE;
 }
 

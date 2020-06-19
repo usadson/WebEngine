@@ -180,8 +180,7 @@ HTML::InsertionModes::Initial::EmitToken(HTML::Tokenizer::Token &inToken) {
 			}
 			break;
 		case HTML::Tokenizer::TokenType::COMMENT:
-			context.parserContext.documentNode->childNodes.push_back(
-				std::make_shared<DOM::Comment>(dynamic_cast<HTML::Tokenizer::CommentToken *>(&inToken)->contents));
+			constructor.InsertComment(dynamic_cast<HTML::Tokenizer::CommentToken *>(&inToken)->contents);
 			return false;
 		case HTML::Tokenizer::TokenType::DOCTYPE: {
 			auto status = HandleDoctype(inToken);
