@@ -33,11 +33,15 @@ namespace HTML {
 					[this](const auto &attribute) { return attribute.first.EqualsIgnoreCase(attributeName); })
 				!= std::end(attributes)) {
 				context.LogError(HTML::Tokenizer::ParserError::DUPLICATE_ATTRIBUTES);
+				attributeName = Unicode::UString("");
+				attributeValue = Unicode::UString("");
 				return;
 			}
 
 			if (!attributes.insert(std::make_pair(attributeName, attributeValue)).second) {
 				context.LogError(HTML::Tokenizer::ParserError::DUPLICATE_ATTRIBUTES);
+				attributeName = Unicode::UString("");
+				attributeValue = Unicode::UString("");
 				return;
 			}
 
