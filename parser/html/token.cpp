@@ -36,5 +36,17 @@ namespace HTML {
 			attributeName = Unicode::UString("");
 			attributeValue = Unicode::UString("");
 		}
+
+		std::optional<Unicode::UString>
+		StartTagToken::GetAttribute(const Unicode::UString &name) {
+			auto attr = std::find_if(std::begin(attributes), std::end(attributes), [name](const auto &attribute) {
+				return attribute.first.EqualsIgnoreCase(name);
+			});
+
+			if (attr == std::end(attributes))
+				return {};
+
+			return { attr->second };
+		}
 	} // namespace Tokenizer
 } // namespace HTML

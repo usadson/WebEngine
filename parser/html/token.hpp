@@ -79,6 +79,9 @@ namespace HTML::Tokenizer {
 		inline StartTagToken() : AmbiguousTagToken(TokenType::STARTTAG) {
 		}
 
+		[[nodiscard]] std::optional<Unicode::UString>
+		GetAttribute(const Unicode::UString &name);
+
 		static const StartTagToken INVALID_TYPE_START_TAG;
 	};
 
