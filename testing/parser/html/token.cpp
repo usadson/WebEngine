@@ -18,8 +18,7 @@ namespace HTML::Tokenizer {
 	public:
 		std::reference_wrapper<const ParserError> lastError = ParserError::NULL_PARSER_ERROR;
 
-		explicit
-		ContextFixture(ParserContext &parserContext) : Context(parserContext) {
+		explicit ContextFixture(ParserContext &parserContext) : Context(parserContext) {
 		}
 
 		void
