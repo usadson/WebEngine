@@ -70,6 +70,9 @@ namespace HTML::Tokenizer {
 		inline explicit Context(HTML::ParserContext &context) : parserContext(context) {
 		}
 
+		virtual
+		~Context() = default;
+
 		virtual void
 		LogError(const ParserError &error);
 
