@@ -25,7 +25,9 @@ namespace Unicode {
 	  public: // Constructor Methods
 		UString() noexcept;
 
-		explicit UString(const std::vector<Unicode::CodePoint> &) noexcept;
+
+		explicit UString(std::vector<Unicode::CodePoint> characters) noexcept : data(std::move(characters)) {
+		}
 
 		// cppcheck-suppress[noExplicitConstructor]
 		explicit UString(Unicode::CodePoint) noexcept;

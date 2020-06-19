@@ -15,9 +15,6 @@ namespace Unicode {
 	UString::UString() noexcept : data({}) {
 	}
 
-	UString::UString(const std::vector<Unicode::CodePoint> &characters) noexcept : data(characters) {
-	}
-
 	UString::UString(Unicode::CodePoint character) noexcept : data({ character }) {
 	}
 
