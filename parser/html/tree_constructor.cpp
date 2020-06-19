@@ -151,7 +151,7 @@ namespace HTML {
 	// https://html.spec.whatwg.org/multipage/parsing.html#appropriate-place-for-inserting-a-node
 	void
 	TreeConstructor::InsertNodeInAppropriateLocation(
-		std::shared_ptr<DOM::Node> node, std::optional<std::shared_ptr<DOM::Node>> overrideTarget) {
+		const std::shared_ptr<DOM::Node> &node, std::optional<std::shared_ptr<DOM::Node>> overrideTarget) {
 		/* TODO Foster parenting */
 
 		if (overrideTarget.has_value()) {

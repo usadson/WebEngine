@@ -67,7 +67,7 @@ namespace HTML {
 		CreateElementForToken(HTML::Tokenizer::StartTagToken &, const Unicode::UString &nameSpace);
 
 		void
-		InsertNodeInAppropriateLocation(std::shared_ptr<DOM::Node> node,
+		InsertNodeInAppropriateLocation(const std::shared_ptr<DOM::Node> &node,
 										std::optional<std::shared_ptr<DOM::Node> > overrideTarget = {});
 
 		std::shared_ptr<DOM::Element>
