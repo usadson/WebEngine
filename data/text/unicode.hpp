@@ -51,4 +51,12 @@ namespace Unicode {
 		return (character >= 0x30 && character <= 0x39) || (character >= 0x41 && character <= 0x5A)
 			   || (character >= 0x61 && character <= 0x7A);
 	}
+
+	inline bool
+	ToLowerASCII(CodePoint character) {
+		/* Could use a ternary operator; this is cleaner. */
+		if (character >= 'A' && character <= 'Z')
+			return character + 0x20;
+		return character;
+	}
 } // namespace Unicode
