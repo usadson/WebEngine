@@ -58,11 +58,10 @@ HTML::InsertionModes::InHead::HandleStartTag(HTML::Tokenizer::Token &token) {
 	}
 
 	bool isMetaToken = startTagToken->tagName.EqualsIgnoreCaseA(0, "meta");
-	if (isMetaToken ||
-		startTagToken->tagName.EqualsIgnoreCaseA(0, "base") ||
-		startTagToken->tagName.EqualsIgnoreCaseA(0, "basefont") ||
-		startTagToken->tagName.EqualsIgnoreCaseA(0, "bgsound") ||
-		startTagToken->tagName.EqualsIgnoreCaseA(0, "link")) {
+	if (isMetaToken || startTagToken->tagName.EqualsIgnoreCaseA(0, "base")
+		|| startTagToken->tagName.EqualsIgnoreCaseA(0, "basefont")
+		|| startTagToken->tagName.EqualsIgnoreCaseA(0, "bgsound")
+		|| startTagToken->tagName.EqualsIgnoreCaseA(0, "link")) {
 		constructor.InsertSelfClosingToken(*startTagToken);
 
 		if (isMetaToken) {
@@ -83,8 +82,6 @@ HTML::InsertionModes::InHead::HandleStartTag(HTML::Tokenizer::Token &token) {
 		context.parserContext.ReportParserError("InHeadInsertionMode", "Found <head> tag inside another head element");
 		return HTML::InsertionModeSubroutineStatus::IGNORE;
 	}
-
-
 
 	return HTML::InsertionModeSubroutineStatus::CONTINUE;
 }

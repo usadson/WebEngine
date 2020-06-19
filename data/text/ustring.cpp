@@ -129,9 +129,12 @@ namespace Unicode {
 	UString::EqualsIgnoreCase(const UString &other) const noexcept {
 		if (data.size() != other.data.size())
 			return false;
-		auto pair = std::mismatch(std::begin(data), std::end(data), std::begin(other.data), [](Unicode::CodePoint a, Unicode::CodePoint b) {
-			return Unicode::ToLowerASCII(a) == Unicode::ToLowerASCII(b);
-		});
+		auto pair = std::mismatch(std::begin(data),
+			std::end(data),
+			std::begin(other.data),
+			[](Unicode::CodePoint a, Unicode::CodePoint b) {
+				return Unicode::ToLowerASCII(a) == Unicode::ToLowerASCII(b);
+			});
 
 		/* See:
 		 * https://en.cppreference.com/w/cpp/algorithm/mismatch
