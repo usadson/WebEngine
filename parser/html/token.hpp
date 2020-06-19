@@ -69,6 +69,14 @@ namespace HTML::Tokenizer {
 		inline explicit AmbiguousTagToken(TokenType type) : Token(type) {
 		}
 
+		/**
+		 * The HTML Living Standard ensures that this function wont be called
+		 * when attributeName is empty. It is incorrect behavior if this does
+		 * happen, and a proper Logger::Crash will be triggered if it detects
+		 * this.
+		 *
+		 * This crash is in fact covered by an appropriate test.
+		 */
 		void
 		AddTokenAttribute(Context &);
 
