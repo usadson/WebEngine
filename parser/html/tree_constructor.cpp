@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "data/text/ustring.hpp"
+#include "dom/comment.hpp"
 #include "dom/resettable_element.hpp"
 #include "logger.hpp"
 #include "parser/html/context.hpp"
@@ -144,10 +145,19 @@ namespace HTML {
 	void
 	TreeConstructor::InsertNodeInAppropriateLocation(
 		std::shared_ptr<DOM::Node> node, std::optional<std::shared_ptr<DOM::Node>> overrideTarget) {
-		std::shared_ptr<DOM::Node> target
-			= overrideTarget.has_value() ? overrideTarget.value() : openElementsStack.back();
 		/* TODO Foster parenting */
-		target->childNodes.push_back(node);
+
+		if (overrideTarget.has_value()) {
+			overrideTarget.value()->childNodes.push_back(node);
+		} else if (!openElementsStack.empty()) {
+			openElementsStack.back()->childNodes.push_back(node);
+		} else {
+			/* No nodes in the openElementsStack, thus use Document (this
+			 * shouldn't be in the stack of open elements, states the standard implicitly:
+			 * https://html.spec.whatwg.org/multipage/parsing.html#stack-of-open-elements
+			 */
+			context.parserContext.documentNode->childNodes.push_back(node);
+		}
 	}
 
 	/**
@@ -179,4 +189,14 @@ namespace HTML {
 
 		return element;
 	}
+
+	/**
+	 * Spec:
+	 * https://html.spec.whatwg.org/multipage/parsing.html#insert-a-comment
+	 */
+	void
+	TreeConstructor::InsertComment(Unicode::UString &contents) {
+		InsertNodeInAppropriateLocation(std::make_shared<DOM::Comment>(contents));
+	}
+
 } // namespace HTML

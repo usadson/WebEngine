@@ -60,6 +60,9 @@ namespace HTML {
 					  std::optional<Unicode::UString> is,
 					  bool synchronousCustomElementsFlag);
 
+		void
+		InsertComment(Unicode::UString &contents);
+
 		std::shared_ptr<DOM::Element>
 		CreateElementForToken(HTML::Tokenizer::StartTagToken &, const Unicode::UString &nameSpace);
 
