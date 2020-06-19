@@ -18,10 +18,18 @@ namespace HTML::Tokenizer {
 #include "token.hpp"
 
 namespace HTML {
+	enum CharacterEncodingConfidence {
+		TENTATIVE,
+		CERTAIN,
+		IRRELEVANT
+	};
+
 	class ParserContext {
 	  public:
 		std::shared_ptr<DOM::Document> documentNode = std::make_shared<DOM::Document>();
 		bool isIframeSrcdoc{ false };
+
+		CharacterEncodingConfidence confidence { CharacterEncodingConfidence::IRRELEVANT };
 
 		void
 		ReportParserError(const std::string &source, const std::string &message);
