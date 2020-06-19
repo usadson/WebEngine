@@ -129,9 +129,9 @@ namespace Unicode {
 	UString::EqualsIgnoreCase(const UString &other) const noexcept {
 		if (data.size() != other.data.size())
 			return false;
-		auto pair = std::mismatch(std::begin(data),
-			std::end(data),
-			std::begin(other.data),
+		auto pair = std::mismatch(std::cbegin(data),
+			std::cend(data),
+			std::cbegin(other.data),
 			[](Unicode::CodePoint a, Unicode::CodePoint b) {
 				return Unicode::ToLowerASCII(a) == Unicode::ToLowerASCII(b);
 			});
@@ -139,19 +139,19 @@ namespace Unicode {
 		/* See:
 		 * https://en.cppreference.com/w/cpp/algorithm/mismatch
 		 */
-		return pair.first == std::end(data) && pair.second == std::end(other.data);
+		return pair.first == std::cend(data) && pair.second == std::cend(other.data);
 	}
 
 	bool
 	UString::operator==(const UString &other) const noexcept {
 		if (data.size() != other.data.size())
 			return false;
-		auto pair = std::mismatch(std::begin(data), std::end(data), std::begin(other.data));
+		auto pair = std::mismatch(std::cbegin(data), std::cend(data), std::cbegin(other.data));
 
 		/* See:
 		 * https://en.cppreference.com/w/cpp/algorithm/mismatch
 		 */
-		return pair.first == std::end(data) && pair.second == std::end(other.data);
+		return pair.first == std::cend(data) && pair.second == std::cend(other.data);
 	}
 
 	bool
