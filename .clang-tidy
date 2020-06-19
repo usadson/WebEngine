@@ -1,7 +1,9 @@
 ---
   Checks:          '*,
                     -fuchsia-default-arguments-calls,
+                    -fuchsia-overloaded-operator,
                     -hicpp-no-array-decay,
+                    -cppcoreguidelines-pro-bounds-pointer-arithmetic,
                     -modernize-use-trailing-return-type,
                     -google-readability-braces-around-statements,
                     -readability-braces-around-statements,
