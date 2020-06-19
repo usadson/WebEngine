@@ -120,11 +120,11 @@ namespace HTML {
 		HTML::Tokenizer::StartTagToken &tagToken, const Unicode::UString &nameSpace) {
 		std::optional<Unicode::UString> is;
 
-		auto attr = std::find_if(std::begin(tagToken.attributes), std::end(tagToken.attributes), [](const auto &attr) {
+		auto attr = std::find_if(std::begin(tagToken.GetAttributes()), std::end(tagToken.GetAttributes()), [](const auto &attr) {
 			return attr.first.EqualsIgnoreCaseA(2, "is");
 		});
 
-		if (attr != std::end(tagToken.attributes))
+		if (attr != std::end(tagToken.GetAttributes()))
 			is = { attr->second };
 
 		auto element = CreateElement(tagToken.tagName, nameSpace, {}, is, executeScript);
@@ -135,7 +135,7 @@ namespace HTML {
 		 * straightforward:
 		 * https://dom.spec.whatwg.org/#concept-element-attributes-change-ext
 		 */
-		element->internalAttributes.insert(std::begin(tagToken.attributes), std::end(tagToken.attributes));
+		element->internalAttributes.insert(std::begin(tagToken.GetAttributes()), std::end(tagToken.GetAttributes()));
 		/** TODO xmlns attribute check */
 
 		auto resettableElement = std::dynamic_pointer_cast<DOM::ResettableElement>(element);

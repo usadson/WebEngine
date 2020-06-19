@@ -59,9 +59,11 @@ namespace HTML::Tokenizer {
 
 	/* Don't use the following, its just for conveniance */
 	struct AmbiguousTagToken : public Token {
+	protected:
+		std::map<Unicode::UString, Unicode::UString> attributes;
+	public:
 		Unicode::UString tagName;
 		bool selfClosing = false;
-		std::map<Unicode::UString, Unicode::UString> attributes;
 		// For the tokenizer:
 		Unicode::UString attributeName;
 		Unicode::UString attributeValue;
@@ -79,6 +81,16 @@ namespace HTML::Tokenizer {
 		 */
 		void
 		AddTokenAttribute(Context &);
+
+		[[nodiscard]] inline const std::map<Unicode::UString, Unicode::UString> &
+		GetAttributes() const noexcept {
+			return attributes;
+		}
+
+		inline void
+		ClearAttributes() {
+			attributes.clear();
+		}
 
 		static const AmbiguousTagToken INVALID_TYPE;
 	};

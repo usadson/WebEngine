@@ -69,7 +69,7 @@ namespace HTML::Tokenizer {
 
 	TEST_F(StartTagTokenTest, GetAttribute) {
 		context.lastError = ParserError::NULL_PARSER_ERROR;
-		token.attributes.clear();
+		token.ClearAttributes();
 
 		token.attributeName = Unicode::UString("hello");
 		token.attributeValue = Unicode::UString("world");
@@ -77,9 +77,9 @@ namespace HTML::Tokenizer {
 		token.AddTokenAttribute(context);
 		ASSERT_EQ(context.lastError.get().name, ParserError::NULL_PARSER_ERROR.name);
 
-		ASSERT_EQ(token.attributes.size(), 1);
+		ASSERT_EQ(token.GetAttributes().size(), 1);
 		std::optional<Unicode::UString> value = token.GetAttribute(Unicode::UString("hello"));
-		ASSERT_EQ(token.attributes.size(), 1);
+		ASSERT_EQ(token.GetAttributes().size(), 1);
 
 		ASSERT_TRUE(value.has_value());
 		ASSERT_EQ(value, Unicode::UString("world"));
