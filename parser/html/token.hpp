@@ -70,7 +70,7 @@ namespace HTML::Tokenizer {
 		}
 
 		void
-		AddTokenAttribute(HTML::Tokenizer::Context &);
+		AddTokenAttribute(Context &);
 
 		static const AmbiguousTagToken INVALID_TYPE;
 	};

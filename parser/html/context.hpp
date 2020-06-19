@@ -53,16 +53,16 @@ namespace HTML::Tokenizer {
 		Unicode::UString ncRefBuffer;
 
 		Unicode::CodePoint character;
-		HTML::Tokenizer::CommentToken commentToken{ HTML::Tokenizer::CommentToken::INVALID_TYPE };
-		HTML::Tokenizer::DoctypeToken doctypeToken;
-		HTML::Tokenizer::EndTagToken endTagToken;
+		CommentToken commentToken{ CommentToken::INVALID_TYPE };
+		DoctypeToken doctypeToken;
+		EndTagToken endTagToken;
 		bool eof;
 		Resources::DocumentResource *document{ nullptr };
 		std::size_t documentSize;
 		std::size_t i;
 		bool isEndTag;
 		bool reconsume;
-		HTML::Tokenizer::StartTagToken startTagToken;
+		StartTagToken startTagToken;
 		std::size_t toConsumeNext;
 		std::size_t unknownStateCount;
 
@@ -71,7 +71,7 @@ namespace HTML::Tokenizer {
 		}
 
 		virtual void
-		LogError(const HTML::Tokenizer::ParserError &error);
+		LogError(const ParserError &error);
 
 		inline AmbiguousTagToken &
 		GetCurrentTagToken() {
