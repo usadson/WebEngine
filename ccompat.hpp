@@ -8,8 +8,6 @@
  * CCompat is the Compatibility Layer for working with C, when it is needed.
  */
 
-#include <vector>
-
 namespace CCompat {
 
 	const char *

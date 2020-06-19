@@ -6,6 +6,7 @@
 
 #include "ccompat.hpp"
 
+#include <string>
 #include <vector>
 
 #include <cerrno>
