@@ -6,6 +6,7 @@
 
 #include "parser/html/token.hpp"
 #include "data/text/ustring.hpp"
+#include "logger.hpp"
 #include "parser/html/context.hpp"
 #include "parser/html/error.hpp"
 
@@ -14,6 +15,16 @@
 #include <gtest/gtest.h>
 
 namespace HTML::Tokenizer {
+
+	namespace TerminateIntercepter {
+		bool terminateTriggerIntercepted{ false };
+
+		void
+		TerminateHandler() {
+			terminateTriggerIntercepted = true;
+		}
+	};
+
 	class ContextFixture : public Context {
 	public:
 		std::reference_wrapper<const ParserError> lastError = ParserError::NULL_PARSER_ERROR;
@@ -75,6 +86,21 @@ namespace HTML::Tokenizer {
 		ASSERT_EQ(value, Unicode::UString("world"));
 
 		ASSERT_FALSE(token.GetAttribute(Unicode::UString("this key does not exists in the attribute map")).has_value());
+	}
+
+	TEST_F(StartTagTokenTest, EmptyAttributeName) {
+		TerminateIntercepter::terminateTriggerIntercepted = false;
+		Logger::SetAbortFunction(&TerminateIntercepter::TerminateHandler);
+
+		token.attributeName = Unicode::UString();
+		token.attributeValue = Unicode::UString("Value");
+
+		Logger::SetOutputState(false);
+		token.AddTokenAttribute(context);
+		Logger::SetOutputState(true);
+
+		ASSERT_TRUE(TerminateIntercepter::terminateTriggerIntercepted)
+			<< "Terminate() wasn't called on an empty attributeName. This is illegal behavior.";
 	}
 
 } // namespace HTML::Tokenizer
