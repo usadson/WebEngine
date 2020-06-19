@@ -48,6 +48,9 @@ namespace Unicode {
 			return data.size();
 		}
 
+		bool
+		operator==(const UString &other) const noexcept;
+
 		UString &
 		operator+=(const Unicode::CodePoint) noexcept;
 

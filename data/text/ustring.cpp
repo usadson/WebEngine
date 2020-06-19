@@ -143,6 +143,18 @@ namespace Unicode {
 	}
 
 	bool
+	UString::operator==(const UString &other) const noexcept {
+		if (data.size() != other.data.size())
+			return false;
+		auto pair = std::mismatch(std::begin(data), std::end(data), std::begin(other.data));
+
+		/* See:
+		 * https://en.cppreference.com/w/cpp/algorithm/mismatch
+		 */
+		return pair.first == std::end(data) && pair.second == std::end(other.data);
+	}
+
+	bool
 	UString::EqualsAL(std::size_t index, const char *ascii, std::size_t length) const noexcept {
 		if (index + length != data.size())
 			return false;
