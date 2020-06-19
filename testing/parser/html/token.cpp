@@ -4,10 +4,10 @@
  * See the COPYING file for licensing information.
  */
 
+#include "parser/html/token.hpp"
 #include "data/text/ustring.hpp"
 #include "parser/html/context.hpp"
 #include "parser/html/error.hpp"
-#include "parser/html/token.hpp"
 
 #include <climits>
 
@@ -56,7 +56,7 @@ namespace HTML::Tokenizer {
 		ASSERT_EQ(context.lastError.get().name, ParserError::DUPLICATE_ATTRIBUTES.name);
 	}
 
-} // namespace Unicode
+} // namespace HTML::Tokenizer
 
 int
 main(int argc, char **argv) {
