@@ -21,6 +21,6 @@ namespace DOM {
 		std::shared_ptr<DOM::DocumentType> doctype;
 
 		// Children should govern the Node::ChildNodes vector somehow.
-		std::vector<std::shared_ptr<DOM::Element> > children;
+		std::vector<std::shared_ptr<DOM::Element>> children;
 	};
 } // namespace DOM
