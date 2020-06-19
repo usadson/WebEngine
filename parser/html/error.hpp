@@ -11,6 +11,7 @@
 namespace HTML::Tokenizer {
 	class ParserError {
 	  public:
+		static const ParserError NULL_PARSER_ERROR;
 		static const ParserError ABRUBT_CLOSING_OF_EMPTY_COMMENT;
 		static const ParserError ABRUBT_DOCTYPE_PUBLIC_IDENTIFIER;
 		static const ParserError ABRUBT_DOCTYPE_SYSTEM_IDENTIFIER;

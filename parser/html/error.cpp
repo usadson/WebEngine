@@ -7,6 +7,7 @@
 #include "error.hpp"
 
 namespace HTML::Tokenizer {
+	const ParserError ParserError::NULL_PARSER_ERROR = ParserError("NULL_PARSER_ERROR", "NULL_PARSER_ERROR");
 	const ParserError ParserError::ABRUBT_CLOSING_OF_EMPTY_COMMENT = ParserError("abrupt-closing-of-empty-comment",
 		"This error occurs if the parser encounters an empty comment that is abruptly closed by a U+003E (>) code "
 		"point (i.e., <!--> or <!--->). The parser behaves as if the comment is closed correctly.");
