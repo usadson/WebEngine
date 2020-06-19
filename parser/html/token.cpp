@@ -28,8 +28,16 @@ namespace HTML {
 
 		void
 		AmbiguousTagToken::AddTokenAttribute(HTML::Tokenizer::Context &context) {
+			if (std::find_if(std::begin(attributes), std::end(attributes), [this](const auto &attribute) {
+				return attribute.first.EqualsIgnoreCase(attributeName);
+			}) != std::end(attributes)) {
+				context.LogError(HTML::Tokenizer::ParserError::DUPLICATE_ATTRIBUTES);
+				return;
+			}
+
 			if (!attributes.insert(std::make_pair(attributeName, attributeValue)).second) {
 				context.LogError(HTML::Tokenizer::ParserError::DUPLICATE_ATTRIBUTES);
+				return;
 			}
 
 			// Reset:
