@@ -17,13 +17,13 @@
 namespace HTML::Tokenizer {
 
 	namespace TerminateIntercepter {
-		bool terminateTriggerIntercepted{ false };
+		bool terminateTriggerIntercepted { false };
 
 		void
 		TerminateHandler() {
 			terminateTriggerIntercepted = true;
 		}
-	};
+	}; // namespace TerminateIntercepter
 
 	class ContextFixture : public Context {
 	public:
