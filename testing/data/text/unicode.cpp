@@ -21,7 +21,7 @@ namespace Unicode {
 		ASSERT_EQ(ToLowerASCII('0'), '0');
 		ASSERT_EQ(ToLowerASCII(0xDEADBEEF), 0xDEADBEEF);
 	}
-}
+} // namespace Unicode
 
 int
 main(int argc, char **argv) {
