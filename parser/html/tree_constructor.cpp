@@ -92,10 +92,17 @@ namespace HTML {
 		// TODO Check for custom element definition
 		auto element = std::make_shared<DOM::Element>();
 		element->namespaceURI = nameSpace;
-		element->namespacePrefix = prefix;
+
+		if (prefix.has_value()) {
+			element->namespacePrefix = std::move(prefix.value());
+		}
+
 		element->localName = localName;
 		element->customElementState = DOM::CustomElementState::UNCUSTOMIZED;
-		element->is = is;
+
+		if (is.has_value()) {
+			element->is = std::move(is.value());
+		}
 
 		// TODO 7.3
 
