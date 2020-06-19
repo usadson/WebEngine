@@ -51,7 +51,7 @@ namespace HTML {
 		std::shared_ptr<DOM::Element>
 		InsertElement(const Unicode::UString &tagName,
 					  const Unicode::UString &nameSpace,
-					  std::map<Unicode::UString, Unicode::UString> &attributes);
+					  const std::map<Unicode::UString, Unicode::UString> &attributes);
 
 		std::shared_ptr<DOM::Element>
 		CreateElement(const Unicode::UString &localName,

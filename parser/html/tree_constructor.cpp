@@ -184,7 +184,7 @@ namespace HTML {
 
 	std::shared_ptr<DOM::Element>
 	TreeConstructor::InsertElement(const Unicode::UString &tagName, const Unicode::UString &nameSpace,
-		std::map<Unicode::UString, Unicode::UString> &attributes) {
+		const std::map<Unicode::UString, Unicode::UString> &attributes) {
 		/* https://html.spec.whatwg.org/multipage/parsing.html#create-an-element-for-the-token */
 		auto element = std::make_shared<DOM::Element>();
 		element->namespaceURI = nameSpace;
