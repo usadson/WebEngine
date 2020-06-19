@@ -12,13 +12,31 @@
  * to true
  */
 
+#include <algorithm>
+#include <map>
 #include <iostream>
+#include <iterator>
 #include <memory>
-#include <sstream>
+#include <optional>
+#include <sstream> // IWYU pragma: keep
+#include <string>
+#include <utility>
 #include <vector>
 
-#include "data/text/encoding/encoder_engine.hpp"
+#include <cstdlib>
+#include <strings.h>
+
+#include "net/connection_info.hpp"
+#include "net/http/http_header_field.hpp"
+#include "net/http/http_response_info.hpp"
+#include "parser/html/context.hpp"
+#include "rendering/drawables/draw_color.hpp"
+#include "rendering/render_bounds.hpp"
+#include "rendering/renderer.hpp"
+#include "rendering/window/window.hpp"
+#include "resources/media_type.hpp"
 #include "data/text/encoding/utf8.hpp"
+#include "data/text/ustring.hpp"
 #include "hooks.hpp"
 #include "logger.hpp"
 #include "misc/credits.hpp"
