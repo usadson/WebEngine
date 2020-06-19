@@ -56,6 +56,10 @@ namespace HTML {
 
 		std::optional<Unicode::UString>
 		StartTagToken::GetAttribute(const Unicode::UString &name) {
+			// Fast path since name cannot be empty, since adding it would crash the program
+			if (name.length() == 0)
+				return std::nullopt;
+
 			auto attr = std::find_if(std::begin(attributes), std::end(attributes), [name](const auto &attribute) {
 				return attribute.first.EqualsIgnoreCase(name);
 			});
