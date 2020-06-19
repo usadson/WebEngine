@@ -610,6 +610,7 @@ bin/parser/html/tree/insert_before_head.o: parser/html/tree/insert_before_head.c
 	dom/element.hpp \
 	parser/html/constants.hpp \
 	parser/html/tree/insertion_mode.hpp \
+	parser/html/tree_constructor.hpp \
 	logger.hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ parser/html/tree/insert_before_head.cpp
 
@@ -619,6 +620,7 @@ bin/parser/html/tree/insert_before_html.o: parser/html/tree/insert_before_html.c
 	dom/element.hpp \
 	parser/html/constants.hpp \
 	parser/html/tree/insertion_mode.hpp \
+	parser/html/tree_constructor.hpp \
 	logger.hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ parser/html/tree/insert_before_html.cpp
 
@@ -628,6 +630,7 @@ bin/parser/html/tree/insert_in_head.o: parser/html/tree/insert_in_head.cpp \
 	dom/element.hpp \
 	parser/html/constants.hpp \
 	parser/html/tree/insertion_mode.hpp \
+	parser/html/tree_constructor.hpp \
 	logger.hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ parser/html/tree/insert_in_head.cpp
 
@@ -637,6 +640,7 @@ bin/parser/html/tree/insert_intial.o: parser/html/tree/insert_initial.cpp \
 	dom/element.hpp \
 	parser/html/constants.hpp \
 	parser/html/tree/insertion_mode.hpp \
+	parser/html/tree_constructor.hpp \
 	logger.hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ parser/html/tree/insert_initial.cpp
 
