@@ -21,6 +21,15 @@ namespace Unicode {
 		ASSERT_EQ(normalString.length(), 11) << "Invalid size detected";
 	}
 
+	TEST_F(UStringTest, OperatorEquals) {
+		ASSERT_EQ(normalString, Unicode::UString("Hello world"));
+		ASSERT_TRUE(normalString == Unicode::UString("Hello world"));
+
+		ASSERT_FALSE(normalString == Unicode::UString("Hella world"));
+		ASSERT_FALSE(normalString == Unicode::UString("something else"));
+		ASSERT_FALSE(normalString == Unicode::UString(""));
+	}
+
 	TEST_F(UStringTest, EqualsIgnoreCaseA) {
 		ASSERT_TRUE(normalString.EqualsIgnoreCaseA(0, "HELLO WORLD"));
 		ASSERT_TRUE(normalString.EqualsIgnoreCaseA(0, "hello world"));
