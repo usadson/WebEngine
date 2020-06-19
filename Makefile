@@ -142,6 +142,10 @@ clean:
 	rm -rf bin
 	rm -rf engine
 
+# The 'fast' target will build 'all' target with optimized threading.
+fast:
+	@tools/build-fast.sh
+
 # The 'engine' target will build the final binary executable.
 engine: main.cpp \
 	parser/html/error.hpp \
