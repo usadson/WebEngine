@@ -47,8 +47,18 @@ TESTING_INCLUDES_NET_HTTP = bin/logger.o \
 			    bin/net/http/http_connection.o \
 			    bin/net/http/http_response_info.o
 
+TESTING_INCLUDES_HTMLPARSER = bin/data/text/encoding/utf8.o \
+			      bin/data/text/ustring.o \
+			      bin/parser/html/context.o \
+			      bin/parser/html/error.o \
+			      bin/parser/html/state.o \
+			      bin/parser/html/token.o \
+
+
 TESTING_LDFLAGS_NET_HTTP = `pkg-config --static --libs gtest $(CONNECTION_INFO_TLS_PKGNAME)` \
 			   $(TESTING_INCLUDES_NET_HTTP)
+
+TESTING_LDFLAGS_HTMLPARSER = $(TESTING_LDFLAGS) $(TESTING_INCLUDES_HTMLPARSER)
 
 TESTING_TARGETS = \
 	bin/testing/directory.txt \
@@ -57,6 +67,7 @@ TESTING_TARGETS = \
 	bin/testing/data/text/ustring \
 	bin/testing/net/http/http_connection \
 	bin/testing/net/http/http_response_info \
+	bin/testing/parser/html/token \
 
 
 # the 'test' target executes every test
@@ -66,6 +77,7 @@ test:
 	bin/testing/data/text/ustring
 	bin/testing/net/http/http_connection
 	bin/testing/net/http/http_response_info
+	bin/testing/parser/html/token
 
 bin/testing/directory.txt:
 	@mkdir bin/testing
@@ -74,6 +86,8 @@ bin/testing/directory.txt:
 	@mkdir bin/testing/data/text/encoding
 	@mkdir bin/testing/net
 	@mkdir bin/testing/net/http
+	@mkdir bin/testing/parser
+	@mkdir bin/testing/parser/html
 	@touch bin/testing/directory.txt
 
 bin/testing/data/text/encoding/utf8: testing/data/text/encoding/utf8.cpp \
@@ -106,4 +120,9 @@ bin/testing/net/http/http_response_info: testing/net/http/http_response_info.cpp
 	logger.hpp \
 	bin/net/http/http_response_info.o
 	$(CXX) $(TESTING_CXXFLAGS) -o $@ testing/net/http/http_response_info.cpp $(TESTING_LDFLAGS_NET_HTTP)
+
+bin/testing/parser/html/token: testing/parser/html/token.cpp \
+	parser/html/token.hpp \
+	parser/html/token.cpp
+	$(CXX) $(TESTING_CXXFLAGS) -o $@ testing/parser/html/token.cpp $(TESTING_LDFLAGS_HTMLPARSER)
 
