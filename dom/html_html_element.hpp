@@ -17,6 +17,5 @@ namespace DOM {
 	// Specification:
 	// https://html.spec.whatwg.org/multipage/semantics.html#the-html-element
 	class HTMLHtmlElement : public HTMLElement {
-	  public:
 	};
 } // namespace DOM
