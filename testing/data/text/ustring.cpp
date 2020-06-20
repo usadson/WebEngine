@@ -4,8 +4,8 @@
  * See the COPYING file for licensing information.
  */
 
-#include "data/text/unicode.hpp"
 #include "data/text/ustring.hpp"
+#include "data/text/unicode.hpp"
 
 #include <climits>
 
