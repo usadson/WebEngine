@@ -28,6 +28,10 @@ namespace Unicode {
 		ASSERT_FALSE(normalString == Unicode::UString("Hella world"));
 		ASSERT_FALSE(normalString == Unicode::UString("something else"));
 		ASSERT_FALSE(normalString == Unicode::UString(""));
+
+		ASSERT_TRUE(Unicode::UString() == Unicode::UString());
+		ASSERT_TRUE(Unicode::UString("") == Unicode::UString(""));
+		ASSERT_TRUE(Unicode::UString("Hello") == Unicode::UString("Hello"));
 	}
 
 	TEST_F(UStringTest, EqualsIgnoreCaseA) {
