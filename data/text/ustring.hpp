@@ -46,7 +46,10 @@ namespace Unicode {
 		/*** Constructors ***/
 		UString() noexcept;
 
-		explicit UString(std::vector<Unicode::CodePoint> characters) noexcept : data(std::move(characters)) {
+		explicit UString(std::vector<Unicode::CodePoint> const &characters) noexcept : data(characters) {
+		}
+
+		explicit UString(std::vector<Unicode::CodePoint> &&characters) noexcept : data(std::move(characters)) {
 		}
 
 		explicit UString(Unicode::CodePoint) noexcept;
@@ -82,7 +85,7 @@ namespace Unicode {
 		operator+(const UString &) const noexcept;
 
 		UString &
-		operator+=(const Unicode::CodePoint) noexcept;
+		operator+=(Unicode::CodePoint) noexcept;
 
 		/* Append a strictly-ASCII string */
 		UString &
