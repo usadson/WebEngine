@@ -182,17 +182,15 @@ RunNetHTTP2Test(const char *name) {
 	Net::HTTP::HTTPResponseInfo response;
 	Net::HTTP::HTTP2Error error = connection.RequestNavigation(&response, "/");
 	std::cout << "Error: " << error << "\nVersion: " << response.httpVersion << "\nStatusCode: " << response.statusCode
-			  << "\nReasonPhrase: " << response.reasonPhrase << "\nHeaders: " << response.headers.size() << std::endl;
+			  << "\nReasonPhrase: " << response.reasonPhrase << "\nHeaders: " << response.headers.size() << '\n';
 
 	for (const auto &headerField : response.headers) {
-		std::cout << "\t\"" << headerField.fieldName << "\" = \"" << headerField.fieldValue << '\"' << std::endl;
+		std::cout << "\t\"" << headerField.fieldName << "\" = \"" << headerField.fieldValue << "\"\n";
 	}
 
-	std::string start = "============ Message Body ============";
-	std::string end = "======================================";
-	std::cout << "MessageBodySize: " << response.messageBody.size() << std::endl
-			  << start << std::string(response.messageBody.data(), response.messageBody.size()) << '\n'
-			  << end << std::endl;
+	std::cout << "MessageBodySize: " << response.messageBody.size()
+			  << "\n============ Message Body ============" << std::string(response.messageBody.data(), response.messageBody.size()) << '\n'
+			  << "\n======================================\n";
 }
 
 void
