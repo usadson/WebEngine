@@ -46,6 +46,18 @@ namespace Unicode {
 		ASSERT_TRUE(Unicode::UString("equal length") != Unicode::UString("other string"));
 	}
 
+	TEST_F(UStringTest, OperatorPlus) {
+		auto str = normalString + Unicode::UString("!");
+		ASSERT_EQ(str, Unicode::UString("Hello world!"));
+		str = normalString + Unicode::UString("!!");
+		ASSERT_EQ(str, Unicode::UString("Hello world!!"));
+
+		ASSERT_EQ(Unicode::UString(), Unicode::UString() + Unicode::UString());
+		ASSERT_EQ(Unicode::UString("a"), Unicode::UString("a") + Unicode::UString("") + Unicode::UString(""));
+		ASSERT_EQ(Unicode::UString("ab"), Unicode::UString("a") + Unicode::UString("b") + Unicode::UString(""));
+		ASSERT_EQ(Unicode::UString("abc"), Unicode::UString("a") + Unicode::UString("b") + Unicode::UString("c"));
+	}
+
 	TEST_F(UStringTest, EqualsIgnoreCaseA) {
 		ASSERT_TRUE(normalString.EqualsIgnoreCaseA(0, "HELLO WORLD"));
 		ASSERT_TRUE(normalString.EqualsIgnoreCaseA(0, "hello world"));
