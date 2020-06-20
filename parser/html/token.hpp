@@ -61,6 +61,7 @@ namespace HTML::Tokenizer {
 	struct AmbiguousTagToken : public Token {
 	protected:
 		std::map<Unicode::UString, Unicode::UString> attributes;
+
 	public:
 		Unicode::UString tagName;
 		bool selfClosing = false;
