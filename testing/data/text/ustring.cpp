@@ -4,6 +4,7 @@
  * See the COPYING file for licensing information.
  */
 
+#include "data/text/unicode.hpp"
 #include "data/text/ustring.hpp"
 
 #include <climits>
@@ -56,6 +57,21 @@ namespace Unicode {
 		ASSERT_EQ(Unicode::UString("a"), Unicode::UString("a") + Unicode::UString("") + Unicode::UString(""));
 		ASSERT_EQ(Unicode::UString("ab"), Unicode::UString("a") + Unicode::UString("b") + Unicode::UString(""));
 		ASSERT_EQ(Unicode::UString("abc"), Unicode::UString("a") + Unicode::UString("b") + Unicode::UString("c"));
+	}
+
+	TEST_F(UStringTest, OperatorPlusEquals) {
+		Unicode::UString str;
+		str += Unicode::UString();
+		ASSERT_EQ(str, Unicode::UString());
+
+		str += Unicode::LINE_FEED;
+		ASSERT_EQ(str, Unicode::UString("\n"));
+
+		str += Unicode::UString();
+		ASSERT_EQ(str, Unicode::UString("\n"));
+
+		str += Unicode::UString("text");
+		ASSERT_EQ(str, Unicode::UString("\ntext"));
 	}
 
 	TEST_F(UStringTest, EqualsIgnoreCaseA) {
