@@ -72,6 +72,12 @@ namespace Unicode {
 
 		str += Unicode::UString("text");
 		ASSERT_EQ(str, Unicode::UString("\ntext"));
+
+		str += "\nanother line";
+		ASSERT_EQ(str, Unicode::UString("\ntext\nanother line"));
+
+		str += "";
+		ASSERT_EQ(str, Unicode::UString("\ntext\nanother line"));
 	}
 
 	TEST_F(UStringTest, EqualsIgnoreCaseA) {
