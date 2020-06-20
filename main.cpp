@@ -119,12 +119,9 @@ CreateRenderer(const std::vector<Rendering::RendererType> &supportedRenderers) {
 
 void
 RunRenderingTest() {
-	std::shared_ptr<Rendering::WindowBase> window;
-	std::shared_ptr<Rendering::Renderer> renderer;
-
 	// TODO Check for available windowing systems somehow
-	window = std::make_shared<Rendering::WindowGLFW>();
-	renderer = CreateRenderer(window->GetSupportedRenderers());
+	auto window = std::make_shared<Rendering::WindowGLFW>();
+	auto renderer = CreateRenderer(window->GetSupportedRenderers());
 
 	if (renderer == nullptr) {
 		Logger::Severe("RunRenderingTest",
@@ -143,11 +140,11 @@ RunRenderingTest() {
 		return;
 	}
 
-	std::shared_ptr<Rendering::DrawRect> rectangle = std::make_shared<Rendering::DrawRect>();
+	auto rectangle = std::make_shared<Rendering::DrawRect>();
 	rectangle->bounds = { 0, 200, 0, 200 };
 	rectangle->color = Rendering::DrawColor(0x83ff08ff);
 
-	std::shared_ptr<Rendering::DrawText> text = std::make_shared<Rendering::DrawText>();
+	auto text = std::make_shared<Rendering::DrawText>();
 	text->bounds = { 300, 600, 300, 600 };
 	text->color = Rendering::DrawColor(0x8308ffff);
 	text->text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed\
