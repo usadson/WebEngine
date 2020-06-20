@@ -38,10 +38,11 @@ namespace Unicode {
 		 * The following property should be private but since the functions outside
 		 * this class (inside namespace Unicode) need this data.
 		 */
-	public: // Private Property
+	private:
 		std::vector<Unicode::CodePoint> data;
 
-	public: // Constructor Methods
+	public:
+		/*** Constructors ***/
 		UString() noexcept;
 
 		explicit UString(std::vector<Unicode::CodePoint> characters) noexcept : data(std::move(characters)) {
@@ -90,6 +91,12 @@ namespace Unicode {
 		UString &
 		operator+=(const char *) noexcept;
 
+		std::ostream &
+		operator<<(std::ostream &stream) const;
+
+		[[nodiscard]] int
+		Compare(const UString &) const noexcept;
+
 		[[nodiscard]] bool
 		EqualsA(const char *) const noexcept;
 
@@ -119,13 +126,14 @@ namespace Unicode {
 		StartsWithIgnoreCaseAL(std::size_t pos, const char *ascii, size_t length) const noexcept;
 	};
 
-	std::ostream &
-	operator<<(std::ostream &stream, const UString &string);
+	inline std::ostream &
+	operator<<(std::ostream &stream, const UString &string) {
+		return string.operator<<(stream);
+	}
 
-	bool
-	operator<(const UString &lhs, const UString &rhs) noexcept;
-
-	int
-	CompareStatic(const UString &lhs, const UString &rhs) noexcept;
+	[[nodiscard]] inline bool
+	operator<(const UString &lhs, const UString &rhs) noexcept {
+		return lhs.Compare(rhs) < 0;
+	}
 
 } // namespace Unicode

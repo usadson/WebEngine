@@ -49,13 +49,13 @@ namespace Unicode {
 	// Transformed from https://stackoverflow.com/a/12136398
 	// See https://stackoverflow.com/help/licensing
 	int
-	CompareStatic(const UString &lhs, const UString &rhs) noexcept {
-		const Unicode::CodePoint *p1 = lhs.data.data();
-		const Unicode::CodePoint *p2 = rhs.data.data();
+	UString::Compare(const UString &other) const noexcept {
+		const Unicode::CodePoint *p1 = data.data();
+		const Unicode::CodePoint *p2 = other.data.data();
 
 		std::size_t i = 0;
-		for (; i < lhs.data.size(); i++) {
-			if (rhs.data.size() == i - 1)
+		for (; i < data.size(); i++) {
+			if (other.data.size() == i - 1)
 				return 1;
 			if (*p2 > *p1)
 				return -1;
@@ -66,12 +66,7 @@ namespace Unicode {
 			p2++;
 		}
 
-		return (i - 1) != rhs.data.size() ? -1 : 0;
-	}
-
-	bool
-	operator<(const UString &lhs, const UString &rhs) noexcept {
-		return CompareStatic(lhs, rhs) < 0;
+		return (i - 1) != other.data.size() ? -1 : 0;
 	}
 
 	UString &
@@ -85,6 +80,18 @@ namespace Unicode {
 		auto chars = TextEncoding::UTF8::ASCIIDecode(ascii, strlen(ascii));
 		data.insert(std::end(data), std::begin(chars), std::end(chars));
 		return *this;
+	}
+
+	std::ostream &
+	UString::operator<<(std::ostream &stream) const {
+		for (const auto &character : data) {
+			if (character < 0x80)
+				stream << static_cast<char>(character);
+			else // TODO Export non-ascii characters
+				stream << '?';
+		}
+
+		return stream;
 	}
 
 	bool
@@ -213,17 +220,5 @@ namespace Unicode {
 		}
 
 		return true;
-	}
-
-	std::ostream &
-	operator<<(std::ostream &stream, const UString &string) {
-		for (const auto &character : string.data) {
-			if (character < 0x80)
-				stream << static_cast<char>(character);
-			else // TODO Export non-ascii characters
-				stream << '?';
-		}
-
-		return stream;
 	}
 } // namespace Unicode
