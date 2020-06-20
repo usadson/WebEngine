@@ -30,8 +30,20 @@ namespace Unicode {
 		ASSERT_FALSE(normalString == Unicode::UString(""));
 
 		ASSERT_TRUE(Unicode::UString() == Unicode::UString());
+		ASSERT_TRUE(Unicode::UString() == Unicode::UString(""));
 		ASSERT_TRUE(Unicode::UString("") == Unicode::UString(""));
 		ASSERT_TRUE(Unicode::UString("Hello") == Unicode::UString("Hello"));
+	}
+
+	TEST_F(UStringTest, OperatorNotEquals) {
+		ASSERT_TRUE(normalString != Unicode::UString());
+		ASSERT_TRUE(normalString != Unicode::UString(""));
+		ASSERT_TRUE(normalString != Unicode::UString("Hello worl"));
+		ASSERT_TRUE(normalString != Unicode::UString("ello world"));
+
+		ASSERT_TRUE(Unicode::UString() != Unicode::UString("a string with contents"));
+		ASSERT_TRUE(Unicode::UString("") != Unicode::UString("a string with contents"));
+		ASSERT_TRUE(Unicode::UString("equal length") != Unicode::UString("other string"));
 	}
 
 	TEST_F(UStringTest, EqualsIgnoreCaseA) {

@@ -52,6 +52,11 @@ namespace Unicode {
 		[[nodiscard]] bool
 		operator==(const UString &other) const noexcept;
 
+		[[nodiscard]] inline bool
+		operator!=(const UString &other) const noexcept {
+			return !operator==(other);
+		}
+
 		UString &
 		operator+=(const Unicode::CodePoint) noexcept;
 
