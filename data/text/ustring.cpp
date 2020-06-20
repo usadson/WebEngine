@@ -6,10 +6,13 @@
 
 #include "ustring.hpp"
 
-#include <iostream>
+#include <algorithm>
+#include <iterator>
 
+#include <stdint.h>
+
+#include "data/text/unicode.hpp"
 #include "encoding/utf8.hpp"
-#include "logger.hpp"
 
 namespace Unicode {
 	UString::UString() noexcept : data({}) {
