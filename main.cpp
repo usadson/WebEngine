@@ -188,8 +188,8 @@ RunNetHTTP2Test(const char *name) {
 		std::cout << "\t\"" << headerField.fieldName << "\" = \"" << headerField.fieldValue << "\"\n";
 	}
 
-	std::cout << "MessageBodySize: " << response.messageBody.size()
-			  << "\n============ Message Body ============" << std::string(response.messageBody.data(), response.messageBody.size()) << '\n'
+	std::cout << "MessageBodySize: " << response.messageBody.size() << "\n============ Message Body ============"
+			  << std::string(response.messageBody.data(), response.messageBody.size()) << '\n'
 			  << "\n======================================\n";
 }
 
