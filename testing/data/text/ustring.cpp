@@ -80,6 +80,12 @@ namespace Unicode {
 		ASSERT_EQ(str, Unicode::UString("\ntext\nanother line"));
 	}
 
+	TEST_F(UStringTest, CopyTo) {
+		Unicode::UString tmp;
+		normalString.CopyTo(tmp);
+		ASSERT_EQ(normalString, tmp);
+	}
+
 	TEST_F(UStringTest, EqualsIgnoreCaseA) {
 		ASSERT_TRUE(normalString.EqualsIgnoreCaseA(0, "HELLO WORLD"));
 		ASSERT_TRUE(normalString.EqualsIgnoreCaseA(0, "hello world"));

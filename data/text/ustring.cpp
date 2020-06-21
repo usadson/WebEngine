@@ -72,6 +72,11 @@ namespace Unicode {
 		return (i - 1) != other.data.size() ? -1 : 0;
 	}
 
+	void
+	UString::CopyTo(UString &dest) const noexcept {
+		dest.data = this->data;
+	}
+
 	UString &
 	UString::operator+=(const UString &other) noexcept {
 		data.insert(std::end(data), std::begin(other.data), std::end(other.data));

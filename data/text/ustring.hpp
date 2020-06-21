@@ -101,6 +101,9 @@ namespace Unicode {
 		[[nodiscard]] int
 		Compare(const UString &) const noexcept;
 
+		void
+		CopyTo(UString &) const noexcept;
+
 		[[nodiscard]] bool
 		EqualsA(const char *) const noexcept;
 
