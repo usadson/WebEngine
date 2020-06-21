@@ -297,6 +297,7 @@ namespace Net::HTTP {
 		std::stringstream request;
 		request << method << ' ' << path << " HTTP/1.1\r\n";
 		request << "Host: " << connectionInfo.hostName << "\r\n";
+		request << "TestHeader: TestValue\r\n";
 		request << "TE: Trailers\r\n";
 		request << "\r\n";
 

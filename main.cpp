@@ -205,7 +205,7 @@ RunNetworkTest() {
 	Net::HTTP::HTTPConnection connection(connectInfo);
 	Net::HTTP::HTTPResponseInfo response;
 
-	auto error = connection.Request(&response, "GET", "/get");
+	auto error = connection.Request(&response, "GET", "/headers");
 	if (error != Net::HTTP::HTTPConnectionError::NO_ERROR) {
 		std::stringstream information;
 		information << "Request failed: " << error;
