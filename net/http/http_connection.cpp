@@ -19,12 +19,6 @@
 
 namespace Net::HTTP {
 	HTTPConnection::HTTPConnection(Net::ConnectionInfo &inConnectionInfo) : connectionInfo(inConnectionInfo) {
-		if (!connectionInfo.Connect()) {
-			std::stringstream information;
-			information << "Failed to connect! Host: \"" << connectionInfo.hostName << "\":" << connectionInfo.port;
-			Logger::Error("HTTPConnection", information.str());
-			return;
-		}
 	}
 
 	HTTPConnectionError
@@ -47,7 +41,7 @@ namespace Net::HTTP {
 			if (protocolData[5] < '0' || protocolData[5] > '9' || protocolData[7] < '0' || protocolData[7] > '9') {
 				return HTTPConnectionError::INCORRECT_PROTOCOL;
 			}
-			Logger::Warning("HTTPConnection::ConsumeVersion",
+			Logger::Warning("HTTPConnection::ConsumeHTTPVersion",
 				"HTTP Version isn't \"HTTP/1.1\": \"" + response->httpVersion + "\".");
 		}
 
@@ -245,7 +239,7 @@ namespace Net::HTTP {
 			if (singleCharacter.value() == '\r') {
 				singleCharacter = connectionInfo.ReadChar();
 				if (!singleCharacter.has_value() || singleCharacter != '\n')
-					Logger::Warning("HTTPConnection::Request", "Incorrect CRLF");
+					Logger::Warning("HTTPConnection::ConsumeHeaders", "Incorrect CRLF");
 				break;
 			}
 
