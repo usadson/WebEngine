@@ -65,6 +65,11 @@ namespace Unicode {
 			return data[index];
 		}
 
+		[[nodiscard]] inline Unicode::CodePoint &
+		operator[](std::size_t index) noexcept {
+			return data[index];
+		}
+
 		[[nodiscard]] inline std::size_t
 		length() const noexcept {
 			return data.size();
