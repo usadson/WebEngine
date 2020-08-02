@@ -16,10 +16,10 @@ namespace CSS {
 		for (std::size_t i = 0; i < string.length(); i++) {
 			if (string[i] == '\r') {
 				if (string.length() > i + 1 && string[i] == '\n') {
-// 					string[i] = '\n';
-// 					string.
+					// 					string[i] = '\n';
+					// 					string.
 				} else {
-// 					string[i] = '\n';
+					// 					string[i] = '\n';
 				}
 			}
 		}
