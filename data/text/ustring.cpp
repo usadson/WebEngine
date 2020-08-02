@@ -194,6 +194,16 @@ namespace Unicode {
 	}
 
 	bool
+	UString::RemoveCharacterAt(std::size_t i) noexcept {
+		if (data.size() < i + 1) {
+			return false;
+		}
+
+		data.erase(std::begin(data) + i);
+		return true;
+	}
+
+	bool
 	UString::StartsWithA(const char *ascii) const noexcept {
 		std::size_t length = strlen(ascii);
 

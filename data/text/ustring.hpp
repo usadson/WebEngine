@@ -126,6 +126,9 @@ namespace Unicode {
 		[[nodiscard]] bool
 		IsASCIIAlpha(std::size_t) const noexcept;
 
+		bool
+		RemoveCharacterAt(std::size_t) noexcept;
+
 		[[nodiscard]] bool
 		StartsWithA(const char *) const noexcept;
 
