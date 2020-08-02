@@ -11,7 +11,10 @@
 
 #include <iostream>
 
-static const char *license = "Copyright (C) 2020 Tristan <tristan@thewoosh.me>\n\
+static const char *license = "Copyright (C) 2020 Tristan\n\
+E-mail: tristan thewoosh me\n\
+Website: https://thewoosh.me\n\
+GitHub: https://github.com/usadson/WebEngine\n\
 \n\
 All Rights Reserved.\n\
 \n\
