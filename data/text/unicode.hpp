@@ -59,4 +59,10 @@ namespace Unicode {
 			return character + 0x20;
 		return character;
 	}
+
+	inline bool
+	IsSurrogate(CodePoint character) {
+		return character >= 0xD800 && character <= 0xDFFF;
+	}
+
 } // namespace Unicode
