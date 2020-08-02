@@ -46,6 +46,17 @@ namespace CSS {
 		ASSERT_EQ(string[6], 't');
 	}
 
+	TEST_F(PreprocessorTest, RunCRLF) {
+		Unicode::UString string("Te\r\nst", 6);
+		ASSERT_TRUE(instance.Run(string));
+		ASSERT_EQ(string.length(), 5);
+		ASSERT_EQ(string[0], 'T');
+		ASSERT_EQ(string[1], 'e');
+		ASSERT_EQ(string[2], '\n');
+		ASSERT_EQ(string[3], 's');
+		ASSERT_EQ(string[4], 't');
+	}
+
 } // namespace CSS
 
 int
