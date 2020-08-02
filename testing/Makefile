@@ -54,6 +54,8 @@ TESTING_INCLUDES_HTMLPARSER = bin/data/text/encoding/utf8.o \
 			      bin/parser/html/state.o \
 			      bin/parser/html/token.o \
 
+TESTING_INCLUDES_CSSPARSER = bin/data/text/ustring.o
+
 
 TESTING_LDFLAGS_NET_HTTP = `pkg-config --static --libs gtest $(CONNECTION_INFO_TLS_PKGNAME)` \
 			   $(TESTING_INCLUDES_NET_HTTP)
