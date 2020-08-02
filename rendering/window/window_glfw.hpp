@@ -17,27 +17,27 @@ namespace Rendering {
 		GLFWwindow *internalWindow;
 
 	  public: // Con/destructor
-		WindowGLFW();
-		~WindowGLFW();
+		WindowGLFW() /* throwable */;
+		~WindowGLFW() noexcept;
 
 	  public: // Public Methods
 		[[nodiscard]] std::vector<RendererType>
-		GetSupportedRenderers() override;
+		GetSupportedRenderers() const noexcept override;
 
 		[[nodiscard]] std::pair<bool, std::optional<void *> >
 		PrepareForRenderer(RendererType) override;
 
 		bool
-		PollClose() override;
+		PollClose() noexcept override;
 
-		void SetTitle(Unicode::UString) override;
+		void SetTitle(Unicode::UString) noexcept override;
 
 		void
-		SwapBuffers() override;
+		SwapBuffers() noexcept override;
 
 	  private: // Private Methods
 		bool
-		InternalPrepareGL();
+		InternalPrepareGL() /* throwable */;
 	};
 
 } // namespace Rendering
