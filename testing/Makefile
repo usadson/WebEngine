@@ -54,11 +54,14 @@ TESTING_INCLUDES_HTMLPARSER = bin/data/text/encoding/utf8.o \
 			      bin/parser/html/state.o \
 			      bin/parser/html/token.o \
 
-TESTING_INCLUDES_CSSPARSER = bin/data/text/ustring.o
-
 
 TESTING_LDFLAGS_NET_HTTP = `pkg-config --static --libs gtest $(CONNECTION_INFO_TLS_PKGNAME)` \
 			   $(TESTING_INCLUDES_NET_HTTP)
+
+TESTING_LDFLAGS_CSSPARSER = $(TESTING_LDFLAGS) \
+	bin/data/text/ustring.o \
+	bin/data/text/encoding/utf8.o \
+	bin/parser/css/preprocessor.o \
 
 TESTING_LDFLAGS_HTMLPARSER = $(TESTING_LDFLAGS) $(TESTING_INCLUDES_HTMLPARSER)
 
@@ -69,6 +72,7 @@ TESTING_TARGETS = \
 	bin/testing/data/text/ustring \
 	bin/testing/net/http/http_connection \
 	bin/testing/net/http/http_response_info \
+	bin/testing/parser/css/preprocessor \
 	bin/testing/parser/html/token \
 
 
@@ -123,6 +127,11 @@ bin/testing/net/http/http_response_info: testing/net/http/http_response_info.cpp
 	logger.hpp \
 	bin/net/http/http_response_info.o
 	$(CXX) $(TESTING_CXXFLAGS) -o $@ testing/net/http/http_response_info.cpp $(TESTING_LDFLAGS_NET_HTTP)
+
+bin/testing/parser/css/preprocessor: testing/parser/css/preprocessor.cpp \
+	bin/parser/css/preprocessor.o \
+	data/text/ustring.hpp
+	$(CXX) $(TESTING_CXXFLAGS) -o $@ testing/parser/css/preprocessor.cpp $(TESTING_LDFLAGS_CSSPARSER)
 
 bin/testing/parser/html/token: testing/parser/html/token.cpp \
 	parser/html/token.hpp \
