@@ -30,25 +30,23 @@ namespace Rendering {
 			: height(0), width(0), windowManagerName(windowManagerName) {
 		}
 
-		virtual ~WindowBase() = default;
+		virtual ~WindowBase() noexcept = default;
 
 	  public: // Public Methods
 		virtual std::vector<RendererType>
-		GetSupportedRenderers() = 0;
+		GetSupportedRenderers() const noexcept = 0;
 
 		virtual bool
-		PollClose()
-			= 0;
+		PollClose() noexcept = 0;
 
-		virtual std::pair<bool, std::optional<void *> > PrepareForRenderer(RendererType) = 0;
-
-		virtual void
-		SetTitle(Unicode::UString string)
-			= 0;
+		virtual std::pair<bool, std::optional<void *> >
+		PrepareForRenderer(RendererType) = 0;
 
 		virtual void
-		SwapBuffers()
-			= 0;
+		SetTitle(Unicode::UString string) noexcept = 0;
+
+		virtual void
+		SwapBuffers() noexcept = 0;
 	};
 
 } // namespace Rendering
