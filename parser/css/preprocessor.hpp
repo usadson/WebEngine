@@ -13,6 +13,6 @@ namespace CSS {
 	class Preprocessor {
 	  public:
 		  [[nodiscard]] bool
-		  Run(const Unicode::UString &input, std::vector<Unicode::CodePoint> &output) const noexcept;
+		  Run(Unicode::UString &string) const noexcept;
 	};
 } // namespace CSS

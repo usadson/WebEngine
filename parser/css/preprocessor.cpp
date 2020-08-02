@@ -9,7 +9,7 @@
 namespace CSS {
 
 	bool
-	Preprocessor::Run(const Unicode::UString &input, std::vector<Unicode::CodePoint> &output) const noexcept {
+	Preprocessor::Run(Unicode::UString &string) const noexcept {
 		return true;
 	}
 
