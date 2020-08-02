@@ -8,8 +8,8 @@
 
 #include <gtest/gtest.h>
 
-#include "data/text/ustring.cpp"
-#include "parser/css/preprocessor.cpp"
+#include "data/text/ustring.hpp"
+#include "parser/css/preprocessor.hpp"
 
 namespace CSS {
 
