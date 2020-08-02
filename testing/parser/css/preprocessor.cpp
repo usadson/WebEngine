@@ -20,7 +20,6 @@ namespace CSS {
 
 	TEST_F(PreprocessorTest, RunSimple) {
 		Unicode::UString string {};
-
 		ASSERT_TRUE(instance.Run(string));
 	}
 
