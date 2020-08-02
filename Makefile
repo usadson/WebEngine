@@ -169,6 +169,7 @@ bin/test.txt:
 	@mkdir bin/net/http
 	@mkdir bin/net/http2
 	@mkdir bin/parser
+	@mkdir bin/parser/css
 	@mkdir bin/parser/html
 	@mkdir bin/parser/html/tokenizer
 	@mkdir bin/parser/html/tree
