@@ -18,10 +18,10 @@ namespace Options {
 		std::optional<std::string> value;
 	};
 
-	bool
+	[[nodiscard]] bool
 	ParseCommandLine(int, const char **);
 
-	OptionLookupResult
+	[[nodiscard]] OptionLookupResult
 	GetCommandLineParameter(const std::string &);
 
 } // namespace Options
