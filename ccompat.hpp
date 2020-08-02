@@ -10,7 +10,7 @@
 
 namespace CCompat {
 
-	const char *
+	[[nodiscard]] const char *
 	GetErrnoName(int error = 0);
 
 	void
