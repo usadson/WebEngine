@@ -33,6 +33,19 @@ namespace CSS {
 		ASSERT_EQ(string[3], 't');
 	}
 
+	TEST_F(PreprocessorTest, RunCR) {
+		Unicode::UString string("T\re\rs\rt", 7);
+		ASSERT_TRUE(instance.Run(string));
+		ASSERT_EQ(string.length(), 7);
+		ASSERT_EQ(string[0], 'T');
+		ASSERT_EQ(string[1], '\n');
+		ASSERT_EQ(string[2], 'e');
+		ASSERT_EQ(string[3], '\n');
+		ASSERT_EQ(string[4], 's');
+		ASSERT_EQ(string[5], '\n');
+		ASSERT_EQ(string[6], 't');
+	}
+
 } // namespace CSS
 
 int
