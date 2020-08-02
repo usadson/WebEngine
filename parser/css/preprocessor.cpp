@@ -6,13 +6,15 @@
 
 #include "preprocessor.hpp"
 
+#include <cstdio>
+
 namespace CSS {
 
 	bool
 	Preprocessor::Run(Unicode::UString &string) const noexcept {
 		for (std::size_t i = 0; i < string.length(); i++) {
 			if (string[i] == '\r') {
-				if (string.length() > i + 1 && string[i] == '\n') {
+				if (string.length() > i + 1 && string[i + 1] == '\n') {
 					string[i] = '\n';
 					string.RemoveCharacterAt(i + 1);
 				} else {
