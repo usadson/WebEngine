@@ -21,10 +21,11 @@ namespace Rendering {
 		~WindowGLFW();
 
 	  public: // Public Methods
-		std::vector<RendererType>
+		[[nodiscard]] std::vector<RendererType>
 		GetSupportedRenderers() override;
 
-		std::pair<bool, std::optional<void *> > PrepareForRenderer(RendererType) override;
+		[[nodiscard]] std::pair<bool, std::optional<void *> >
+		PrepareForRenderer(RendererType) override;
 
 		bool
 		PollClose() override;
