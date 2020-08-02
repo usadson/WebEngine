@@ -14,12 +14,12 @@
 namespace CSS {
 
 	class PreprocessorTest : public ::testing::Test {
-	  public:
+	public:
 		Preprocessor instance;
 	};
 
 	TEST_F(PreprocessorTest, RunSimple) {
-		Unicode::UString string{};
+		Unicode::UString string {};
 
 		ASSERT_TRUE(instance.Run(string));
 	}
