@@ -34,7 +34,7 @@ namespace DOM {
 
 		// The 'innerText' variable, but in a getter.
 		// This function is TODO
-		inline std::optional<Unicode::UString>
+		[[nodiscard]] inline std::optional<Unicode::UString>
 		innerText() const {
 			return std::nullopt;
 		}
