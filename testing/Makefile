@@ -89,6 +89,7 @@ bin/testing/directory.txt:
 	@mkdir bin/testing/net
 	@mkdir bin/testing/net/http
 	@mkdir bin/testing/parser
+	@mkdir bin/testing/parser/css
 	@mkdir bin/testing/parser/html
 	@touch bin/testing/directory.txt
 
