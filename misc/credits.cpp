@@ -11,7 +11,7 @@
 
 #include <iostream>
 
-static const char *license = "Copyright (C) 2020 Tristan\n\
+static const char *license = "Copyright (C) 2020 Tristan <tristan@thewoosh.me>\n\
 \n\
 All Rights Reserved.\n\
 \n\
