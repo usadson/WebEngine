@@ -27,7 +27,7 @@ namespace TextEncoding {
 		inline ~AbstractSBEncoding() override {
 		}
 
-		bool
+		[[nodiscard]] bool
 		Decode(const char *data, std::size_t size) override;
 	};
 
