@@ -83,35 +83,35 @@ namespace Net {
 		virtual
 		~ConnectionInfo();
 
-		virtual bool
+		[[nodiscard]] virtual bool
 		Connect();
 
-		virtual bool
+		[[nodiscard]] virtual bool
 		Read(char *, std::size_t);
 
-		virtual std::optional<char>
+		[[nodiscard]] virtual std::optional<char>
 		ReadChar();
 
-		bool
+		[[nodiscard]] bool
 		ResolveHostName();
 
-		virtual bool
+		[[nodiscard]] virtual bool
 		Write(const char *, std::size_t);
 
 	  private: // Private Methods for different TLS implementations:
 		void
 		TLSDestroy();
 
-		bool
+		[[nodiscard]] bool
 		TLSRead(char *, std::size_t);
 
-		std::optional<char>
+		[[nodiscard]] std::optional<char>
 		TLSReadChar();
 
-		bool
+		[[nodiscard]] bool
 		TLSSetup();
 
-		bool
+		[[nodiscard]] bool
 		TLSWrite(const char *, std::size_t);
 	};
 } // namespace Net
