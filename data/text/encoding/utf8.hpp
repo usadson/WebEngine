@@ -22,10 +22,10 @@ namespace TextEncoding {
 		inline UTF8() noexcept : CodePoint(0), BytesSeen(0), BytesNeeded(0), LowerBoundary(0x80), UpperBoundary(0xBF) {
 		}
 
-		bool
+		[[nodiscard]] bool
 		Decode(const char *data, std::size_t size) override;
 
-		static std::vector<Unicode::CodePoint>
+		[[nodiscard]] static std::vector<Unicode::CodePoint>
 		ASCIIDecode(const char *data, std::size_t size);
 	};
 } // namespace TextEncoding
