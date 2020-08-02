@@ -68,10 +68,10 @@ namespace Net::HTTP {
 
 	  public: // Methods
 		// Return value: "" on success, otherwise the error.
-		HTTP2Error
+		[[nodiscard]] HTTP2Error
 		Request(HTTPResponseInfo *, std::string method, std::string path);
 
-		HTTP2Error
+		[[nodiscard]] HTTP2Error
 		RequestNavigation(HTTPResponseInfo *, const std::string &path);
 
 	  private: // Private Methods
@@ -79,7 +79,7 @@ namespace Net::HTTP {
 
 		void HandleFrameSettings(H2::Frame);
 
-		H2::Frame
+		[[nodiscard]] H2::Frame
 		ReadFrame();
 
 		bool SendFrame(H2::Frame);
