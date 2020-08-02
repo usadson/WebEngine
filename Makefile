@@ -71,6 +71,7 @@ BINARIES = bin/ccompat.o \
 	   bin/net/http/http_connection.o \
 	   bin/net/http/http_response_info.o \
 	   bin/net/http2/http2_connection.o \
+	   bin/parser/css/preprocessor.o \
 	   bin/parser/html/context.o \
 	   bin/parser/html/error.o \
 	   bin/parser/html/insertion_mode.o \
@@ -266,6 +267,12 @@ bin/net/http2/http2_connection.o: net/http2/http2_connection.cpp \
 	net/connection_info.hpp \
 	logger.hpp
 	$(CXX) $(CXXFLAGS) $(CONNECTION_INFO_TLS_IMPL) -c -o $@ net/http2/http2_connection.cpp
+
+bin/parser/css/preprocessor.o: parser/css/preprocessor.cpp \
+	parser/css/preprocessor.hpp \
+	data/text/unicode.hpp \
+	data/text/ustring.hpp
+	$(CXX) $(CXXFLAGS) -c -o $@ parser/css/preprocessor.cpp
 
 bin/parser/html/context.o: parser/html/context.cpp \
 	parser/html/context.hpp \
