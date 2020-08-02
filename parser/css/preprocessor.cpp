@@ -13,13 +13,15 @@ namespace CSS {
 	bool
 	Preprocessor::Run(Unicode::UString &string) const noexcept {
 		for (std::size_t i = 0; i < string.length(); i++) {
-			if (string[i] == '\r') {
-				if (string.length() > i + 1 && string[i + 1] == '\n') {
-					string[i] = '\n';
+			if (string[i] == Unicode::CARRIAGE_RETURN) {
+				string[i] = Unicode::LINE_FEED;
+				if (string.length() > i + 1 && string[i + 1] == Unicode::LINE_FEED) {
 					string.RemoveCharacterAt(i + 1);
-				} else {
-					string[i] = '\n';
 				}
+			} else if (string[i] == Unicode::FORM_FEED) {
+				string[i] = Unicode::LINE_FEED;
+			} else if (string[i] == Unicode::NULL_CHARACTER || Unicode::IsSurrogate(string[i])) {
+				string[i] = Unicode::REPLACEMENT_CHARACTER;
 			}
 		}
 		return true;
