@@ -23,6 +23,16 @@ namespace CSS {
 		ASSERT_TRUE(instance.Run(string));
 	}
 
+	TEST_F(PreprocessorTest, RunNoActions) {
+		Unicode::UString string("Test", 4);
+		ASSERT_TRUE(instance.Run(string));
+		ASSERT_EQ(string.length(), 4);
+		ASSERT_EQ(string[0], 'T');
+		ASSERT_EQ(string[1], 'e');
+		ASSERT_EQ(string[2], 's');
+		ASSERT_EQ(string[3], 't');
+	}
+
 } // namespace CSS
 
 int
