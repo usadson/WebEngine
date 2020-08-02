@@ -25,10 +25,10 @@ namespace Net::HTTP {
 		std::vector<char> messageBody;
 
 	  public: // Methods
-		std::optional<const char *>
+		[[nodiscard]] std::optional<const char *>
 		GetHeader(const char *) const;
 
-		std::optional<std::size_t>
+		[[nodiscard]] std::optional<std::size_t>
 		GetHeaderUnsigned(const char *) const;
 	};
 } // namespace Net::HTTP
