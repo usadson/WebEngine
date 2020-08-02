@@ -25,7 +25,7 @@ namespace Rendering {
 		}
 	}
 
-	WindowGLFW::~WindowGLFW() {
+	WindowGLFW::~WindowGLFW() noexcept {
 		if (internalWindow != nullptr)
 			glfwDestroyWindow(internalWindow);
 
@@ -33,7 +33,7 @@ namespace Rendering {
 	}
 
 	std::vector<RendererType>
-	WindowGLFW::GetSupportedRenderers() {
+	WindowGLFW::GetSupportedRenderers() const noexcept {
 		return { RendererType::OPENGL };
 	}
 
@@ -49,7 +49,7 @@ namespace Rendering {
 	}
 
 	void
-	GLFWErrorHandler(int error, const char *message) {
+	GLFWErrorHandler(int error, const char *message) noexcept {
 		(void)error;
 		Logger::Error("GLFW", message);
 	}
@@ -100,18 +100,18 @@ namespace Rendering {
 	}
 
 	bool
-	WindowGLFW::PollClose() {
+	WindowGLFW::PollClose() noexcept {
 		glfwPollEvents();
 		return glfwWindowShouldClose(internalWindow) == GLFW_TRUE;
 	}
 
 	void
-	WindowGLFW::SetTitle(Unicode::UString title) {
+	WindowGLFW::SetTitle(Unicode::UString title) noexcept {
 		(void)title; // BUG
 	}
 
 	void
-	WindowGLFW::SwapBuffers() {
+	WindowGLFW::SwapBuffers() noexcept {
 		glfwSwapBuffers(internalWindow);
 	}
 
