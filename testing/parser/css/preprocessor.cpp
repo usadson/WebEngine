@@ -57,6 +57,22 @@ namespace CSS {
 		ASSERT_EQ(string[4], 't');
 	}
 
+	TEST_F(PreprocessorTest, RunNullCharacter) {
+		Unicode::UString string;
+		string += 'T';
+		string += 'e';
+		string += Unicode::NULL_CHARACTER;
+		string += 's';
+		string += 't';
+		ASSERT_TRUE(instance.Run(string));
+		ASSERT_EQ(string.length(), 5);
+		ASSERT_EQ(string[0], 'T');
+		ASSERT_EQ(string[1], 'e');
+		ASSERT_EQ(string[2], Unicode::REPLACEMENT_CHARACTER);
+		ASSERT_EQ(string[3], 's');
+		ASSERT_EQ(string[4], 't');
+	}
+
 } // namespace CSS
 
 int
