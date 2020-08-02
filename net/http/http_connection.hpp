@@ -89,41 +89,41 @@ namespace Net::HTTP {
 
 	  protected: // Protected Methods
 #endif
-		HTTPConnectionError
+		[[nodiscard]] HTTPConnectionError
 		ConsumeHeaderField(char);
 
-		HTTPConnectionError
+		[[nodiscard]] HTTPConnectionError
 		ConsumeHeaderFieldName(std::vector<char> *);
 
-		HTTPConnectionError
+		[[nodiscard]] HTTPConnectionError
 		ConsumeHeaderFieldValue(std::vector<char> *);
 
-		HTTPConnectionError
+		[[nodiscard]] HTTPConnectionError
 		ConsumeHeaders();
 
-		HTTPConnectionError
+		[[nodiscard]] HTTPConnectionError
 		ConsumeHTTPVersion();
 
-		HTTPConnectionError
+		[[nodiscard]] HTTPConnectionError
 		ConsumeMessageBody();
 
-		HTTPConnectionError
+		[[nodiscard]] HTTPConnectionError
 		ConsumeNewLine();
 
-		HTTPConnectionError
+		[[nodiscard]] HTTPConnectionError
 		ConsumeReasonPhrase();
 
-		HTTPConnectionError
+		[[nodiscard]] HTTPConnectionError
 		ConsumeSingleSpace();
 
-		HTTPConnectionError
+		[[nodiscard]] HTTPConnectionError
 		ConsumeStatusCode();
 
 	  public: // Methods
-		HTTPConnectionError
+		[[nodiscard]] HTTPConnectionError
 		Request(HTTPResponseInfo *, const std::string &method, const std::string &path);
 
-		HTTPConnectionError
+		[[nodiscard]] HTTPConnectionError
 		RequestNavigation(HTTPResponseInfo *, const std::string &path);
 	};
 } // namespace Net::HTTP
