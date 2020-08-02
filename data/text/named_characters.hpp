@@ -28,7 +28,7 @@ namespace NamedCharacters {
 		NOT_FOUND
 	};
 
-	NCStatus
+	[[nodiscard]] NCStatus
 	Find(const Unicode::UString &string, Unicode::CodePoint *result);
 
 	void
