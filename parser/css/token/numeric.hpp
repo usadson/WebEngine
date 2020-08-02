@@ -9,7 +9,7 @@
 #include <vector>
 
 #include "data/text/unicode.hpp"
-#include "parser/css/token.hpp"
+#include "parser/css/token_base.hpp"
 #include "parser/css/token_flag.hpp"
 #include "parser/css/token_type.hpp"
 
