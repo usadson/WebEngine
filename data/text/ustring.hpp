@@ -151,12 +151,22 @@ namespace Unicode {
 		}
 
 		[[nodiscard]] inline constexpr auto
-		cbegin() noexcept {
+		begin() const noexcept {
+			return std::begin(data);
+		}
+
+		[[nodiscard]] inline constexpr auto
+		end() const noexcept {
+			return std::end(data);
+		}
+
+		[[nodiscard]] inline constexpr auto
+		cbegin() const noexcept {
 			return std::cbegin(data);
 		}
 
 		[[nodiscard]] inline constexpr auto
-		cend() noexcept {
+		cend() const noexcept {
 			return std::cend(data);
 		}
 
@@ -167,6 +177,16 @@ namespace Unicode {
 
 		[[nodiscard]] inline constexpr auto
 		rend() noexcept {
+			return std::rend(data);
+		}
+
+		[[nodiscard]] inline constexpr auto
+		rbegin() const noexcept {
+			return std::rbegin(data);
+		}
+
+		[[nodiscard]] inline constexpr auto
+		rend() const noexcept {
 			return std::rend(data);
 		}
 
