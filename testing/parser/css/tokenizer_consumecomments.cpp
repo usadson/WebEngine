@@ -41,9 +41,11 @@ namespace CSS {
 
 	TEST_F(TokenizerConsumeCommentsTest, TestNoCommentsSlashStarSlash) {
 		const Unicode::UString string("/*/");
+		const Unicode::UString testString("Test string $iaf259");
 		Tokenizer tokenizer(string);
-		ASSERT_TRUE(tokenizer.ConsumeComments());
-		ASSERT_EQ(tokenizer.string.length(), 3);
+		tokenizer.string = testString;
+		ASSERT_FALSE(tokenizer.ConsumeComments());
+		ASSERT_EQ(tokenizer.string, testString);
 	}
 
 	TEST_F(TokenizerConsumeCommentsTest, TestEmptyComment) {
