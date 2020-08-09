@@ -21,7 +21,7 @@ namespace CSS {
 
 	TEST_F(TokenizerStreamTest, TestNextEmpty) {
 		Unicode::UString test;
-		CSS::TokenizerStream stream(test);
+		CSS::TokenizerStream stream(&test);
 
 		ASSERT_FALSE(stream.Next(nullptr));
 		ASSERT_FALSE(stream.Next(&destination));
@@ -29,7 +29,7 @@ namespace CSS {
 
 	TEST_F(TokenizerStreamTest, TestNextSemantics) {
 		Unicode::UString test("ABC");
-		CSS::TokenizerStream stream(test);
+		CSS::TokenizerStream stream(&test);
 
 		ASSERT_TRUE(stream.Next(&destination));
 		ASSERT_EQ(destination, test[0]);
@@ -44,7 +44,7 @@ namespace CSS {
 	TEST_F(TokenizerStreamTest, TestPeekSame) {
 		Unicode::UString test("   ");
 		std::generate(std::begin(test), std::end(test), []() { return 'A' + (random() % 26); });
-		CSS::TokenizerStream stream(test);
+		CSS::TokenizerStream stream(&test);
 
 		char peek = '\0';
 		char next = '\0';
@@ -61,7 +61,7 @@ namespace CSS {
 
 	TEST_F(TokenizerStreamTest, TestPeekEmpty) {
 		Unicode::UString test;
-		CSS::TokenizerStream stream(test);
+		CSS::TokenizerStream stream(&test);
 
 		ASSERT_FALSE(stream.Peek(nullptr));
 		ASSERT_FALSE(stream.Peek(&destination));
@@ -75,7 +75,7 @@ namespace CSS {
 
 	TEST_F(TokenizerStreamTest, TestPeekFirstSemantics) {
 		Unicode::UString test("ABC");
-		CSS::TokenizerStream stream(test);
+		CSS::TokenizerStream stream(&test);
 
 		char local = 'Q';
 		destination = 'O';
@@ -86,7 +86,7 @@ namespace CSS {
 
 	TEST_F(TokenizerStreamTest, TestPeek) {
 		Unicode::UString test("ABC");
-		CSS::TokenizerStream stream(test);
+		CSS::TokenizerStream stream(&test);
 
 		ASSERT_TRUE(stream.Peek(&destination, 0));
 		ASSERT_EQ(destination, 'A');
@@ -99,7 +99,7 @@ namespace CSS {
 
 	TEST_F(TokenizerStreamTest, TestPeekEndSemantics) {
 		Unicode::UString test("G");
-		CSS::TokenizerStream stream(test);
+		CSS::TokenizerStream stream(&test);
 
 		ASSERT_TRUE(stream.Peek(&destination, 0));
 		ASSERT_EQ(destination, 'G');
