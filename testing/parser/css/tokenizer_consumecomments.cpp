@@ -20,7 +20,7 @@ namespace CSS {
 		const Unicode::UString string;
 		Tokenizer tokenizer(string);
 		ASSERT_TRUE(tokenizer.ConsumeComments());
-		ASSERT_TRUE(string.Empty());
+		ASSERT_TRUE(tokenizer.string.Empty());
 	}
 
 	TEST_F(TokenizerConsumeCommentsTest, TestNoCommentCharacters) {
@@ -28,7 +28,7 @@ namespace CSS {
 		const std::size_t length = string.length();
 		Tokenizer tokenizer(string);
 		ASSERT_TRUE(tokenizer.ConsumeComments());
-		ASSERT_EQ(string.length(), length);
+		ASSERT_EQ(tokenizer.string.length(), length);
 	}
 
 	TEST_F(TokenizerConsumeCommentsTest, TestNoComments) {
@@ -36,21 +36,24 @@ namespace CSS {
 		const std::size_t length = string.length();
 		Tokenizer tokenizer(string);
 		ASSERT_TRUE(tokenizer.ConsumeComments());
-		ASSERT_EQ(string.length(), length);
+		ASSERT_EQ(tokenizer.string.length(), length);
 	}
 
 	TEST_F(TokenizerConsumeCommentsTest, TestNoCommentsSlashStarSlash) {
 		const Unicode::UString string("/*/");
 		Tokenizer tokenizer(string);
 		ASSERT_TRUE(tokenizer.ConsumeComments());
-		ASSERT_EQ(string.length(), 3);
+		ASSERT_EQ(tokenizer.string.length(), 3);
 	}
 
 	TEST_F(TokenizerConsumeCommentsTest, TestEmptyComment) {
 		const Unicode::UString string("/**/");
 		Tokenizer tokenizer(string);
 		ASSERT_TRUE(tokenizer.ConsumeComments());
-		ASSERT_EQ(string.length(), 0);
+		for (auto c : tokenizer.string) {
+			std::cout << static_cast<char>(c) << " (" << c << ")\n";
+		}
+		ASSERT_EQ(tokenizer.string.length(), 0);
 	}
 
 } // namespace CSS
