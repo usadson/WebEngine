@@ -140,43 +140,43 @@ namespace Unicode {
 		[[nodiscard]] bool
 		StartsWithIgnoreCaseAL(std::size_t pos, const char *ascii, size_t length) const noexcept;
 
-		[[nodiscard]] inline auto
+		[[nodiscard]] inline constexpr auto
 		begin() noexcept {
 			return std::begin(data);
 		}
 
-		[[nodiscard]] inline auto
+		[[nodiscard]] inline constexpr auto
 		end() noexcept {
 			return std::end(data);
 		}
 
-		[[nodiscard]] inline auto
+		[[nodiscard]] inline constexpr auto
 		cbegin() noexcept {
 			return std::cbegin(data);
 		}
 
-		[[nodiscard]] inline auto
+		[[nodiscard]] inline constexpr auto
 		cend() noexcept {
 			return std::cend(data);
 		}
 
-		[[nodiscard]] inline auto
+		[[nodiscard]] inline constexpr auto
 		rbegin() noexcept {
 			return std::rbegin(data);
 		}
 
-		[[nodiscard]] inline auto
+		[[nodiscard]] inline constexpr auto
 		rend() noexcept {
 			return std::rend(data);
 		}
 
-		[[nodiscard]] inline auto
-		crbegin() noexcept {
+		[[nodiscard]] inline constexpr auto
+		crbegin() const noexcept {
 			return std::crbegin(data);
 		}
 
-		[[nodiscard]] inline auto
-		crend() noexcept {
+		[[nodiscard]] inline constexpr auto
+		crend() const noexcept {
 			return std::crend(data);
 		}
 	};
