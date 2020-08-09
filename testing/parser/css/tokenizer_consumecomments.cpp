@@ -56,6 +56,13 @@ namespace CSS {
 		ASSERT_EQ(tokenizer.string.length(), 0);
 	}
 
+	TEST_F(TokenizerConsumeCommentsTest, TestCommentWithText) {
+		const Unicode::UString string("/* Hello this is a comment*/");
+		Tokenizer tokenizer(string);
+		ASSERT_TRUE(tokenizer.ConsumeComments());
+		ASSERT_EQ(tokenizer.string.length(), 0);
+	}
+
 } // namespace CSS
 
 int
