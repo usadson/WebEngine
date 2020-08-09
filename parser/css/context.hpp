@@ -13,13 +13,13 @@ namespace CSS {
 	class Context {
 	  public:
 		inline void
-		ReportParseError(const ParseError &error) const noexcept {
+		ReportParseError(ParseError error) const noexcept {
 			if (errorReporter != nullptr) {
 				(*errorReporter)(error);
 			}
 		}
 
-		void (*errorReporter)(const ParseError &){ nullptr };
+		void (*errorReporter)(ParseError){ nullptr };
 	};
 
 } // namespace CSS
