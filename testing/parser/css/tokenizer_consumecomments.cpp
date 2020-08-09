@@ -68,6 +68,14 @@ namespace CSS {
 		ASSERT_EQ(tokenizer.string, output);
 	}
 
+	TEST_F(TokenizerConsumeCommentsTest, TestCommentStart) {
+		const Unicode::UString input("/* The following is a thing with leaves */Tree");
+		const Unicode::UString output("Tree");
+		Tokenizer tokenizer(input);
+		ASSERT_TRUE(tokenizer.ConsumeComments());
+		ASSERT_EQ(tokenizer.string, output);
+	}
+
 } // namespace CSS
 
 int
