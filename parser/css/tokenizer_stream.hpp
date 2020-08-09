@@ -13,7 +13,7 @@ namespace CSS {
 	class TokenizerStream {
 	  public:
 		explicit
-		TokenizerStream(const Unicode::UString &string) noexcept;
+		TokenizerStream(const Unicode::UString *string) noexcept;
 
 		// Consumes the character if possible.
 		//
@@ -29,8 +29,13 @@ namespace CSS {
 		[[nodiscard]] bool
 		Peek(char *destination, std::size_t offset = 0) noexcept;
 
+		// Uses this string instead of the one passed by the constructor.
+		// Will set position to 0, of course;
+		void
+		SetString(const Unicode::UString *string) noexcept;
+
 	  private:
-		const Unicode::UString &string;
+		const Unicode::UString *string;
 		std::size_t position{ 0 };
 	};
 } // namespace CSS

@@ -10,27 +10,33 @@
 
 namespace CSS {
 
-	TokenizerStream::TokenizerStream(const Unicode::UString &string) noexcept : string(string) {
+	TokenizerStream::TokenizerStream(const Unicode::UString *string) noexcept : string(string) {
 	}
 
 	bool
 	TokenizerStream::Next(char *dest) noexcept {
-		if (position >= string.length()) {
+		if (position >= string->length()) {
 			return false;
 		}
 
-		*dest = string[position++];
+		*dest = string->operator[](position++);
 		return true;
 	}
 
 	bool
 	TokenizerStream::Peek(char *dest, std::size_t offset) noexcept {
-		if (position + offset >= string.length()) {
+		if (position + offset >= string->length()) {
 			return false;
 		}
 
-		*dest = string[position + offset];
+		*dest = string->operator[](position + offset);
 		return true;
+	}
+
+	void
+	TokenizerStream::SetString(const Unicode::UString *string) noexcept {
+		this->string = string;
+		this->position = 0;
 	}
 
 } // namespace CSS
