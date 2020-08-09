@@ -50,9 +50,6 @@ namespace CSS {
 		const Unicode::UString string("/**/");
 		Tokenizer tokenizer(string);
 		ASSERT_TRUE(tokenizer.ConsumeComments());
-		for (auto c : tokenizer.string) {
-			std::cout << static_cast<char>(c) << " (" << c << ")\n";
-		}
 		ASSERT_EQ(tokenizer.string.length(), 0);
 	}
 
