@@ -1,5 +1,5 @@
 queries:
-  - include: *
+  - include: '*'
 path_classifiers:
   test:
   - exclude: "/"
