@@ -72,6 +72,7 @@ BINARIES = bin/ccompat.o \
 	   bin/net/http/http_response_info.o \
 	   bin/net/http2/http2_connection.o \
 	   bin/parser/css/preprocessor.o \
+	   bin/parser/css/tokenizer_stream.o \
 	   bin/parser/html/context.o \
 	   bin/parser/html/error.o \
 	   bin/parser/html/insertion_mode.o \
@@ -273,6 +274,11 @@ bin/parser/css/preprocessor.o: parser/css/preprocessor.cpp \
 	data/text/unicode.hpp \
 	data/text/ustring.hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ parser/css/preprocessor.cpp
+
+bin/parser/css/tokenizer_stream.o: parser/css/tokenizer_stream.cpp \
+	parser/css/tokenizer_stream.hpp \
+	data/text/ustring.hpp
+	$(CXX) $(CXXFLAGS) -c -o $@ parser/css/tokenizer_stream.cpp
 
 bin/parser/html/context.o: parser/html/context.cpp \
 	parser/html/context.hpp \
