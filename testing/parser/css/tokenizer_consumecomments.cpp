@@ -60,6 +60,14 @@ namespace CSS {
 		ASSERT_EQ(tokenizer.string.length(), 0);
 	}
 
+	TEST_F(TokenizerConsumeCommentsTest, TestCommentMiddle) {
+		const Unicode::UString input("Tr/* unk? */ee");
+		const Unicode::UString output("Tree");
+		Tokenizer tokenizer(input);
+		ASSERT_TRUE(tokenizer.ConsumeComments());
+		ASSERT_EQ(tokenizer.string, output);
+	}
+
 } // namespace CSS
 
 int
