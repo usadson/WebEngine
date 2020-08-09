@@ -21,12 +21,13 @@ namespace CSS {
 		std::vector<Unicode::CodePoint>::iterator commentStart = std::end(data);
 		bool inComment = false;
 
-		for (auto iterator = std::begin(data); iterator != std::end(data); ++iterator) {
+		for (auto iterator = std::begin(data); iterator < std::end(data); ++iterator) {
 			if (inComment) {
 				if (iterator + 1 != std::end(data) && *iterator == '*' && *(iterator + 1) == '/') {
 					inComment = false;
 					iterator++; // Consume '/' aswell
-					data.erase(commentStart, iterator);
+					data.erase(commentStart, iterator + 1); // +1 because std::vector<T>::erase is exclusive
+					iterator = commentStart;
 				}
 			} else if (iterator + 1 != std::end(data) && *iterator == '/' && *(iterator + 1) == '*') {
 				inComment = true;
