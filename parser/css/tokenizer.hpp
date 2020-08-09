@@ -9,6 +9,10 @@
 #include "data/text/ustring.hpp"
 #include "parser/css/tokenizer_stream.hpp"
 
+#ifndef PRIVATE_VISIBILITY
+#define PRIVATE_VISIBILITY private
+#endif
+
 namespace CSS {
 	class Tokenizer {
 	  public:
@@ -19,7 +23,7 @@ namespace CSS {
 		[[nodiscard]] bool
 		Run() noexcept;
 
-	  private:
+	  PRIVATE_VISIBILITY:
 		TokenizerStream stream;
 		const Unicode::UString &inputString;
 
