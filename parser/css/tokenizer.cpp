@@ -6,8 +6,8 @@
 
 #include "tokenizer.hpp"
 
-#include <iterator>
 #include <iostream>
+#include <iterator>
 #include <vector>
 
 #include "data/text/unicode.hpp"
