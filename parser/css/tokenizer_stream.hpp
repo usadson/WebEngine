@@ -25,7 +25,7 @@ namespace CSS {
 		// Get a character without consuming it.
 		//
 		// Returns true if not at the end, otherwise false.
-		// If false is returned, destination and position are untouched.
+		// If false is returned, destination is untouched.
 		[[nodiscard]] bool
 		Peek(char *destination, std::size_t offset = 0) noexcept;
 
