@@ -8,8 +8,7 @@
 
 namespace CSS {
 
-	TokenizerStream::TokenizerStream(const Unicode::UString &string) noexcept
-		: string(string) {
+	TokenizerStream::TokenizerStream(const Unicode::UString &string) noexcept : string(string) {
 	}
 
 	bool

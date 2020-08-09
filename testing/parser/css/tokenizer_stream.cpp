@@ -15,7 +15,7 @@
 namespace CSS {
 
 	class TokenizerStreamTest : public ::testing::Test {
-	  public:
+	public:
 		char destination = 'A';
 	};
 
