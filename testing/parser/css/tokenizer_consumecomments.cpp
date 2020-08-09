@@ -15,7 +15,7 @@
 namespace CSS {
 
 	class TokenizerConsumeCommentsTest : public ::testing::Test {
-	  public:
+	public:
 		Context context;
 	};
 
