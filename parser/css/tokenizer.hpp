@@ -7,6 +7,8 @@
  */
 
 #include "data/text/ustring.hpp"
+#include "parser/css/context.hpp"
+#include "parser/css/parse_error.hpp"
 #include "parser/css/tokenizer_stream.hpp"
 
 #ifndef PRIVATE_VISIBILITY
@@ -16,14 +18,16 @@
 namespace CSS {
 	class Tokenizer {
 	  public:
-		explicit inline
-		Tokenizer(const Unicode::UString &input) : inputString(input), stream(&inputString) {
+		inline
+		Tokenizer(CSS::Context &context, const Unicode::UString &input) :
+			context(context), inputString(input), stream(&inputString) {
 		}
 
 		[[nodiscard]] bool
 		Run() noexcept;
 
 	  PRIVATE_VISIBILITY:
+		CSS::Context &context;
 		const Unicode::UString &inputString;
 		TokenizerStream stream;
 		Unicode::UString string;
