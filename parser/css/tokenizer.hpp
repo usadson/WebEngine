@@ -22,6 +22,15 @@ namespace CSS {
 	  private:
 		TokenizerStream stream;
 		const Unicode::UString &inputString;
+
+		// The 'consume comments' tokenizer algorithm.
+		//
+		// [Spec]
+		// Title: CSS Syntax Module Level 3
+		// Section: 4.3.2.
+		// URL: https://www.w3.org/TR/css-syntax-3/#consume-comment
+		[[nodiscard]] bool
+		ConsumeComments() noexcept;
 	};
 } // namespace CSS
 
