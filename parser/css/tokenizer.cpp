@@ -37,7 +37,7 @@ namespace CSS {
 		}
 
 		if (inComment) {
-			// The comment has ended abruptly, this is a parse error.
+			context.ReportParseError(CSS::ParseErrors::EOFInConsumingComment);
 			return false;
 		}
 
