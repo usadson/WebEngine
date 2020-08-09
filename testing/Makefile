@@ -74,7 +74,7 @@ TESTING_TARGETS = \
 	bin/testing/net/http/http_connection \
 	bin/testing/net/http/http_response_info \
 	bin/testing/parser/css/preprocessor \
-	bin/testing/parser/css/tokenizer \
+	bin/testing/parser/css/tokenizer_stream \
 	bin/testing/parser/html/token \
 
 
@@ -86,7 +86,7 @@ test:
 	bin/testing/net/http/http_connection
 	bin/testing/net/http/http_response_info
 	bin/testing/parser/css/preprocessor
-	bin/testing/parser/css/tokenizer
+	bin/testing/parser/css/tokenizer_stream
 	bin/testing/parser/html/token
 
 bin/testing/directory.txt:
@@ -137,7 +137,7 @@ bin/testing/parser/css/preprocessor: testing/parser/css/preprocessor.cpp \
 	data/text/ustring.hpp
 	$(CXX) $(TESTING_CXXFLAGS) -o $@ testing/parser/css/preprocessor.cpp $(TESTING_LDFLAGS_CSSPARSER)
 
-bin/testing/parser/css/tokenizer: testing/parser/css/tokenizer_stream.cpp \
+bin/testing/parser/css/tokenizer_stream: testing/parser/css/tokenizer_stream.cpp \
 	bin/parser/css/tokenizer_stream.o \
 	data/text/ustring.hpp
 	$(CXX) $(TESTING_CXXFLAGS) -o $@ testing/parser/css/tokenizer_stream.cpp $(TESTING_LDFLAGS_CSSPARSER)
