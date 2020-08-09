@@ -17,15 +17,16 @@ namespace CSS {
 	class Tokenizer {
 	  public:
 		explicit inline
-		Tokenizer(const Unicode::UString &input) : stream(input), inputString(input) {
+		Tokenizer(const Unicode::UString &input) : inputString(input), stream(&inputString) {
 		}
 
 		[[nodiscard]] bool
 		Run() noexcept;
 
 	  PRIVATE_VISIBILITY:
-		TokenizerStream stream;
 		const Unicode::UString &inputString;
+		TokenizerStream stream;
+		Unicode::UString string;
 
 		// The 'consume comments' tokenizer algorithm.
 		//

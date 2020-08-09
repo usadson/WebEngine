@@ -7,6 +7,7 @@
 #include "tokenizer.hpp"
 
 #include <iterator>
+#include <iostream>
 #include <vector>
 
 #include "data/text/unicode.hpp"
@@ -34,6 +35,8 @@ namespace CSS {
 			}
 		}
 
+		string = Unicode::UString(std::move(data));
+		stream.SetString(&string);
 		return true;
 	}
 
