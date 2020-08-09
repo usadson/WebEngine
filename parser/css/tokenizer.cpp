@@ -36,6 +36,11 @@ namespace CSS {
 			}
 		}
 
+		if (inComment) {
+			// The comment has ended abruptly, this is a parse error.
+			return false;
+		}
+
 		string = Unicode::UString(std::move(data));
 		stream.SetString(&string);
 		return true;
