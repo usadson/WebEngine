@@ -11,6 +11,7 @@
 namespace CSS {
 	class TokenizerStream {
 	  public:
+		explicit
 		TokenizerStream(const Unicode::UString &string) noexcept;
 
 		// Gets the next value if possible.
