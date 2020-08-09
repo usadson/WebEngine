@@ -25,7 +25,7 @@ namespace CSS {
 			if (inComment) {
 				if (iterator + 1 != std::end(data) && *iterator == '*' && *(iterator + 1) == '/') {
 					inComment = false;
-					iterator++; // Consume '/' aswell
+					iterator++;								// Consume '/' aswell
 					data.erase(commentStart, iterator + 1); // +1 because std::vector<T>::erase is exclusive
 					iterator = commentStart;
 				}
