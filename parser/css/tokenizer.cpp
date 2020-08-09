@@ -37,7 +37,7 @@ namespace CSS {
 		}
 
 		if (inComment) {
-			context.ReportParseError(CSS::ParseErrors::EOFInConsumingComment);
+			context.ReportParseError(CSS::ParseError::EOF_IN_CONSUMING_COMMENT);
 			return false;
 		}
 
