@@ -4,7 +4,9 @@
  * See the COPYING file for licensing information.
  */
 
-#include "tokenizer_stream.hpp"
+#include "parser/css/tokenizer_stream.hpp"
+
+#include "data/text/ustring.hpp"
 
 namespace CSS {
 

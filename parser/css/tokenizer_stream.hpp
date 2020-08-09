@@ -6,7 +6,8 @@
  * See the COPYING file for licensing information.
  */
 
-#include "data/text/ustring.hpp"
+#include <iosfwd>
+namespace Unicode { class UString; }
 
 namespace CSS {
 	class TokenizerStream {
@@ -14,11 +15,17 @@ namespace CSS {
 		explicit
 		TokenizerStream(const Unicode::UString &string) noexcept;
 
-		// Gets the next value if possible.
-		// Will consume the character.
+		// Consumes the character if possible.
+		//
+		// Returns true if not at the end, otherwise false.
+		// If false is returned, destination and position are untouched.
 		[[nodiscard]] bool
 		Next(char *destination) noexcept;
 
+		// Get a character without consuming it.
+		//
+		// Returns true if not at the end, otherwise false.
+		// If false is returned, destination and position are untouched.
 		[[nodiscard]] bool
 		Peek(char *destination, std::size_t offset = 0) noexcept;
 
