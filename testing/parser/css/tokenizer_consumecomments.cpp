@@ -18,11 +18,6 @@ namespace ParseErrorTester {
 	CSS::ParseError lastParseError = CSS::ParseError::INVALID;
 
 	void
-	Clear() noexcept {
-		lastParseError = CSS::ParseError::INVALID;
-	}
-
-	void
 	ReporterEndpoint(CSS::ParseError error) noexcept {
 		lastParseError = error;
 	}
