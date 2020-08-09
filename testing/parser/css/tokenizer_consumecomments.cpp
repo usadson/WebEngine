@@ -84,6 +84,14 @@ namespace CSS {
 		ASSERT_EQ(tokenizer.string, output);
 	}
 
+	TEST_F(TokenizerConsumeCommentsTest, TestCommentMultipleEnds) {
+		const Unicode::UString input("/*Comment*/*/");
+		const Unicode::UString output("*/");
+		Tokenizer tokenizer(input);
+		ASSERT_TRUE(tokenizer.ConsumeComments());
+		ASSERT_EQ(tokenizer.string, output);
+	}
+
 } // namespace CSS
 
 int
