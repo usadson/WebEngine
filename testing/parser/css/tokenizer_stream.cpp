@@ -43,9 +43,7 @@ namespace CSS {
 
 	TEST_F(TokenizerStreamTest, TestPeekSame) {
 		Unicode::UString test("   ");
-		std::generate(std::begin(test), std::end(test), []() {
-			return 'A' + (random() % 26);
-		});
+		std::generate(std::begin(test), std::end(test), []() { return 'A' + (random() % 26); });
 		CSS::TokenizerStream stream(test);
 
 		char peek = '\0';
