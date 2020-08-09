@@ -55,7 +55,7 @@ namespace CSS {
 
 	class TokenizerConsumeCommentsTest : public ::testing::Test {
 	public:
-		Context context{ &ParseErrorTester::ReporterEndpoint };
+		Context context { &ParseErrorTester::ReporterEndpoint };
 	};
 
 	TEST_F(TokenizerConsumeCommentsTest, TestEmpty) {
