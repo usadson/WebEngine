@@ -109,6 +109,11 @@ namespace Unicode {
 		void
 		CopyTo(UString &) const noexcept;
 
+		[[nodiscard]] inline constexpr bool
+		Empty() const noexcept {
+			return data.empty();
+		}
+
 		[[nodiscard]] bool
 		EqualsA(const char *) const noexcept;
 
