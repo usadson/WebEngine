@@ -141,12 +141,12 @@ bin/testing/parser/css/preprocessor: testing/parser/css/preprocessor.cpp \
 	$(CXX) $(TESTING_CXXFLAGS) -o $@ testing/parser/css/preprocessor.cpp $(TESTING_LDFLAGS_CSSPARSER)
 
 bin/testing/parser/css/tokenizer: testing/parser/css/tokenizer.cpp \
+	testing/parser/css/tokenizer_consumecomments.cpp \
 	bin/parser/css/tokenizer.o \
 	data/text/ustring.hpp
 	$(CXX) $(TESTING_CXXFLAGS) -o $@ testing/parser/css/tokenizer.cpp $(TESTING_LDFLAGS_CSSPARSER)
 
 bin/testing/parser/css/tokenizer_stream: testing/parser/css/tokenizer_stream.cpp \
-	testing/parser/css/tokenizer_consumecomments.cpp \
 	bin/parser/css/tokenizer_stream.o \
 	data/text/ustring.hpp
 	$(CXX) $(TESTING_CXXFLAGS) -o $@ testing/parser/css/tokenizer_stream.cpp $(TESTING_LDFLAGS_CSSPARSER)
