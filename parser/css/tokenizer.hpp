@@ -13,7 +13,7 @@ namespace CSS {
 	class Tokenizer {
 	  public:
 		explicit inline
-		Tokenizer(const Unicode::UString &input) : stream(input) {
+		Tokenizer(const Unicode::UString &input) : stream(input), inputString(input) {
 		}
 
 		[[nodiscard]] bool
@@ -21,6 +21,7 @@ namespace CSS {
 
 	  private:
 		TokenizerStream stream;
+		const Unicode::UString &inputString;
 	};
 } // namespace CSS
 
