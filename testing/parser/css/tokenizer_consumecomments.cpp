@@ -22,6 +22,37 @@ namespace CSS {
 		ASSERT_TRUE(tokenizer.ConsumeComments());
 		ASSERT_TRUE(string.Empty());
 	}
+
+	TEST_F(TokenizerConsumeCommentsTest, TestNoCommentCharacters) {
+		const Unicode::UString string("No comment characters are in here");
+		const std::size_t length = string.length();
+		Tokenizer tokenizer(string);
+		ASSERT_TRUE(tokenizer.ConsumeComments());
+		ASSERT_EQ(string.length(), length);
+	}
+
+	TEST_F(TokenizerConsumeCommentsTest, TestNoComments) {
+		const Unicode::UString string("/N*o comments are in her*e/");
+		const std::size_t length = string.length();
+		Tokenizer tokenizer(string);
+		ASSERT_TRUE(tokenizer.ConsumeComments());
+		ASSERT_EQ(string.length(), length);
+	}
+
+	TEST_F(TokenizerConsumeCommentsTest, TestNoCommentsSlashStarSlash) {
+		const Unicode::UString string("/*/");
+		Tokenizer tokenizer(string);
+		ASSERT_TRUE(tokenizer.ConsumeComments());
+		ASSERT_EQ(string.length(), 3);
+	}
+
+	TEST_F(TokenizerConsumeCommentsTest, TestEmptyComment) {
+		const Unicode::UString string("/**/");
+		Tokenizer tokenizer(string);
+		ASSERT_TRUE(tokenizer.ConsumeComments());
+		ASSERT_EQ(string.length(), 0);
+	}
+
 } // namespace CSS
 
 int
