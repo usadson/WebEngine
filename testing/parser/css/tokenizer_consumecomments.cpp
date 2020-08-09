@@ -14,8 +14,7 @@
 
 namespace CSS {
 
-	class TokenizerConsumeCommentsTest : public ::testing::Test {
-	};
+	class TokenizerConsumeCommentsTest : public ::testing::Test {};
 
 	TEST_F(TokenizerConsumeCommentsTest, TestEmpty) {
 		const Unicode::UString string;
