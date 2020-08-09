@@ -10,13 +10,52 @@
 #define PRIVATE_VISIBILITY public
 
 #include "data/text/ustring.hpp"
+#include "logger.hpp"
 #include "parser/css/tokenizer.hpp"
+
+namespace ParseErrorTester {
+
+	CSS::ParseError lastParseError = CSS::ParseError::INVALID;
+
+	void
+	Clear() noexcept {
+		lastParseError = CSS::ParseError::INVALID;
+	}
+
+	void
+	ReporterEndpoint(CSS::ParseError error) noexcept {
+		lastParseError = error;
+	}
+
+	bool
+	WasParseErrorFired() noexcept {
+		bool was = lastParseError != CSS::ParseError::INVALID;
+		lastParseError = CSS::ParseError::INVALID;
+		return was;
+	}
+
+	bool
+	WasParseErrorFired(CSS::ParseError error) noexcept {
+		auto lastErrorCopy = lastParseError;
+		lastParseError = CSS::ParseError::INVALID;
+
+		if (lastErrorCopy == error) {
+			return true;
+		} else if (lastErrorCopy == CSS::ParseError::INVALID) {
+			Logger::Info("WasParseErrorFired", "There wasn't a parse error fired, but was expected.");
+		} else {
+			Logger::Info("WasParseErrorFired", "There was a different parse error fired.");
+		}
+		return false;
+	}
+
+} // namespace ParseErrorTester
 
 namespace CSS {
 
 	class TokenizerConsumeCommentsTest : public ::testing::Test {
 	public:
-		Context context;
+		Context context{ &ParseErrorTester::ReporterEndpoint };
 	};
 
 	TEST_F(TokenizerConsumeCommentsTest, TestEmpty) {
@@ -24,6 +63,7 @@ namespace CSS {
 		Tokenizer tokenizer(context, string);
 		ASSERT_TRUE(tokenizer.ConsumeComments());
 		ASSERT_TRUE(tokenizer.string.Empty());
+		ASSERT_FALSE(ParseErrorTester::WasParseErrorFired());
 	}
 
 	TEST_F(TokenizerConsumeCommentsTest, TestNoCommentCharacters) {
@@ -32,6 +72,7 @@ namespace CSS {
 		Tokenizer tokenizer(context, string);
 		ASSERT_TRUE(tokenizer.ConsumeComments());
 		ASSERT_EQ(tokenizer.string.length(), length);
+		ASSERT_FALSE(ParseErrorTester::WasParseErrorFired());
 	}
 
 	TEST_F(TokenizerConsumeCommentsTest, TestNoComments) {
@@ -40,6 +81,7 @@ namespace CSS {
 		Tokenizer tokenizer(context, string);
 		ASSERT_TRUE(tokenizer.ConsumeComments());
 		ASSERT_EQ(tokenizer.string.length(), length);
+		ASSERT_FALSE(ParseErrorTester::WasParseErrorFired());
 	}
 
 	TEST_F(TokenizerConsumeCommentsTest, TestNoCommentsSlashStarSlash) {
@@ -49,6 +91,7 @@ namespace CSS {
 		tokenizer.string = testString;
 		ASSERT_FALSE(tokenizer.ConsumeComments());
 		ASSERT_EQ(tokenizer.string, testString);
+		ASSERT_TRUE(ParseErrorTester::WasParseErrorFired(CSS::ParseError::EOF_IN_CONSUMING_COMMENT));
 	}
 
 	TEST_F(TokenizerConsumeCommentsTest, TestEmptyComment) {
@@ -56,6 +99,7 @@ namespace CSS {
 		Tokenizer tokenizer(context, string);
 		ASSERT_TRUE(tokenizer.ConsumeComments());
 		ASSERT_EQ(tokenizer.string.length(), 0);
+		ASSERT_FALSE(ParseErrorTester::WasParseErrorFired());
 	}
 
 	TEST_F(TokenizerConsumeCommentsTest, TestCommentWithText) {
@@ -63,6 +107,7 @@ namespace CSS {
 		Tokenizer tokenizer(context, string);
 		ASSERT_TRUE(tokenizer.ConsumeComments());
 		ASSERT_EQ(tokenizer.string.length(), 0);
+		ASSERT_FALSE(ParseErrorTester::WasParseErrorFired());
 	}
 
 	TEST_F(TokenizerConsumeCommentsTest, TestCommentStart) {
@@ -71,6 +116,7 @@ namespace CSS {
 		Tokenizer tokenizer(context, input);
 		ASSERT_TRUE(tokenizer.ConsumeComments());
 		ASSERT_EQ(tokenizer.string, output);
+		ASSERT_FALSE(ParseErrorTester::WasParseErrorFired());
 	}
 
 	TEST_F(TokenizerConsumeCommentsTest, TestCommentMiddle) {
@@ -79,6 +125,7 @@ namespace CSS {
 		Tokenizer tokenizer(context, input);
 		ASSERT_TRUE(tokenizer.ConsumeComments());
 		ASSERT_EQ(tokenizer.string, output);
+		ASSERT_FALSE(ParseErrorTester::WasParseErrorFired());
 	}
 
 	TEST_F(TokenizerConsumeCommentsTest, TestCommentEnd) {
@@ -87,6 +134,7 @@ namespace CSS {
 		Tokenizer tokenizer(context, input);
 		ASSERT_TRUE(tokenizer.ConsumeComments());
 		ASSERT_EQ(tokenizer.string, output);
+		ASSERT_FALSE(ParseErrorTester::WasParseErrorFired());
 	}
 
 	TEST_F(TokenizerConsumeCommentsTest, TestCommentMultipleEnds) {
@@ -95,6 +143,7 @@ namespace CSS {
 		Tokenizer tokenizer(context, input);
 		ASSERT_TRUE(tokenizer.ConsumeComments());
 		ASSERT_EQ(tokenizer.string, output);
+		ASSERT_FALSE(ParseErrorTester::WasParseErrorFired());
 	}
 
 	TEST_F(TokenizerConsumeCommentsTest, TestCommentMultipleEnds2) {
@@ -103,6 +152,7 @@ namespace CSS {
 		Tokenizer tokenizer(context, input);
 		ASSERT_TRUE(tokenizer.ConsumeComments());
 		ASSERT_EQ(tokenizer.string, output);
+		ASSERT_FALSE(ParseErrorTester::WasParseErrorFired());
 	}
 
 	TEST_F(TokenizerConsumeCommentsTest, TestCommentMultipleBeginnings) {
@@ -111,6 +161,7 @@ namespace CSS {
 		Tokenizer tokenizer(context, input);
 		ASSERT_TRUE(tokenizer.ConsumeComments());
 		ASSERT_EQ(tokenizer.string, output);
+		ASSERT_FALSE(ParseErrorTester::WasParseErrorFired());
 	}
 
 	TEST_F(TokenizerConsumeCommentsTest, TestCommentNested) {
@@ -119,6 +170,7 @@ namespace CSS {
 		Tokenizer tokenizer(context, input);
 		ASSERT_TRUE(tokenizer.ConsumeComments());
 		ASSERT_EQ(tokenizer.string, output);
+		ASSERT_FALSE(ParseErrorTester::WasParseErrorFired());
 	}
 
 	TEST_F(TokenizerConsumeCommentsTest, TestCommentEOF) {
@@ -128,6 +180,7 @@ namespace CSS {
 		tokenizer.string = testString;
 		ASSERT_FALSE(tokenizer.ConsumeComments());
 		ASSERT_EQ(tokenizer.string, testString);
+		ASSERT_TRUE(ParseErrorTester::WasParseErrorFired(CSS::ParseError::EOF_IN_CONSUMING_COMMENT));
 	}
 
 } // namespace CSS
