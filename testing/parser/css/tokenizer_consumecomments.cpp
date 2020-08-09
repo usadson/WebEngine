@@ -116,6 +116,15 @@ namespace CSS {
 		ASSERT_EQ(tokenizer.string, output);
 	}
 
+	TEST_F(TokenizerConsumeCommentsTest, TestCommentEOF) {
+		const Unicode::UString input("The following/* is faulty!");
+		const Unicode::UString testString("Random string #2gjs");
+		Tokenizer tokenizer(input);
+		tokenizer.string = testString;
+		ASSERT_FALSE(tokenizer.ConsumeComments());
+		ASSERT_EQ(tokenizer.string, testString);
+	}
+
 } // namespace CSS
 
 int
