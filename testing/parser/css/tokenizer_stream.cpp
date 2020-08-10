@@ -16,7 +16,7 @@ namespace CSS {
 
 	class TokenizerStreamTest : public ::testing::Test {
 	public:
-		char destination = 'A';
+		Unicode::CodePoint destination = 'A';
 	};
 
 	TEST_F(TokenizerStreamTest, TestNextEmpty) {
@@ -46,8 +46,8 @@ namespace CSS {
 		std::generate(std::begin(test), std::end(test), []() { return 'A' + (random() % 26); });
 		CSS::TokenizerStream stream(&test);
 
-		char peek = '\0';
-		char next = '\0';
+		Unicode::CodePoint peek = '\0';
+		Unicode::CodePoint next = '\0';
 		for (std::size_t i = 0; i < test.length(); i++) {
 			ASSERT_TRUE(stream.Peek(&peek));
 			ASSERT_TRUE(stream.Next(&next));
@@ -77,7 +77,7 @@ namespace CSS {
 		Unicode::UString test("ABC");
 		CSS::TokenizerStream stream(&test);
 
-		char local = 'Q';
+		Unicode::CodePoint local = 'Q';
 		destination = 'O';
 		ASSERT_TRUE(stream.Peek(&local));
 		ASSERT_TRUE(stream.Peek(&destination, 0));
