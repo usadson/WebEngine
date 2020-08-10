@@ -2,37 +2,37 @@ queries:
   - include: '*'
 path_classifiers:
   test:
-  - exclude: "/"
-  - "test"
-  - "testsuites"
-  - "**/*.test"
-  - exclude: "test/util"
-  some_custom_category: "tools"
+    - exclude: /
+    - test
+    - testsuites
+    - '**/*.test'
+    - exclude: test/util
+  some_custom_category: tools
 extraction:
   cpp:
     prepare:
       packages:
-      - "openssl"
-      - "libssl-dev"
-      - "libglew-dev"
-      - "libglfw3-dev"
-      - "libfreetype6-dev"
-      - "googletest"
-      - "libgtest-dev"
-      - "googletest-tools"
+        - openssl
+        - libssl-dev
+        - libglew-dev
+        - libglfw3-dev
+        - libfreetype6-dev
+        - googletest
+        - libgtest-dev
+        - googletest-tools
     after_prepare:
-    - "export GNU_MAKE=make"
-    - "export GIT=true"
-    before_index: "export GTEST_DIR=$LGTM_SRC/googletest"
+      - export GNU_MAKE=make
+      - export GIT=true
+    before_index: export GTEST_DIR=$LGTM_SRC/googletest
     index:
       all_solutions: true
-      build_command: "$GNU_MAKE -j2 -s bin/test.txt objects engine"
+      build_command: $GNU_MAKE -j2 -s bin/test.txt objects engine
   python:
-    after_prepare: "export PATH=$LGTM_WORKSPACE/tools:$PATH"
+    after_prepare: 'export PATH=$LGTM_WORKSPACE/tools:$PATH'
     python_setup:
-      version: "2"
-      requirements: "Pillow"
-      exclude_requirements: "pywin32"
-      requirements_files: "required-packages.txt"
-      setup_py: "new-setup.py"
-    before_index: "antlr4 -Dlanguage=Python3 Grammar.g4"
+      version: '2'
+      requirements: Pillow
+      exclude_requirements: pywin32
+      requirements_files: required-packages.txt
+      setup_py: new-setup.py
+    before_index: antlr4 -Dlanguage=Python3 Grammar.g4
