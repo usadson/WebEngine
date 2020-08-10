@@ -49,7 +49,6 @@ namespace CSS {
 	bool
 	Tokenizer::ConsumeToken(char character) noexcept {
 
-
 		return true;
 	}
 
