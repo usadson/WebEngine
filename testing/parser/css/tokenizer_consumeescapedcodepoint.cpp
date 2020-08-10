@@ -27,4 +27,14 @@ namespace CSS {
 		ASSERT_FALSE(ParseErrorTester::WasParseErrorFired());
 	}
 
+	TEST_F(TokenizerConsumeEscapedCodePointTest, TestHexSurrogate) {
+		std::stringstream stream;
+		stream << std::hex << 0xD800 + std::rand() % 0x800;
+		const Unicode::UString string(stream.str().c_str());
+		Tokenizer tokenizer(context, string);
+		ASSERT_EQ(tokenizer.ConsumeEscapedCodePoint(), Unicode::REPLACEMENT_CHARACTER);
+		ASSERT_TRUE(tokenizer.tokens.empty());
+		ASSERT_FALSE(ParseErrorTester::WasParseErrorFired());
+	}
+
 } // namespace CSS
