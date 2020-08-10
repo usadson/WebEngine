@@ -34,22 +34,12 @@ jobs:
       # with:
       #   languages: go, javascript, csharp, python, cpp, java
 
-    # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
-    # If this step fails, then you should remove it and run the build manually (see below)
-    #- name: Autobuild
-    #  uses: github/codeql-action/autobuild@v1
-
-    # ℹ️ Command-line programs to run using the OS shell.
-    # 📚 https://git.io/JvXDl
-
-    # ✏️ If the Autobuild fails above, remove it and uncomment the following three lines
-    #    and modify them (or add more) to build your code if your project
-    #    uses a compiled language
-
     - run: |
-       sudo apt -y install openssl libssl-dev libssl1.1 googletest libgtest-dev libglew-dev libglfw3-dev
-       sudo apt -y install libfreetype-dev || sudo apt -y install libfreetype6-dev
-       make release
+       sudo apt -y install openssl libssl-dev
+       sudo apt -y install libglew-dev libglfw3-dev
+       sudo bash -c "apt -y install libfreetype-dev || sudo apt -y install libfreetype6-dev"
+       sudo bash -c "(sudo apt install googletest libgtest-dev && sudo apt install googletest-tools) || wget https://github.com/google/googletest/archive/v1.10.x.tar.gz && tar -xf v1.10.x.tar.gz && cd googletest-1.10.x && cmake . && make && sudo make install && cd .."
+       tools/build-fast.sh
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
