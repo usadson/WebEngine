@@ -6,6 +6,7 @@
 
 #include "tokenizer.hpp"
 
+#include <array>
 #include <iostream>
 #include <iterator>
 #include <vector>
@@ -46,6 +47,35 @@ namespace CSS {
 		string = Unicode::UString(std::move(data));
 		stream.SetString(&string);
 		return true;
+	}
+
+	Unicode::CodePoint
+	Tokenizer::ConsumeEscapedCodePoint() noexcept {
+		Unicode::CodePoint character;
+		if (!stream.Next(&character)) {
+			context.ReportParseError(CSS::ParseError::EOF_IN_CONSUMING_ESCAPED_CODE_POINT);
+			return Unicode::REPLACEMENT_CHARACTER;
+		}
+
+		if (!Unicode::IsASCIIAlphaNumeric(character)) {
+			return character;
+		}
+
+		std::string s;
+		s += static_cast<char>(character);
+
+		for (std::size_t i = 1; i < 6; i++) {
+			if (!stream.Next(&character)) {
+				break;
+			}
+			if (Unicode::IsASCIIAlphaNumeric(character)) {
+				s += static_cast<char>(character);
+			} else if (character != Unicode::SPACE) {
+				stream.Reconsume();
+			}
+		}
+
+		return std::stoul(s, nullptr, 16);
 	}
 
 	bool
