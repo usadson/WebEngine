@@ -110,6 +110,34 @@ namespace Unicode {
 	constexpr CodePoint LOW_LINE = 0x005F;					// '_'
 	constexpr CodePoint GRAVE_ACCENT = 0x0060;				// '`'
 
+	// Lowercase Latin alphabet
+	constexpr CodePoint LATIN_SMALL_LETTER_A = 0x0061;		// 'a'
+	constexpr CodePoint LATIN_SMALL_LETTER_B = 0x0062;		// 'b'
+	constexpr CodePoint LATIN_SMALL_LETTER_C = 0x0063;		// 'c'
+	constexpr CodePoint LATIN_SMALL_LETTER_D = 0x0064;		// 'd'
+	constexpr CodePoint LATIN_SMALL_LETTER_E = 0x0065;		// 'e'
+	constexpr CodePoint LATIN_SMALL_LETTER_F = 0x0066;		// 'f'
+	constexpr CodePoint LATIN_SMALL_LETTER_G = 0x0067;		// 'g'
+	constexpr CodePoint LATIN_SMALL_LETTER_H = 0x0068;		// 'h'
+	constexpr CodePoint LATIN_SMALL_LETTER_I = 0x0069;		// 'i'
+	constexpr CodePoint LATIN_SMALL_LETTER_J = 0x006A;		// 'j'
+	constexpr CodePoint LATIN_SMALL_LETTER_K = 0x006B;		// 'k'
+	constexpr CodePoint LATIN_SMALL_LETTER_L = 0x006C;		// 'l'
+	constexpr CodePoint LATIN_SMALL_LETTER_M = 0x006D;		// 'm'
+	constexpr CodePoint LATIN_SMALL_LETTER_N = 0x006E;		// 'n'
+	constexpr CodePoint LATIN_SMALL_LETTER_O = 0x006F;		// 'o'
+	constexpr CodePoint LATIN_SMALL_LETTER_P = 0x0070;		// 'p'
+	constexpr CodePoint LATIN_SMALL_LETTER_Q = 0x0071;		// 'q'
+	constexpr CodePoint LATIN_SMALL_LETTER_R = 0x0072;		// 'r'
+	constexpr CodePoint LATIN_SMALL_LETTER_S = 0x0073;		// 's'
+	constexpr CodePoint LATIN_SMALL_LETTER_T = 0x0074;		// 't'
+	constexpr CodePoint LATIN_SMALL_LETTER_U = 0x0075;		// 'u'
+	constexpr CodePoint LATIN_SMALL_LETTER_V = 0x0076;		// 'v'
+	constexpr CodePoint LATIN_SMALL_LETTER_W = 0x0077;		// 'w'
+	constexpr CodePoint LATIN_SMALL_LETTER_X = 0x0078;		// 'x'
+	constexpr CodePoint LATIN_SMALL_LETTER_Y = 0x0079;		// 'y'
+	constexpr CodePoint LATIN_SMALL_LETTER_Z = 0x007A;		// 'z'
+
 	// Unicode Specials
 	constexpr CodePoint REPLACEMENT_CHARACTER = 0xFFFD;
 
