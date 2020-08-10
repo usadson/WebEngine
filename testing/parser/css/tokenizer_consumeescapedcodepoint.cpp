@@ -14,9 +14,9 @@ namespace CSS {
 	TEST_F(TokenizerConsumeEscapedCodePointTest, TestEmpty) {
 		const Unicode::UString string("");
 		Tokenizer tokenizer(context, string);
-		(void) tokenizer.ConsumeEscapedCodePoint();
+		ASSERT_EQ(tokenizer.ConsumeEscapedCodePoint(), Unicode::REPLACEMENT_CHARACTER);
 		ASSERT_TRUE(tokenizer.tokens.empty());
-		ASSERT_TRUE(ParseErrorTester::WasParseErrorFired());
+		ASSERT_TRUE(ParseErrorTester::WasParseErrorFired(CSS::ParseError::EOF_IN_CONSUMING_ESCAPED_CODE_POINT));
 	}
 
 	TEST_F(TokenizerConsumeEscapedCodePointTest, TestHexNull) {
