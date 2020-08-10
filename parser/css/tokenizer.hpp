@@ -48,7 +48,7 @@ namespace CSS {
 		// Section: 4.3.1.
 		// URL: https://www.w3.org/TR/css-syntax-3/#consume-token
 		[[nodiscard]] bool
-		ConsumeToken() noexcept;
+		ConsumeToken(char character) noexcept;
 	};
 } // namespace CSS
 
