@@ -278,7 +278,11 @@ bin/parser/css/preprocessor.o: parser/css/preprocessor.cpp \
 
 bin/parser/css/tokenizer.o: parser/css/tokenizer.cpp \
 	parser/css/tokenizer.hpp \
+	data/text/unicode.hpp \
 	data/text/ustring.hpp \
+	parser/css/context.hpp \
+	parser/css/parse_error.hpp \
+	parser/css/token.hpp \
 	parser/css/tokenizer_stream.hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ parser/css/tokenizer.cpp
 
