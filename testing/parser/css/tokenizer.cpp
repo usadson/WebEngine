@@ -8,6 +8,39 @@
 
 #include <gtest/gtest.h>
 
+namespace ParseErrorTester {
+
+	CSS::ParseError lastParseError = CSS::ParseError::INVALID;
+
+	void
+	ReporterEndpoint(CSS::ParseError error) noexcept {
+		lastParseError = error;
+	}
+
+	bool
+	WasParseErrorFired() noexcept {
+		bool was = lastParseError != CSS::ParseError::INVALID;
+		lastParseError = CSS::ParseError::INVALID;
+		return was;
+	}
+
+	bool
+	WasParseErrorFired(CSS::ParseError error) noexcept {
+		auto lastErrorCopy = lastParseError;
+		lastParseError = CSS::ParseError::INVALID;
+
+		if (lastErrorCopy == error) {
+			return true;
+		} else if (lastErrorCopy == CSS::ParseError::INVALID) {
+			Logger::Info("WasParseErrorFired", "There wasn't a parse error fired, but was expected.");
+		} else {
+			Logger::Info("WasParseErrorFired", "There was a different parse error fired.");
+		}
+		return false;
+	}
+
+} // namespace ParseErrorTester
+
 // Make sure to also add them to the ingredients in the Makefile!
 #include "tokenizer_consumecomments.cpp"
 #include "tokenizer_consumeescapedcodepoint.cpp"
