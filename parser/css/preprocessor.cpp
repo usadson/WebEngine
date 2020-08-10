@@ -12,6 +12,9 @@ namespace CSS {
 
 	bool
 	Preprocessor::Run(Unicode::UString &string) const noexcept {
+		// TODO A thing that's probably better to do is to make a new vector and
+		// loop through the elements of that vector, and adding the character or
+		// adding a LF if needed. This way we can reduce reallocations.
 		for (std::size_t i = 0; i < string.length(); i++) {
 			if (string[i] == Unicode::CARRIAGE_RETURN) {
 				string[i] = Unicode::LINE_FEED;
