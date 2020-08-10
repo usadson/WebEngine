@@ -11,7 +11,6 @@
 #include <vector>
 
 #include "data/text/unicode.hpp"
-#include "data/text/ustring.hpp"
 
 namespace CSS {
 
@@ -48,7 +47,16 @@ namespace CSS {
 
 	bool
 	Tokenizer::ConsumeToken(char character) noexcept {
-
+		switch (character) {
+			case Unicode::LINE_FEED:
+			case Unicode::CHARACTER_TABULATION:
+			case Unicode::SPACE:
+				while (stream.Next(&character) && character == Unicode::LINE_FEED || character == Unicode::CHARACTER_TABULATION || character == Unicode::SPACE) {
+					tokens.push_back(CSS::MakeToken<CSS::TokenType::WHITESPACE>());
+					return true;
+				}
+				break;
+		}
 		return true;
 	}
 
