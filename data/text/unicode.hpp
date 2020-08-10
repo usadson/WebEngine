@@ -150,6 +150,8 @@ namespace Unicode {
 	// Unicode Specials
 	constexpr CodePoint REPLACEMENT_CHARACTER = 0xFFFD;
 
+	constexpr CodePoint LAST_ALLOWED_CODE_POINT = 0x10FFFF;
+
 	inline bool
 	IsASCIIAlpha(CodePoint character) {
 		return (character >= 0x41 && character <= 0x5A) || (character >= 0x61 && character <= 0x7A);
