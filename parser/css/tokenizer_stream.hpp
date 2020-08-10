@@ -16,6 +16,7 @@ namespace CSS {
 		TokenizerStream(const Unicode::UString *string) noexcept;
 
 		// Consumes the character if possible.
+		// If destination is nullptr, it won't fail.
 		//
 		// Returns true if not at the end, otherwise false.
 		// If false is returned, destination and position are untouched.
@@ -23,6 +24,7 @@ namespace CSS {
 		Next(char *destination) noexcept;
 
 		// Get a character without consuming it.
+		// If destination is nullptr, it won't fail.
 		//
 		// Returns true if not at the end, otherwise false.
 		// If false is returned, destination is untouched.
@@ -30,7 +32,7 @@ namespace CSS {
 		Peek(char *destination, std::size_t offset = 0) noexcept;
 
 		// Uses this string instead of the one passed by the constructor.
-		// Will set position to 0, of course;
+		// Will set position to 0, of course.
 		void
 		SetString(const Unicode::UString *string) noexcept;
 

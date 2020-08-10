@@ -19,7 +19,10 @@ namespace CSS {
 			return false;
 		}
 
-		*dest = string->operator[](position++);
+		if (dest != nullptr) {
+			*dest = string->operator[](position++);
+		}
+
 		return true;
 	}
 
@@ -29,7 +32,10 @@ namespace CSS {
 			return false;
 		}
 
-		*dest = string->operator[](position + offset);
+		if (dest) {
+			*dest = string->operator[](position + offset);
+		}
+
 		return true;
 	}
 
