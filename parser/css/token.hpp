@@ -6,6 +6,8 @@
  * See the COPYING file for licensing information.
  */
 
+#include <variant>
+
 namespace CSS {
 
 	enum class TokenType {
@@ -64,33 +66,31 @@ namespace CSS {
 	struct TokenDimensionData : public TokenNumericData, public TokenCodePointsData {
 	};
 
-	class Token {
-	public:
+	struct Token {
 		TokenType type;
 
-		union {
+		std::variant<
 			// For:
 			//  - <ident-token>
 			//  - <function-token>
 			//  - <at-keyword-token>
 			//  - <string-token>
 			//  - <url-token>
-			TokenCodePointsData codePoints;
+			TokenCodePointsData,
 
 			// For <hash-token>:
-			TokenHashData hashData;
+			TokenHashData,
 
 			// For <delim-token>:
-			Unicode::CodePoint codePoint;
+			Unicode::CodePoint,
 
 			// For:
 			//  - <number-token>
 			//  - <percentage-token>
-			TokenNumericData numbericData;
+			TokenNumericData,
 
 			// For <dimension-token>:
-			TokenDimensionData dimensionData;
-		};
+			TokenDimensionData> data;
 	};
 
 } // namespace CSS
