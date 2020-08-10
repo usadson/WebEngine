@@ -138,6 +138,12 @@ namespace Unicode {
 	constexpr CodePoint LATIN_SMALL_LETTER_Y = 0x0079;		// 'y'
 	constexpr CodePoint LATIN_SMALL_LETTER_Z = 0x007A;		// 'z'
 
+	// ASCII punctuation and symbols (#4)
+	constexpr CodePoint LEFT_SQUARE_BRACKET = 0x007B;		// '{'
+	constexpr CodePoint VERTICAL_LINE = 0x007C;				// '|'
+	constexpr CodePoint RIGHT_SQUARE_BRACKET = 0x007D;		// '}'
+	constexpr CodePoint TILDE = 0x007E;						// '~'
+
 	// Unicode Specials
 	constexpr CodePoint REPLACEMENT_CHARACTER = 0xFFFD;
 
