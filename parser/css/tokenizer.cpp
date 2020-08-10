@@ -52,7 +52,11 @@ namespace CSS {
 			return false;
 		}
 
-
+		while (stream.Peek(nullptr)) {
+			if (!ConsumeToken()) {
+				return false;
+			}
+		}
 
 		return true;
 	}
