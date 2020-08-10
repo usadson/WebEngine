@@ -38,7 +38,7 @@ namespace Unicode {
 	// ASCII punctuation and symbols
 	const CodePoint SPACE = 0x0020;				// ' '
 	const CodePoint EXCLAMATION_MARK = 0x0021;	// '!'
-	const CodePoint QUOTATION MARK = 0x0022;	// '"'
+	const CodePoint QUOTATION_MARK = 0x0022;	// '"'
 	const CodePoint NUMBER_SIGN = 0x0023;		// '#'
 	const CodePoint DOLLAR_SIGN = 0x0024;		// '$'
 	const CodePoint PERCENT_SIGN = 0x0025;		// '%'
