@@ -52,7 +52,18 @@ namespace Unicode {
 	const CodePoint HYPHEN_MINUS = 0x002D;		// '-'
 	const CodePoint FULL_STOP = 0x002E;			// '.'
 	const CodePoint SOLIDUS = 0x002F;			// '/'
-	const CodePoint SOLIDUS = 0x0030;			// '/'
+
+	// ASCII digits
+	const CodePoint DIGIT_ZERO = 0x0030;		// '0'
+	const CodePoint DIGIT_ONE = 0x0031;			// '1'
+	const CodePoint DIGIT_TWO = 0x0032;			// '2'
+	const CodePoint DIGIT_THREE = 0x0033;		// '3'
+	const CodePoint DIGIT_FOUR = 0x0034;		// '4'
+	const CodePoint DIGIT_FIVE = 0x0035;		// '5'
+	const CodePoint DIGIT_SIX = 0x0036;			// '6'
+	const CodePoint DIGIT_SEVEN = 0x0037;		// '7'
+	const CodePoint DIGIT_EIGHT = 0x0038;		// '8'
+	const CodePoint DIGIT_NINE = 0x0039;		// '9'
 
 	const CodePoint SEMICOLON = 0x003B;
 	const CodePoint EQUALS_SIGN = 0x003D;
