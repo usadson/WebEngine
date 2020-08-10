@@ -34,9 +34,26 @@ namespace Unicode {
 	const CodePoint FORM_FEED = 0x000C;
 	const CodePoint CARRIAGE_RETURN = 0x000D;
 	// 	--- //
-	const CodePoint SPACE = 0x0020;
-	const CodePoint NUMBER_SIGN = 0x0023;
-	const CodePoint AMPERSAND = 0x0026;
+
+	// ASCII punctuation and symbols
+	const CodePoint SPACE = 0x0020;				// ' '
+	const CodePoint EXCLAMATION_MARK = 0x0021;	// '!'
+	const CodePoint QUOTATION MARK = 0x0022;	// '"'
+	const CodePoint NUMBER_SIGN = 0x0023;		// '#'
+	const CodePoint DOLLAR_SIGN = 0x0024;		// '$'
+	const CodePoint PERCENT_SIGN = 0x0025;		// '%'
+	const CodePoint AMPERSAND = 0x0026;			// '&'
+	const CodePoint APOSTROPHE = 0x0027;		// '''
+	const CodePoint LEFT_PARENTHESIS = 0x0028;	// '('
+	const CodePoint RIGHT_PARENTHESIS = 0x0029;	// ')'
+	const CodePoint ASTERISK = 0x002A;			// '*'
+	const CodePoint PLUS_SIGN = 0x002B;			// '+'
+	const CodePoint COMMA = 0x002C;				// ','
+	const CodePoint HYPHEN_MINUS = 0x002D;		// '-'
+	const CodePoint FULL_STOP = 0x002E;			// '.'
+	const CodePoint SOLIDUS = 0x002F;			// '/'
+	const CodePoint SOLIDUS = 0x0030;			// '/'
+
 	const CodePoint SEMICOLON = 0x003B;
 	const CodePoint EQUALS_SIGN = 0x003D;
 	const CodePoint REPLACEMENT_CHARACTER = 0xFFFD;
