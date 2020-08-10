@@ -51,7 +51,8 @@ namespace CSS {
 			case Unicode::LINE_FEED:
 			case Unicode::CHARACTER_TABULATION:
 			case Unicode::SPACE:
-				while (stream.Next(&character) && character == Unicode::LINE_FEED || character == Unicode::CHARACTER_TABULATION || character == Unicode::SPACE) {
+				while (stream.Next(&character) && character == Unicode::LINE_FEED
+					   || character == Unicode::CHARACTER_TABULATION || character == Unicode::SPACE) {
 					tokens.push_back(CSS::MakeToken<CSS::TokenType::WHITESPACE>());
 					return true;
 				}
