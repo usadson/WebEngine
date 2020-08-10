@@ -3,6 +3,19 @@
 ---
 queries:
   - include: '*'
+  # We aren't concerned about this because magics are discouraged by code style
+  # and convention, and are 99% of the time already masked by a constant.
+  - exclude: cpp/integer-used-for-enum
+  # Code documentation is very much appreciated, but some code blocks are just
+  # hardcoded values to boost performance. To document every single code block
+  # is just insane in those cases. Take for example:
+  # data/text/encoding/single_byte_encoding.xpp
+  - exclude: cpp/poorly-documented-function
+  # Static variables, in this case constants are very useful to prevent magics
+  # in code. Obviously, the code is never finished, so having broad utilities
+  # that may've been unused is great, since writing them when you need them
+  # reduced performance and fun :)
+  - exclude: cpp/unused-static-variable
 path_classifiers:
   test:
     - exclude: /
