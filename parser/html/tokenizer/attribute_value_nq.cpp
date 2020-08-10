@@ -42,8 +42,9 @@ HTML::Tokenizer::AttributeValueNQ::Parse() {
 			context.GetCurrentTagToken().attributeValue += Unicode::REPLACEMENT_CHARACTER;
 			break;
 		default:
-			if (context.character == Unicode::QUOTATION_MARK || context.character == Unicode::APOSTROPHE || context.character == Unicode::LESS_THAN_SIGN
-				|| context.character == Unicode::EQUALS_SIGN || context.character == Unicode::GRAVE_ACCENT)
+			if (context.character == Unicode::QUOTATION_MARK || context.character == Unicode::APOSTROPHE
+				|| context.character == Unicode::LESS_THAN_SIGN || context.character == Unicode::EQUALS_SIGN
+				|| context.character == Unicode::GRAVE_ACCENT)
 				context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_CHARACTER_IN_UNQOUTED_ATTRIBUTE_VALUE);
 			context.GetCurrentTagToken().attributeValue += context.character;
 			break;

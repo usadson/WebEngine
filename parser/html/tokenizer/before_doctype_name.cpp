@@ -34,7 +34,8 @@ HTML::Tokenizer::BeforeDoctypeName::Parse() {
 				context.state = HTML::Tokenizer::ParserState::DOCTYPE_NAME;
 			} break;
 			default:
-				if (context.character >= Unicode::LATIN_CAPITAL_LETTER_A && context.character <= Unicode::LATIN_CAPITAL_LETTER_Z) { // Is uppercase
+				if (context.character >= Unicode::LATIN_CAPITAL_LETTER_A
+					&& context.character <= Unicode::LATIN_CAPITAL_LETTER_Z) { // Is uppercase
 					context.doctypeToken.name.emplace("");
 					context.doctypeToken.name.value() += static_cast<char>(context.character + 0x20);
 					context.state = HTML::Tokenizer::ParserState::DOCTYPE_NAME;
