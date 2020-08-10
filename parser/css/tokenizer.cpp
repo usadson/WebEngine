@@ -51,7 +51,7 @@ namespace CSS {
 	}
 
 	bool
-	Tokenizer::ConsumeStringToken() noexcept {
+	Tokenizer::ConsumeStringToken(Unicode::CodePoint endingCodePoint) noexcept {
 		return false;
 	}
 
@@ -67,7 +67,7 @@ namespace CSS {
 				}
 				break;
 			case Unicode::QUOTATION_MARK:
-				return ConsumeStringToken();
+				return ConsumeStringToken(character);
 		}
 		return true;
 	}

@@ -50,7 +50,7 @@ namespace CSS {
 		// Section: 4.3.5.
 		// URL: https://www.w3.org/TR/css-syntax-3/#consume-a-string-token
 		[[nodiscard]] bool
-		ConsumeStringToken() noexcept;
+		ConsumeStringToken(Unicode::CodePoint endingCodePoint) noexcept;
 
 		// The 'consume a token' tokenizer algorithm.
 		//
