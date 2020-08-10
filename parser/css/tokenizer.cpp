@@ -51,6 +51,11 @@ namespace CSS {
 	}
 
 	bool
+	Tokenizer::ConsumeStringToken() noexcept {
+		return false;
+	}
+
+	bool
 	Tokenizer::ConsumeToken(char character) noexcept {
 		switch (character) {
 			case Unicode::LINE_FEED:
