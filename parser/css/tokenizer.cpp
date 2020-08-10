@@ -26,13 +26,15 @@ namespace CSS {
 
 		for (auto iterator = std::begin(data); iterator < std::end(data); ++iterator) {
 			if (inComment) {
-				if (iterator + 1 != std::end(data) && *iterator == Unicode::ASTERISK && *(iterator + 1) == Unicode::SOLIDUS) {
+				if (iterator + 1 != std::end(data) && *iterator == Unicode::ASTERISK
+					&& *(iterator + 1) == Unicode::SOLIDUS) {
 					inComment = false;
 					iterator++;								// Consume '/' aswell
 					data.erase(commentStart, iterator + 1); // +1 because std::vector<T>::erase is exclusive
 					iterator = commentStart;
 				}
-			} else if (iterator + 1 != std::end(data) && *iterator == Unicode::SOLIDUS && *(iterator + 1) == Unicode::ASTERISK) {
+			} else if (iterator + 1 != std::end(data) && *iterator == Unicode::SOLIDUS
+					   && *(iterator + 1) == Unicode::ASTERISK) {
 				inComment = true;
 				commentStart = iterator;
 				iterator++; // Consume '*' aswell
