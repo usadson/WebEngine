@@ -44,6 +44,15 @@ namespace CSS {
 		[[nodiscard]] bool
 		ConsumeComments() noexcept;
 
+		// The 'consume an escaped code point' tokenizer algorithm.
+		//
+		// [Spec]
+		// Title: CSS Syntax Module Level 3
+		// Section: 4.3.7.
+		// URL: https://www.w3.org/TR/css-syntax-3/#consume-escaped-code-point
+		[[nodiscard]] Unicode::CodePoint
+		ConsumeEscapedCodePoint() noexcept;
+
 		// The 'consume a string token' tokenizer algorithm.
 		//
 		// [Spec]
