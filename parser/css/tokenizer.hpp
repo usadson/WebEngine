@@ -9,6 +9,7 @@
 #include "data/text/ustring.hpp"
 #include "parser/css/context.hpp"
 #include "parser/css/parse_error.hpp"
+#include "parser/css/token.hpp"
 #include "parser/css/tokenizer_stream.hpp"
 
 #ifndef PRIVATE_VISIBILITY
@@ -31,6 +32,7 @@ namespace CSS {
 		const Unicode::UString &inputString;
 		TokenizerStream stream;
 		Unicode::UString string;
+		std::vector<Token> tokens{};
 
 		// The 'consume comments' tokenizer algorithm.
 		//
