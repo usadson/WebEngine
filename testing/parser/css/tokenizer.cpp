@@ -10,3 +10,4 @@
 
 // Make sure to also add them to the ingredients in the Makefile!
 #include "tokenizer_consumecomments.cpp"
+#include "tokenizer_consumeescapedcodepoint.cpp"
