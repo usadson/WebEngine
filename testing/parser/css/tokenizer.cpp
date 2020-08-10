@@ -11,3 +11,9 @@
 // Make sure to also add them to the ingredients in the Makefile!
 #include "tokenizer_consumecomments.cpp"
 #include "tokenizer_consumeescapedcodepoint.cpp"
+
+int
+main(int argc, char **argv) {
+	::testing::InitGoogleTest(&argc, argv);
+	return RUN_ALL_TESTS();
+}
