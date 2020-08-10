@@ -29,7 +29,7 @@ namespace CSS {
 		// Returns true if not at the end, otherwise false.
 		// If false is returned, destination is untouched.
 		[[nodiscard]] bool
-		Peek(Unicode::CodePoint *destination, std::size_t offset = 0) noexcept;
+		Peek(Unicode::CodePoint *destination, std::size_t offset = 0) const noexcept;
 
 		// Reconsume the previous code point. The next time Next/Peek is called,
 		// the previous code point will be returned (if the stream isn't at the
