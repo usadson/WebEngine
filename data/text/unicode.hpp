@@ -19,91 +19,91 @@ namespace Unicode {
 
 	/* We can't use NULL as defined by the "C0 Controls and Basic Latin"
 	 * Unicode block, since this is a special keyword. */
-	const CodePoint NULL_CHARACTER = 0x0000;
-	const CodePoint START_OF_HEADING = 0x0001;
-	const CodePoint START_OF_TEXT = 0x0002;
-	const CodePoint END_OF_TEXT = 0x0003;
-	const CodePoint END_OF_TRANSMISSION = 0x0004;
-	const CodePoint ENQUIRY = 0x0005;
-	const CodePoint ACKNOWLEDGE = 0x0006;
-	const CodePoint BELL = 0x0007;
-	const CodePoint BACKSPACE = 0x0008;
-	const CodePoint CHARACTER_TABULATION = 0x0009;
-	const CodePoint LINE_FEED = 0x000A;
-	const CodePoint LINE_TABULATION = 0x000B;
-	const CodePoint FORM_FEED = 0x000C;
-	const CodePoint CARRIAGE_RETURN = 0x000D;
+	constexpr CodePoint NULL_CHARACTER = 0x0000;
+	constexpr CodePoint START_OF_HEADING = 0x0001;
+	constexpr CodePoint START_OF_TEXT = 0x0002;
+	constexpr CodePoint END_OF_TEXT = 0x0003;
+	constexpr CodePoint END_OF_TRANSMISSION = 0x0004;
+	constexpr CodePoint ENQUIRY = 0x0005;
+	constexpr CodePoint ACKNOWLEDGE = 0x0006;
+	constexpr CodePoint BELL = 0x0007;
+	constexpr CodePoint BACKSPACE = 0x0008;
+	constexpr CodePoint CHARACTER_TABULATION = 0x0009;
+	constexpr CodePoint LINE_FEED = 0x000A;
+	constexpr CodePoint LINE_TABULATION = 0x000B;
+	constexpr CodePoint FORM_FEED = 0x000C;
+	constexpr CodePoint CARRIAGE_RETURN = 0x000D;
 	// 	--- //
 
 	// ASCII punctuation and symbols
-	const CodePoint SPACE = 0x0020;						// ' '
-	const CodePoint EXCLAMATION_MARK = 0x0021;			// '!'
-	const CodePoint QUOTATION_MARK = 0x0022;			// '"'
-	const CodePoint NUMBER_SIGN = 0x0023;				// '#'
-	const CodePoint DOLLAR_SIGN = 0x0024;				// '$'
-	const CodePoint PERCENT_SIGN = 0x0025;				// '%'
-	const CodePoint AMPERSAND = 0x0026;					// '&'
-	const CodePoint APOSTROPHE = 0x0027;				// '''
-	const CodePoint LEFT_PARENTHESIS = 0x0028;			// '('
-	const CodePoint RIGHT_PARENTHESIS = 0x0029;			// ')'
-	const CodePoint ASTERISK = 0x002A;					// '*'
-	const CodePoint PLUS_SIGN = 0x002B;					// '+'
-	const CodePoint COMMA = 0x002C;						// ','
-	const CodePoint HYPHEN_MINUS = 0x002D;				// '-'
-	const CodePoint FULL_STOP = 0x002E;					// '.'
-	const CodePoint SOLIDUS = 0x002F;					// '/'
+	constexpr CodePoint SPACE = 0x0020;						// ' '
+	constexpr CodePoint EXCLAMATION_MARK = 0x0021;			// '!'
+	constexpr CodePoint QUOTATION_MARK = 0x0022;			// '"'
+	constexpr CodePoint NUMBER_SIGN = 0x0023;				// '#'
+	constexpr CodePoint DOLLAR_SIGN = 0x0024;				// '$'
+	constexpr CodePoint PERCENT_SIGN = 0x0025;				// '%'
+	constexpr CodePoint AMPERSAND = 0x0026;					// '&'
+	constexpr CodePoint APOSTROPHE = 0x0027;				// '''
+	constexpr CodePoint LEFT_PARENTHESIS = 0x0028;			// '('
+	constexpr CodePoint RIGHT_PARENTHESIS = 0x0029;			// ')'
+	constexpr CodePoint ASTERISK = 0x002A;					// '*'
+	constexpr CodePoint PLUS_SIGN = 0x002B;					// '+'
+	constexpr CodePoint COMMA = 0x002C;						// ','
+	constexpr CodePoint HYPHEN_MINUS = 0x002D;				// '-'
+	constexpr CodePoint FULL_STOP = 0x002E;					// '.'
+	constexpr CodePoint SOLIDUS = 0x002F;					// '/'
 
 	// ASCII digits
-	const CodePoint DIGIT_ZERO = 0x0030;				// '0'
-	const CodePoint DIGIT_ONE = 0x0031;					// '1'
-	const CodePoint DIGIT_TWO = 0x0032;					// '2'
-	const CodePoint DIGIT_THREE = 0x0033;				// '3'
-	const CodePoint DIGIT_FOUR = 0x0034;				// '4'
-	const CodePoint DIGIT_FIVE = 0x0035;				// '5'
-	const CodePoint DIGIT_SIX = 0x0036;					// '6'
-	const CodePoint DIGIT_SEVEN = 0x0037;				// '7'
-	const CodePoint DIGIT_EIGHT = 0x0038;				// '8'
-	const CodePoint DIGIT_NINE = 0x0039;				// '9'
+	constexpr CodePoint DIGIT_ZERO = 0x0030;				// '0'
+	constexpr CodePoint DIGIT_ONE = 0x0031;					// '1'
+	constexpr CodePoint DIGIT_TWO = 0x0032;					// '2'
+	constexpr CodePoint DIGIT_THREE = 0x0033;				// '3'
+	constexpr CodePoint DIGIT_FOUR = 0x0034;				// '4'
+	constexpr CodePoint DIGIT_FIVE = 0x0035;				// '5'
+	constexpr CodePoint DIGIT_SIX = 0x0036;					// '6'
+	constexpr CodePoint DIGIT_SEVEN = 0x0037;				// '7'
+	constexpr CodePoint DIGIT_EIGHT = 0x0038;				// '8'
+	constexpr CodePoint DIGIT_NINE = 0x0039;				// '9'
 
 	// ASCII punctuation and symbols (#2)
-	const CodePoint COLON = 0x003A;						// ':'
-	const CodePoint SEMICOLON = 0x003B;					// ';'
-	const CodePoint LESS_THAN_SIGN = 0x003C;			// '<'
-	const CodePoint EQUALS_SIGN = 0x003D;				// '='
-	const CodePoint GREATER_THAN_SIGN = 0x003E;			// '>'
-	const CodePoint QUESTION_MARK = 0x003F;				// '?'
-	const CodePoint COMMERCIAL_AT = 0x0040;				// '@'
+	constexpr CodePoint COLON = 0x003A;						// ':'
+	constexpr CodePoint SEMICOLON = 0x003B;					// ';'
+	constexpr CodePoint LESS_THAN_SIGN = 0x003C;			// '<'
+	constexpr CodePoint EQUALS_SIGN = 0x003D;				// '='
+	constexpr CodePoint GREATER_THAN_SIGN = 0x003E;			// '>'
+	constexpr CodePoint QUESTION_MARK = 0x003F;				// '?'
+	constexpr CodePoint COMMERCIAL_AT = 0x0040;				// '@'
 
 	// Uppercase Latin alphabet
-	const CodePoint LATIN_CAPITAL_LETTER_A = 0x0065;	// 'A'
-	const CodePoint LATIN_CAPITAL_LETTER_B = 0x0066;	// 'B'
-	const CodePoint LATIN_CAPITAL_LETTER_C = 0x0067;	// 'C'
-	const CodePoint LATIN_CAPITAL_LETTER_D = 0x0068;	// 'D'
-	const CodePoint LATIN_CAPITAL_LETTER_E = 0x0069;	// 'E'
-	const CodePoint LATIN_CAPITAL_LETTER_F = 0x0070;	// 'F'
-	const CodePoint LATIN_CAPITAL_LETTER_G = 0x0071;	// 'G'
-	const CodePoint LATIN_CAPITAL_LETTER_H = 0x0072;	// 'H'
-	const CodePoint LATIN_CAPITAL_LETTER_I = 0x0073;	// 'I'
-	const CodePoint LATIN_CAPITAL_LETTER_J = 0x0074;	// 'J'
-	const CodePoint LATIN_CAPITAL_LETTER_K = 0x0075;	// 'K'
-	const CodePoint LATIN_CAPITAL_LETTER_L = 0x0076;	// 'L'
-	const CodePoint LATIN_CAPITAL_LETTER_M = 0x0077;	// 'M'
-	const CodePoint LATIN_CAPITAL_LETTER_N = 0x0078;	// 'N'
-	const CodePoint LATIN_CAPITAL_LETTER_O = 0x0079;	// 'O'
-	const CodePoint LATIN_CAPITAL_LETTER_P = 0x0080;	// 'P'
-	const CodePoint LATIN_CAPITAL_LETTER_Q = 0x0081;	// 'Q'
-	const CodePoint LATIN_CAPITAL_LETTER_R = 0x0082;	// 'R'
-	const CodePoint LATIN_CAPITAL_LETTER_S = 0x0083;	// 'S'
-	const CodePoint LATIN_CAPITAL_LETTER_T = 0x0084;	// 'T'
-	const CodePoint LATIN_CAPITAL_LETTER_U = 0x0085;	// 'U'
-	const CodePoint LATIN_CAPITAL_LETTER_V = 0x0086;	// 'V'
-	const CodePoint LATIN_CAPITAL_LETTER_W = 0x0087;	// 'W'
-	const CodePoint LATIN_CAPITAL_LETTER_X = 0x0088;	// 'X'
-	const CodePoint LATIN_CAPITAL_LETTER_Y = 0x0089;	// 'Y'
-	const CodePoint LATIN_CAPITAL_LETTER_Z = 0x0090;	// 'Z'
+	constexpr CodePoint LATIN_CAPITAL_LETTER_A = 0x0065;	// 'A'
+	constexpr CodePoint LATIN_CAPITAL_LETTER_B = 0x0066;	// 'B'
+	constexpr CodePoint LATIN_CAPITAL_LETTER_C = 0x0067;	// 'C'
+	constexpr CodePoint LATIN_CAPITAL_LETTER_D = 0x0068;	// 'D'
+	constexpr CodePoint LATIN_CAPITAL_LETTER_E = 0x0069;	// 'E'
+	constexpr CodePoint LATIN_CAPITAL_LETTER_F = 0x0070;	// 'F'
+	constexpr CodePoint LATIN_CAPITAL_LETTER_G = 0x0071;	// 'G'
+	constexpr CodePoint LATIN_CAPITAL_LETTER_H = 0x0072;	// 'H'
+	constexpr CodePoint LATIN_CAPITAL_LETTER_I = 0x0073;	// 'I'
+	constexpr CodePoint LATIN_CAPITAL_LETTER_J = 0x0074;	// 'J'
+	constexpr CodePoint LATIN_CAPITAL_LETTER_K = 0x0075;	// 'K'
+	constexpr CodePoint LATIN_CAPITAL_LETTER_L = 0x0076;	// 'L'
+	constexpr CodePoint LATIN_CAPITAL_LETTER_M = 0x0077;	// 'M'
+	constexpr CodePoint LATIN_CAPITAL_LETTER_N = 0x0078;	// 'N'
+	constexpr CodePoint LATIN_CAPITAL_LETTER_O = 0x0079;	// 'O'
+	constexpr CodePoint LATIN_CAPITAL_LETTER_P = 0x0080;	// 'P'
+	constexpr CodePoint LATIN_CAPITAL_LETTER_Q = 0x0081;	// 'Q'
+	constexpr CodePoint LATIN_CAPITAL_LETTER_R = 0x0082;	// 'R'
+	constexpr CodePoint LATIN_CAPITAL_LETTER_S = 0x0083;	// 'S'
+	constexpr CodePoint LATIN_CAPITAL_LETTER_T = 0x0084;	// 'T'
+	constexpr CodePoint LATIN_CAPITAL_LETTER_U = 0x0085;	// 'U'
+	constexpr CodePoint LATIN_CAPITAL_LETTER_V = 0x0086;	// 'V'
+	constexpr CodePoint LATIN_CAPITAL_LETTER_W = 0x0087;	// 'W'
+	constexpr CodePoint LATIN_CAPITAL_LETTER_X = 0x0088;	// 'X'
+	constexpr CodePoint LATIN_CAPITAL_LETTER_Y = 0x0089;	// 'Y'
+	constexpr CodePoint LATIN_CAPITAL_LETTER_Z = 0x0090;	// 'Z'
 
 	// Unicode Specials
-	const CodePoint REPLACEMENT_CHARACTER = 0xFFFD;
+	constexpr CodePoint REPLACEMENT_CHARACTER = 0xFFFD;
 
 	inline bool
 	IsASCIIAlpha(CodePoint character) {
