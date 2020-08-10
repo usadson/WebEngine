@@ -14,9 +14,17 @@ namespace CSS {
 	TEST_F(TokenizerConsumeEscapedCodePointTest, TestEmpty) {
 		const Unicode::UString string("");
 		Tokenizer tokenizer(context, string);
-		ASSERT_TRUE(tokenizer.ConsumeEscapedCodePoint());
+		(void) tokenizer.ConsumeEscapedCodePoint();
 		ASSERT_TRUE(tokenizer.tokens.empty());
 		ASSERT_TRUE(ParseErrorTester::WasParseErrorFired());
+	}
+
+	TEST_F(TokenizerConsumeEscapedCodePointTest, TestHexNull) {
+		const Unicode::UString string("000000");
+		Tokenizer tokenizer(context, string);
+		ASSERT_EQ(tokenizer.ConsumeEscapedCodePoint(), Unicode::REPLACEMENT_CHARACTER);
+		ASSERT_TRUE(tokenizer.tokens.empty());
+		ASSERT_FALSE(ParseErrorTester::WasParseErrorFired());
 	}
 
 } // namespace CSS
