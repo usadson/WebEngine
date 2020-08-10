@@ -47,4 +47,12 @@ namespace CSS {
 		ASSERT_FALSE(ParseErrorTester::WasParseErrorFired());
 	}
 
+	TEST_F(TokenizerConsumeEscapedCodePointTest, TestNewLine) {
+		const Unicode::UString string("\n");
+		Tokenizer tokenizer(context, string);
+		ASSERT_EQ(tokenizer.ConsumeEscapedCodePoint(), Unicode::LINE_FEED);
+		ASSERT_TRUE(tokenizer.tokens.empty());
+		ASSERT_FALSE(ParseErrorTester::WasParseErrorFired());
+	}
+
 } // namespace CSS
