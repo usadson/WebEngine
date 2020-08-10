@@ -21,7 +21,7 @@ namespace CSS {
 		// Returns true if not at the end, otherwise false.
 		// If false is returned, destination and position are untouched.
 		[[nodiscard]] bool
-		Next(char *destination) noexcept;
+		Next(Unicode::CodePoint *destination) noexcept;
 
 		// Get a character without consuming it.
 		// If destination is nullptr, it won't fail.
@@ -29,7 +29,7 @@ namespace CSS {
 		// Returns true if not at the end, otherwise false.
 		// If false is returned, destination is untouched.
 		[[nodiscard]] bool
-		Peek(char *destination, std::size_t offset = 0) noexcept;
+		Peek(Unicode::CodePoint *destination, std::size_t offset = 0) noexcept;
 
 		// Uses this string instead of the one passed by the constructor.
 		// Will set position to 0, of course.

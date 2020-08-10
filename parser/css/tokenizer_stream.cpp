@@ -14,7 +14,7 @@ namespace CSS {
 	}
 
 	bool
-	TokenizerStream::Next(char *dest) noexcept {
+	TokenizerStream::Next(Unicode::CodePoint *dest) noexcept {
 		if (position >= string->length()) {
 			return false;
 		}
@@ -27,7 +27,7 @@ namespace CSS {
 	}
 
 	bool
-	TokenizerStream::Peek(char *dest, std::size_t offset) noexcept {
+	TokenizerStream::Peek(Unicode::CodePoint *dest, std::size_t offset) noexcept {
 		if (position + offset >= string->length()) {
 			return false;
 		}
