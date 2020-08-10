@@ -62,7 +62,7 @@ namespace CSS {
 
 			switch (character) {
 				case Unicode::LINE_FEED:
-					// parse error
+					context.ReportParseError(CSS::ParseError::NEWLINE_IN_CONSUMING_STRING);
 					tokens.push_back(CSS::MakeToken<CSS::TokenType::BAD_STRING>());
 					stream.Reconsume();
 					return true;
@@ -74,7 +74,7 @@ namespace CSS {
 			}
 		}
 
-		// parse error
+		context.ReportParseError(CSS::ParseError::EOF_IN_CONSUMING_STRING);
 		return true;
 	}
 
