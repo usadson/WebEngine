@@ -6,6 +6,7 @@
  * See the COPYING file for licensing information.
  */
 
+#include "data/text/unicode.hpp"
 #include "data/text/ustring.hpp"
 #include "parser/css/context.hpp"
 #include "parser/css/parse_error.hpp"
@@ -59,7 +60,7 @@ namespace CSS {
 		// Section: 4.3.1.
 		// URL: https://www.w3.org/TR/css-syntax-3/#consume-token
 		[[nodiscard]] bool
-		ConsumeToken(char character) noexcept;
+		ConsumeToken(Unicode::CodePoint character) noexcept;
 	};
 } // namespace CSS
 

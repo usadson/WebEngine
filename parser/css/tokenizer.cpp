@@ -10,8 +10,6 @@
 #include <iterator>
 #include <vector>
 
-#include "data/text/unicode.hpp"
-
 inline bool
 IsWhitespace(Unicode::CodePoint character) noexcept {
 	return character == Unicode::LINE_FEED || character == Unicode::CHARACTER_TABULATION || character == Unicode::SPACE;
@@ -56,7 +54,7 @@ namespace CSS {
 	}
 
 	bool
-	Tokenizer::ConsumeToken(char character) noexcept {
+	Tokenizer::ConsumeToken(Unicode::CodePoint character) noexcept {
 		switch (character) {
 			case Unicode::LINE_FEED:
 			case Unicode::CHARACTER_TABULATION:
@@ -78,7 +76,7 @@ namespace CSS {
 			return false;
 		}
 
-		char character;
+		Unicode::CodePoint character;
 		while (stream.Next(&character)) {
 			if (!ConsumeToken(character)) {
 				return false;
