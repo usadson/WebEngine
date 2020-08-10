@@ -47,7 +47,9 @@ namespace CSS {
 	}
 
 	bool
-	Tokenizer::ConsumeToken() noexcept {
+	Tokenizer::ConsumeToken(char character) noexcept {
+
+
 		return true;
 	}
 
@@ -57,8 +59,9 @@ namespace CSS {
 			return false;
 		}
 
-		while (stream.Peek(nullptr)) {
-			if (!ConsumeToken()) {
+		char character;
+		while (stream.Next(&character)) {
+			if (!ConsumeToken(character)) {
 				return false;
 			}
 		}
