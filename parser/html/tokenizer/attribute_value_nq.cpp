@@ -18,17 +18,17 @@ HTML::Tokenizer::AttributeValueNQ::Parse() {
 	}
 
 	switch (context.character) {
-		case '\t':
-		case '\n':
-		case '\f':
-		case ' ':
+		case Unicode::CHARACTER_TABULATION:
+		case Unicode::LINE_FEED:
+		case Unicode::FORM_FEED:
+		case Unicode::SPACE:
 			context.state = HTML::Tokenizer::ParserState::BEFORE_ATTRIBUTE_NAME;
 			break;
-		case '&':
+		case Unicode::AMPERSAND:
 			context.returnState = HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_NQ;
 			context.state = HTML::Tokenizer::ParserState::CHARACTER_REFERENCE;
 			break;
-		case '>':
+		case Unicode::GREATER_THAN_SIGN:
 			context.LogError(HTML::Tokenizer::ParserError::MISSING_ATTRIBUTE_VALUE);
 			context.state = HTML::Tokenizer::ParserState::DATA;
 			tokenizer.treeConstructor.EmitToken(context.GetCurrentTagToken());
@@ -37,13 +37,13 @@ HTML::Tokenizer::AttributeValueNQ::Parse() {
 			else
 				context.endTagToken = HTML::Tokenizer::EndTagToken();
 			break;
-		case '\0':
+		case Unicode::NULL_CHARACTER:
 			context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
 			context.GetCurrentTagToken().attributeValue += Unicode::REPLACEMENT_CHARACTER;
 			break;
 		default:
-			if (context.character == '"' || context.character == '\'' || context.character == '<'
-				|| context.character == '=' || context.character == '`')
+			if (context.character == Unicode::QUOTATION_MARK || context.character == Unicode::APOSTROPHE || context.character == Unicode::LESS_THAN_SIGN
+				|| context.character == Unicode::EQUALS_SIGN || context.character == Unicode::GRAVE_ACCENT)
 				context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_CHARACTER_IN_UNQOUTED_ATTRIBUTE_VALUE);
 			context.GetCurrentTagToken().attributeValue += context.character;
 			break;

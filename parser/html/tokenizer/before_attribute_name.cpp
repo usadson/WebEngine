@@ -21,18 +21,18 @@ HTML::Tokenizer::BeforeAttributeName::Parse() {
 		}
 
 		switch (context.character) {
-			case '\t':
-			case '\n':
-			case '\f':
-			case ' ':
+			case Unicode::CHARACTER_TABULATION:
+			case Unicode::LINE_FEED:
+			case Unicode::FORM_FEED:
+			case Unicode::SPACE:
 				// Ignore
 				break;
-			case '/':
-			case '>':
+			case Unicode::SOLIDUS:
+			case Unicode::GREATER_THAN_SIGN:
 				context.reconsume = true;
 				context.state = HTML::Tokenizer::ParserState::AFTER_ATTRIBUTE_NAME;
 				break;
-			case '=':
+			case Unicode::EQUALS_SIGN:
 				context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_EQUALS_SIGN_BEFORE_ATTRIBUTE_NAME);
 				// Correct behavior? The 12.2.5.32 says:
 				// "Consume the next input chararcter ... Set that

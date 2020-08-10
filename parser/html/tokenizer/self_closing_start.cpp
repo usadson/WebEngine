@@ -14,7 +14,7 @@ HTML::Tokenizer::SelfClosingStart::Parse() {
 	if (context.eof) {
 		context.LogError(HTML::Tokenizer::ParserError::EOF_IN_TAG);
 		tokenizer.treeConstructor.EmitEOFToken();
-	} else if (context.character == '>') {
+	} else if (context.character == Unicode::GREATER_THAN_SIGN) {
 		auto &tagToken = context.GetCurrentTagToken();
 
 		tagToken.selfClosing = true;

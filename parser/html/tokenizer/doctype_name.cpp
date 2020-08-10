@@ -17,24 +17,24 @@ HTML::Tokenizer::DoctypeName::Parse() {
 		tokenizer.treeConstructor.EmitEOFToken();
 	} else {
 		switch (context.character) {
-			case '\t':
-			case '\n':
-			case '\f':
-			case ' ':
+			case Unicode::CHARACTER_TABULATION:
+			case Unicode::LINE_FEED:
+			case Unicode::FORM_FEED:
+			case Unicode::SPACE:
 				context.state = HTML::Tokenizer::ParserState::AFTER_DOCTYPE_NAME;
 				break;
-			case '>':
+			case Unicode::GREATER_THAN_SIGN:
 				std::cout << "Doctype name: " << context.doctypeToken.name.value() << std::endl;
 				tokenizer.treeConstructor.EmitToken(context.doctypeToken);
 				context.doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
 				context.state = HTML::Tokenizer::ParserState::DATA;
 				break;
-			case '\0':
+			case Unicode::NULL_CHARACTER:
 				context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
 				context.doctypeToken.name = context.doctypeToken.name.value() + Unicode::REPLACEMENT_CHARACTER;
 				break;
 			default:
-				if (context.character >= 0x41 && context.character <= 0x5A) { // Is uppercase
+				if (context.character >= Unicode::LATIN_CAPITAL_LETTER_A && context.character <= Unicode::LATIN_CAPITAL_LETTER_Z) { // Is uppercase
 					context.doctypeToken.name
 						= context.doctypeToken.name.value() + static_cast<char>(context.character + 0x20);
 					;

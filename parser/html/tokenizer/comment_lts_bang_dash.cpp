@@ -11,7 +11,7 @@
 
 bool
 HTML::Tokenizer::CommentLTSBangDash::Parse() {
-	if (context.character == '-') {
+	if (context.character == Unicode::HYPHEN_MINUS) {
 		context.state = HTML::Tokenizer::ParserState::COMMENT_LTS_BANG_DASH_DASH;
 	} else {
 		context.reconsume = true;

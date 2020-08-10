@@ -17,15 +17,15 @@ HTML::Tokenizer::DoctypeSystemIdentifierSQ::Parse() {
 		tokenizer.treeConstructor.EmitEOFToken();
 	} else {
 		switch (context.character) {
-			case '\'':
+			case Unicode::APOSTROPHE:
 				context.state = HTML::Tokenizer::ParserState::AFTER_DOCTYPE_SYSTEM_IDENTIFIER;
 				break;
-			case '\0':
+			case Unicode::NULL_CHARACTER:
 				context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
 				context.doctypeToken.systemIdentifier
 					= context.doctypeToken.systemIdentifier.value() + Unicode::REPLACEMENT_CHARACTER;
 				break;
-			case '>':
+			case Unicode::GREATER_THAN_SIGN:
 				context.LogError(HTML::Tokenizer::ParserError::ABRUBT_DOCTYPE_SYSTEM_IDENTIFIER);
 				context.doctypeToken.forceQuirks = true;
 				tokenizer.treeConstructor.EmitToken(context.doctypeToken);

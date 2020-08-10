@@ -15,10 +15,10 @@ HTML::Tokenizer::CommentEndBang::Parse() {
 		context.LogError(HTML::Tokenizer::ParserError::EOF_IN_COMMENT);
 		tokenizer.treeConstructor.EmitToken(context.commentToken);
 		tokenizer.treeConstructor.EmitEOFToken();
-	} else if (context.character == '-') {
+	} else if (context.character == Unicode::HYPHEN_MINUS) {
 		context.commentToken.contents += "--!";
 		context.state = HTML::Tokenizer::ParserState::COMMENT_END_DASH;
-	} else if (context.character == '>') {
+	} else if (context.character == Unicode::GREATER_THAN_SIGN) {
 		context.LogError(HTML::Tokenizer::ParserError::INCORRECTLY_CLOSED_COMMENT);
 		tokenizer.treeConstructor.EmitToken(context.commentToken);
 		context.commentToken = HTML::Tokenizer::CommentToken::INVALID_TYPE;

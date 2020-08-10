@@ -12,8 +12,8 @@
 bool
 HTML::Tokenizer::MarkupDeclarationOpen::Parse() {
 	if (!context.eof) {
-		if (context.i + 1 < context.documentSize && context.character == '-'
-			&& context.document->data[context.i + 1] == '-') {
+		if (context.i + 1 < context.documentSize && context.character == Unicode::HYPHEN_MINUS
+			&& context.document->data[context.i + 1] == Unicode::HYPHEN_MINUS) {
 			context.toConsumeNext = 1;
 
 			context.commentToken = HTML::Tokenizer::CommentToken(Unicode::UString(""));
@@ -27,9 +27,9 @@ HTML::Tokenizer::MarkupDeclarationOpen::Parse() {
 				context.state = HTML::Tokenizer::ParserState::DOCTYPE;
 				return true;
 			}
-			if (context.character == '['
+			if (context.character == Unicode::LEFT_SQUARE_BRACKET
 				&& context.document->data.EqualsAL(context.i + 1, "CDATA", 5) // Case-sensitive!
-				&& context.document->data[context.i + 6] == ']') {
+				&& context.document->data[context.i + 6] == Unicode::RIGHT_SQUARE_BRACKET) {
 				// TODO ?
 				throw std::runtime_error("TODO in MARKUP_DECLARATION_OPEN / CDATA");
 			}

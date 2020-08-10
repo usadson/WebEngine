@@ -11,7 +11,7 @@
 
 bool
 HTML::Tokenizer::CommentLTSBangDashDash::Parse() {
-	if (context.eof || context.character == '>') {
+	if (context.eof || context.character == Unicode::GREATER_THAN_SIGN) {
 		context.reconsume = true;
 		context.state = HTML::Tokenizer::ParserState::COMMENT_END;
 	} else {

@@ -16,12 +16,12 @@ HTML::Tokenizer::Comment::Parse() {
 		tokenizer.treeConstructor.EmitToken(context.commentToken);
 		tokenizer.treeConstructor.EmitEOFToken();
 	} else {
-		if (context.character == '<') {
-			context.commentToken.contents += '<';
+		if (context.character == Unicode::LESS_THAN_SIGN) {
+			context.commentToken.contents += Unicode::LESS_THAN_SIGN;
 			context.state = HTML::Tokenizer::ParserState::COMMENT_LTS;
-		} else if (context.character == '-') {
+		} else if (context.character == Unicode::HYPHEN_MINUS) {
 			context.state = HTML::Tokenizer::ParserState::COMMENT_END_DASH;
-		} else if (context.character == '\0') {
+		} else if (context.character == Unicode::NULL_CHARACTER) {
 			context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
 			context.commentToken.contents += Unicode::REPLACEMENT_CHARACTER;
 		} else {

@@ -16,16 +16,16 @@ HTML::Tokenizer::AfterAttributeValueQuoted::Parse() {
 		tokenizer.treeConstructor.EmitEOFToken();
 	} else {
 		switch (context.character) {
-			case '\t':
-			case '\n':
-			case '\f':
-			case ' ':
+			case Unicode::CHARACTER_TABULATION:
+			case Unicode::LINE_FEED:
+			case Unicode::FORM_FEED:
+			case Unicode::SPACE:
 				context.state = HTML::Tokenizer::ParserState::BEFORE_ATTRIBUTE_NAME;
 				break;
-			case '/':
+			case Unicode::SOLIDUS:
 				context.state = HTML::Tokenizer::ParserState::SELF_CLOSING_START;
 				break;
-			case '>':
+			case Unicode::GREATER_THAN_SIGN:
 				context.state = HTML::Tokenizer::ParserState::DATA;
 				tokenizer.treeConstructor.EmitToken(context.GetCurrentTagToken());
 				if (context.isEndTag)

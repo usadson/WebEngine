@@ -17,15 +17,15 @@ HTML::Tokenizer::DoctypePublicIdentifierDQ::Parse() {
 		tokenizer.treeConstructor.EmitEOFToken();
 	} else {
 		switch (context.character) {
-			case '"':
+			case Unicode::QUOTATION_MARK:
 				context.state = HTML::Tokenizer::ParserState::AFTER_DOCTYPE_PUBLIC_IDENTIFIER;
 				break;
-			case '\0':
+			case Unicode::NULL_CHARACTER:
 				context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
 				context.doctypeToken.publicIdentifier
 					= context.doctypeToken.publicIdentifier.value() + Unicode::REPLACEMENT_CHARACTER;
 				break;
-			case '>':
+			case Unicode::GREATER_THAN_SIGN:
 				context.LogError(HTML::Tokenizer::ParserError::ABRUBT_DOCTYPE_PUBLIC_IDENTIFIER);
 				context.doctypeToken.forceQuirks = true;
 				tokenizer.treeConstructor.EmitToken(context.doctypeToken);

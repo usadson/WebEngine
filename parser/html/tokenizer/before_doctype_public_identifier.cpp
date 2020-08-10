@@ -17,21 +17,21 @@ HTML::Tokenizer::BeforeDoctypePublicIdentifier::Parse() {
 		tokenizer.treeConstructor.EmitEOFToken();
 	} else {
 		switch (context.character) {
-			case '\t':
-			case '\n':
-			case '\f':
-			case ' ':
+			case Unicode::CHARACTER_TABULATION:
+			case Unicode::LINE_FEED:
+			case Unicode::FORM_FEED:
+			case Unicode::SPACE:
 				// Ignore
 				break;
-			case '"':
+			case Unicode::QUOTATION_MARK:
 				context.doctypeToken.publicIdentifier.emplace("");
 				context.state = HTML::Tokenizer::ParserState::DOCTYPE_PUBLIC_IDENTIFIER_DQ;
 				break;
-			case '\'':
+			case Unicode::APOSTROPHE:
 				context.doctypeToken.publicIdentifier.emplace("");
 				context.state = HTML::Tokenizer::ParserState::DOCTYPE_PUBLIC_IDENTIFIER_SQ;
 				break;
-			case '>':
+			case Unicode::GREATER_THAN_SIGN:
 				context.LogError(HTML::Tokenizer::ParserError::MISSING_DOCTYPE_PUBLIC_IDENTIFIER);
 				context.doctypeToken.forceQuirks = true;
 				tokenizer.treeConstructor.EmitToken(context.doctypeToken);

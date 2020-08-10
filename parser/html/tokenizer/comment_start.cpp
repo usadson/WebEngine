@@ -11,9 +11,9 @@
 
 bool
 HTML::Tokenizer::CommentStart::Parse() {
-	if (context.character == '-') {
+	if (context.character == Unicode::HYPHEN_MINUS) {
 		context.state = HTML::Tokenizer::ParserState::COMMENT_START_DASH;
-	} else if (context.character == '>') {
+	} else if (context.character == Unicode::GREATER_THAN_SIGN) {
 		context.LogError(HTML::Tokenizer::ParserError::ABRUBT_CLOSING_OF_EMPTY_COMMENT);
 		context.state = HTML::Tokenizer::ParserState::DATA;
 		tokenizer.treeConstructor.EmitToken(context.commentToken);

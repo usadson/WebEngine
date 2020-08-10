@@ -17,24 +17,24 @@ HTML::Tokenizer::AfterDoctypePublicIdentifier::Parse() {
 		tokenizer.treeConstructor.EmitEOFToken();
 	} else {
 		switch (context.character) {
-			case '\t':
-			case '\n':
-			case '\f':
-			case ' ':
+			case Unicode::CHARACTER_TABULATION:
+			case Unicode::LINE_FEED:
+			case Unicode::FORM_FEED:
+			case Unicode::SPACE:
 				context.state = HTML::Tokenizer::ParserState::BETWEEN_DOCTYPE_PUBLIC_SYSTEM_IDENTIFIER;
 				break;
-			case '>':
+			case Unicode::GREATER_THAN_SIGN:
 				tokenizer.treeConstructor.EmitToken(context.doctypeToken);
 				context.doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
 				context.state = HTML::Tokenizer::ParserState::DATA;
 				break;
-			case '"':
+			case Unicode::QUOTATION_MARK:
 				context.LogError(
 					HTML::Tokenizer::ParserError::MISSING_WHITESPACE_BETWEEN_DOCTYPE_PUBLIC_AND_SYSTEM_IDENTIFIERS);
 				context.doctypeToken.systemIdentifier.emplace("");
 				context.state = HTML::Tokenizer::ParserState::DOCTYPE_SYSTEM_IDENTIFIER_DQ;
 				break;
-			case '\'':
+			case Unicode::APOSTROPHE:
 				context.LogError(
 					HTML::Tokenizer::ParserError::MISSING_WHITESPACE_BETWEEN_DOCTYPE_PUBLIC_AND_SYSTEM_IDENTIFIERS);
 				context.doctypeToken.systemIdentifier.emplace("");

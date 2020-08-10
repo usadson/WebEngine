@@ -18,19 +18,19 @@ HTML::Tokenizer::BeforeAttributeValue::Parse() {
 		auto &tagToken = context.GetCurrentTagToken();
 
 		switch (context.character) {
-			case '\t':
-			case '\n':
-			case '\f':
-			case ' ':
+			case Unicode::CHARACTER_TABULATION:
+			case Unicode::LINE_FEED:
+			case Unicode::FORM_FEED:
+			case Unicode::SPACE:
 				// Ignore
 				break;
-			case '"':
+			case Unicode::QUOTATION_MARK:
 				context.state = HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_DQ;
 				break;
-			case '\'':
+			case Unicode::APOSTROPHE:
 				context.state = HTML::Tokenizer::ParserState::ATTRIBUTE_VALUE_SQ;
 				break;
-			case '>':
+			case Unicode::GREATER_THAN_SIGN:
 				context.LogError(HTML::Tokenizer::ParserError::MISSING_ATTRIBUTE_VALUE);
 				context.state = HTML::Tokenizer::ParserState::DATA;
 				tokenizer.treeConstructor.EmitToken(tagToken);

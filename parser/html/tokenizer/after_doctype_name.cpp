@@ -21,13 +21,13 @@ HTML::Tokenizer::AfterDoctypeName::Parse() {
 		tokenizer.treeConstructor.EmitEOFToken();
 	} else {
 		switch (context.character) {
-			case '\t':
-			case '\n':
-			case '\f':
-			case ' ':
+			case Unicode::CHARACTER_TABULATION:
+			case Unicode::LINE_FEED:
+			case Unicode::FORM_FEED:
+			case Unicode::SPACE:
 				// Ignore
 				break;
-			case '>':
+			case Unicode::GREATER_THAN_SIGN:
 				tokenizer.treeConstructor.EmitToken(context.doctypeToken);
 				context.doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
 				context.state = HTML::Tokenizer::ParserState::DATA;

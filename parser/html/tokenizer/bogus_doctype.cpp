@@ -17,12 +17,12 @@ HTML::Tokenizer::BogusDoctype::Parse() {
 		tokenizer.treeConstructor.EmitEOFToken();
 	} else {
 		switch (context.character) {
-			case '>':
+			case Unicode::GREATER_THAN_SIGN:
 				tokenizer.treeConstructor.EmitToken(context.doctypeToken);
 				context.doctypeToken = HTML::Tokenizer::DoctypeToken(); // reset
 				context.state = HTML::Tokenizer::ParserState::DATA;
 				break;
-			case '\0':
+			case Unicode::NULL_CHARACTER:
 				context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
 				// Ignore
 				break;

@@ -16,19 +16,19 @@ HTML::Tokenizer::AfterAttributeName::Parse() {
 		tokenizer.treeConstructor.EmitEOFToken();
 	} else {
 		switch (context.character) {
-			case '\t':
-			case '\n':
-			case '\f':
-			case ' ':
+			case Unicode::CHARACTER_TABULATION:
+			case Unicode::LINE_FEED:
+			case Unicode::FORM_FEED:
+			case Unicode::SPACE:
 				// Ignore
 				break;
-			case '/':
+			case Unicode::SOLIDUS:
 				context.state = HTML::Tokenizer::ParserState::SELF_CLOSING_START;
 				break;
-			case '=':
+			case Unicode::EQUALS_SIGN:
 				context.state = HTML::Tokenizer::ParserState::BEFORE_ATTRIBUTE_VALUE;
 				break;
-			case '>':
+			case Unicode::GREATER_THAN_SIGN:
 				context.state = HTML::Tokenizer::ParserState::DATA;
 				tokenizer.treeConstructor.EmitToken(context.GetCurrentTagToken());
 

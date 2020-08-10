@@ -13,11 +13,11 @@ bool
 HTML::Tokenizer::TagEndOpen::Parse() {
 	if (context.eof) {
 		context.LogError(HTML::Tokenizer::ParserError::EOF_BEFORE_TAG_NAME);
-		tokenizer.treeConstructor.EmitCharacterToken('>');
+		tokenizer.treeConstructor.EmitCharacterToken(Unicode::GREATER_THAN_SIGN);
 		tokenizer.treeConstructor.EmitCharacterToken('\\');
 		tokenizer.treeConstructor.EmitEOFToken();
 	} else {
-		if (context.character == '>') {
+		if (context.character == Unicode::GREATER_THAN_SIGN) {
 			context.LogError(HTML::Tokenizer::ParserError::MISSING_END_TAG_NAME);
 			context.state = HTML::Tokenizer::ParserState::DATA;
 		} else if (Unicode::IsASCIIAlpha(context.character)) {

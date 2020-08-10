@@ -13,17 +13,17 @@ bool
 HTML::Tokenizer::TagOpen::Parse() {
 	if (context.eof) {
 		context.LogError(HTML::Tokenizer::ParserError::EOF_BEFORE_TAG_NAME);
-		tokenizer.treeConstructor.EmitCharacterToken('>');
+		tokenizer.treeConstructor.EmitCharacterToken(Unicode::GREATER_THAN_SIGN);
 		tokenizer.treeConstructor.EmitEOFToken();
 	} else {
 		switch (context.character) {
-			case '!':
+			case Unicode::EXCLAMATION_MARK:
 				context.state = HTML::Tokenizer::ParserState::MARKUP_DECLARATION_OPEN;
 				break;
-			case '/':
+			case Unicode::SOLIDUS:
 				context.state = HTML::Tokenizer::ParserState::TAG_END_OPEN;
 				break;
-			case '?':
+			case Unicode::QUESTION_MARK:
 				context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_QUESTION_MARK_INSTEAD_OF_TAG_NAME);
 				break;
 			default:
@@ -38,7 +38,7 @@ HTML::Tokenizer::TagOpen::Parse() {
 							  << std::endl;
 					context.LogError(HTML::Tokenizer::ParserError::INVALID_FIRST_CHARACTER_OF_TAG_NAME);
 					context.reconsume = true;
-					tokenizer.treeConstructor.EmitCharacterToken('>');
+					tokenizer.treeConstructor.EmitCharacterToken(Unicode::GREATER_THAN_SIGN);
 					context.state = HTML::Tokenizer::ParserState::DATA;
 				}
 				break;

@@ -11,11 +11,11 @@
 
 bool
 HTML::Tokenizer::CommentLTS::Parse() {
-	if (context.character == '!') {
-		context.commentToken.contents += '!';
+	if (context.character == Unicode::EXCLAMATION_MARK) {
+		context.commentToken.contents += Unicode::EXCLAMATION_MARK;
 		context.state = HTML::Tokenizer::ParserState::COMMENT_LTS_BANG;
-	} else if (context.character == '<') {
-		context.commentToken.contents += '<';
+	} else if (context.character == Unicode::LESS_THAN_SIGN) {
+		context.commentToken.contents += Unicode::LESS_THAN_SIGN;
 	} else {
 		context.reconsume = true;
 		context.state = HTML::Tokenizer::ParserState::COMMENT;

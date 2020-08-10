@@ -16,9 +16,9 @@ HTML::Tokenizer::CommentStartDash::Parse() {
 		tokenizer.treeConstructor.EmitToken(context.commentToken);
 		tokenizer.treeConstructor.EmitEOFToken();
 	} else {
-		if (context.character == '-') {
+		if (context.character == Unicode::HYPHEN_MINUS) {
 			context.state = HTML::Tokenizer::ParserState::COMMENT_END;
-		} else if (context.character == '>') {
+		} else if (context.character == Unicode::GREATER_THAN_SIGN) {
 			context.LogError(HTML::Tokenizer::ParserError::ABRUBT_CLOSING_OF_EMPTY_COMMENT);
 			context.state = HTML::Tokenizer::ParserState::DATA;
 			tokenizer.treeConstructor.EmitToken(context.commentToken);
@@ -26,7 +26,7 @@ HTML::Tokenizer::CommentStartDash::Parse() {
 			// Weird, is this a loop?
 			// 'Append a U+002D HYPHEN-MINUS context.character (-) to the
 			//  comment token's data. Reconsume in the comment state.
-			context.commentToken.contents += '-';
+			context.commentToken.contents += Unicode::HYPHEN_MINUS;
 			context.reconsume = true;
 			context.state = HTML::Tokenizer::ParserState::COMMENT;
 		}

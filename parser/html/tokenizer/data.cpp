@@ -15,14 +15,14 @@ HTML::Tokenizer::Data::Parse() {
 		tokenizer.treeConstructor.EmitEOFToken();
 	} else {
 		switch (context.character) {
-			case '&':
+			case Unicode::AMPERSAND:
 				context.returnState = HTML::Tokenizer::ParserState::DATA;
 				context.state = HTML::Tokenizer::ParserState::CHARACTER_REFERENCE;
 				break;
-			case '<':
+			case Unicode::LESS_THAN_SIGN:
 				context.state = HTML::Tokenizer::ParserState::TAG_OPEN;
 				break;
-			case '\0':
+			case Unicode::NULL_CHARACTER:
 				context.LogError(HTML::Tokenizer::ParserError::UNEXPECTED_NULL_CHARACTER);
 				tokenizer.treeConstructor.EmitCharacterToken(context.character);
 				break;
