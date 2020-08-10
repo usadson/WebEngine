@@ -75,7 +75,13 @@ namespace CSS {
 			}
 		}
 
-		return std::stoul(s, nullptr, 16);
+		unsigned long int value = std::stoul(s, nullptr, 16);
+
+		if (value == 0 || Unicode::IsSurrogate(value) || value > Unicode::LAST_ALLOWED_CODE_POINT) {
+			return Unicode::REPLACEMENT_CHARACTER;
+		}
+
+		return value;
 	}
 
 	bool
