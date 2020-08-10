@@ -1,3 +1,6 @@
+# LGTM.com configuration file.
+# This file specifies the requisited packages and build conventions.
+---
 queries:
   - include: '*'
 path_classifiers:
