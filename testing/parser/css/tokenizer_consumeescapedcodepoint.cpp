@@ -55,4 +55,12 @@ namespace CSS {
 		ASSERT_FALSE(ParseErrorTester::WasParseErrorFired());
 	}
 
+	TEST_F(TokenizerConsumeEscapedCodePointTest, TestNonHex) {
+		const Unicode::UString string("O");
+		Tokenizer tokenizer(context, string);
+		ASSERT_EQ(tokenizer.ConsumeEscapedCodePoint(), Unicode::LATIN_CAPITAL_LETTER_O);
+		ASSERT_TRUE(tokenizer.tokens.empty());
+		ASSERT_FALSE(ParseErrorTester::WasParseErrorFired());
+	}
+
 } // namespace CSS
