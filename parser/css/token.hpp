@@ -6,6 +6,9 @@
  * See the COPYING file for licensing information.
  */
 
+#include "data/text/unicode.hpp"
+
+#include <type_traits>
 #include <variant>
 
 namespace CSS {
@@ -70,6 +73,7 @@ namespace CSS {
 		TokenType type;
 
 		std::variant<
+			std::nullptr_t,
 			// For:
 			//  - <ident-token>
 			//  - <function-token>
@@ -92,6 +96,29 @@ namespace CSS {
 			// For <dimension-token>:
 			TokenDimensionData> data;
 	};
+
+	template<TokenType type> Token
+	MakeToken() noexcept {
+		switch (type) {
+			case TokenType::IDENT:
+			case TokenType::FUNCTION:
+			case TokenType::AT_KEYWORD:
+			case TokenType::STRING:
+			case TokenType::URL:
+				return Token { type, TokenCodePointsData() };
+			case TokenType::HASH:
+				return Token { type, TokenHashData() };
+			case TokenType::DELIM:
+				return Token { type, Unicode::REPLACEMENT_CHARACTER };
+			case TokenType::NUMBER:
+			case TokenType::PERCENTAGE:
+				return Token { type, TokenNumericData() };
+			case TokenType::DIMENSION:
+				return Token { type, TokenDimensionData() };
+			default:
+				return Token { type, nullptr };
+		}
+	}
 
 } // namespace CSS
 
