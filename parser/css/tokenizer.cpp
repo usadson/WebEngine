@@ -50,7 +50,32 @@ namespace CSS {
 
 	bool
 	Tokenizer::ConsumeStringToken(Unicode::CodePoint endingCodePoint) noexcept {
-		return false;
+		Token token = CSS::MakeToken<TokenType::STRING>();
+		std::vector<Unicode::CodePoint> &characters = std::get_if<TokenCodePointsData>(&token.data)->codePoints;
+
+		Unicode::CodePoint character;
+		while (stream.Next(&character)) {
+			if (character == endingCodePoint) {
+				tokens.push_back(token);
+				return true;
+			}
+
+			switch (character) {
+				case Unicode::LINE_FEED:
+					// parse error
+					tokens.push_back(CSS::MakeToken<CSS::TokenType::BAD_STRING>());
+					stream.Reconsume();
+					return true;
+				case Unicode::REVERSE_SOLIDUS:
+					break;
+				default:
+					characters.push_back(character);
+					break;
+			}
+		}
+
+		// parse error
+		return true;
 	}
 
 	bool
