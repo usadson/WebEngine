@@ -48,6 +48,12 @@ namespace CSS {
 
 	bool
 	Tokenizer::Run() noexcept {
+		if (!ConsumeComments()) {
+			return false;
+		}
+
+
+
 		return true;
 	}
 
