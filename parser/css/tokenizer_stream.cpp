@@ -40,6 +40,13 @@ namespace CSS {
 	}
 
 	void
+	TokenizerStream::Reconsume() noexcept {
+		if (position != 0) {
+			--position;
+		}
+	}
+
+	void
 	TokenizerStream::SetString(const Unicode::UString *string) noexcept {
 		this->string = string;
 		this->position = 0;

@@ -31,6 +31,12 @@ namespace CSS {
 		[[nodiscard]] bool
 		Peek(Unicode::CodePoint *destination, std::size_t offset = 0) noexcept;
 
+		// Reconsume the previous code point. The next time Next/Peek is called,
+		// the previous code point will be returned (if the stream isn't at the
+		// end).
+		void
+		Reconsume() noexcept;
+
 		// Uses this string instead of the one passed by the constructor.
 		// Will set position to 0, of course.
 		void
