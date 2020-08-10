@@ -43,6 +43,15 @@ namespace CSS {
 		[[nodiscard]] bool
 		ConsumeComments() noexcept;
 
+		// The 'consume a string token' tokenizer algorithm.
+		//
+		// [Spec]
+		// Title: CSS Syntax Module Level 3
+		// Section: 4.3.5.
+		// URL: https://www.w3.org/TR/css-syntax-3/#consume-a-string-token
+		[[nodiscard]] bool
+		ConsumeStringToken() noexcept;
+
 		// The 'consume a token' tokenizer algorithm.
 		//
 		// [Spec]
