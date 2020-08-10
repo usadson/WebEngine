@@ -102,6 +102,14 @@ namespace Unicode {
 	constexpr CodePoint LATIN_CAPITAL_LETTER_Y = 0x0059;	// 'Y'
 	constexpr CodePoint LATIN_CAPITAL_LETTER_Z = 0x005A;	// 'Z'
 
+	// ASCII punctuation and symbols (#3)
+	constexpr CodePoint LEFT_SQUARE_BRACKET = 0x005B;		// '['
+	constexpr CodePoint REVERSE_SOLIDUS = 0x005C;			// '\'
+	constexpr CodePoint RIGHT_SQUARE_BRACKET = 0x005D;		// ']'
+	constexpr CodePoint CIRCUMFLEX_ACCENT = 0x005E;			// '^'
+	constexpr CodePoint LOW_LINE = 0x005F;					// '_'
+	constexpr CodePoint GRAVE_ACCENT = 0x0060;				// '`'
+
 	// Unicode Specials
 	constexpr CodePoint REPLACEMENT_CHARACTER = 0xFFFD;
 
