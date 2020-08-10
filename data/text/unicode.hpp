@@ -74,6 +74,34 @@ namespace Unicode {
 	const CodePoint QUESTION_MARK = 0x003F;		// '?'
 	const CodePoint COMMERCIAL_AT = 0x0040;		// '@'
 
+	// Uppercase Latin alphabet
+	const CodePoint LATIN_CAPITAL_LETTER_A = 0x0065;	// 'A'
+	const CodePoint LATIN_CAPITAL_LETTER_B = 0x0066;	// 'B'
+	const CodePoint LATIN_CAPITAL_LETTER_C = 0x0067;	// 'C'
+	const CodePoint LATIN_CAPITAL_LETTER_D = 0x0068;	// 'D'
+	const CodePoint LATIN_CAPITAL_LETTER_E = 0x0069;	// 'E'
+	const CodePoint LATIN_CAPITAL_LETTER_F = 0x0070;	// 'F'
+	const CodePoint LATIN_CAPITAL_LETTER_G = 0x0071;	// 'G'
+	const CodePoint LATIN_CAPITAL_LETTER_H = 0x0072;	// 'H'
+	const CodePoint LATIN_CAPITAL_LETTER_I = 0x0073;	// 'I'
+	const CodePoint LATIN_CAPITAL_LETTER_J = 0x0074;	// 'J'
+	const CodePoint LATIN_CAPITAL_LETTER_K = 0x0075;	// 'K'
+	const CodePoint LATIN_CAPITAL_LETTER_L = 0x0076;	// 'L'
+	const CodePoint LATIN_CAPITAL_LETTER_M = 0x0077;	// 'M'
+	const CodePoint LATIN_CAPITAL_LETTER_N = 0x0078;	// 'N'
+	const CodePoint LATIN_CAPITAL_LETTER_O = 0x0079;	// 'O'
+	const CodePoint LATIN_CAPITAL_LETTER_P = 0x0080;	// 'P'
+	const CodePoint LATIN_CAPITAL_LETTER_Q = 0x0081;	// 'Q'
+	const CodePoint LATIN_CAPITAL_LETTER_R = 0x0082;	// 'R'
+	const CodePoint LATIN_CAPITAL_LETTER_S = 0x0083;	// 'S'
+	const CodePoint LATIN_CAPITAL_LETTER_T = 0x0084;	// 'T'
+	const CodePoint LATIN_CAPITAL_LETTER_U = 0x0085;	// 'U'
+	const CodePoint LATIN_CAPITAL_LETTER_V = 0x0086;	// 'V'
+	const CodePoint LATIN_CAPITAL_LETTER_W = 0x0087;	// 'W'
+	const CodePoint LATIN_CAPITAL_LETTER_X = 0x0088;	// 'X'
+	const CodePoint LATIN_CAPITAL_LETTER_Y = 0x0089;	// 'Y'
+	const CodePoint LATIN_CAPITAL_LETTER_Z = 0x0090;	// 'Z'
+
 	// Unicode Specials
 	const CodePoint REPLACEMENT_CHARACTER = 0xFFFD;
 
