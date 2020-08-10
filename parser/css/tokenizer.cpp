@@ -12,6 +12,11 @@
 
 #include "data/text/unicode.hpp"
 
+inline bool
+IsWhitespace(Unicode::CodePoint character) noexcept {
+	return character == Unicode::LINE_FEED || character == Unicode::CHARACTER_TABULATION || character == Unicode::SPACE;
+}
+
 namespace CSS {
 
 	bool
@@ -51,8 +56,7 @@ namespace CSS {
 			case Unicode::LINE_FEED:
 			case Unicode::CHARACTER_TABULATION:
 			case Unicode::SPACE:
-				while (stream.Next(&character) && character == Unicode::LINE_FEED
-					   || character == Unicode::CHARACTER_TABULATION || character == Unicode::SPACE) {
+				while (stream.Next(&character) && IsWhitespace(character)) {
 					tokens.push_back(CSS::MakeToken<CSS::TokenType::WHITESPACE>());
 					return true;
 				}
