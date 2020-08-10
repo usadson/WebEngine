@@ -164,7 +164,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 	context.toConsumeNext = 0;
 
 	for (context.i = 0; context.i <= context.documentSize; context.i++) {
-		context.character = '\0';
+		context.character = Unicode::NULL_CHARACTER;
 
 		if (context.reconsume) {
 			context.i--;
@@ -180,7 +180,7 @@ HTML::Tokenizer::Tokenizer::Run(Resources::DocumentResource &document) {
 				repeatLineCheckLoop = false;
 				context.character = context.document->data[context.i];
 
-				if (context.character == '\n') {
+				if (context.character == Unicode::LINE_FEED) {
 					context.lineCount += 1;
 					context.linePosition = 1;
 				} else {
