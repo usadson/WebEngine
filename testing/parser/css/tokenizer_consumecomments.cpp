@@ -4,15 +4,6 @@
  * See the COPYING file for licensing information.
  */
 
-#include <climits>
-#include <cstdlib>
-
-#define PRIVATE_VISIBILITY public
-
-#include "data/text/ustring.hpp"
-#include "logger.hpp"
-#include "parser/css/tokenizer.hpp"
-
 namespace CSS {
 
 	class TokenizerConsumeCommentsTest : public ::testing::Test {

@@ -6,7 +6,17 @@
 
 // This file includes all the tokenizer subfunctions
 
+#include <climits>
+#include <cstdlib>
+
 #include <gtest/gtest.h>
+
+#define PRIVATE_VISIBILITY public
+
+#include "data/text/ustring.hpp"
+#include "logger.hpp"
+#include "parser/css/tokenizer.hpp"
+
 
 namespace ParseErrorTester {
 
