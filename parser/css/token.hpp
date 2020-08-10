@@ -73,7 +73,9 @@ namespace CSS {
 		TokenType type;
 
 		std::variant<
+			// For any other type:
 			std::nullptr_t,
+
 			// For:
 			//  - <ident-token>
 			//  - <function-token>
