@@ -65,8 +65,16 @@ namespace Unicode {
 	const CodePoint DIGIT_EIGHT = 0x0038;		// '8'
 	const CodePoint DIGIT_NINE = 0x0039;		// '9'
 
-	const CodePoint SEMICOLON = 0x003B;
-	const CodePoint EQUALS_SIGN = 0x003D;
+	// ASCII punctuation and symbols (#2)
+	const CodePoint COLON = 0x003A;				// ':'
+	const CodePoint SEMICOLON = 0x003B;			// ';'
+	const CodePoint LESS_THAN_SIGN = 0x003C;	// '<'
+	const CodePoint EQUALS_SIGN = 0x003D;		// '='
+	const CodePoint GREATER_THAN_SIGN = 0x003E;	// '>'
+	const CodePoint QUESTION_MARK = 0x003F;		// '?'
+	const CodePoint COMMERCIAL_AT = 0x0040;		// '@'
+
+	// Unicode Specials
 	const CodePoint REPLACEMENT_CHARACTER = 0xFFFD;
 
 	inline bool
