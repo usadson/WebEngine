@@ -40,6 +40,15 @@ namespace CSS {
 		// URL: https://www.w3.org/TR/css-syntax-3/#consume-comment
 		[[nodiscard]] bool
 		ConsumeComments() noexcept;
+
+		// The 'consume a token' tokenizer algorithm.
+		//
+		// [Spec]
+		// Title: CSS Syntax Module Level 3
+		// Section: 4.3.1.
+		// URL: https://www.w3.org/TR/css-syntax-3/#consume-token
+		[[nodiscard]] bool
+		ConsumeToken() noexcept;
 	};
 } // namespace CSS
 
