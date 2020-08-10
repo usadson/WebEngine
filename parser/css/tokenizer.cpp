@@ -61,6 +61,8 @@ namespace CSS {
 					return true;
 				}
 				break;
+			case Unicode::QUOTATION_MARK:
+				return ConsumeStringToken();
 		}
 		return true;
 	}
