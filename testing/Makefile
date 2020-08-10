@@ -142,6 +142,7 @@ bin/testing/parser/css/preprocessor: testing/parser/css/preprocessor.cpp \
 
 bin/testing/parser/css/tokenizer: testing/parser/css/tokenizer.cpp \
 	testing/parser/css/tokenizer_consumecomments.cpp \
+	testing/parser/css/tokenizer_consumeescapedcodepoint.cpp \
 	bin/parser/css/tokenizer.o \
 	data/text/ustring.hpp
 	$(CXX) $(TESTING_CXXFLAGS) -o $@ testing/parser/css/tokenizer.cpp $(TESTING_LDFLAGS_CSSPARSER)
