@@ -139,10 +139,13 @@ namespace Unicode {
 	constexpr CodePoint LATIN_SMALL_LETTER_Z = 0x007A;		// 'z'
 
 	// ASCII punctuation and symbols (#4)
-	constexpr CodePoint LEFT_SQUARE_BRACKET = 0x007B;		// '{'
+	constexpr CodePoint LEFT_CURLY_BRACKET = 0x007B;		// '{'
 	constexpr CodePoint VERTICAL_LINE = 0x007C;				// '|'
-	constexpr CodePoint RIGHT_SQUARE_BRACKET = 0x007D;		// '}'
+	constexpr CodePoint RIGHT_CURLY_BRACKET = 0x007D;		// '}'
 	constexpr CodePoint TILDE = 0x007E;						// '~'
+
+	// Control character
+	constexpr CodePoint DELETE = 0x007F;
 
 	// Unicode Specials
 	constexpr CodePoint REPLACEMENT_CHARACTER = 0xFFFD;
