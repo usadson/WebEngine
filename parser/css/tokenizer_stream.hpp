@@ -7,6 +7,9 @@
  */
 
 #include <iosfwd>
+
+#include "data/text/unicode.hpp"
+
 namespace Unicode { class UString; }
 
 namespace CSS {
