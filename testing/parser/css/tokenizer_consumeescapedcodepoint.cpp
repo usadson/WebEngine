@@ -11,4 +11,12 @@ namespace CSS {
 		Context context { &ParseErrorTester::ReporterEndpoint };
 	};
 
+	TEST_F(TokenizerConsumeEscapedCodePointTest, TestEmpty) {
+		const Unicode::UString string("");
+		Tokenizer tokenizer(context, string);
+		ASSERT_TRUE(tokenizer.ConsumeEscapedCodePoint());
+		ASSERT_TRUE(tokenizer.tokens.empty());
+		ASSERT_TRUE(ParseErrorTester::WasParseErrorFired());
+	}
+
 } // namespace CSS
