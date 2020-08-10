@@ -10,7 +10,9 @@ namespace CSS {
 
 	enum class ParseError {
 		INVALID,
-		EOF_IN_CONSUMING_COMMENT
+		EOF_IN_CONSUMING_COMMENT,
+		EOF_IN_CONSUMING_STRING,
+		NEWLINE_IN_CONSUMING_STRING,
 	};
 
 } // namespace CSS
