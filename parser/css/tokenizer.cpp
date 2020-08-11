@@ -16,6 +16,13 @@ IsWhitespace(Unicode::CodePoint character) noexcept {
 	return character == Unicode::LINE_FEED || character == Unicode::CHARACTER_TABULATION || character == Unicode::SPACE;
 }
 
+inline bool
+IsHexCharacter(Unicode::CodePoint character) {
+	return (character >= Unicode::LATIN_CAPITAL_LETTER_A && character <= Unicode::LATIN_CAPITAL_LETTER_F) ||
+		   (character >= Unicode::LATIN_SMALL_LETTER_A && character <= Unicode::LATIN_SMALL_LETTER_F) ||
+		   (character >= Unicode::DIGIT_ZERO && character <= Unicode::DIGIT_NINE);
+}
+
 namespace CSS {
 
 	bool
@@ -59,7 +66,7 @@ namespace CSS {
 			return Unicode::REPLACEMENT_CHARACTER;
 		}
 
-		if (!Unicode::IsASCIIAlphaNumeric(character)) {
+		if (!IsHexCharacter(character)) {
 			return character;
 		}
 
@@ -70,7 +77,7 @@ namespace CSS {
 			if (!stream.Next(&character)) {
 				break;
 			}
-			if (Unicode::IsASCIIAlphaNumeric(character)) {
+			if (IsHexCharacter(character)) {
 				s += static_cast<char>(character);
 			} else if (character != Unicode::SPACE) {
 				stream.Reconsume();
