@@ -17,7 +17,6 @@
 #include "logger.hpp"
 #include "parser/css/tokenizer.hpp"
 
-
 namespace ParseErrorTester {
 
 	CSS::ParseError lastParseError = CSS::ParseError::INVALID;

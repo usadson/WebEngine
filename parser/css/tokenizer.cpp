@@ -18,9 +18,9 @@ IsWhitespace(Unicode::CodePoint character) noexcept {
 
 inline bool
 IsHexCharacter(Unicode::CodePoint character) {
-	return (character >= Unicode::LATIN_CAPITAL_LETTER_A && character <= Unicode::LATIN_CAPITAL_LETTER_F) ||
-		   (character >= Unicode::LATIN_SMALL_LETTER_A && character <= Unicode::LATIN_SMALL_LETTER_F) ||
-		   (character >= Unicode::DIGIT_ZERO && character <= Unicode::DIGIT_NINE);
+	return (character >= Unicode::LATIN_CAPITAL_LETTER_A && character <= Unicode::LATIN_CAPITAL_LETTER_F)
+		   || (character >= Unicode::LATIN_SMALL_LETTER_A && character <= Unicode::LATIN_SMALL_LETTER_F)
+		   || (character >= Unicode::DIGIT_ZERO && character <= Unicode::DIGIT_NINE);
 }
 
 namespace CSS {
