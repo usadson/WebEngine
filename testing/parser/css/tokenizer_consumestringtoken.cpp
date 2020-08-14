@@ -45,4 +45,11 @@ namespace CSS {
 		TestLegal(string, ending, result);
 	}
 
+	TEST_F(TokenizerConsumeStringToken, TestEmptyApostropheEnding) {
+		const Unicode::UString string("'");
+		const Unicode::CodePoint ending = Unicode::APOSTROPHE;
+		const std::vector<Unicode::CodePoint> result = {};
+		TestLegal(string, ending, result);
+	}
+
 } // namespace CSS
