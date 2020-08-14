@@ -159,23 +159,23 @@ namespace Unicode {
 	constexpr CodePoint LAST_ALLOWED_CODE_POINT = 0x10FFFF;
 
 	[[nodiscard]] inline constexpr bool
-	IsASCIIAlpha(CodePoint character) {
+	IsASCIIAlpha(CodePoint character) noexcept {
 		return (character >= 0x41 && character <= 0x5A) || (character >= 0x61 && character <= 0x7A);
 	}
 
 	[[nodiscard]] inline constexpr bool
-	IsDigit(CodePoint character) {
+	IsDigit(CodePoint character) noexcept {
 		return character >= Unicode::DIGIT_ZERO && character <= Unicode::DIGIT_NINE;
 	}
 
 	[[nodiscard]] inline constexpr bool
-	IsASCIIAlphaNumeric(CodePoint character) {
+	IsASCIIAlphaNumeric(CodePoint character) noexcept {
 		return (character >= 0x30 && character <= 0x39) || (character >= 0x41 && character <= 0x5A)
 			   || (character >= 0x61 && character <= 0x7A);
 	}
 
 	[[nodiscard]] inline constexpr CodePoint
-	ToLowerASCII(CodePoint character) {
+	ToLowerASCII(CodePoint character) noexcept {
 		/* Could use a ternary operator; this is cleaner. */
 		if (character >= 'A' && character <= 'Z')
 			return character + 0x20;
@@ -183,7 +183,7 @@ namespace Unicode {
 	}
 
 	[[nodiscard]] inline constexpr bool
-	IsSurrogate(CodePoint character) {
+	IsSurrogate(CodePoint character) noexcept {
 		return character >= 0xD800 && character <= 0xDFFF;
 	}
 
