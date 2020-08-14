@@ -37,4 +37,12 @@ namespace CSS {
 			ASSERT_EQ(data->codePoints, result);
 		}
 	};
+
+	TEST_F(TokenizerConsumeStringToken, TestEmptyQuotationMarkEnding) {
+		const Unicode::UString string("\"");
+		const Unicode::CodePoint ending = Unicode::QUOTATION_MARK;
+		const std::vector<Unicode::CodePoint> result = {};
+		TestLegal(string, ending, result);
+	}
+
 } // namespace CSS
