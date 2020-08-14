@@ -112,9 +112,13 @@ namespace CSS {
 					stream.Reconsume();
 					return true;
 				case Unicode::REVERSE_SOLIDUS:
-					if (stream.Peek(&character) && character != Unicode::LINE_FEED) {
-						stream.Reconsume();
-						characters.push_back(ConsumeEscapedCodePoint());
+					if (stream.Peek(&character)) {
+						if (character != Unicode::LINE_FEED) {
+							stream.Reconsume();
+							characters.push_back(ConsumeEscapedCodePoint());
+						} else {
+							stream.Skip();
+						}
 					}
 					break;
 				default:
