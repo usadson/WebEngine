@@ -52,4 +52,13 @@ namespace CSS {
 		TestLegal(string, ending, result);
 	}
 
+	TEST_F(TokenizerConsumeStringToken, TestEmptyRandomEnding) {
+		Unicode::CodePoint ending;
+		while ((ending = GetRandomCodePoint()) == Unicode::LINE_FEED) {}
+
+		Unicode::UString string(ending);
+		const std::vector<Unicode::CodePoint> result = {};
+		TestLegal(string, ending, result);
+	}
+
 } // namespace CSS
