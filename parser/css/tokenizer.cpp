@@ -114,7 +114,6 @@ namespace CSS {
 				case Unicode::REVERSE_SOLIDUS:
 					if (stream.Peek(&character)) {
 						if (character != Unicode::LINE_FEED) {
-							stream.Reconsume();
 							characters.push_back(ConsumeEscapedCodePoint());
 						} else {
 							stream.Skip();
