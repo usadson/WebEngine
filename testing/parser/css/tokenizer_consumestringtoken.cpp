@@ -117,4 +117,11 @@ namespace CSS {
 		TestLegal(string, ending, result);
 	}
 
+	TEST_F(TokenizerConsumeStringToken, TestEscapedCodePoint) {
+		Unicode::UString string{ 'H', 'e', '\\', '0', '0', '0', '0', '6', 'C', 'l', 'o', '"' };
+		const Unicode::CodePoint ending = Unicode::QUOTATION_MARK;
+		const std::vector<Unicode::CodePoint> result{ 'H', 'e', 'l', 'l', 'o' };
+		TestLegal(string, ending, result);
+	}
+
 } // namespace CSS
