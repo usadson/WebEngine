@@ -33,5 +33,10 @@ namespace CSS {
 		TestWhitespace(string);
 	}
 
+	TEST_F(TokenizerConsumeToken, TestWhitespaceCharacterTabulation) {
+		const Unicode::UString string("\t\t\t\t\t\t\t\t\t");
+		TestWhitespace(string);
+	}
+
 } // namespace CSS
 
