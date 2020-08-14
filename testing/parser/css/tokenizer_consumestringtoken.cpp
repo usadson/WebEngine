@@ -45,6 +45,18 @@ namespace CSS {
 			ASSERT_TRUE(ParseErrorTester::WasParseErrorFired(expectedError));
 			ASSERT_TRUE(tokenizer.tokens.empty());
 		}
+
+		// An parse error will be fired and no token will be emitted.
+		void
+		TestIllegalBadString(const Unicode::UString &string, Unicode::CodePoint ending, ParseError expectedError) {
+			Tokenizer tokenizer(context, string);
+			ASSERT_TRUE(tokenizer.ConsumeStringToken(ending));
+			ASSERT_TRUE(ParseErrorTester::WasParseErrorFired(expectedError));
+			ASSERT_EQ(tokenizer.tokens.size(), 1);
+			ASSERT_EQ(tokenizer.tokens[0].type, TokenType::BAD_STRING);
+			ASSERT_TRUE(std::holds_alternative<std::nullptr_t>(tokenizer.tokens[0].data));
+			ASSERT_EQ(std::get<std::nullptr_t>(tokenizer.tokens[0].data), nullptr);
+		}
 	};
 
 	TEST_F(TokenizerConsumeStringToken, TestEmptyQuotationMarkEnding) {
