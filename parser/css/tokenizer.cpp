@@ -39,9 +39,26 @@ IsNameCodePoint(Unicode::CodePoint codePoint) noexcept {
 }
 
 [[nodiscard]] inline bool
-IsValidEscape(const CSS::TokenizerStream &stream) noexcept {
+IsValidEscape(const CSS::TokenizerStream &stream, std::size_t offset=0) noexcept {
 	Unicode::CodePoint next, next2;
-	return stream.Peek(&next) && stream.Peek(&next2, 1) && next == Unicode::SOLIDUS && next2 != Unicode::LINE_FEED;
+	return stream.Peek(&next, offset) && stream.Peek(&next2, offset + 1) && next == Unicode::SOLIDUS && next2 != Unicode::LINE_FEED;
+}
+
+[[nodiscard]] inline bool
+WillStartIdentifier(const CSS::TokenizerStream &stream) noexcept {
+	Unicode::CodePoint first, second, third;
+	if (!stream.Peek(&first) || !stream.Peek(&second, 1) || !stream.Peek(&third, 2)) {
+		return false;
+	}
+
+	switch (first) {
+		case Unicode::HYPHEN_MINUS:
+			return IsNameStartCodePoint(second) || second == Unicode::HYPHEN_MINUS || IsValidEscape(stream, 1);
+		case Unicode::SOLIDUS:
+			return second != Unicode::LINE_FEED;
+		default:
+			return IsNameStartCodePoint(first);
+	}
 }
 
 namespace CSS {
