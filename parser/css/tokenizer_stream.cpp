@@ -52,4 +52,14 @@ namespace CSS {
 		this->position = 0;
 	}
 
+	bool
+	TokenizerStream::Skip() noexcept {
+		if (position >= string->length()) {
+			return false;
+		}
+
+		position++;
+		return true;
+	}
+
 } // namespace CSS

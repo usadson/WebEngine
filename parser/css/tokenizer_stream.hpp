@@ -45,6 +45,14 @@ namespace CSS {
 		void
 		SetString(const Unicode::UString *string) noexcept;
 
+		// Discards/skips the current character if possible.
+		// Effectively the same as: `Next(nullptr)`.
+		//
+		// Returns true if not at the end, otherwise false.
+		// If false is returned, destination and position are untouched.
+		/* discardable */ bool
+		Skip() noexcept;
+
 	  private:
 		const Unicode::UString *string;
 		std::size_t position{ 0 };
