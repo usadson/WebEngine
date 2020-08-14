@@ -23,6 +23,11 @@ IsHexCharacter(Unicode::CodePoint character) {
 		   || (character >= Unicode::DIGIT_ZERO && character <= Unicode::DIGIT_NINE);
 }
 
+[[nodiscard]] inline constexpr bool
+IsNonASCIICodePoint(Unicode::CodePoint codePoint) noexcept {
+	return codePoint >= Unicode::PADDING_CHARACTER;
+}
+
 namespace CSS {
 
 	bool
