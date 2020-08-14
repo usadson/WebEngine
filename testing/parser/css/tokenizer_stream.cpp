@@ -107,6 +107,16 @@ namespace CSS {
 		ASSERT_EQ(destination, 'G');
 	}
 
+	TEST_F(TokenizerStreamTest, TestSkip) {
+		Unicode::UString test{ 'G' };
+		CSS::TokenizerStream stream(&test);
+
+		ASSERT_TRUE(stream.Skip());
+		ASSERT_FALSE(stream.Skip());
+		ASSERT_FALSE(stream.Skip());
+		ASSERT_FALSE(stream.Skip());
+	}
+
 } // namespace CSS
 
 int
