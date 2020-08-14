@@ -38,6 +38,12 @@ IsNameCodePoint(Unicode::CodePoint codePoint) noexcept {
 	return IsNameStartCodePoint(codePoint) || Unicode::IsDigit(codePoint) || codePoint == Unicode::HYPHEN_MINUS;
 }
 
+[[nodiscard]] inline bool
+IsValidEscape(const CSS::TokenizerStream &stream) noexcept {
+	Unicode::CodePoint next, next2;
+	return stream.Peek(&next) && stream.Peek(&next2, 1) && next == Unicode::SOLIDUS && next2 != Unicode::LINE_FEED;
+}
+
 namespace CSS {
 
 	bool
