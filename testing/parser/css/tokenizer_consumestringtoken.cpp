@@ -20,8 +20,8 @@ namespace CSS {
 		Context context { &ParseErrorTester::ReporterEndpoint };
 
 		std::random_device randomDevice;
-		std::mt19937 randomGenerator{ randomDevice() };
-		std::uniform_int_distribution<Unicode::CodePoint> integerDistributor{ 0, Unicode::LAST_ALLOWED_CODE_POINT };
+		std::mt19937 randomGenerator { randomDevice() };
+		std::uniform_int_distribution<Unicode::CodePoint> integerDistributor { 0, Unicode::LAST_ALLOWED_CODE_POINT };
 
 		[[nodiscard]] Unicode::CodePoint
 		GetRandomCodePoint() noexcept {
@@ -29,12 +29,15 @@ namespace CSS {
 		}
 
 		void
-		CompareCodePointVectors(const std::vector<Unicode::CodePoint> &tokenizer, const std::vector<Unicode::CodePoint> &expected) const noexcept {
-			ASSERT_EQ(tokenizer, expected) << "Comparison failed: tokenizer=\"" << Unicode::UString(tokenizer) << "\" expected=\"" << Unicode::UString(expected) << '"';
+		CompareCodePointVectors(const std::vector<Unicode::CodePoint> &tokenizer,
+			const std::vector<Unicode::CodePoint> &expected) const noexcept {
+			ASSERT_EQ(tokenizer, expected) << "Comparison failed: tokenizer=\"" << Unicode::UString(tokenizer)
+										   << "\" expected=\"" << Unicode::UString(expected) << '"';
 		}
 
 		void
-		TestLegal(const Unicode::UString &string, Unicode::CodePoint ending, const std::vector<Unicode::CodePoint> &result) {
+		TestLegal(
+			const Unicode::UString &string, Unicode::CodePoint ending, const std::vector<Unicode::CodePoint> &result) {
 			Tokenizer tokenizer(context, string);
 			ASSERT_TRUE(tokenizer.ConsumeStringToken(ending));
 			ASSERT_FALSE(ParseErrorTester::WasParseErrorFired());
@@ -83,7 +86,8 @@ namespace CSS {
 
 	TEST_F(TokenizerConsumeStringToken, TestEmptyRandomEnding) {
 		Unicode::CodePoint ending;
-		while ((ending = GetRandomCodePoint()) == Unicode::LINE_FEED) {}
+		while ((ending = GetRandomCodePoint()) == Unicode::LINE_FEED) {
+		}
 
 		Unicode::UString string(ending);
 		const std::vector<Unicode::CodePoint> result = {};
@@ -103,7 +107,7 @@ namespace CSS {
 	}
 
 	TEST_F(TokenizerConsumeStringToken, TestEscapedNewLine) {
-		Unicode::UString string{ '\\', '\n', '"' };
+		Unicode::UString string { '\\', '\n', '"' };
 		const Unicode::CodePoint ending = Unicode::QUOTATION_MARK;
 		const std::vector<Unicode::CodePoint> result;
 		TestLegal(string, ending, result);
@@ -118,9 +122,9 @@ namespace CSS {
 	}
 
 	TEST_F(TokenizerConsumeStringToken, TestEscapedCodePoint) {
-		Unicode::UString string{ 'H', 'e', '\\', '0', '0', '0', '0', '6', 'C', 'l', 'o', '"' };
+		Unicode::UString string { 'H', 'e', '\\', '0', '0', '0', '0', '6', 'C', 'l', 'o', '"' };
 		const Unicode::CodePoint ending = Unicode::QUOTATION_MARK;
-		const std::vector<Unicode::CodePoint> result{ 'H', 'e', 'l', 'l', 'o' };
+		const std::vector<Unicode::CodePoint> result { 'H', 'e', 'l', 'l', 'o' };
 		TestLegal(string, ending, result);
 	}
 
