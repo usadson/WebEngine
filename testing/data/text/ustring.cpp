@@ -150,6 +150,12 @@ namespace Unicode {
 		ASSERT_FALSE(normalString.StartsWithIgnoreCaseAL(3, "something else", 11));
 	}
 
+	TEST_F(UStringTest, InitializerList) {
+		Unicode::UString s{ 'H', 'i' };
+		ASSERT_EQ(s.length(), 2);
+		ASSERT_EQ(Unicode::UString("Hi"), s);
+	}
+
 } // namespace Unicode
 
 int
