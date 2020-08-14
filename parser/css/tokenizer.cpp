@@ -79,7 +79,7 @@ namespace CSS {
 			}
 			if (IsHexCharacter(character)) {
 				s += static_cast<char>(character);
-			} else if (character != Unicode::SPACE) {
+			} else if (!IsWhitespace(character)) {
 				stream.Reconsume();
 			}
 		}
