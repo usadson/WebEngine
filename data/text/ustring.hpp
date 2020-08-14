@@ -6,6 +6,7 @@
  * See the COPYING file for licensing information.
  */
 
+#include <initializer_list>
 #include <ostream>
 #include <utility>
 #include <vector>
@@ -53,6 +54,10 @@ namespace Unicode {
 		}
 
 		explicit UString(Unicode::CodePoint) noexcept;
+
+		inline UString(std::initializer_list<Unicode::CodePoint> list) noexcept
+			: data(list) {
+		}
 
 		explicit UString(const char *, std::size_t) noexcept;
 
