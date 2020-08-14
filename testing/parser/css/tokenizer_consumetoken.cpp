@@ -38,5 +38,14 @@ namespace CSS {
 		TestWhitespace(string);
 	}
 
+	TEST_F(TokenizerConsumeToken, TestWhitespaceCombined) {
+		const Unicode::UString string("  \n\n\t\t");
+		TestWhitespace(string);
+		const Unicode::UString string2("\n \t \n\t \t\n \t \n");
+		TestWhitespace(string);
+		const Unicode::UString string3(" \t \t \n\n \t\n \t \t ");
+		TestWhitespace(string);
+	}
+
 } // namespace CSS
 
