@@ -17,8 +17,8 @@ namespace CSS {
 		Context context { &ParseErrorTester::ReporterEndpoint };
 
 		std::random_device randomDevice;
-		std::mt19937 randomGenerator{ randomDevice() };
-		std::uniform_int_distribution<Unicode::CodePoint> integerDistributor{ 0, Unicode::LAST_ALLOWED_CODE_POINT };
+		std::mt19937 randomGenerator { randomDevice() };
+		std::uniform_int_distribution<Unicode::CodePoint> integerDistributor { 0, Unicode::LAST_ALLOWED_CODE_POINT };
 
 		[[nodiscard]] Unicode::CodePoint
 		GetRandomCodePoint() noexcept {
@@ -26,7 +26,8 @@ namespace CSS {
 		}
 
 		void
-		TestLegal(const Unicode::UString &string, Unicode::CodePoint ending, const std::vector<Unicode::CodePoint> &result) {
+		TestLegal(
+			const Unicode::UString &string, Unicode::CodePoint ending, const std::vector<Unicode::CodePoint> &result) {
 			Tokenizer tokenizer(context, string);
 			ASSERT_TRUE(tokenizer.ConsumeStringToken(ending));
 			ASSERT_FALSE(ParseErrorTester::WasParseErrorFired());
@@ -75,7 +76,8 @@ namespace CSS {
 
 	TEST_F(TokenizerConsumeStringToken, TestEmptyRandomEnding) {
 		Unicode::CodePoint ending;
-		while ((ending = GetRandomCodePoint()) == Unicode::LINE_FEED) {}
+		while ((ending = GetRandomCodePoint()) == Unicode::LINE_FEED) {
+		}
 
 		Unicode::UString string(ending);
 		const std::vector<Unicode::CodePoint> result = {};
