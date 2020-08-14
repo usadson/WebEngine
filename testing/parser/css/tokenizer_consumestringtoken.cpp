@@ -8,6 +8,9 @@
 #include <variant>
 #include <vector>
 
+#include <cstring>
+
+#include "data/text/encoding/utf8.hpp"
 #include "data/text/ustring.hpp"
 
 namespace CSS {
@@ -98,6 +101,14 @@ namespace CSS {
 		Unicode::UString string{ '\\', '\n', '"' };
 		const Unicode::CodePoint ending = Unicode::QUOTATION_MARK;
 		const std::vector<Unicode::CodePoint> result;
+		TestLegal(string, ending, result);
+	}
+
+	TEST_F(TokenizerConsumeStringToken, TestEscapedNewLineInText) {
+		Unicode::UString string("Hello this is long thus \\\nwe begin on a new line.'");
+		const Unicode::CodePoint ending = Unicode::APOSTROPHE;
+		const char *text = "Hello this is long thus we begin on a new line.";
+		const auto result = TextEncoding::UTF8::ASCIIDecode(text, strlen(text));
 		TestLegal(string, ending, result);
 	}
 
