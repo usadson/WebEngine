@@ -29,6 +29,11 @@ namespace CSS {
 		}
 
 		void
+		CompareCodePointVectors(const std::vector<Unicode::CodePoint> &tokenizer, const std::vector<Unicode::CodePoint> &expected) const noexcept {
+			ASSERT_EQ(tokenizer, expected) << "Comparison failed: tokenizer=\"" << Unicode::UString(tokenizer) << "\" expected=\"" << Unicode::UString(expected) << '"';
+		}
+
+		void
 		TestLegal(const Unicode::UString &string, Unicode::CodePoint ending, const std::vector<Unicode::CodePoint> &result) {
 			Tokenizer tokenizer(context, string);
 			ASSERT_TRUE(tokenizer.ConsumeStringToken(ending));
@@ -37,7 +42,7 @@ namespace CSS {
 			ASSERT_EQ(tokenizer.tokens[0].type, TokenType::STRING);
 			const auto *data = std::get_if<TokenCodePointsData>(&tokenizer.tokens[0].data);
 			ASSERT_NE(data, nullptr);
-			ASSERT_EQ(data->codePoints, result);
+			CompareCodePointVectors(data->codePoints, result);
 		}
 
 		// An parse error will be fired and no token will be emitted.
