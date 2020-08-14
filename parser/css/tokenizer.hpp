@@ -70,6 +70,18 @@ namespace CSS {
 		// URL: https://www.w3.org/TR/css-syntax-3/#consume-token
 		[[nodiscard]] bool
 		ConsumeToken(Unicode::CodePoint character) noexcept;
+
+		// Will try to run the algorithm of ConsumeToken when the code point is
+		// NUMBER SIGN. Will return false if the if-statement is failing,
+		// otherwise the algorithm will be executed.
+		//
+		// [Spec] (Subsection)
+		// Title: CSS Syntax Module Level 3
+		// Section: 4.3.1.
+		// Case: U+0023 NUMBER SIGN (#)
+		// URL: https://www.w3.org/TR/css-syntax-3/#consume-token
+		[[nodiscard]] bool
+		TryParseHashTokenName() noexcept;
 	};
 } // namespace CSS
 

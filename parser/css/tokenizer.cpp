@@ -143,6 +143,11 @@ namespace CSS {
 				break;
 			case Unicode::QUOTATION_MARK:
 				return ConsumeStringToken(character);
+			case Unicode::NUMBER_SIGN:
+				if (!TryParseHashTokenName()) {
+					tokens.emplace_back(TokenType::DELIM, character);
+				}
+				break;
 			case Unicode::APOSTROPHE:
 				return ConsumeStringToken(character);
 		}
@@ -163,6 +168,11 @@ namespace CSS {
 		}
 
 		return true;
+	}
+
+	bool
+	Tokenizer::TryParseHashTokenName() noexcept {
+		return false;
 	}
 
 } // namespace CSS
