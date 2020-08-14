@@ -33,7 +33,7 @@ IsNameStartCodePoint(Unicode::CodePoint codePoint) noexcept {
 	return Unicode::IsASCIIAlpha(codePoint) || IsNonASCIICodePoint(codePoint) || codePoint == Unicode::LOW_LINE;
 }
 
-inline bool
+[[nodiscard]] inline constexpr bool
 IsNameCodePoint(Unicode::CodePoint codePoint) noexcept {
 	return IsNameStartCodePoint(codePoint) || Unicode::IsDigit(codePoint) || codePoint == Unicode::HYPHEN_MINUS;
 }
