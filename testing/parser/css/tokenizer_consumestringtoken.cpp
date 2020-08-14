@@ -36,6 +36,15 @@ namespace CSS {
 			ASSERT_NE(data, nullptr);
 			ASSERT_EQ(data->codePoints, result);
 		}
+
+		// An parse error will be fired and no token will be emitted.
+		void
+		TestIllegalFatal(const Unicode::UString &string, Unicode::CodePoint ending, ParseError expectedError) {
+			Tokenizer tokenizer(context, string);
+			ASSERT_TRUE(tokenizer.ConsumeStringToken(ending));
+			ASSERT_TRUE(ParseErrorTester::WasParseErrorFired(expectedError));
+			ASSERT_TRUE(tokenizer.tokens.empty());
+		}
 	};
 
 	TEST_F(TokenizerConsumeStringToken, TestEmptyQuotationMarkEnding) {
