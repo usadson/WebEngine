@@ -88,4 +88,10 @@ namespace CSS {
 		TestIllegalFatal(string, ending, ParseError::EOF_IN_CONSUMING_STRING);
 	}
 
+	TEST_F(TokenizerConsumeStringToken, TestNewLine) {
+		const Unicode::CodePoint ending = Unicode::APOSTROPHE;
+		Unicode::UString string(Unicode::LINE_FEED);
+		TestIllegalBadString(string, ending, ParseError::NEWLINE_IN_CONSUMING_STRING);
+	}
+
 } // namespace CSS
