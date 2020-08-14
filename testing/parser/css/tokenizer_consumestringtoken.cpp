@@ -124,4 +124,19 @@ namespace CSS {
 		TestLegal(string, ending, result);
 	}
 
+	TEST_F(TokenizerConsumeStringToken, TestCalledByConsumeTokenQuotationMark) {
+		const Unicode::UString input{ '"', 'T', 'h', 'i', 's', '"' };
+		const std::vector<Unicode::CodePoint> expected{ 'T', 'h', 'i', 's' };
+		Unicode::CodePoint character;
+		Tokenizer tokenizer(context, input);
+		ASSERT_TRUE(tokenizer.stream.Next(&character));
+		ASSERT_TRUE(tokenizer.ConsumeToken(character));
+		ASSERT_FALSE(ParseErrorTester::WasParseErrorFired());
+		ASSERT_EQ(tokenizer.tokens.size(), 1);
+		ASSERT_EQ(tokenizer.tokens[0].type, TokenType::STRING);
+		const auto *data = std::get_if<TokenCodePointsData>(&tokenizer.tokens[0].data);
+		ASSERT_NE(data, nullptr);
+		CompareCodePointVectors(data->codePoints, expected);
+	}
+
 } // namespace CSS
