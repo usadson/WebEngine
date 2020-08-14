@@ -28,6 +28,11 @@ IsNonASCIICodePoint(Unicode::CodePoint codePoint) noexcept {
 	return codePoint >= Unicode::PADDING_CHARACTER;
 }
 
+[[nodiscard]] inline constexpr bool
+IsNameStartCodePoint(Unicode::CodePoint codePoint) noexcept {
+	return Unicode::IsASCIIAlpha(codePoint) || IsNonASCIICodePoint(codePoint) || codePoint == Unicode::LOW_LINE;
+}
+
 namespace CSS {
 
 	bool
