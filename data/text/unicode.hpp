@@ -147,6 +147,12 @@ namespace Unicode {
 	// Control character
 	constexpr CodePoint DELETE = 0x007F;
 
+	// -- C1 Controls and Latin-1 Supplement -- //
+	// URL: https://www.unicode.org/charts/PDF/U0080.pdf
+
+	// C1 controls
+	constexpr CodePoint PADDING_CHARACTER = 0x0080;
+
 	// Unicode Specials
 	constexpr CodePoint REPLACEMENT_CHARACTER = 0xFFFD;
 
