@@ -170,8 +170,7 @@ namespace Unicode {
 
 	[[nodiscard]] inline constexpr bool
 	IsASCIIAlphaNumeric(CodePoint character) noexcept {
-		return (character >= 0x30 && character <= 0x39) || (character >= 0x41 && character <= 0x5A)
-			   || (character >= 0x61 && character <= 0x7A);
+		return IsDigit(character) || IsASCIIAlpha(character);
 	}
 
 	[[nodiscard]] inline constexpr CodePoint
