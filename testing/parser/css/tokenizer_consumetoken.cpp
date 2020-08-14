@@ -23,5 +23,10 @@ namespace CSS {
 		}
 	};
 
+	TEST_F(TokenizerConsumeToken, TestWhitespaceSpace) {
+		const Unicode::UString string("     ");
+		TestWhitespace(string);
+	}
+
 } // namespace CSS
 
