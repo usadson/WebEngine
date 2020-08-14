@@ -210,7 +210,22 @@ namespace CSS {
 
 	bool
 	Tokenizer::TryParseHashTokenName() noexcept {
-		return false;
+		stream.Skip();
+		Unicode::CodePoint next;
+		if (!stream.Peek(&next) || !IsNameCodePoint(next) || !IsValidEscape(stream)) {
+			return false;
+		}
+
+		auto token = MakeToken<TokenType::HASH>();
+		auto *data = std::get_if<TokenHashData>(&token.data);
+		if (WillStartIdentifier(stream)) {
+			data->type = TokenHashType::ID;
+		}
+
+		ConsumeName(data->codePoints);
+
+		tokens.push_back(token);
+		return true;
 	}
 
 } // namespace CSS
