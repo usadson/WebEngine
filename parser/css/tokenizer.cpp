@@ -132,6 +132,24 @@ namespace CSS {
 	}
 
 	bool
+	Tokenizer::ConsumeName(std::vector<Unicode::CodePoint> &result) noexcept {
+		Unicode::CodePoint codePoint;
+		while (stream.Next(&codePoint)) {
+			if (IsNameCodePoint(codePoint)) {
+				result.push_back(codePoint);
+			}
+			stream.Reconsume();
+
+			if (IsValidEscape(stream)) {
+				result.push_back(ConsumeEscapedCodePoint());
+			} else {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	bool
 	Tokenizer::ConsumeStringToken(Unicode::CodePoint endingCodePoint) noexcept {
 		Token token = CSS::MakeToken<TokenType::STRING>();
 		std::vector<Unicode::CodePoint> &characters = std::get_if<TokenCodePointsData>(&token.data)->codePoints;

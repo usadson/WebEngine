@@ -53,6 +53,15 @@ namespace CSS {
 		[[nodiscard]] Unicode::CodePoint
 		ConsumeEscapedCodePoint() noexcept;
 
+		// The 'consume a name' tokenizer algorithm.
+		//
+		// [Spec]
+		// Title: CSS Syntax Module Level 3
+		// Section: 4.3.11.
+		// URL: https://www.w3.org/TR/css-syntax-3/#consume-a-name
+		bool
+		ConsumeName(std::vector<Unicode::CodePoint> &) noexcept;
+
 		// The 'consume a string token' tokenizer algorithm.
 		//
 		// [Spec]
