@@ -160,7 +160,7 @@ namespace Unicode {
 
 	[[nodiscard]] inline constexpr bool
 	IsASCIIAlpha(CodePoint character) noexcept {
-		return (character >= 0x41 && character <= 0x5A) || (character >= 0x61 && character <= 0x7A);
+		return (character >= LATIN_CAPITAL_LETTER_A && character <= LATIN_CAPITAL_LETTER_Z) || (character >= LATIN_SMALL_LETTER_A && character <= LATIN_SMALL_LETTER_Z);
 	}
 
 	[[nodiscard]] inline constexpr bool
@@ -176,7 +176,7 @@ namespace Unicode {
 	[[nodiscard]] inline constexpr CodePoint
 	ToLowerASCII(CodePoint character) noexcept {
 		/* Could use a ternary operator; this is cleaner. */
-		if (character >= 'A' && character <= 'Z')
+		if (character >= LATIN_CAPITAL_LETTER_A && character <= LATIN_CAPITAL_LETTER_Z)
 			return character + 0x20;
 		return character;
 	}
