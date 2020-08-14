@@ -28,5 +28,10 @@ namespace CSS {
 		TestWhitespace(string);
 	}
 
+	TEST_F(TokenizerConsumeToken, TestWhitespaceNewline) {
+		const Unicode::UString string("\n\n\n\n\n\n\n\n\n");
+		TestWhitespace(string);
+	}
+
 } // namespace CSS
 
