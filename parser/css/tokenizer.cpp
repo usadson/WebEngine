@@ -143,6 +143,8 @@ namespace CSS {
 				break;
 			case Unicode::QUOTATION_MARK:
 				return ConsumeStringToken(character);
+			case Unicode::APOSTROPHE:
+				return ConsumeStringToken(character);
 		}
 		return true;
 	}
