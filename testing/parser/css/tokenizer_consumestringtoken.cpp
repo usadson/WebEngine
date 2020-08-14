@@ -70,4 +70,10 @@ namespace CSS {
 		TestLegal(string, ending, result);
 	}
 
+	TEST_F(TokenizerConsumeStringToken, TestEOF) {
+		const Unicode::CodePoint ending = Unicode::APOSTROPHE;
+		Unicode::UString string;
+		TestIllegalFatal(string, ending, ParseError::EOF_IN_CONSUMING_STRING);
+	}
+
 } // namespace CSS
