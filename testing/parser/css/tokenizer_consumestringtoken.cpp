@@ -24,6 +24,17 @@ namespace CSS {
 		GetRandomCodePoint() noexcept {
 			return integerDistributor(randomGenerator);
 		}
-	};
 
+		void
+		TestLegal(const Unicode::UString &string, Unicode::CodePoint ending, const std::vector<Unicode::CodePoint> &result) {
+			Tokenizer tokenizer(context, string);
+			ASSERT_TRUE(tokenizer.ConsumeStringToken(ending));
+			ASSERT_FALSE(ParseErrorTester::WasParseErrorFired());
+			ASSERT_EQ(tokenizer.tokens.size(), 1);
+			ASSERT_EQ(tokenizer.tokens[0].type, TokenType::STRING);
+			const auto *data = std::get_if<TokenCodePointsData>(&tokenizer.tokens[0].data);
+			ASSERT_NE(data, nullptr);
+			ASSERT_EQ(data->codePoints, result);
+		}
+	};
 } // namespace CSS
