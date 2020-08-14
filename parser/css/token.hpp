@@ -97,6 +97,15 @@ namespace CSS {
 
 			// For <dimension-token>:
 			TokenDimensionData> data;
+
+		template<typename T>
+		inline Token(TokenType type, T data) noexcept
+			: type(type), data(data) {
+		}
+
+		inline Token(Unicode::CodePoint codePoint) noexcept
+			: type(TokenType::DELIM), data(codePoint) {
+		}
 	};
 
 	template<TokenType type> Token
