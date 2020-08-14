@@ -129,8 +129,8 @@ namespace CSS {
 	}
 
 	TEST_F(TokenizerConsumeStringToken, TestCalledByConsumeTokenQuotationMark) {
-		const Unicode::UString input{ '"', 'T', 'h', 'i', 's', '"' };
-		const std::vector<Unicode::CodePoint> expected{ 'T', 'h', 'i', 's' };
+		const Unicode::UString input { '"', 'T', 'h', 'i', 's', '"' };
+		const std::vector<Unicode::CodePoint> expected { 'T', 'h', 'i', 's' };
 		Unicode::CodePoint character;
 		Tokenizer tokenizer(context, input);
 		ASSERT_TRUE(tokenizer.stream.Next(&character));
@@ -144,8 +144,8 @@ namespace CSS {
 	}
 
 	TEST_F(TokenizerConsumeStringToken, TestCalledByConsumeTokenApostrophe) {
-		const Unicode::UString input{ '\'', 'T', 'h', 'i', 's', '\'' };
-		const std::vector<Unicode::CodePoint> expected{ 'T', 'h', 'i', 's' };
+		const Unicode::UString input { '\'', 'T', 'h', 'i', 's', '\'' };
+		const std::vector<Unicode::CodePoint> expected { 'T', 'h', 'i', 's' };
 		Unicode::CodePoint character;
 		Tokenizer tokenizer(context, input);
 		ASSERT_TRUE(tokenizer.stream.Next(&character));
