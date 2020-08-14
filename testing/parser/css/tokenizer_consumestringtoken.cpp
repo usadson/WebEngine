@@ -94,4 +94,11 @@ namespace CSS {
 		TestIllegalBadString(string, ending, ParseError::NEWLINE_IN_CONSUMING_STRING);
 	}
 
+	TEST_F(TokenizerConsumeStringToken, TestEscapedNewLine) {
+		Unicode::UString string{ '\\', '\n', '"' };
+		const Unicode::CodePoint ending = Unicode::QUOTATION_MARK;
+		const std::vector<Unicode::CodePoint> result;
+		TestLegal(string, ending, result);
+	}
+
 } // namespace CSS
