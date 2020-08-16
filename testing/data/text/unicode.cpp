@@ -57,6 +57,47 @@ namespace Unicode {
 		EXPECT_FALSE(IsDigit(Unicode::LAST_ALLOWED_CODE_POINT));
 	}
 
+	TEST(Unicode, IsASCIIAlphaNumeric) {
+		EXPECT_TRUE(IsASCIIAlphaNumeric('0'));
+		EXPECT_TRUE(IsASCIIAlphaNumeric('3'));
+		EXPECT_TRUE(IsASCIIAlphaNumeric('9'));
+		EXPECT_TRUE(IsASCIIAlphaNumeric(Unicode::DIGIT_ZERO));
+		EXPECT_TRUE(IsASCIIAlphaNumeric(Unicode::DIGIT_THREE));
+		EXPECT_TRUE(IsASCIIAlphaNumeric(Unicode::DIGIT_NINE));
+
+		EXPECT_TRUE(IsASCIIAlphaNumeric('a'));
+		EXPECT_TRUE(IsASCIIAlphaNumeric('z'));
+		EXPECT_TRUE(IsASCIIAlphaNumeric('q'));
+		EXPECT_TRUE(IsASCIIAlphaNumeric('f'));
+		EXPECT_TRUE(IsASCIIAlphaNumeric(Unicode::LATIN_SMALL_LETTER_A));
+		EXPECT_TRUE(IsASCIIAlphaNumeric(Unicode::LATIN_SMALL_LETTER_Z));
+		EXPECT_TRUE(IsASCIIAlphaNumeric(Unicode::LATIN_SMALL_LETTER_Y));
+		EXPECT_TRUE(IsASCIIAlphaNumeric(Unicode::LATIN_SMALL_LETTER_H));
+
+		EXPECT_TRUE(IsASCIIAlphaNumeric('A'));
+		EXPECT_TRUE(IsASCIIAlphaNumeric('Z'));
+		EXPECT_TRUE(IsASCIIAlphaNumeric('U'));
+		EXPECT_TRUE(IsASCIIAlphaNumeric('S'));
+		EXPECT_TRUE(IsASCIIAlphaNumeric(Unicode::LATIN_CAPITAL_LETTER_A));
+		EXPECT_TRUE(IsASCIIAlphaNumeric(Unicode::LATIN_CAPITAL_LETTER_Z));
+		EXPECT_TRUE(IsASCIIAlphaNumeric(Unicode::LATIN_CAPITAL_LETTER_X));
+		EXPECT_TRUE(IsASCIIAlphaNumeric(Unicode::LATIN_CAPITAL_LETTER_V));
+
+		for (std::size_t i = 0; i < 10; i++) {
+			EXPECT_FALSE(IsASCIIAlphaNumeric(std::rand() + 0x007B));
+		}
+
+		EXPECT_FALSE(IsASCIIAlphaNumeric(Unicode::START_OF_TEXT));
+		EXPECT_FALSE(IsASCIIAlphaNumeric(Unicode::SOLIDUS));
+		EXPECT_FALSE(IsASCIIAlphaNumeric(Unicode::COLON));
+		EXPECT_FALSE(IsASCIIAlphaNumeric(Unicode::COMMERCIAL_AT));
+		EXPECT_FALSE(IsASCIIAlphaNumeric(Unicode::LEFT_SQUARE_BRACKET));
+		EXPECT_FALSE(IsASCIIAlphaNumeric(Unicode::GRAVE_ACCENT));
+		EXPECT_FALSE(IsASCIIAlphaNumeric(Unicode::LEFT_CURLY_BRACKET));
+		EXPECT_FALSE(IsASCIIAlphaNumeric(Unicode::REPLACEMENT_CHARACTER));
+		EXPECT_FALSE(IsASCIIAlphaNumeric(Unicode::LAST_ALLOWED_CODE_POINT));
+	}
+
 } // namespace Unicode
 
 int
