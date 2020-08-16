@@ -104,6 +104,11 @@ namespace CSS {
 	}
 
 	bool
+	Tokenizer::ConsumeNumber() noexcept {
+		return true;
+	}
+
+	bool
 	Tokenizer::ConsumeNumericToken() noexcept {
 		return true;
 	}
