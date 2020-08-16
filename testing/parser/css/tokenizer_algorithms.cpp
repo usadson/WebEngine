@@ -42,6 +42,18 @@ namespace CSS {
 		EXPECT_FALSE(IsHexCharacter('9' + 1));
 	}
 
+	TEST_F(TokenizerAlgorithmsTest, IsHexCharacterValid) {
+		for (Unicode::CodePoint codePoint = 'a'; codePoint < 'g'; codePoint++) {
+			EXPECT_TRUE(IsHexCharacter(codePoint));
+		}
+		for (Unicode::CodePoint codePoint = 'A'; codePoint < 'G'; codePoint++) {
+			EXPECT_TRUE(IsHexCharacter(codePoint));
+		}
+		for (Unicode::CodePoint codePoint = '0'; codePoint <= '9'; codePoint++) {
+			EXPECT_TRUE(IsHexCharacter(codePoint));
+		}
+	}
+
 } // namespace CSS
 
 int
