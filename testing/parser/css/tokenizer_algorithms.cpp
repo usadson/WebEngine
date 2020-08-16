@@ -59,13 +59,13 @@ namespace CSS {
 		for (Unicode::CodePoint codePoint = 0; codePoint < '0'; codePoint++) {
 			EXPECT_FALSE(IsHexCharacter(codePoint));
 		}
-		for (Unicode::CodePoint codePoint = '9'+1; codePoint < 'A'; codePoint++) {
+		for (Unicode::CodePoint codePoint = '9' + 1; codePoint < 'A'; codePoint++) {
 			EXPECT_FALSE(IsHexCharacter(codePoint));
 		}
-		for (Unicode::CodePoint codePoint = 'Z'+1; codePoint < 'a'; codePoint++) {
+		for (Unicode::CodePoint codePoint = 'Z' + 1; codePoint < 'a'; codePoint++) {
 			EXPECT_FALSE(IsHexCharacter(codePoint));
 		}
-		for (Unicode::CodePoint codePoint = 'z'+1; codePoint < 255; codePoint++) {
+		for (Unicode::CodePoint codePoint = 'z' + 1; codePoint < 255; codePoint++) {
 			EXPECT_FALSE(IsHexCharacter(codePoint));
 		}
 	}
@@ -92,11 +92,11 @@ namespace CSS {
 		for (Unicode::CodePoint codePoint = 'A'; codePoint <= 'Z'; codePoint++) {
 			EXPECT_TRUE(IsNameStartCodePoint(codePoint));
 		}
-		for (Unicode::CodePoint codePoint = 'Z'+1; codePoint < '_'; codePoint++) {
+		for (Unicode::CodePoint codePoint = 'Z' + 1; codePoint < '_'; codePoint++) {
 			EXPECT_FALSE(IsNameStartCodePoint(codePoint));
 		}
 		EXPECT_TRUE(IsNameStartCodePoint('_'));
-		for (Unicode::CodePoint codePoint = '_'+1; codePoint < 'a'; codePoint++) {
+		for (Unicode::CodePoint codePoint = '_' + 1; codePoint < 'a'; codePoint++) {
 			EXPECT_FALSE(IsNameStartCodePoint(codePoint));
 		}
 		for (Unicode::CodePoint codePoint = 'a'; codePoint <= 'z'; codePoint++) {
@@ -112,23 +112,23 @@ namespace CSS {
 			EXPECT_FALSE(IsNameCodePoint(codePoint));
 		}
 		EXPECT_TRUE(IsNameCodePoint('-'));
-		for (Unicode::CodePoint codePoint = '-'+1; codePoint < '0'; codePoint++) {
+		for (Unicode::CodePoint codePoint = '-' + 1; codePoint < '0'; codePoint++) {
 			EXPECT_FALSE(IsNameCodePoint(codePoint));
 		}
 		for (Unicode::CodePoint codePoint = '0'; codePoint <= '9'; codePoint++) {
 			EXPECT_TRUE(IsNameCodePoint(codePoint));
 		}
-		for (Unicode::CodePoint codePoint = '9'+1; codePoint < 'A'; codePoint++) {
+		for (Unicode::CodePoint codePoint = '9' + 1; codePoint < 'A'; codePoint++) {
 			EXPECT_FALSE(IsNameCodePoint(codePoint));
 		}
 		for (Unicode::CodePoint codePoint = 'A'; codePoint <= 'Z'; codePoint++) {
 			EXPECT_TRUE(IsNameCodePoint(codePoint));
 		}
-		for (Unicode::CodePoint codePoint = 'Z'+1; codePoint < '_'; codePoint++) {
+		for (Unicode::CodePoint codePoint = 'Z' + 1; codePoint < '_'; codePoint++) {
 			EXPECT_FALSE(IsNameCodePoint(codePoint));
 		}
 		EXPECT_TRUE(IsNameCodePoint('_'));
-		for (Unicode::CodePoint codePoint = '_'+1; codePoint < 'a'; codePoint++) {
+		for (Unicode::CodePoint codePoint = '_' + 1; codePoint < 'a'; codePoint++) {
 			EXPECT_FALSE(IsNameCodePoint(codePoint));
 		}
 		for (Unicode::CodePoint codePoint = 'a'; codePoint <= 'z'; codePoint++) {
@@ -173,7 +173,7 @@ namespace CSS {
 	}
 
 	TEST_F(TokenizerAlgorithmsTest, WillStartIdentifierHyphenMinus) {
-		Unicode::UString string{ '-', '-' };
+		Unicode::UString string { '-', '-' };
 		TokenizerStream stream(&string);
 		EXPECT_TRUE(WillStartIdentifier(stream));
 
@@ -201,7 +201,7 @@ namespace CSS {
 	}
 
 	TEST_F(TokenizerAlgorithmsTest, WillStartIdentifierNameStartCodePoint) {
-		Unicode::UString string{ '0' };
+		Unicode::UString string { '0' };
 		TokenizerStream stream(&string);
 		Unicode::CodePoint &codePoint = string[0];
 
@@ -213,14 +213,14 @@ namespace CSS {
 			stream.SetString(&string);
 			EXPECT_TRUE(WillStartIdentifier(stream));
 		}
-		for (codePoint = 'Z'+1; codePoint < '_'; codePoint++) {
+		for (codePoint = 'Z' + 1; codePoint < '_'; codePoint++) {
 			stream.SetString(&string);
 			EXPECT_FALSE(WillStartIdentifier(stream));
 		}
 		string[0] = '_';
 		stream.SetString(&string);
 		EXPECT_TRUE(WillStartIdentifier(stream));
-		for (codePoint = '_'+1; codePoint < 'a'; codePoint++) {
+		for (codePoint = '_' + 1; codePoint < 'a'; codePoint++) {
 			stream.SetString(&string);
 			EXPECT_FALSE(WillStartIdentifier(stream));
 		}
@@ -236,7 +236,7 @@ namespace CSS {
 	}
 
 	TEST_F(TokenizerAlgorithmsTest, WillStartIdentifierReverseSolidus) {
-		Unicode::UString string{ '\\', '0' };
+		Unicode::UString string { '\\', '0' };
 		TokenizerStream stream(&string);
 
 		string = { '\\' };
@@ -250,7 +250,8 @@ namespace CSS {
 		for (std::size_t i = 0; i < 15; i++) {
 			string[1] = std::rand() % Unicode::LAST_ALLOWED_CODE_POINT;
 			stream.SetString(&string);
-			EXPECT_TRUE(WillStartIdentifier(stream)) << "string=" << std::hex << string[0] << ' ' << string[1] << std::dec;
+			EXPECT_TRUE(WillStartIdentifier(stream))
+				<< "string=" << std::hex << string[0] << ' ' << string[1] << std::dec;
 		}
 	}
 
