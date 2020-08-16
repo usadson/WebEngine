@@ -200,6 +200,41 @@ namespace CSS {
 		}
 	}
 
+	TEST_F(TokenizerAlgorithmsTest, WillStartIdentifierNameStartCodePoint) {
+		Unicode::UString string{ '0' };
+		TokenizerStream stream(&string);
+		Unicode::CodePoint &codePoint = string[0];
+
+		for (codePoint = 0; codePoint < 'A'; codePoint++) {
+			stream.SetString(&string);
+			EXPECT_FALSE(WillStartIdentifier(stream));
+		}
+		for (codePoint = 'A'; codePoint <= 'Z'; codePoint++) {
+			stream.SetString(&string);
+			EXPECT_TRUE(WillStartIdentifier(stream));
+		}
+		for (codePoint = 'Z'+1; codePoint < '_'; codePoint++) {
+			stream.SetString(&string);
+			EXPECT_FALSE(WillStartIdentifier(stream));
+		}
+		string[0] = '_';
+		stream.SetString(&string);
+		EXPECT_TRUE(WillStartIdentifier(stream));
+		for (codePoint = '_'+1; codePoint < 'a'; codePoint++) {
+			stream.SetString(&string);
+			EXPECT_FALSE(WillStartIdentifier(stream));
+		}
+		for (codePoint = 'a'; codePoint <= 'z'; codePoint++) {
+			stream.SetString(&string);
+			EXPECT_TRUE(WillStartIdentifier(stream));
+		}
+		for (std::size_t i = 0; i < 15; i++) {
+			string[0] = 'z' + 1 + std::rand();
+			stream.SetString(&string);
+			EXPECT_TRUE(WillStartIdentifier(stream));
+		}
+	}
+
 } // namespace CSS
 
 int
