@@ -99,6 +99,28 @@ namespace Unicode {
 		ASSERT_EQ(ToLowerASCII(0xDEADBEEF), 0xDEADBEEF);
 	}
 
+	TEST(Unicode, IsSurrogate) {
+		for (std::size_t i = 0; i < 15; i++) {
+			EXPECT_TRUE(IsSurrogate(0xD800 + std::rand() % 0x7FF));
+		}
+		for (std::size_t i = 0; i < 15; i++) {
+			EXPECT_FALSE(IsSurrogate(std::rand() % 0xD800));
+		}
+		for (std::size_t i = 0; i < 15; i++) {
+			EXPECT_FALSE(IsSurrogate(0xE000 + std::rand()));
+		}
+
+		// Constraints
+		EXPECT_FALSE(IsSurrogate(0xD7FF));
+		EXPECT_TRUE(IsSurrogate(0xD800));
+
+		EXPECT_TRUE(IsSurrogate(0xDFFF));
+		EXPECT_FALSE(IsSurrogate(0xE000));
+
+		EXPECT_FALSE(IsSurrogate(Unicode::LATIN_CAPITAL_LETTER_V));
+		EXPECT_FALSE(IsSurrogate(Unicode::LAST_ALLOWED_CODE_POINT));
+	}
+
 } // namespace Unicode
 
 int
