@@ -54,6 +54,21 @@ namespace CSS {
 		}
 	}
 
+	TEST_F(TokenizerAlgorithmsTest, IsHexCharacterInvalidASCII) {
+		for (Unicode::CodePoint codePoint = 0; codePoint < '0'; codePoint++) {
+			EXPECT_FALSE(IsHexCharacter(codePoint));
+		}
+		for (Unicode::CodePoint codePoint = '9'+1; codePoint < 'A'; codePoint++) {
+			EXPECT_FALSE(IsHexCharacter(codePoint));
+		}
+		for (Unicode::CodePoint codePoint = 'Z'+1; codePoint < 'a'; codePoint++) {
+			EXPECT_FALSE(IsHexCharacter(codePoint));
+		}
+		for (Unicode::CodePoint codePoint = 'z'+1; codePoint < 255; codePoint++) {
+			EXPECT_FALSE(IsHexCharacter(codePoint));
+		}
+	}
+
 } // namespace CSS
 
 int
