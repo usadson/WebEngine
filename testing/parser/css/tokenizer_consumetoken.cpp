@@ -47,5 +47,17 @@ namespace CSS {
 		TestWhitespace(string);
 	}
 
+	TEST_F(TokenizerConsumeToken, TestHash) {
+		const Unicode::UString string{ ' ' };
+		Tokenizer tokenizer(context, string);
+		ASSERT_TRUE(tokenizer.ConsumeToken(Unicode::NUMBER_SIGN));
+		ASSERT_FALSE(ParseErrorTester::WasParseErrorFired());
+		ASSERT_EQ(tokenizer.tokens.size(), 1);
+		ASSERT_EQ(tokenizer.tokens[0].type, TokenType::DELIM);
+		auto *data = std::get_if<Unicode::CodePoint>(&tokenizer.tokens[0].data);
+		ASSERT_NE(data, nullptr);
+		EXPECT_EQ(*data, Unicode::NUMBER_SIGN);
+	}
+
 } // namespace CSS
 
