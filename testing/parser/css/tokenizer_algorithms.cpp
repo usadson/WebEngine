@@ -161,6 +161,17 @@ namespace CSS {
 		EXPECT_FALSE(IsValidEscape(stream));
 	}
 
+	TEST_F(TokenizerAlgorithmsTest, IsValidEscape_Legal) {
+		Unicode::UString string { '\\', '\0' };
+		TokenizerStream stream(&string);
+
+		for (std::size_t i = 0; i < 15; i++) {
+			string[1] = std::rand() % Unicode::LAST_ALLOWED_CODE_POINT;
+			stream.SetString(&string);
+			EXPECT_TRUE(IsValidEscape(stream)) << "string=" << std::hex << string[0] << ' ' << string[1] << std::dec;
+		}
+	}
+
 } // namespace CSS
 
 int
