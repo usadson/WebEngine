@@ -73,4 +73,18 @@ namespace CSS {
 		EXPECT_EQ(data->codePoints, expected);
 	}
 
+	TEST_F(TokenizerConsumeToken, TestHashHex) {
+		const Unicode::UString input("123456 ");
+		const std::vector<Unicode::CodePoint> expected { '1', '2', '3', '4', '5', '6' };
+		Tokenizer tokenizer(context, input);
+		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::NUMBER_SIGN));
+		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
+		ASSERT_EQ(tokenizer.tokens.size(), 1);
+		EXPECT_EQ(tokenizer.tokens[0].type, TokenType::HASH);
+		auto *data = std::get_if<TokenHashData>(&tokenizer.tokens[0].data);
+		ASSERT_NE(data, nullptr);
+		EXPECT_EQ(data->type, TokenHashType::UNRESTRICTED);
+		EXPECT_EQ(data->codePoints, expected);
+	}
+
 } // namespace CSS
