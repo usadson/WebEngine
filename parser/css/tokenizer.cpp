@@ -163,6 +163,9 @@ namespace CSS {
 			case Unicode::LEFT_PARENTHESIS:
 				tokens.push_back(CSS::MakeToken<CSS::TokenType::PAREN_OPEN>());
 				return true;
+			case Unicode::RIGHT_PARENTHESIS:
+				tokens.push_back(CSS::MakeToken<CSS::TokenType::PAREN_CLOSE>());
+				return true;
 		}
 		return true;
 	}
