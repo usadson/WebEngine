@@ -53,6 +53,7 @@ namespace ParseErrorTester {
 // Make sure to also add them to the ingredients in the Makefile!
 #include "tokenizer_consumecomments.cpp"
 #include "tokenizer_consumeescapedcodepoint.cpp"
+#include "tokenizer_consumename.cpp"
 #include "tokenizer_consumestringtoken.cpp"
 #include "tokenizer_consumetoken.cpp"
 
