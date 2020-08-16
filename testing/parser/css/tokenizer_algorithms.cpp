@@ -26,6 +26,22 @@ namespace CSS {
 		EXPECT_FALSE(IsWhitespace(Unicode::NULL_CHARACTER));
 	}
 
+	TEST_F(TokenizerAlgorithmsTest, IsHexCharacterBounds) {
+		EXPECT_TRUE(IsHexCharacter('a'));
+		EXPECT_TRUE(IsHexCharacter('f'));
+		EXPECT_TRUE(IsHexCharacter('A'));
+		EXPECT_TRUE(IsHexCharacter('F'));
+		EXPECT_TRUE(IsHexCharacter('0'));
+		EXPECT_TRUE(IsHexCharacter('9'));
+
+		EXPECT_FALSE(IsHexCharacter('a' - 1));
+		EXPECT_FALSE(IsHexCharacter('g'));
+		EXPECT_FALSE(IsHexCharacter('A' - 1));
+		EXPECT_FALSE(IsHexCharacter('G'));
+		EXPECT_FALSE(IsHexCharacter('0' - 1));
+		EXPECT_FALSE(IsHexCharacter('9' + 1));
+	}
+
 } // namespace CSS
 
 int
