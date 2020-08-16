@@ -59,4 +59,18 @@ namespace CSS {
 		EXPECT_EQ(*data, Unicode::NUMBER_SIGN);
 	}
 
+	TEST_F(TokenizerConsumeToken, TestHashId) {
+		const Unicode::UString input { 't', ' ' };
+		const std::vector<Unicode::CodePoint> expected { 't' };
+		Tokenizer tokenizer(context, input);
+		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::NUMBER_SIGN));
+		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
+		ASSERT_EQ(tokenizer.tokens.size(), 1);
+		EXPECT_EQ(tokenizer.tokens[0].type, TokenType::HASH);
+		auto *data = std::get_if<TokenHashData>(&tokenizer.tokens[0].data);
+		ASSERT_NE(data, nullptr);
+		EXPECT_EQ(data->type, TokenHashType::ID);
+		EXPECT_EQ(data->codePoints, expected);
+	}
+
 } // namespace CSS
