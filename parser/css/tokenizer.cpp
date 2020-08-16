@@ -103,8 +103,9 @@ namespace CSS {
 		return false;
 	}
 
-	bool
+	std::variant<uint64_t, double>
 	Tokenizer::ConsumeNumber() noexcept {
+
 		return true;
 	}
 
