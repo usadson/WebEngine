@@ -22,6 +22,7 @@ namespace CSS {
 
 	TEST_F(TokenizerNameToken, TestSimple) {
 		const Unicode::UString input("test-string ");
+		const std::vector<Unicode::CodePoint> expected { 't', 'e', 's', 't', '-', 's', 't', 'r', 'i', 'n', 'g' };
 		Unicode::CodePoint codePoint;
 		std::vector<Unicode::CodePoint> output;
 
@@ -31,6 +32,7 @@ namespace CSS {
 		EXPECT_TRUE(tokenizer.tokens.empty());
 		EXPECT_TRUE(tokenizer.stream.Next(&codePoint));
 		EXPECT_EQ(codePoint, Unicode::SPACE);
+		EXPECT_EQ(output, expected);
 	}
 
 } // namespace CSS
