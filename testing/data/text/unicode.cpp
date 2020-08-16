@@ -42,6 +42,21 @@ namespace Unicode {
 		EXPECT_FALSE(IsASCIIAlpha(Unicode::COLON));
 	}
 
+	TEST(Unicode, IsDigit) {
+		EXPECT_TRUE(IsDigit('0'));
+		EXPECT_TRUE(IsDigit('3'));
+		EXPECT_TRUE(IsDigit('9'));
+
+		EXPECT_TRUE(IsDigit(Unicode::DIGIT_ZERO));
+		EXPECT_TRUE(IsDigit(Unicode::DIGIT_THREE));
+		EXPECT_TRUE(IsDigit(Unicode::DIGIT_NINE));
+
+		EXPECT_FALSE(IsDigit(Unicode::NULL_CHARACTER));
+		EXPECT_FALSE(IsDigit(Unicode::COLON));
+		EXPECT_FALSE(IsDigit(Unicode::REPLACEMENT_CHARACTER));
+		EXPECT_FALSE(IsDigit(Unicode::LAST_ALLOWED_CODE_POINT));
+	}
+
 } // namespace Unicode
 
 int
