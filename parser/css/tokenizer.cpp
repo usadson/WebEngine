@@ -160,6 +160,9 @@ namespace CSS {
 				break;
 			case Unicode::APOSTROPHE:
 				return ConsumeStringToken(character);
+			case Unicode::LEFT_PARENTHESIS:
+				tokens.push_back(CSS::MakeToken<CSS::TokenType::PAREN_OPEN>());
+				return true;
 		}
 		return true;
 	}
