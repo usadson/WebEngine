@@ -9,18 +9,6 @@
 #include <gtest/gtest.h>
 
 namespace Unicode {
-	TEST(Unicode, ToLowerASCII) {
-		ASSERT_EQ(ToLowerASCII('a'), 'a');
-		ASSERT_EQ(ToLowerASCII('q'), 'q');
-		ASSERT_EQ(ToLowerASCII('z'), 'z');
-
-		ASSERT_EQ(ToLowerASCII('A'), 'a');
-		ASSERT_EQ(ToLowerASCII('Q'), 'q');
-		ASSERT_EQ(ToLowerASCII('Z'), 'z');
-
-		ASSERT_EQ(ToLowerASCII('0'), '0');
-		ASSERT_EQ(ToLowerASCII(0xDEADBEEF), 0xDEADBEEF);
-	}
 
 	TEST(Unicode, IsASCIIAlpha) {
 		EXPECT_TRUE(IsASCIIAlpha('a'));
@@ -96,6 +84,19 @@ namespace Unicode {
 		EXPECT_FALSE(IsASCIIAlphaNumeric(Unicode::LEFT_CURLY_BRACKET));
 		EXPECT_FALSE(IsASCIIAlphaNumeric(Unicode::REPLACEMENT_CHARACTER));
 		EXPECT_FALSE(IsASCIIAlphaNumeric(Unicode::LAST_ALLOWED_CODE_POINT));
+	}
+
+	TEST(Unicode, ToLowerASCII) {
+		ASSERT_EQ(ToLowerASCII('a'), 'a');
+		ASSERT_EQ(ToLowerASCII('q'), 'q');
+		ASSERT_EQ(ToLowerASCII('z'), 'z');
+
+		ASSERT_EQ(ToLowerASCII('A'), 'a');
+		ASSERT_EQ(ToLowerASCII('Q'), 'q');
+		ASSERT_EQ(ToLowerASCII('Z'), 'z');
+
+		ASSERT_EQ(ToLowerASCII('0'), '0');
+		ASSERT_EQ(ToLowerASCII(0xDEADBEEF), 0xDEADBEEF);
 	}
 
 } // namespace Unicode
