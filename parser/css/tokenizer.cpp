@@ -89,6 +89,7 @@ namespace CSS {
 		while (stream.Next(&codePoint)) {
 			if (IsNameCodePoint(codePoint)) {
 				result.push_back(codePoint);
+				continue;
 			}
 			stream.Reconsume();
 
