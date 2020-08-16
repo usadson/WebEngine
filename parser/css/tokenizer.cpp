@@ -166,6 +166,13 @@ namespace CSS {
 			case Unicode::RIGHT_PARENTHESIS:
 				tokens.push_back(CSS::MakeToken<CSS::TokenType::PAREN_CLOSE>());
 				return true;
+			case Unicode::PLUS_SIGN:
+				if (stream.Peek(&character) && Unicode::IsDigit(character)) {
+					stream.Reconsume();
+					return ConsumeNumericToken();
+				}
+				tokens.emplace_back(TokenType::DELIM, Unicode::PLUS_SIGN);
+				return true;
 		}
 		return true;
 	}
