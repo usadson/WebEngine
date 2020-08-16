@@ -172,6 +172,12 @@ namespace CSS {
 		}
 	}
 
+	TEST_F(TokenizerAlgorithmsTest, WillStartIdentifier) {
+		Unicode::UString string{ '-', '-' };
+		TokenizerStream stream(&string);
+		EXPECT_TRUE(WillStartIdentifier(stream));
+	}
+
 } // namespace CSS
 
 int
