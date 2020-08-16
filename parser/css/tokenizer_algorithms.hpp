@@ -60,7 +60,7 @@ namespace CSS {
 			return false;
 		}
 
-		if (first == Unicode::SOLIDUS && second != Unicode::LINE_FEED) {
+		if (first == Unicode::REVERSE_SOLIDUS && second != Unicode::LINE_FEED) {
 			return true;
 		}
 
