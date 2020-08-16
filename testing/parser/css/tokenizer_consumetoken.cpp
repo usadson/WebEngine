@@ -47,7 +47,7 @@ namespace CSS {
 		TestWhitespace(string);
 	}
 
-	TEST_F(TokenizerConsumeToken, TestHash) {
+	TEST_F(TokenizerConsumeToken, TestHashDelim) {
 		const Unicode::UString string{ ' ' };
 		Tokenizer tokenizer(context, string);
 		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::NUMBER_SIGN));
