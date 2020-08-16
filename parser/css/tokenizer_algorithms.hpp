@@ -47,19 +47,28 @@ namespace CSS {
 
 	[[nodiscard]] inline bool
 	WillStartIdentifier(const CSS::TokenizerStream &stream) noexcept {
-		Unicode::CodePoint first, second, third;
-		if (!stream.Peek(&first) || !stream.Peek(&second, 1) || !stream.Peek(&third, 2)) {
+		Unicode::CodePoint first, second;
+		if (!stream.Peek(&first)) {
 			return false;
 		}
 
-		switch (first) {
-			case Unicode::HYPHEN_MINUS:
-				return IsNameStartCodePoint(second) || second == Unicode::HYPHEN_MINUS || IsValidEscape(stream, 1);
-			case Unicode::SOLIDUS:
-				return second != Unicode::LINE_FEED;
-			default:
-				return IsNameStartCodePoint(first);
+		if (IsNameStartCodePoint(first)) {
+			return true;
 		}
+
+		if (!stream.Peek(&second, 1)) {
+			return false;
+		}
+
+		if (first == Unicode::SOLIDUS && second != Unicode::LINE_FEED) {
+			return true;
+		}
+
+		if (first == Unicode::HYPHEN_MINUS && (second == Unicode::HYPHEN_MINUS || IsValidEscape(stream, 1))) {
+			return true;
+		}
+
+		return false;
 	}
 
 } // namespace CSS
