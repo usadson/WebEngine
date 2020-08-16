@@ -94,6 +94,7 @@ namespace CSS {
 			stream.Reconsume();
 
 			if (IsValidEscape(stream)) {
+				static_cast<void>(stream.Skip());
 				result.push_back(ConsumeEscapedCodePoint());
 			} else {
 				return true;
