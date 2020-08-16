@@ -48,7 +48,7 @@ namespace CSS {
 	}
 
 	TEST_F(TokenizerConsumeToken, TestHashDelim) {
-		const Unicode::UString string{ ' ' };
+		const Unicode::UString string { ' ' };
 		Tokenizer tokenizer(context, string);
 		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::NUMBER_SIGN));
 		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
@@ -60,4 +60,3 @@ namespace CSS {
 	}
 
 } // namespace CSS
-
