@@ -104,6 +104,11 @@ namespace CSS {
 	}
 
 	bool
+	Tokenizer::ConsumeNumericToken() noexcept {
+		return true;
+	}
+
+	bool
 	Tokenizer::ConsumeStringToken(Unicode::CodePoint endingCodePoint) noexcept {
 		Token token = CSS::MakeToken<TokenType::STRING>();
 		std::vector<Unicode::CodePoint> &characters = std::get_if<TokenCodePointsData>(&token.data)->codePoints;
