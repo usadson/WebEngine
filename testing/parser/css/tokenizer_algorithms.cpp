@@ -172,10 +172,32 @@ namespace CSS {
 		}
 	}
 
-	TEST_F(TokenizerAlgorithmsTest, WillStartIdentifier) {
+	TEST_F(TokenizerAlgorithmsTest, WillStartIdentifierHyphenMinus) {
 		Unicode::UString string{ '-', '-' };
 		TokenizerStream stream(&string);
 		EXPECT_TRUE(WillStartIdentifier(stream));
+
+		for (std::size_t i = 0; i < 15; i++) {
+			string[1] = std::rand();
+			if (string[1] == Unicode::HYPHEN_MINUS) {
+				continue;
+			}
+			stream.SetString(&string);
+			EXPECT_FALSE(WillStartIdentifier(stream));
+		}
+
+		string = { '-', '\\', '\n' };
+		stream.SetString(&string);
+		EXPECT_FALSE(WillStartIdentifier(stream));
+
+		for (std::size_t i = 0; i < 15; i++) {
+			string[2] = std::rand();
+			if (string[2] == Unicode::LINE_FEED) {
+				continue;
+			}
+			stream.SetString(&string);
+			EXPECT_TRUE(WillStartIdentifier(stream));
+		}
 	}
 
 } // namespace CSS
