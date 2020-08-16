@@ -75,6 +75,15 @@ namespace CSS {
 		}
 	}
 
+	TEST_F(TokenizerAlgorithmsTest, IsNonASCIICodePoint) {
+		for (std::size_t i = 0; i < 15; i++) {
+			EXPECT_FALSE(IsNonASCIICodePoint(std::rand() % 0x80));
+		}
+		for (std::size_t i = 0; i < 15; i++) {
+			EXPECT_TRUE(IsNonASCIICodePoint(0x80 + std::rand()));
+		}
+	}
+
 
 } // namespace CSS
 
