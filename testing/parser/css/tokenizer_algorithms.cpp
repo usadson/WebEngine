@@ -106,6 +106,38 @@ namespace CSS {
 		}
 	}
 
+	TEST_F(TokenizerAlgorithmsTest, IsNameCodePoint) {
+		for (Unicode::CodePoint codePoint = 0; codePoint < '-'; codePoint++) {
+			EXPECT_FALSE(IsNameCodePoint(codePoint));
+		}
+		EXPECT_TRUE(IsNameCodePoint('-'));
+		for (Unicode::CodePoint codePoint = '-'+1; codePoint < '0'; codePoint++) {
+			EXPECT_FALSE(IsNameCodePoint(codePoint));
+		}
+		for (Unicode::CodePoint codePoint = '0'; codePoint <= '9'; codePoint++) {
+			EXPECT_TRUE(IsNameCodePoint(codePoint));
+		}
+		for (Unicode::CodePoint codePoint = '9'+1; codePoint < 'A'; codePoint++) {
+			EXPECT_FALSE(IsNameCodePoint(codePoint));
+		}
+		for (Unicode::CodePoint codePoint = 'A'; codePoint <= 'Z'; codePoint++) {
+			EXPECT_TRUE(IsNameCodePoint(codePoint));
+		}
+		for (Unicode::CodePoint codePoint = 'Z'+1; codePoint < '_'; codePoint++) {
+			EXPECT_FALSE(IsNameCodePoint(codePoint));
+		}
+		EXPECT_TRUE(IsNameCodePoint('_'));
+		for (Unicode::CodePoint codePoint = '_'+1; codePoint < 'a'; codePoint++) {
+			EXPECT_FALSE(IsNameCodePoint(codePoint));
+		}
+		for (Unicode::CodePoint codePoint = 'a'; codePoint <= 'z'; codePoint++) {
+			EXPECT_TRUE(IsNameCodePoint(codePoint));
+		}
+		for (std::size_t i = 0; i < 15; i++) {
+			EXPECT_TRUE(IsNameCodePoint('z' + 1 + std::rand()));
+		}
+	}
+
 } // namespace CSS
 
 int
