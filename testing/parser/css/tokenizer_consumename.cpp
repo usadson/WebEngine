@@ -50,4 +50,19 @@ namespace CSS {
 		EXPECT_EQ(output, expected);
 	}
 
+	TEST_F(TokenizerNameToken, TestAllowedCharacters) {
+		const std::vector<Unicode::CodePoint> expected { '_', '-', '0', '6', '8', '=', 'G', 't', 'I', 'J', 'g', 'a', 'j', 0x1F600 };
+		const Unicode::UString input{ '_', '-', '0', '6', '8', '\\', '3', 'D', 'G', 't', 'I', 'J', 'g', 'a', 'j', 0x1F600, ' ' };
+		Unicode::CodePoint codePoint;
+		std::vector<Unicode::CodePoint> output;
+
+		Tokenizer tokenizer(context, input);
+		EXPECT_TRUE(tokenizer.ConsumeName(output));
+		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
+		EXPECT_TRUE(tokenizer.tokens.empty());
+		EXPECT_TRUE(tokenizer.stream.Next(&codePoint));
+		EXPECT_EQ(codePoint, Unicode::SPACE);
+		EXPECT_EQ(output, expected);
+	}
+
 } // namespace CSS
