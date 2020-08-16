@@ -229,9 +229,8 @@ namespace CSS {
 
 	bool
 	Tokenizer::TryParseHashTokenName() noexcept {
-		stream.Skip();
 		Unicode::CodePoint next;
-		if (!stream.Peek(&next) || !IsNameCodePoint(next) || !IsValidEscape(stream)) {
+		if (!stream.Peek(&next) || (!IsNameCodePoint(next) && !IsValidEscape(stream))) {
 			return false;
 		}
 
