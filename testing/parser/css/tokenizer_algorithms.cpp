@@ -7,6 +7,7 @@
 #include <gtest/gtest.h>
 
 #include "data/text/unicode.hpp"
+#include "data/text/ustring.hpp"
 #include "parser/css/tokenizer_algorithms.hpp"
 #include "parser/css/tokenizer_stream.hpp"
 
@@ -136,6 +137,28 @@ namespace CSS {
 		for (std::size_t i = 0; i < 15; i++) {
 			EXPECT_TRUE(IsNameCodePoint('z' + 1 + std::rand()));
 		}
+	}
+
+	TEST_F(TokenizerAlgorithmsTest, IsValidEscape_Illegal) {
+		Unicode::UString string;
+		TokenizerStream stream(&string);
+		EXPECT_FALSE(IsValidEscape(stream));
+
+		string = { '\\' };
+		stream = TokenizerStream(&string);
+		EXPECT_FALSE(IsValidEscape(stream));
+
+		string = { '\\', '\n' };
+		stream = TokenizerStream(&string);
+		EXPECT_FALSE(IsValidEscape(stream));
+
+		string = { std::rand() % Unicode::REVERSE_SOLIDUS, ' ' };
+		stream = TokenizerStream(&string);
+		EXPECT_FALSE(IsValidEscape(stream));
+
+		string = { Unicode::REVERSE_SOLIDUS + 1 + std::rand(), ' ' };
+		stream = TokenizerStream(&string);
+		EXPECT_FALSE(IsValidEscape(stream));
 	}
 
 } // namespace CSS
