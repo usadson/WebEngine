@@ -69,6 +69,13 @@ namespace CSS {
 		}
 	}
 
+	TEST_F(TokenizerAlgorithmsTest, IsHexCharacterInvalidNonASCII) {
+		for (std::size_t i = 0; i < 15; i++) {
+			EXPECT_FALSE(IsHexCharacter(0xFF + std::rand()));
+		}
+	}
+
+
 } // namespace CSS
 
 int
