@@ -41,7 +41,7 @@ namespace CSS {
 	[[nodiscard]] inline bool
 	IsValidEscape(const CSS::TokenizerStream &stream, std::size_t offset = 0) noexcept {
 		Unicode::CodePoint next, next2;
-		return stream.Peek(&next, offset) && stream.Peek(&next2, offset + 1) && next == Unicode::SOLIDUS
+		return stream.Peek(&next, offset) && stream.Peek(&next2, offset + 1) && next == Unicode::REVERSE_SOLIDUS
 			&& next2 != Unicode::LINE_FEED;
 	}
 
