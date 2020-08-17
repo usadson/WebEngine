@@ -13,12 +13,12 @@ bool
 HTML::Tokenizer::AttributeName::Parse() {
 	auto &tagToken = context.GetCurrentTagToken();
 
-	const static std::array<char, 6> characterList = { Unicode::CHARACTER_TABULATION,
+	const static std::array<char, 6> characterList = {Unicode::CHARACTER_TABULATION,
 		Unicode::LINE_FEED,
 		Unicode::FORM_FEED,
 		Unicode::SPACE,
 		'\\',
-		Unicode::GREATER_THAN_SIGN };
+		Unicode::GREATER_THAN_SIGN};
 
 	if (context.eof
 		|| std::find(std::begin(characterList), std::end(characterList), context.character)

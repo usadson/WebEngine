@@ -46,19 +46,19 @@ Options::GetCommandLineParameter(const std::string &name) {
 		[name](const auto &entry) -> bool { return strcasecmp(name.c_str(), entry.name.c_str()) == 0; });
 
 	if (result != std::end(CommandLineParser::outputs)) {
-		return { true, result->value };
+		return {true, result->value};
 	}
 
-	return { false, {} };
+	return {false, {}};
 }
 
 bool
 ParseEqualsOption(const std::string_view &strview, std::optional<std::string_view> *prevName, bool isLastOption) {
-	static const std::array<CommandLineParser::Input, 4> inputs = { {
-		{ "copyright", false },
-		{ "credits", false },
-		{ "test", true },
-	} };
+	static const std::array<CommandLineParser::Input, 4> inputs = {{
+		{"copyright", false},
+		{"credits", false},
+		{"test", true},
+	}};
 
 	std::string name(std::begin(strview) + 2);
 

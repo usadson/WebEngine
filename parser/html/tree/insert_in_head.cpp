@@ -89,11 +89,11 @@ HTML::InsertionModes::InHead::HandleStartTag(HTML::Tokenizer::Token &token) {
 bool
 HTML::InsertionModes::InHead::EmitToken(HTML::Tokenizer::Token &inToken) {
 	std::map<HTML::Tokenizer::TokenType, HTML::InsertionModeSubroutineStatus (InHead::*)(HTML::Tokenizer::Token &)>
-		funcMap = { { HTML::Tokenizer::TokenType::CHARACTER, &InHead::HandleCharacter },
-			{ HTML::Tokenizer::TokenType::COMMENT, &InHead::HandleComment },
-			{ HTML::Tokenizer::TokenType::DOCTYPE, &InHead::HandleDoctype },
-			{ HTML::Tokenizer::TokenType::ENDTAG, &InHead::HandleEndTag },
-			{ HTML::Tokenizer::TokenType::STARTTAG, &InHead::HandleStartTag } };
+		funcMap = {{HTML::Tokenizer::TokenType::CHARACTER, &InHead::HandleCharacter},
+			{HTML::Tokenizer::TokenType::COMMENT, &InHead::HandleComment},
+			{HTML::Tokenizer::TokenType::DOCTYPE, &InHead::HandleDoctype},
+			{HTML::Tokenizer::TokenType::ENDTAG, &InHead::HandleEndTag},
+			{HTML::Tokenizer::TokenType::STARTTAG, &InHead::HandleStartTag}};
 
 	auto it = funcMap.find(inToken.type());
 	if (it != std::end(funcMap)) {

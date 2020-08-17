@@ -17,12 +17,12 @@ namespace CSS {
 
 	class TokenizerNameToken : public ::testing::Test {
 	public:
-		Context context { &ParseErrorTester::ReporterEndpoint };
+		Context context {&ParseErrorTester::ReporterEndpoint};
 	};
 
 	TEST_F(TokenizerNameToken, TestSimple) {
 		const Unicode::UString input("test-string ");
-		const std::vector<Unicode::CodePoint> expected { 't', 'e', 's', 't', '-', 's', 't', 'r', 'i', 'n', 'g' };
+		const std::vector<Unicode::CodePoint> expected {'t', 'e', 's', 't', '-', 's', 't', 'r', 'i', 'n', 'g'};
 		Unicode::CodePoint codePoint;
 		std::vector<Unicode::CodePoint> output;
 
@@ -37,7 +37,7 @@ namespace CSS {
 
 	TEST_F(TokenizerNameToken, TestEscapes) {
 		const Unicode::UString input("\\test ");
-		const std::vector<Unicode::CodePoint> expected { 't', 'e', 's', 't' };
+		const std::vector<Unicode::CodePoint> expected {'t', 'e', 's', 't'};
 		Unicode::CodePoint codePoint;
 		std::vector<Unicode::CodePoint> output;
 
@@ -52,9 +52,9 @@ namespace CSS {
 
 	TEST_F(TokenizerNameToken, TestAllowedCharacters) {
 		const std::vector<Unicode::CodePoint>
-			expected { '_', '-', '0', '6', '8', '=', 'G', 't', 'I', 'J', 'g', 'a', 'j', 0x1F600 };
+			expected {'_', '-', '0', '6', '8', '=', 'G', 't', 'I', 'J', 'g', 'a', 'j', 0x1F600};
 		const Unicode::UString
-			input { '_', '-', '0', '6', '8', '\\', '3', 'D', 'G', 't', 'I', 'J', 'g', 'a', 'j', 0x1F600, ' ' };
+			input {'_', '-', '0', '6', '8', '\\', '3', 'D', 'G', 't', 'I', 'J', 'g', 'a', 'j', 0x1F600, ' '};
 		Unicode::CodePoint codePoint;
 		std::vector<Unicode::CodePoint> output;
 

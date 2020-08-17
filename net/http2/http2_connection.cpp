@@ -21,10 +21,10 @@ namespace Net {
 
 	namespace HTTP {
 		std::map<HTTP2Error, std::string> HTTP2ErrorNames = {
-			{ HTTP2Error::FAILED_READ, "FAILED_READ" },
-			{ HTTP2Error::FRAME_TOO_LARGE, "FRAME_TOO_LARGE" },
-			{ HTTP2Error::NO_ERROR, "NO_ERROR" },
-			{ HTTP2Error::NOT_CONNECTED, "NOT_CONNECTED" },
+			{HTTP2Error::FAILED_READ, "FAILED_READ"},
+			{HTTP2Error::FRAME_TOO_LARGE, "FRAME_TOO_LARGE"},
+			{HTTP2Error::NO_ERROR, "NO_ERROR"},
+			{HTTP2Error::NOT_CONNECTED, "NOT_CONNECTED"},
 		};
 
 		HTTP2Connection::HTTP2Connection(Net::ConnectionInfo *inConnectionInfo) : connectionInfo(inConnectionInfo) {

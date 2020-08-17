@@ -8,7 +8,7 @@ namespace CSS {
 
 	class TokenizerConsumeToken : public ::testing::Test {
 	public:
-		Context context { &ParseErrorTester::ReporterEndpoint };
+		Context context {&ParseErrorTester::ReporterEndpoint};
 
 		void
 		TestWhitespace(const Unicode::UString &string) {
@@ -48,7 +48,7 @@ namespace CSS {
 	}
 
 	TEST_F(TokenizerConsumeToken, TestHashDelim) {
-		const Unicode::UString string { ' ' };
+		const Unicode::UString string {' '};
 		Tokenizer tokenizer(context, string);
 		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::NUMBER_SIGN));
 		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
@@ -60,8 +60,8 @@ namespace CSS {
 	}
 
 	TEST_F(TokenizerConsumeToken, TestHashId) {
-		const Unicode::UString input { 't', ' ' };
-		const std::vector<Unicode::CodePoint> expected { 't' };
+		const Unicode::UString input {'t', ' '};
+		const std::vector<Unicode::CodePoint> expected {'t'};
 		Tokenizer tokenizer(context, input);
 		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::NUMBER_SIGN));
 		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
@@ -75,7 +75,7 @@ namespace CSS {
 
 	TEST_F(TokenizerConsumeToken, TestHashHex) {
 		const Unicode::UString input("123456 ");
-		const std::vector<Unicode::CodePoint> expected { '1', '2', '3', '4', '5', '6' };
+		const std::vector<Unicode::CodePoint> expected {'1', '2', '3', '4', '5', '6'};
 		Tokenizer tokenizer(context, input);
 		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::NUMBER_SIGN));
 		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());

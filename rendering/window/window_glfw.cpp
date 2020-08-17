@@ -34,17 +34,17 @@ namespace Rendering {
 
 	std::vector<RendererType>
 	WindowGLFW::GetSupportedRenderers() const noexcept {
-		return { RendererType::OPENGL };
+		return {RendererType::OPENGL};
 	}
 
 	std::pair<bool, std::optional<void *>>
 	WindowGLFW::PrepareForRenderer(RendererType type) {
 		switch (type) {
 			case RendererType::OPENGL:
-				return { InternalPrepareGL(), {} };
+				return {InternalPrepareGL(), {}};
 			default:
 				Logger::Error("GLFW", "Renderer not recognised!");
-				return { false, {} };
+				return {false, {}};
 		}
 	}
 

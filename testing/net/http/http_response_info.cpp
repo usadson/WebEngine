@@ -29,7 +29,7 @@ namespace Net::HTTP {
 		ASSERT_FALSE(info.GetHeader("unset").has_value());
 
 		// 1-header headerlist
-		info.headers.push_back({ "test", "okokokok" });
+		info.headers.push_back({"test", "okokokok"});
 		ASSERT_TRUE(info.GetHeader("test").has_value());
 		ASSERT_TRUE(info.GetHeader("Test").has_value());
 		ASSERT_TRUE(info.GetHeader("TEST").has_value());
@@ -45,7 +45,7 @@ namespace Net::HTTP {
 		ASSERT_FALSE(info.GetHeaderUnsigned("unset").has_value());
 
 		// 1-header headerlist
-		info.headers.push_back({ "test", "123" });
+		info.headers.push_back({"test", "123"});
 		ASSERT_TRUE(info.GetHeaderUnsigned("test").has_value());
 		ASSERT_TRUE(info.GetHeaderUnsigned("Test").has_value());
 		ASSERT_TRUE(info.GetHeaderUnsigned("TEST").has_value());
@@ -60,7 +60,7 @@ namespace Net::HTTP {
 		// Invalid integer (the function returns an unset optional when the
 		// header does not exists, or the value couldn't be converted to an
 		// unsigned integer).
-		info.headers.push_back({ "invalid-integer", "this is not an integer" });
+		info.headers.push_back({"invalid-integer", "this is not an integer"});
 		ASSERT_FALSE(info.GetHeaderUnsigned("invalid-integer").has_value());
 		ASSERT_FALSE(info.GetHeaderUnsigned("INVALID-INTEGER").has_value());
 	}

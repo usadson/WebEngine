@@ -154,7 +154,7 @@ namespace Net::HTTP {
 			nullCharacterPosition = fieldValueString + fieldValue.size() - 1;
 		*nullCharacterPosition = 0;
 
-		response->headers.push_back({ std::string(fieldName.data()), std::string(fieldValueString) });
+		response->headers.push_back({std::string(fieldName.data()), std::string(fieldValueString)});
 		return HTTPConnectionError::NO_ERROR;
 	}
 
@@ -191,7 +191,7 @@ namespace Net::HTTP {
 	HTTPConnectionError
 	HTTPConnection::ConsumeHeaderFieldName(std::vector<char> *dest) {
 		static const std::vector<char> unreservedCharacters
-			= { '!', '#', '$', '%', '&', '\'', '*', '+', '-', '.', '^', '_', '`', '|', '~' };
+			= {'!', '#', '$', '%', '&', '\'', '*', '+', '-', '.', '^', '_', '`', '|', '~'};
 
 		std::optional<char> character;
 
@@ -300,14 +300,14 @@ namespace Net::HTTP {
 		if (!connectionInfo.Write(str.c_str(), str.length()))
 			return HTTPConnectionError::FAILED_WRITE_REQUEST;
 
-		for (const auto &subroutine : { &HTTPConnection::ConsumeHTTPVersion,
+		for (const auto &subroutine : {&HTTPConnection::ConsumeHTTPVersion,
 				 &HTTPConnection::ConsumeSingleSpace,
 				 &HTTPConnection::ConsumeStatusCode,
 				 &HTTPConnection::ConsumeSingleSpace,
 				 &HTTPConnection::ConsumeReasonPhrase,
 				 &HTTPConnection::ConsumeNewLine,
 				 &HTTPConnection::ConsumeHeaders,
-				 &HTTPConnection::ConsumeMessageBody }) {
+				 &HTTPConnection::ConsumeMessageBody}) {
 			auto error = (this->*subroutine)();
 			if (error != HTTPConnectionError::NO_ERROR)
 				return error;

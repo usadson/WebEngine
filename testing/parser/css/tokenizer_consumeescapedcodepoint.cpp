@@ -8,7 +8,7 @@ namespace CSS {
 
 	class TokenizerConsumeEscapedCodePointTest : public ::testing::Test {
 	public:
-		Context context { &ParseErrorTester::ReporterEndpoint };
+		Context context {&ParseErrorTester::ReporterEndpoint};
 	};
 
 	TEST_F(TokenizerConsumeEscapedCodePointTest, TestEmpty) {

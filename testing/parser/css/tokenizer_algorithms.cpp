@@ -144,25 +144,25 @@ namespace CSS {
 		TokenizerStream stream(&string);
 		EXPECT_FALSE(IsValidEscape(stream));
 
-		string = { '\\' };
+		string = {'\\'};
 		stream = TokenizerStream(&string);
 		EXPECT_FALSE(IsValidEscape(stream));
 
-		string = { '\\', '\n' };
+		string = {'\\', '\n'};
 		stream = TokenizerStream(&string);
 		EXPECT_FALSE(IsValidEscape(stream));
 
-		string = { std::rand() % Unicode::REVERSE_SOLIDUS, ' ' };
+		string = {std::rand() % Unicode::REVERSE_SOLIDUS, ' '};
 		stream = TokenizerStream(&string);
 		EXPECT_FALSE(IsValidEscape(stream));
 
-		string = { Unicode::REVERSE_SOLIDUS + 1 + std::rand(), ' ' };
+		string = {Unicode::REVERSE_SOLIDUS + 1 + std::rand(), ' '};
 		stream = TokenizerStream(&string);
 		EXPECT_FALSE(IsValidEscape(stream));
 	}
 
 	TEST_F(TokenizerAlgorithmsTest, IsValidEscape_Legal) {
-		Unicode::UString string { '\\', '\0' };
+		Unicode::UString string {'\\', '\0'};
 		TokenizerStream stream(&string);
 
 		for (std::size_t i = 0; i < 15; i++) {
@@ -173,7 +173,7 @@ namespace CSS {
 	}
 
 	TEST_F(TokenizerAlgorithmsTest, WillStartIdentifierHyphenMinus) {
-		Unicode::UString string { '-', '-' };
+		Unicode::UString string {'-', '-'};
 		TokenizerStream stream(&string);
 		EXPECT_TRUE(WillStartIdentifier(stream));
 
@@ -186,7 +186,7 @@ namespace CSS {
 			EXPECT_FALSE(WillStartIdentifier(stream));
 		}
 
-		string = { '-', '\\', '\n' };
+		string = {'-', '\\', '\n'};
 		stream.SetString(&string);
 		EXPECT_FALSE(WillStartIdentifier(stream));
 
@@ -201,7 +201,7 @@ namespace CSS {
 	}
 
 	TEST_F(TokenizerAlgorithmsTest, WillStartIdentifierNameStartCodePoint) {
-		Unicode::UString string { '0' };
+		Unicode::UString string {'0'};
 		TokenizerStream stream(&string);
 		Unicode::CodePoint &codePoint = string[0];
 
@@ -236,14 +236,14 @@ namespace CSS {
 	}
 
 	TEST_F(TokenizerAlgorithmsTest, WillStartIdentifierReverseSolidus) {
-		Unicode::UString string { '\\', '0' };
+		Unicode::UString string {'\\', '0'};
 		TokenizerStream stream(&string);
 
-		string = { '\\' };
+		string = {'\\'};
 		stream.SetString(&string);
 		EXPECT_FALSE(WillStartIdentifier(stream));
 
-		string = { '\\', '\n' };
+		string = {'\\', '\n'};
 		stream.SetString(&string);
 		EXPECT_FALSE(WillStartIdentifier(stream));
 

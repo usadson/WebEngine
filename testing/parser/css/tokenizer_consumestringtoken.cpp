@@ -17,11 +17,11 @@ namespace CSS {
 
 	class TokenizerConsumeStringToken : public ::testing::Test {
 	public:
-		Context context { &ParseErrorTester::ReporterEndpoint };
+		Context context {&ParseErrorTester::ReporterEndpoint};
 
 		std::random_device randomDevice;
-		std::mt19937 randomGenerator { randomDevice() };
-		std::uniform_int_distribution<Unicode::CodePoint> integerDistributor { 0, Unicode::LAST_ALLOWED_CODE_POINT };
+		std::mt19937 randomGenerator {randomDevice()};
+		std::uniform_int_distribution<Unicode::CodePoint> integerDistributor {0, Unicode::LAST_ALLOWED_CODE_POINT};
 
 		[[nodiscard]] Unicode::CodePoint
 		GetRandomCodePoint() noexcept {
@@ -107,7 +107,7 @@ namespace CSS {
 	}
 
 	TEST_F(TokenizerConsumeStringToken, TestEscapedNewLine) {
-		Unicode::UString string { '\\', '\n', '"' };
+		Unicode::UString string {'\\', '\n', '"'};
 		const Unicode::CodePoint ending = Unicode::QUOTATION_MARK;
 		const std::vector<Unicode::CodePoint> result;
 		TestLegal(string, ending, result);
@@ -122,15 +122,15 @@ namespace CSS {
 	}
 
 	TEST_F(TokenizerConsumeStringToken, TestEscapedCodePoint) {
-		Unicode::UString string { 'H', 'e', '\\', '0', '0', '0', '0', '6', 'C', 'l', 'o', '"' };
+		Unicode::UString string {'H', 'e', '\\', '0', '0', '0', '0', '6', 'C', 'l', 'o', '"'};
 		const Unicode::CodePoint ending = Unicode::QUOTATION_MARK;
-		const std::vector<Unicode::CodePoint> result { 'H', 'e', 'l', 'l', 'o' };
+		const std::vector<Unicode::CodePoint> result {'H', 'e', 'l', 'l', 'o'};
 		TestLegal(string, ending, result);
 	}
 
 	TEST_F(TokenizerConsumeStringToken, TestCalledByConsumeTokenQuotationMark) {
-		const Unicode::UString input { '"', 'T', 'h', 'i', 's', '"' };
-		const std::vector<Unicode::CodePoint> expected { 'T', 'h', 'i', 's' };
+		const Unicode::UString input {'"', 'T', 'h', 'i', 's', '"'};
+		const std::vector<Unicode::CodePoint> expected {'T', 'h', 'i', 's'};
 		Unicode::CodePoint character;
 		Tokenizer tokenizer(context, input);
 		ASSERT_TRUE(tokenizer.stream.Next(&character));
@@ -144,8 +144,8 @@ namespace CSS {
 	}
 
 	TEST_F(TokenizerConsumeStringToken, TestCalledByConsumeTokenApostrophe) {
-		const Unicode::UString input { '\'', 'T', 'h', 'i', 's', '\'' };
-		const std::vector<Unicode::CodePoint> expected { 'T', 'h', 'i', 's' };
+		const Unicode::UString input {'\'', 'T', 'h', 'i', 's', '\''};
+		const std::vector<Unicode::CodePoint> expected {'T', 'h', 'i', 's'};
 		Unicode::CodePoint character;
 		Tokenizer tokenizer(context, input);
 		ASSERT_TRUE(tokenizer.stream.Next(&character));

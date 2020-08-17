@@ -26,10 +26,10 @@ namespace HTML {
 	TreeConstructor::TreeConstructor(Tokenizer::Context &context)
 		: context(context), currentMode(InsertionModeType::INITIAL),
 		  insertionModes({
-			  { InsertionModeType::INITIAL, std::make_shared<InsertionModes::Initial>(*this) },
-			  { InsertionModeType::BEFORE_HTML, std::make_shared<InsertionModes::BeforeHTML>(*this) },
-			  { InsertionModeType::BEFORE_HEAD, std::make_shared<InsertionModes::BeforeHead>(*this) },
-			  { InsertionModeType::IN_HEAD, std::make_shared<InsertionModes::InHead>(*this) },
+			  {InsertionModeType::INITIAL, std::make_shared<InsertionModes::Initial>(*this)},
+			  {InsertionModeType::BEFORE_HTML, std::make_shared<InsertionModes::BeforeHTML>(*this)},
+			  {InsertionModeType::BEFORE_HEAD, std::make_shared<InsertionModes::BeforeHead>(*this)},
+			  {InsertionModeType::IN_HEAD, std::make_shared<InsertionModes::InHead>(*this)},
 		  }) {
 	}
 
@@ -125,7 +125,7 @@ namespace HTML {
 			[](const auto &attr) { return attr.first.EqualsIgnoreCaseA(2, "is"); });
 
 		if (attr != std::end(tagToken.GetAttributes()))
-			is = { attr->second };
+			is = {attr->second};
 
 		auto element = CreateElement(tagToken.tagName, nameSpace, {}, is, executeScript);
 		/* Maybe, because the lifetime of the Token ends here, we can do a swap

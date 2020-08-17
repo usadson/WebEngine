@@ -18,7 +18,7 @@ namespace Unicode {
 	UString::UString() noexcept : data({}) {
 	}
 
-	UString::UString(Unicode::CodePoint character) noexcept : data({ character }) {
+	UString::UString(Unicode::CodePoint character) noexcept : data({character}) {
 	}
 
 	UString::UString(const char *characters, std::size_t size) noexcept

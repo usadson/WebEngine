@@ -18,13 +18,13 @@ namespace HTML {
 		const EndTagToken EndTagToken::INVALID_TYPE_END_TAG = EndTagToken();
 		const StartTagToken StartTagToken::INVALID_TYPE_START_TAG = StartTagToken();
 
-		std::map<TokenType, std::string> tokenTypeNames = { { TokenType::CHARACTER, "CHARACTER" },
-			{ TokenType::COMMENT, "COMMENT" },
-			{ TokenType::DOCTYPE, "DOCTYPE" },
-			{ TokenType::ENDTAG, "ENDTAG" },
-			{ TokenType::EOF_TYPE, "EOF_TYPE" },
-			{ TokenType::INVALID, "EOF_TYPE" },
-			{ TokenType::STARTTAG, "STARTTAG" } };
+		std::map<TokenType, std::string> tokenTypeNames = {{TokenType::CHARACTER, "CHARACTER"},
+			{TokenType::COMMENT, "COMMENT"},
+			{TokenType::DOCTYPE, "DOCTYPE"},
+			{TokenType::ENDTAG, "ENDTAG"},
+			{TokenType::EOF_TYPE, "EOF_TYPE"},
+			{TokenType::INVALID, "EOF_TYPE"},
+			{TokenType::STARTTAG, "STARTTAG"}};
 
 		void
 		AmbiguousTagToken::AddTokenAttribute(HTML::Tokenizer::Context &context) {
@@ -67,7 +67,7 @@ namespace HTML {
 			if (attr == std::end(attributes))
 				return std::nullopt;
 
-			return { attr->second };
+			return {attr->second};
 		}
 	} // namespace Tokenizer
 } // namespace HTML

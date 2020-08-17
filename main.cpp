@@ -78,7 +78,7 @@ DecodeText(Resources::DocumentResource *documentResource, std::vector<char> inpu
 inline void
 RunDocumentTest() {
 	Resources::DocumentResource document;
-	document.mediaType = { "text/html", { { "charset", "utf-8" } } };
+	document.mediaType = {"text/html", {{"charset", "utf-8"}}};
 
 	std::string testDocumentText = "<!-- TestHTML Document -->\n\
 <!doctype html>\n\
@@ -141,11 +141,11 @@ RunRenderingTest() {
 	}
 
 	auto rectangle = std::make_shared<Rendering::DrawRect>();
-	rectangle->bounds = { 0, 200, 0, 200 };
+	rectangle->bounds = {0, 200, 0, 200};
 	rectangle->color = Rendering::DrawColor(0x83ff08ff);
 
 	auto text = std::make_shared<Rendering::DrawText>();
-	text->bounds = { 300, 600, 300, 600 };
+	text->bounds = {300, 600, 300, 600};
 	text->color = Rendering::DrawColor(0x8308ffff);
 	text->text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed\
  do eiusmod tempor incididunt ut labore et dolore magna aliqua.";

@@ -40,7 +40,7 @@ CCompat::CloseStandardIO() {
 	fclose(stdout);
 }
 
-const std::vector<const char *> errnoNames = { "CCOMPATNOERR",
+const std::vector<const char *> errnoNames = {"CCOMPATNOERR",
 	"EPERM",
 	"ENOENT",
 	"ESRCH",
@@ -174,4 +174,4 @@ const std::vector<const char *> errnoNames = { "CCOMPATNOERR",
 	"ENOTRECOVERABLE",
 	"ERFKILL",
 	"EHWPOISON",
-	"ENOTSUP" };
+	"ENOTSUP"};

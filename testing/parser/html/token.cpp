@@ -17,7 +17,7 @@
 namespace HTML::Tokenizer {
 
 	namespace TerminateIntercepter {
-		bool terminateTriggerIntercepted { false };
+		bool terminateTriggerIntercepted {false};
 
 		void
 		TerminateHandler() {
@@ -42,7 +42,7 @@ namespace HTML::Tokenizer {
 	protected:
 		StartTagToken token;
 		ParserContext parserContext;
-		ContextFixture context { ContextFixture(parserContext) };
+		ContextFixture context {ContextFixture(parserContext)};
 	};
 
 	TEST_F(StartTagTokenTest, DuplicateAttributes) {

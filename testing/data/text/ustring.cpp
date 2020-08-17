@@ -15,7 +15,7 @@ namespace Unicode {
 
 	class UStringTest : public ::testing::Test {
 	protected:
-		UString normalString { "Hello world" };
+		UString normalString {"Hello world"};
 	};
 
 	TEST_F(UStringTest, LengthAssertion) {
@@ -151,7 +151,7 @@ namespace Unicode {
 	}
 
 	TEST_F(UStringTest, InitializerList) {
-		Unicode::UString s { 'H', 'i' };
+		Unicode::UString s {'H', 'i'};
 		ASSERT_EQ(s.length(), 2);
 		ASSERT_EQ(Unicode::UString("Hi"), s);
 	}

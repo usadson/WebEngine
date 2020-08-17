@@ -32,7 +32,7 @@ namespace Net::HTTP {
 		value = GetHeader(name);
 		if (value.has_value()) {
 			try {
-				return { std::stoull(value.value()) };
+				return {std::stoull(value.value())};
 			} catch (const std::exception &) {
 				return std::nullopt;
 			}

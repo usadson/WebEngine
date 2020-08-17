@@ -108,7 +108,7 @@ namespace CSS {
 	}
 
 	TEST_F(TokenizerStreamTest, TestSkip) {
-		Unicode::UString test { 'G' };
+		Unicode::UString test {'G'};
 		CSS::TokenizerStream stream(&test);
 
 		ASSERT_TRUE(stream.Skip());

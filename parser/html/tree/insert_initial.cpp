@@ -16,9 +16,9 @@
 #include "logger.hpp"
 
 const std::vector<const char *> quirkyPublicIdentifiersMissingSystem
-	= { "-//W3C//DTD HTML 4.01 Frameset//", "-//W3C//DTD HTML 4.01 Transitional//" };
+	= {"-//W3C//DTD HTML 4.01 Frameset//", "-//W3C//DTD HTML 4.01 Transitional//"};
 
-const std::vector<const char *> quirkyPublicIdentifiers = { "-//W3O//DTD W3 HTML Strict 3.0//EN//",
+const std::vector<const char *> quirkyPublicIdentifiers = {"-//W3O//DTD W3 HTML Strict 3.0//EN//",
 	"-/W3C/DTD HTML 4.0 Transitional/EN",
 	"HTML",
 	"+//Silmaril//dtd html Pro v0r11 19970101//",
@@ -75,7 +75,7 @@ const std::vector<const char *> quirkyPublicIdentifiers = { "-//W3O//DTD W3 HTML
 	"-//W3C//DTD W3 HTML//",
 	"-//W3O//DTD W3 HTML 3.0//",
 	"-//WebTechs//DTD Mozilla HTML 2.0//",
-	"-//WebTechs//DTD Mozilla HTML//" };
+	"-//WebTechs//DTD Mozilla HTML//"};
 
 DOM::QuirksMode
 DetectQuirksMode(HTML::Tokenizer::DoctypeToken *token, bool isIFrameSrcDoc) {

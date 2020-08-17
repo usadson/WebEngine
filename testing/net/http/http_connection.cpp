@@ -22,7 +22,7 @@ namespace Net {
 	private:
 		std::vector<char> inputBuffer;
 		std::vector<char> outputBuffer;
-		std::size_t position { 0 };
+		std::size_t position {0};
 
 	public:
 		BufferedConnectionInfo() : ConnectionInfo("destination.test", 80) {
@@ -57,7 +57,7 @@ namespace Net {
 				std::cerr << "ReadChar() outside the buffer size! inputBuffer.size()=" << inputBuffer.size() << '\n';
 				return std::nullopt;
 			}
-			return { inputBuffer[position++] };
+			return {inputBuffer[position++]};
 		}
 
 		bool
@@ -85,7 +85,7 @@ namespace Net::HTTP {
 	TEST_F(HTTPConnectionTest, ConsumeMessageBody) {
 		dummyResponseInfo.messageBody.clear();
 		dummyResponseInfo.headers = {};
-		connectionInfo.SetInputBuffer({ 0x00, 0x01, 0x02, 0x03, 0x04, 0x05 });
+		connectionInfo.SetInputBuffer({0x00, 0x01, 0x02, 0x03, 0x04, 0x05});
 
 		// No message body
 		ASSERT_EQ(connection.ConsumeMessageBody(), Net::HTTP::HTTPConnectionError::NO_ERROR);
@@ -93,27 +93,27 @@ namespace Net::HTTP {
 
 		dummyResponseInfo.messageBody.clear();
 		dummyResponseInfo.headers.clear();
-		dummyResponseInfo.headers.push_back({ "content-length", "0" });
+		dummyResponseInfo.headers.push_back({"content-length", "0"});
 		ASSERT_EQ(connection.ConsumeMessageBody(), Net::HTTP::HTTPConnectionError::NO_ERROR);
 		ASSERT_TRUE(dummyResponseInfo.messageBody.empty());
 
 		// A normal message body
 		dummyResponseInfo.messageBody.clear();
 		dummyResponseInfo.headers.clear();
-		dummyResponseInfo.headers.push_back({ "content-length", "6" });
+		dummyResponseInfo.headers.push_back({"content-length", "6"});
 		ASSERT_EQ(connection.ConsumeMessageBody(), Net::HTTP::HTTPConnectionError::NO_ERROR);
 		ASSERT_EQ(dummyResponseInfo.messageBody.size(), 6);
 
 		dummyResponseInfo.messageBody.clear();
 		dummyResponseInfo.headers.clear();
-		dummyResponseInfo.headers.push_back({ "content-length", "5" });
+		dummyResponseInfo.headers.push_back({"content-length", "5"});
 		ASSERT_EQ(connection.ConsumeMessageBody(), Net::HTTP::HTTPConnectionError::NO_ERROR);
 		ASSERT_EQ(dummyResponseInfo.messageBody.size(), 5);
 
 		// Invalid:
 		dummyResponseInfo.messageBody.clear();
 		dummyResponseInfo.headers.clear();
-		dummyResponseInfo.headers.push_back({ "content-length", "gjga" });
+		dummyResponseInfo.headers.push_back({"content-length", "gjga"});
 		ASSERT_EQ(connection.ConsumeMessageBody(), Net::HTTP::HTTPConnectionError::INVALID_CONTENT_LENGTH);
 		ASSERT_TRUE(dummyResponseInfo.messageBody.empty());
 	}
@@ -121,10 +121,10 @@ namespace Net::HTTP {
 	TEST_F(HTTPConnectionTest, ConsumeNewLine) {
 		connectionInfo.SetInputBuffer({});
 		ASSERT_EQ(connection.ConsumeNewLine(), Net::HTTP::HTTPConnectionError::FAILED_READ_GENERIC);
-		connectionInfo.SetInputBuffer({ '\n' });
+		connectionInfo.SetInputBuffer({'\n'});
 		ASSERT_EQ(connection.ConsumeNewLine(), Net::HTTP::HTTPConnectionError::NO_ERROR);
 		for (uint16_t i = 0; i < 255; i++) {
-			connectionInfo.SetInputBuffer({ static_cast<char>(i) });
+			connectionInfo.SetInputBuffer({static_cast<char>(i)});
 			if (i == '\n')
 				ASSERT_EQ(connection.ConsumeNewLine(), Net::HTTP::HTTPConnectionError::NO_ERROR);
 			else
@@ -135,10 +135,10 @@ namespace Net::HTTP {
 	TEST_F(HTTPConnectionTest, ConsumeSingleSpace) {
 		connectionInfo.SetInputBuffer({});
 		ASSERT_EQ(connection.ConsumeSingleSpace(), Net::HTTP::HTTPConnectionError::FAILED_READ_GENERIC);
-		connectionInfo.SetInputBuffer({ ' ' });
+		connectionInfo.SetInputBuffer({' '});
 		ASSERT_EQ(connection.ConsumeSingleSpace(), Net::HTTP::HTTPConnectionError::NO_ERROR);
 		for (uint16_t i = 0; i < 255; i++) {
-			connectionInfo.SetInputBuffer({ static_cast<char>(i) });
+			connectionInfo.SetInputBuffer({static_cast<char>(i)});
 			if (i == 0x20)
 				ASSERT_EQ(connection.ConsumeSingleSpace(), Net::HTTP::HTTPConnectionError::NO_ERROR);
 			else
@@ -149,7 +149,7 @@ namespace Net::HTTP {
 	TEST_F(HTTPConnectionTest, ConsumeReasonPhrase) {
 		std::vector<char> input;
 
-		std::vector<std::string> validInputs = { "\r", " \r", " ok \r", "agjia;h skghah aghaha;hj \r" };
+		std::vector<std::string> validInputs = {"\r", " \r", " ok \r", "agjia;h skghah aghaha;hj \r"};
 
 		for (const auto &string : validInputs) {
 			input.insert(std::begin(input), std::begin(string), std::end(string));
@@ -171,7 +171,7 @@ namespace Net::HTTP {
 
 	TEST_F(HTTPConnectionTest, ConsumeStatusCode) {
 		// Valid Inputs
-		std::vector<char> input = { '2', '0', '0' };
+		std::vector<char> input = {'2', '0', '0'};
 		for (char a = '1'; a <= '5'; a++) {
 			input[0] = a;
 			for (char b = '0'; b <= '9'; b++) {
@@ -185,18 +185,18 @@ namespace Net::HTTP {
 			}
 		}
 
-		std::vector<std::vector<char>> invalidInputs = { { 'A', '0', '0' },
-			{ '2', 'A', '0' },
-			{ '2', '0', 'A' },
-			{ '2', 'A', 'A' },
-			{ 'A', 'A', '0' },
-			{ 'A', 'A', 'A' },
-			{ '0', '0', '0' },
-			{ '0', '0', '1' },
-			{ '0', '1', '0' },
-			{ '6', '0', '0' },
-			{ '7', '9', '9' },
-			{ '8', '2', '6' } };
+		std::vector<std::vector<char>> invalidInputs = {{'A', '0', '0'},
+			{'2', 'A', '0'},
+			{'2', '0', 'A'},
+			{'2', 'A', 'A'},
+			{'A', 'A', '0'},
+			{'A', 'A', 'A'},
+			{'0', '0', '0'},
+			{'0', '0', '1'},
+			{'0', '1', '0'},
+			{'6', '0', '0'},
+			{'7', '9', '9'},
+			{'8', '2', '6'}};
 
 		Logger::SetOutputState(false);
 
@@ -213,7 +213,7 @@ namespace Net::HTTP {
 		Logger::SetOutputState(false);
 
 		// Valid Inputs
-		std::vector<char> input = { 'H', 'T', 'T', 'P', '/', '0', '.', '0' };
+		std::vector<char> input = {'H', 'T', 'T', 'P', '/', '0', '.', '0'};
 		for (char major = '0'; major <= '9'; major++) {
 			input[5] = major;
 			for (char minor = '0'; minor <= '9'; minor++) {
@@ -223,22 +223,22 @@ namespace Net::HTTP {
 			}
 		}
 
-		std::vector<std::vector<char>> invalidInputs = { { 'A', 'T', 'T', 'P', '/', '1', '.', '1' },
-			{ 'H', 'A', 'T', 'P', '/', '1', '.', '1' },
-			{ 'H', 'T', 'A', 'P', '/', '1', '.', '1' },
-			{ 'H', 'T', 'T', 'A', '/', '1', '.', '1' },
-			{ 'H', 'T', 'T', 'P', 'A', '1', '.', '1' },
-			{ 'H', 'T', 'T', 'P', 'P', 'A', '.', '1' },
-			{ 'H', 'T', 'T', 'P', '/', '1', 'A', '1' },
-			{ 'H', 'T', 'T', 'P', '/', '1', '.', 'A' },
-			{ 0x00, 'T', 'T', 'P', '/', '1', '.', '1' },
-			{ 'H', 0x00, 'T', 'P', '/', '1', '.', '1' },
-			{ 'H', 'T', 0x00, 'P', '/', '1', '.', '1' },
-			{ 'H', 'T', 'T', 0x00, '/', '1', '.', '1' },
-			{ 'H', 'T', 'T', 'P', 0x00, '1', '.', '1' },
-			{ 'H', 'T', 'T', 'P', '/', 0x00, '.', '1' },
-			{ 'H', 'T', 'T', 'P', '/', '1', 0x00, '1' },
-			{ 'H', 'T', 'T', 'P', '/', '1', '.', 0x00 } };
+		std::vector<std::vector<char>> invalidInputs = {{'A', 'T', 'T', 'P', '/', '1', '.', '1'},
+			{'H', 'A', 'T', 'P', '/', '1', '.', '1'},
+			{'H', 'T', 'A', 'P', '/', '1', '.', '1'},
+			{'H', 'T', 'T', 'A', '/', '1', '.', '1'},
+			{'H', 'T', 'T', 'P', 'A', '1', '.', '1'},
+			{'H', 'T', 'T', 'P', 'P', 'A', '.', '1'},
+			{'H', 'T', 'T', 'P', '/', '1', 'A', '1'},
+			{'H', 'T', 'T', 'P', '/', '1', '.', 'A'},
+			{0x00, 'T', 'T', 'P', '/', '1', '.', '1'},
+			{'H', 0x00, 'T', 'P', '/', '1', '.', '1'},
+			{'H', 'T', 0x00, 'P', '/', '1', '.', '1'},
+			{'H', 'T', 'T', 0x00, '/', '1', '.', '1'},
+			{'H', 'T', 'T', 'P', 0x00, '1', '.', '1'},
+			{'H', 'T', 'T', 'P', '/', 0x00, '.', '1'},
+			{'H', 'T', 'T', 'P', '/', '1', 0x00, '1'},
+			{'H', 'T', 'T', 'P', '/', '1', '.', 0x00}};
 
 		for (size_t i = 0; i < invalidInputs.size(); i++) {
 			connectionInfo.SetInputBuffer(invalidInputs[i]);

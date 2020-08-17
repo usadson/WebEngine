@@ -30,7 +30,7 @@ namespace TextEncoding {
 	}
 
 	IBM866::IBM866()
-		: AbstractSBEncoding({ 0x0410,
+		: AbstractSBEncoding({0x0410,
 			0x0411,
 			0x0412,
 			0x0413,
@@ -157,11 +157,11 @@ namespace TextEncoding {
 			0x2116,
 			0x00A4,
 			0x25A0,
-			0x00A0 }) {
+			0x00A0}) {
 	}
 
 	ISO8859_2::ISO8859_2()
-		: AbstractSBEncoding({ 0x0080,
+		: AbstractSBEncoding({0x0080,
 			0x0081,
 			0x0082,
 			0x0083,
@@ -288,7 +288,7 @@ namespace TextEncoding {
 			0x00FC,
 			0x00FD,
 			0x0163,
-			0x02D9 }) {
+			0x02D9}) {
 	}
 
 	ISO8859_3::ISO8859_3()
@@ -298,7 +298,7 @@ namespace TextEncoding {
 	}
 
 	ISO8859_4::ISO8859_4()
-		: AbstractSBEncoding({ 0x0080,
+		: AbstractSBEncoding({0x0080,
 			0x0081,
 			0x0082,
 			0x0083,
@@ -425,11 +425,11 @@ namespace TextEncoding {
 			0x00FC,
 			0x0169,
 			0x016B,
-			0x02D9 }) {
+			0x02D9}) {
 	}
 
 	ISO8859_5::ISO8859_5()
-		: AbstractSBEncoding({ 0x0080,
+		: AbstractSBEncoding({0x0080,
 			0x0081,
 			0x0082,
 			0x0083,
@@ -556,7 +556,7 @@ namespace TextEncoding {
 			0x045C,
 			0x00A7,
 			0x045E,
-			0x045F }) {
+			0x045F}) {
 	}
 
 	ISO8859_6::ISO8859_6()
@@ -578,7 +578,7 @@ namespace TextEncoding {
 	}
 
 	ISO8859_10::ISO8859_10()
-		: AbstractSBEncoding({ 0x0080,
+		: AbstractSBEncoding({0x0080,
 			0x0081,
 			0x0082,
 			0x0083,
@@ -705,11 +705,11 @@ namespace TextEncoding {
 			0x00FC,
 			0x00FD,
 			0x00FE,
-			0x0138 }) {
+			0x0138}) {
 	}
 
 	ISO8859_13::ISO8859_13()
-		: AbstractSBEncoding({ 0x0080,
+		: AbstractSBEncoding({0x0080,
 			0x0081,
 			0x0082,
 			0x0083,
@@ -836,11 +836,11 @@ namespace TextEncoding {
 			0x00FC,
 			0x017C,
 			0x017E,
-			0x2019 }) {
+			0x2019}) {
 	}
 
 	ISO8859_14::ISO8859_14()
-		: AbstractSBEncoding({ 0x0080,
+		: AbstractSBEncoding({0x0080,
 			0x0081,
 			0x0082,
 			0x0083,
@@ -967,11 +967,11 @@ namespace TextEncoding {
 			0x00FC,
 			0x00FD,
 			0x0177,
-			0x00FF }) {
+			0x00FF}) {
 	}
 
 	ISO8859_15::ISO8859_15()
-		: AbstractSBEncoding({ 0x0080,
+		: AbstractSBEncoding({0x0080,
 			0x0081,
 			0x0082,
 			0x0083,
@@ -1098,11 +1098,11 @@ namespace TextEncoding {
 			0x00FC,
 			0x00FD,
 			0x00FE,
-			0x00FF }) {
+			0x00FF}) {
 	}
 
 	ISO8859_16::ISO8859_16()
-		: AbstractSBEncoding({ 0x0080,
+		: AbstractSBEncoding({0x0080,
 			0x0081,
 			0x0082,
 			0x0083,
@@ -1229,11 +1229,11 @@ namespace TextEncoding {
 			0x00FC,
 			0x0119,
 			0x021B,
-			0x00FF }) {
+			0x00FF}) {
 	}
 
 	KOI8_R::KOI8_R()
-		: AbstractSBEncoding({ 0x2500,
+		: AbstractSBEncoding({0x2500,
 			0x2502,
 			0x250C,
 			0x2510,
@@ -1360,11 +1360,11 @@ namespace TextEncoding {
 			0x042D,
 			0x0429,
 			0x0427,
-			0x042A }) {
+			0x042A}) {
 	}
 
 	KOI8_U::KOI8_U()
-		: AbstractSBEncoding({ 0x2500,
+		: AbstractSBEncoding({0x2500,
 			0x2502,
 			0x250C,
 			0x2510,
@@ -1491,11 +1491,11 @@ namespace TextEncoding {
 			0x042D,
 			0x0429,
 			0x0427,
-			0x042A }) {
+			0x042A}) {
 	}
 
 	Macintosh::Macintosh()
-		: AbstractSBEncoding({ 0x00C4,
+		: AbstractSBEncoding({0x00C4,
 			0x00C5,
 			0x00C7,
 			0x00C9,
@@ -1622,7 +1622,7 @@ namespace TextEncoding {
 			0x00B8,
 			0x02DD,
 			0x02DB,
-			0x02C7 }) {
+			0x02C7}) {
 	}
 
 	Windows874::Windows874()
@@ -1632,7 +1632,7 @@ namespace TextEncoding {
 	}
 
 	Windows1250::Windows1250()
-		: AbstractSBEncoding({ 0x20AC,
+		: AbstractSBEncoding({0x20AC,
 			0x0081,
 			0x201A,
 			0x0083,
@@ -1759,11 +1759,11 @@ namespace TextEncoding {
 			0x00FC,
 			0x00FD,
 			0x0163,
-			0x02D9 }) {
+			0x02D9}) {
 	}
 
 	Windows1251::Windows1251()
-		: AbstractSBEncoding({ 0x0402,
+		: AbstractSBEncoding({0x0402,
 			0x0403,
 			0x201A,
 			0x0453,
@@ -1890,11 +1890,11 @@ namespace TextEncoding {
 			0x044C,
 			0x044D,
 			0x044E,
-			0x044F }) {
+			0x044F}) {
 	}
 
 	Windows1252::Windows1252()
-		: AbstractSBEncoding({ 0x20AC,
+		: AbstractSBEncoding({0x20AC,
 			0x0081,
 			0x201A,
 			0x0192,
@@ -2021,7 +2021,7 @@ namespace TextEncoding {
 			0x00FC,
 			0x00FD,
 			0x00FE,
-			0x00FF }) {
+			0x00FF}) {
 	}
 
 	Windows1253::Windows1253()
@@ -2031,7 +2031,7 @@ namespace TextEncoding {
 	}
 
 	Windows1254::Windows1254()
-		: AbstractSBEncoding({ 0x20AC,
+		: AbstractSBEncoding({0x20AC,
 			0x0081,
 			0x201A,
 			0x0192,
@@ -2158,7 +2158,7 @@ namespace TextEncoding {
 			0x00FC,
 			0x0131,
 			0x015F,
-			0x00FF }) {
+			0x00FF}) {
 	}
 
 	Windows1255::Windows1255()
@@ -2168,7 +2168,7 @@ namespace TextEncoding {
 	}
 
 	Windows1256::Windows1256()
-		: AbstractSBEncoding({ 0x20AC,
+		: AbstractSBEncoding({0x20AC,
 			0x067E,
 			0x201A,
 			0x0192,
@@ -2295,11 +2295,11 @@ namespace TextEncoding {
 			0x00FC,
 			0x200E,
 			0x200F,
-			0x06D2 }) {
+			0x06D2}) {
 	}
 
 	Windows1257::Windows1257()
-		: AbstractSBEncoding({ 0x20AC,
+		: AbstractSBEncoding({0x20AC,
 			0x0081,
 			0x201A,
 			0x0083,
@@ -2424,11 +2424,11 @@ namespace TextEncoding {
 			0x00FC,
 			0x017C,
 			0x017E,
-			0x02D9 }) {
+			0x02D9}) {
 	}
 
 	Windows1258::Windows1258()
-		: AbstractSBEncoding({ 0x20AC,
+		: AbstractSBEncoding({0x20AC,
 			0x0081,
 			0x201A,
 			0x0192,
@@ -2555,11 +2555,11 @@ namespace TextEncoding {
 			0x00FC,
 			0x01B0,
 			0x20AB,
-			0x00FF }) {
+			0x00FF}) {
 	}
 
 	XMacCyrillic::XMacCyrillic()
-		: AbstractSBEncoding({ 0x0410,
+		: AbstractSBEncoding({0x0410,
 			0x0411,
 			0x0412,
 			0x0413,
@@ -2686,6 +2686,6 @@ namespace TextEncoding {
 			0x044C,
 			0x044D,
 			0x044E,
-			0x20AC }) {
+			0x20AC}) {
 	}
 } // namespace TextEncoding
