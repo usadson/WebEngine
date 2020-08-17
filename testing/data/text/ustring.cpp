@@ -117,6 +117,13 @@ namespace Unicode {
 		EXPECT_TRUE(std::equal(std::cbegin(output), std::cend(output), std::cbegin(expected), std::cend(expected)));
 	}
 
+	TEST_F(UStringTest, Compare) {
+		const Unicode::UString str1{ 'A', 'B', 'C' };
+		const Unicode::UString str2{ 'A', 'B', 'D' };
+		EXPECT_EQ(str1.Compare(str2), -1);
+		EXPECT_EQ(str2.Compare(str1), 1);
+	}
+
 	TEST_F(UStringTest, EqualsIgnoreCaseA) {
 		ASSERT_TRUE(normalString.EqualsIgnoreCaseA(0, "HELLO WORLD"));
 		ASSERT_TRUE(normalString.EqualsIgnoreCaseA(0, "hello world"));
