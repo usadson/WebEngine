@@ -98,6 +98,15 @@ namespace CSS {
 		[[nodiscard]] bool
 		ConsumeToken(Unicode::CodePoint character) noexcept;
 
+		// The 'convert a string to a number' tokenizer algorithm.
+		//
+		// [Spec]
+		// Title: CSS Syntax Module Level 3
+		// Section: 4.3.13.
+		// URL: https://www.w3.org/TR/css-syntax-3/#convert-string-to-number
+		[[nodiscard]] std::variant<std::monostate, std::uint64_t, double>
+		ConsumeNumber(const std::vector<Unicode::CodePoint> &) noexcept;
+
 		// Will try to run the algorithm of ConsumeToken when the code point is
 		// NUMBER SIGN. Will return false if the if-statement is failing,
 		// otherwise the algorithm will be executed.

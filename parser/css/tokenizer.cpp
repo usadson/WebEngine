@@ -11,6 +11,8 @@
 #include <iterator>
 #include <vector>
 
+#include <cmath>
+
 #include "parser/css/tokenizer_algorithms.hpp"
 
 namespace CSS {
@@ -244,6 +246,55 @@ namespace CSS {
 				return true;
 		}
 		return true;
+	}
+
+	std::variant<std::monostate, std::uint64_t, double>
+	Tokenizer::ConsumeNumber(const std::vector<Unicode::CodePoint> &string) noexcept {
+		int s = 1;
+		std::uint32_t i = 0;
+		std::uint32_t f = 0;
+		std::size_t d = 0;
+		int t = 1;
+		std::uint32_t e = 0;
+
+		auto it = std::begin(string);
+		if (*it == Unicode::HYPHEN_MINUS) {
+			s = -1;
+			++it;
+		} else if (*it == Unicode::PLUS_SIGN) {
+			++it;
+		}
+
+		auto itBegin = it;
+		while (Unicode::IsDigit(*it++)) {
+		}
+		i = std::stoi(std::string(itBegin, it-1));
+
+		if (it != std::end(string) && *it == Unicode::FULL_STOP) {
+			itBegin = it++;
+			while (Unicode::IsDigit(*it++)) {
+			}
+			--it;
+			f = std::stoi(std::string(itBegin, it));
+			d = std::distance(itBegin, it);
+			++it;
+		}
+
+		if (it+1 < std::end(string) && (*it == Unicode::LATIN_CAPITAL_LETTER_E || *it == Unicode::LATIN_SMALL_LETTER_E)) {
+			++it;
+			if (*it == Unicode::HYPHEN_MINUS) {
+				t = -1;
+				++it;
+			} else if (*it == Unicode::PLUS_SIGN) {
+				++it;
+			}
+			itBegin = it;
+			while (Unicode::IsDigit(*it++)) {
+			}
+			e = std::stoi(std::string(itBegin, it));
+		}
+
+		return s * (i + std::pow(10, -d)) * std::pow(10, t * e);
 	}
 
 	bool
