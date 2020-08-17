@@ -49,7 +49,9 @@ sudo make install
 ```sh
 sudo apt install googletest libgtest-dev && sudo apt install googletest-tools
 ```
-GoogleTest may not be included in all distro's, so if you get an error, run the following commands as well:
+Historically, GoogleTest isn't packaged correctly in older versions of Ubuntu,
+so if your build isn't working properly (that is, pkg-config/linking is
+improper). Run the following to manually build GoogleTest:
 ```sh
 wget https://github.com/google/googletest/archive/v1.10.x.tar.gz
 tar -xf v1.10.x.tar.gz
