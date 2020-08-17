@@ -249,7 +249,7 @@ namespace CSS {
 	}
 
 	std::variant<std::monostate, std::uint64_t, double>
-	Tokenizer::ConsumeNumber(const std::vector<Unicode::CodePoint> &string) noexcept {
+	Tokenizer::ConvertStringToNumber(const std::vector<Unicode::CodePoint> &string) noexcept {
 		int s = 1;
 		std::uint32_t i = 0;
 		std::uint32_t f = 0;
@@ -257,7 +257,7 @@ namespace CSS {
 		int t = 1;
 		std::uint32_t e = 0;
 
-		auto it = std::begin(string);
+		auto it = std::cbegin(string);
 		if (*it == Unicode::HYPHEN_MINUS) {
 			s = -1;
 			++it;
@@ -280,7 +280,7 @@ namespace CSS {
 			++it;
 		}
 
-		if (it+1 < std::end(string) && (*it == Unicode::LATIN_CAPITAL_LETTER_E || *it == Unicode::LATIN_SMALL_LETTER_E)) {
+		if (it+1 < std::cend(string) && (*it == Unicode::LATIN_CAPITAL_LETTER_E || *it == Unicode::LATIN_SMALL_LETTER_E)) {
 			++it;
 			if (*it == Unicode::HYPHEN_MINUS) {
 				t = -1;
@@ -294,7 +294,7 @@ namespace CSS {
 			e = std::stoi(std::string(itBegin, it));
 		}
 
-		return s * (i + std::pow(10, -d)) * std::pow(10, t * e);
+		return s * (i + f * std::pow(10, -d)) * std::pow(10, t * e);
 	}
 
 	bool
