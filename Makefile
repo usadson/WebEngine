@@ -705,7 +705,7 @@ memory:
 # the 'cppcheck' target will invoke the cppcheck program. This program
 # statically analyzes the code, and might catch bugs and suggest improvements.
 cppcheck:
-	cppcheck -I. -q --verbose --std=c++17 --enable=all .
+	cppcheck --inline-suppr -I. -q --verbose --std=c++17 --enable=all .
 
 # the 'infer' target will invoke the Infer program, so Infer is prerequisite.
 # Infer will analyze the software for common bugs.
