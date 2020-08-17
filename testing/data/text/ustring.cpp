@@ -8,6 +8,7 @@
 #include "data/text/unicode.hpp"
 
 #include <climits>
+#include <cstdlib>
 
 #include <gtest/gtest.h>
 
@@ -29,6 +30,13 @@ namespace Unicode {
 		for (std::size_t i = 0; i < vec.size(); i++) {
 			ASSERT_EQ(vec[i], str[i]);
 		}
+	}
+
+	TEST_F(UStringTest, OperatorArraySubscriptMutation) {
+		Unicode::UString str{ 'A', 'B', 'C' };
+		Unicode::CodePoint codePoint = std::rand() % 0x100;
+		str[0] = codePoint;
+		ASSERT_EQ(str[0], codePoint);
 	}
 
 	TEST_F(UStringTest, OperatorEquals) {
