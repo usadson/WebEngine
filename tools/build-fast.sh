@@ -15,3 +15,6 @@ make bin/test.txt
 # Create the full thing AFAP.
 make -j$threads all
 
+# If the previous failed, run the following to ensure everything is compiled
+# correctly:
+make
