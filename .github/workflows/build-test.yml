@@ -13,16 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: update
-      run: sudo apt -y update
-    - name: openssl-apt-deps
-      run: sudo apt -y install openssl libssl-dev
-    - name: general-apt-deps
-      run: sudo apt -y install libglew-dev libglfw3-dev
-    - name: freetype-apt-deps
-      run: sudo apt -y install libfreetype-dev || sudo apt -y install libfreetype6-dev
-    - name: googletest-apt-deps
-      run: (sudo apt install googletest libgtest-dev && sudo apt install googletest-tools) || wget https://github.com/google/googletest/archive/v1.10.x.tar.gz && tar -xf v1.10.x.tar.gz && cd googletest-1.10.x && cmake . && make && sudo make install && cd ..
+    - name: Install Dependencies
+      run: sudo apt -y install openssl libssl-dev libglew-dev libglfw3-dev libfreetype6-dev googletest libgtest-dev
     - name: Build
       run: tools/build-fast.sh
     - name: Test
