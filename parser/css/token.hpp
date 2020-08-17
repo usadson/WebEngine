@@ -103,7 +103,7 @@ namespace CSS {
 			: type(type), data(data) {
 		}
 
-		inline Token(Unicode::CodePoint codePoint) noexcept
+		inline explicit Token(Unicode::CodePoint codePoint) noexcept
 			: type(TokenType::DELIM), data(codePoint) {
 		}
 	};
