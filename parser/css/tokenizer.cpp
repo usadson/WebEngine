@@ -268,7 +268,7 @@ namespace CSS {
 		auto itBegin = it;
 		while (Unicode::IsDigit(*it++)) {
 		}
-		i = std::stoi(std::string(itBegin, it-1));
+		i = std::stoi(std::string(itBegin, it - 1));
 
 		if (it != std::end(string) && *it == Unicode::FULL_STOP) {
 			itBegin = it++;
@@ -280,7 +280,8 @@ namespace CSS {
 			++it;
 		}
 
-		if (it+1 < std::end(string) && (*it == Unicode::LATIN_CAPITAL_LETTER_E || *it == Unicode::LATIN_SMALL_LETTER_E)) {
+		if (it + 1 < std::end(string)
+			&& (*it == Unicode::LATIN_CAPITAL_LETTER_E || *it == Unicode::LATIN_SMALL_LETTER_E)) {
 			++it;
 			if (*it == Unicode::HYPHEN_MINUS) {
 				t = -1;
