@@ -35,10 +35,7 @@ jobs:
       #   languages: go, javascript, csharp, python, cpp, java
 
     - run: |
-       sudo apt -y install openssl libssl-dev
-       sudo apt -y install libglew-dev libglfw3-dev
-       sudo bash -c "apt -y install libfreetype-dev || sudo apt -y install libfreetype6-dev"
-       sudo bash -c "(sudo apt install googletest libgtest-dev && sudo apt install googletest-tools) || wget https://github.com/google/googletest/archive/v1.10.x.tar.gz && tar -xf v1.10.x.tar.gz && cd googletest-1.10.x && cmake . && make && sudo make install && cd .. && rm -rf googletest-1.10.x"
+       sudo apt -y install openssl libssl-devinstall libglew-dev libglfw3-dev libfreetype6-dev googletest libgtest-dev
        tools/build-fast.sh
 
     - name: Perform CodeQL Analysis
