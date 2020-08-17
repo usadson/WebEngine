@@ -103,10 +103,68 @@ namespace CSS {
 		return false;
 	}
 
-	std::variant<uint64_t, double>
+	std::variant<std::monostate, uint64_t, double>
 	Tokenizer::ConsumeNumber() noexcept {
+		std::vector<char> repr;
+		Unicode::CodePoint codePoint;
+		bool isInteger = true;
 
-		return true;
+		static_cast<void>(stream.Next(&codePoint));
+		if (codePoint == Unicode::PLUS_SIGN || codePoint == Unicode::HYPHEN_MINUS) {
+			repr.push_back(codePoint);
+		}
+
+		while (Unicode::IsDigit(codePoint)) {
+			repr.push_back(codePoint);
+
+			if (!stream.Next(&codePoint)) {
+				// NOTE check if we can return from here or that we need to
+				// convert the integer now.
+				return {};
+			}
+		}
+
+		Unicode::CodePoint codePointNext;
+		if (!stream.Next(&codePointNext)) {
+			// NOTE check if we can return from here or that we need to convert
+			// the integer now.
+			return {};
+		}
+
+		if (codePoint == Unicode::FULL_STOP && Unicode::IsDigit(codePointNext)) {
+			repr.push_back(codePoint);
+			repr.push_back(codePointNext);
+			isInteger = true;
+			if (!stream.Next(&codePoint) || !stream.Next(&codePointNext)) {
+				// NOTE check if we can return from here or that we need to
+				// convert the integer now.
+				return {};
+			}
+		}
+
+		if (codePoint == Unicode::LATIN_SMALL_LETTER_E || codePoint == Unicode::LATIN_CAPITAL_LETTER_E) {
+			isInteger = true;
+			repr.push_back(codePoint);
+			if (codePointNext == Unicode::PLUS_SIGN || codePointNext == Unicode::HYPHEN_MINUS) {
+				repr.push_back(codePointNext);
+			} else {
+				stream.Reconsume();
+			}
+
+			while (true) {
+				if (!stream.Next(&codePoint)) {
+					// NOTE check if we can return from here or that we need to
+					// convert the integer now.
+					return {};
+				} else if (Unicode::IsDigit(codePoint)) {
+					repr.push_back(codePoint);
+				} else {
+					stream.Reconsume();
+					break;
+				}
+			}
+		}
+		return {};
 	}
 
 	bool

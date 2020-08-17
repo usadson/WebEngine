@@ -68,7 +68,7 @@ namespace CSS {
 		// Title: CSS Syntax Module Level 3
 		// Section: 4.3.12.
 		// URL: https://www.w3.org/TR/css-syntax-3/#consume-a-number
-		[[nodiscard]] std::variant<uint64_t, double>
+		[[nodiscard]] std::variant<std::monostate, uint64_t, double>
 		ConsumeNumber() noexcept;
 
 		// The 'consume a numeric token' tokenizer algorithm.
