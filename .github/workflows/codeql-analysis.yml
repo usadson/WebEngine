@@ -35,7 +35,7 @@ jobs:
       #   languages: go, javascript, csharp, python, cpp, java
 
     - run: |
-       sudo apt -y install openssl libssl-devinstall libglew-dev libglfw3-dev libfreetype6-dev googletest libgtest-dev
+       sudo apt -y install openssl libssl-dev libglew-dev libglfw3-dev libfreetype6-dev googletest libgtest-dev
        tools/build-fast.sh
 
     - name: Perform CodeQL Analysis
