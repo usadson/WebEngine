@@ -12,10 +12,6 @@ threads=$(grep -c ^processor /proc/cpuinfo | awk '{print $1 * 1.5}')
 # Create the appropriate output folders:
 make bin/test.txt
 
-# Only build the objects concurrently, not the final executable binary, since
-# other objects may not have been built yet when the executable is being put
-# together.
-make -j$threads objects
+# Create the full thing AFAP.
+make -j$threads all
 
-# Make the binary executable:
-make
