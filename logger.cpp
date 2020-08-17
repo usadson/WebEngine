@@ -14,42 +14,42 @@ static bool shouldLog = true;
 static void (*abortFunction)() = &std::terminate;
 
 void
-Logger::Error(const std::string &source, const std::string &message) {
+Logger::Error(const std::string &source, const std::string &message) noexcept {
 	if (shouldLog) {
 		std::cerr << "\033[1;31m[" << source << "] [ERROR] " << message << "\033[1;0m" << std::endl;
 	}
 }
 
 void
-Logger::Debug(const std::string &source, const std::string &message) {
+Logger::Debug(const std::string &source, const std::string &message) noexcept {
 	if (shouldLog) {
 		std::cout << "\033[1;35m[" << source << "] [DEBUG] " << message << "\033[1;0m" << std::endl;
 	}
 }
 
 void
-Logger::Info(const std::string &source, const std::string &message) {
+Logger::Info(const std::string &source, const std::string &message) noexcept {
 	if (shouldLog) {
 		std::cout << '[' << source << "] [INFO] " << message << std::endl;
 	}
 }
 
 void
-Logger::Severe(const std::string &source, const std::string &message) {
+Logger::Severe(const std::string &source, const std::string &message) noexcept {
 	if (shouldLog) {
 		std::cerr << "\033[1;91m[" << source << "] [SEVERE] " << message << "\033[1;0m" << std::endl;
 	}
 }
 
 void
-Logger::Success(const std::string &source, const std::string &message) {
+Logger::Success(const std::string &source, const std::string &message) noexcept {
 	if (shouldLog) {
 		std::cout << "\033[1;32m[" << source << "] [SUCCESS] " << message << "\033[1;0m" << std::endl;
 	}
 }
 
 void
-Logger::Warning(const std::string &source, const std::string &message) {
+Logger::Warning(const std::string &source, const std::string &message) noexcept {
 	if (shouldLog) {
 		std::cout << "\033[1;33m[" << source << "] [WARNING] " << message << "\033[1;0m" << std::endl;
 	}
@@ -64,11 +64,11 @@ Logger::Crash(const std::string &source, const std::string &message) {
 }
 
 void
-Logger::SetAbortFunction(void (*function)()) {
+Logger::SetAbortFunction(void (*function)()) noexcept {
 	abortFunction = function;
 }
 
 void
-Logger::SetOutputState(bool state) {
+Logger::SetOutputState(bool state) noexcept {
 	shouldLog = state;
 }

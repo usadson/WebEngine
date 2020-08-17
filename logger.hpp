@@ -18,32 +18,32 @@ namespace Logger {
 	 */
 
 	void
-	Error(const std::string &, const std::string &);
+	Error(const std::string &, const std::string &) noexcept;
 
 	void
-	Debug(const std::string &, const std::string &);
+	Debug(const std::string &, const std::string &) noexcept;
 
 	void
-	Info(const std::string &, const std::string &);
+	Info(const std::string &, const std::string &) noexcept;
 
 	void
-	Severe(const std::string &, const std::string &);
+	Severe(const std::string &, const std::string &) noexcept;
 
 #ifndef Success
 	void
-	Success(const std::string &, const std::string &);
+	Success(const std::string &, const std::string &) noexcept;
 #endif /* Success */
 
 	void
-	Warning(const std::string &, const std::string &);
+	Warning(const std::string &, const std::string &) noexcept;
 
 	void
 	Crash(const std::string &, const std::string &);
 
 	void
-	SetOutputState(bool);
+	SetOutputState(bool) noexcept;
 
 	void
-	SetAbortFunction(void (*)());
+	SetAbortFunction(void (*)()) noexcept;
 
 } // namespace Logger
