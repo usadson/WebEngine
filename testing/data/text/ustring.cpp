@@ -7,6 +7,10 @@
 #include "data/text/ustring.hpp"
 #include "data/text/unicode.hpp"
 
+#include <algorithm>
+#include <array>
+#include <sstream>
+
 #include <climits>
 #include <cstdlib>
 
@@ -101,6 +105,16 @@ namespace Unicode {
 		Unicode::UString tmp;
 		normalString.CopyTo(tmp);
 		ASSERT_EQ(normalString, tmp);
+	}
+
+	TEST_F(UStringTest, OStreamTest) {
+		std::stringstream stream;
+		const std::array<char, 3> expected{ 'H', 'e', 'y' };
+		const Unicode::UString ustring{ 'H', 'e', 'y' };
+		EXPECT_EQ(&(stream << ustring), &stream);
+
+		const std::string output = stream.str();
+		EXPECT_TRUE(std::equal(std::cbegin(output), std::cend(output), std::cbegin(expected), std::cend(expected)));
 	}
 
 	TEST_F(UStringTest, EqualsIgnoreCaseA) {
