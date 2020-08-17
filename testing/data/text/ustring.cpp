@@ -22,6 +22,15 @@ namespace Unicode {
 		ASSERT_EQ(normalString.length(), 11) << "Invalid size detected";
 	}
 
+	TEST_F(UStringTest, OperatorArraySubscript) {
+		ASSERT_EQ(normalString[0], 'H');
+		const std::vector<Unicode::CodePoint> vec{ 'T', 'e', 's', 't' };
+		const Unicode::UString str(vec);
+		for (std::size_t i = 0; i < vec.size(); i++) {
+			ASSERT_EQ(vec[i], str[i]);
+		}
+	}
+
 	TEST_F(UStringTest, OperatorEquals) {
 		ASSERT_EQ(normalString, Unicode::UString("Hello world"));
 		ASSERT_TRUE(normalString == Unicode::UString("Hello world"));
