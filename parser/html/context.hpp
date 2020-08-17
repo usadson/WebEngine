@@ -52,19 +52,19 @@ namespace HTML::Tokenizer {
 		std::vector<Unicode::CodePoint> temporaryBuffer;
 		Unicode::UString ncRefBuffer;
 
-		Unicode::CodePoint character;
+		Unicode::CodePoint character{};
 		CommentToken commentToken{ CommentToken::INVALID_TYPE };
 		DoctypeToken doctypeToken;
 		EndTagToken endTagToken;
-		bool eof;
+		bool eof{};
 		Resources::DocumentResource *document{ nullptr };
-		std::size_t documentSize;
-		std::size_t i;
-		bool isEndTag;
-		bool reconsume;
+		std::size_t documentSize{};
+		std::size_t i{};
+		bool isEndTag{};
+		bool reconsume{};
 		StartTagToken startTagToken;
-		std::size_t toConsumeNext;
-		std::size_t unknownStateCount;
+		std::size_t toConsumeNext{};
+		std::size_t unknownStateCount{};
 
 	  public: // Methods
 		inline explicit Context(HTML::ParserContext &context) : parserContext(context) {
