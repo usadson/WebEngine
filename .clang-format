@@ -22,7 +22,7 @@ UseTab: Always
 AccessModifierOffset: -4
 
 # Braces
-Cpp11BracedListStyle: false
+Cpp11BracedListStyle: true
 BreakBeforeBraces: Attach
 AlignAfterOpenBracket: DontAlign
 AllowShortFunctionsOnASingleLine: false
