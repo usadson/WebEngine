@@ -29,7 +29,7 @@ namespace Unicode {
 
 	TEST_F(UStringTest, OperatorArraySubscript) {
 		ASSERT_EQ(normalString[0], 'H');
-		const std::vector<Unicode::CodePoint> vec{ 'T', 'e', 's', 't' };
+		const std::vector<Unicode::CodePoint> vec {'T', 'e', 's', 't'};
 		const Unicode::UString str(vec);
 		for (std::size_t i = 0; i < vec.size(); i++) {
 			ASSERT_EQ(vec[i], str[i]);
@@ -37,7 +37,7 @@ namespace Unicode {
 	}
 
 	TEST_F(UStringTest, OperatorArraySubscriptMutation) {
-		Unicode::UString str{ 'A', 'B', 'C' };
+		Unicode::UString str {'A', 'B', 'C'};
 		Unicode::CodePoint codePoint = std::rand() % 0x100;
 		str[0] = codePoint;
 		ASSERT_EQ(str[0], codePoint);
@@ -109,8 +109,8 @@ namespace Unicode {
 
 	TEST_F(UStringTest, OStreamTest) {
 		std::stringstream stream;
-		const std::array<char, 3> expected{ 'H', 'e', 'y' };
-		const Unicode::UString ustring{ 'H', 'e', 'y' };
+		const std::array<char, 3> expected {'H', 'e', 'y'};
+		const Unicode::UString ustring {'H', 'e', 'y'};
 		EXPECT_EQ(&(stream << ustring), &stream);
 
 		const std::string output = stream.str();
@@ -118,8 +118,8 @@ namespace Unicode {
 	}
 
 	TEST_F(UStringTest, Compare) {
-		const Unicode::UString str1{ 'A', 'B', 'C' };
-		const Unicode::UString str2{ 'A', 'B', 'D' };
+		const Unicode::UString str1 {'A', 'B', 'C'};
+		const Unicode::UString str2 {'A', 'B', 'D'};
 		EXPECT_EQ(str1.Compare(str2), -1);
 		EXPECT_EQ(str2.Compare(str1), 1);
 	}
@@ -134,7 +134,7 @@ namespace Unicode {
 		EXPECT_TRUE(Unicode::UString("Not empty.", 0).Empty());
 		EXPECT_TRUE(Unicode::UString("", 0).Empty());
 		EXPECT_TRUE(Unicode::UString("").Empty());
-		EXPECT_TRUE(Unicode::UString{}.Empty());
+		EXPECT_TRUE(Unicode::UString {}.Empty());
 	}
 
 	TEST_F(UStringTest, EqualsIgnoreCaseA) {
