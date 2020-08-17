@@ -55,6 +55,7 @@ namespace Unicode {
 
 		explicit UString(Unicode::CodePoint) noexcept;
 
+		// cppcheck-suppress noExplicitConstructor
 		inline UString(std::initializer_list<Unicode::CodePoint> list) noexcept
 			: data(list) {
 		}
