@@ -124,6 +124,19 @@ namespace Unicode {
 		EXPECT_EQ(str2.Compare(str1), 1);
 	}
 
+	TEST_F(UStringTest, EmptyTest) {
+		std::vector<Unicode::CodePoint> emptyVector;
+		const Unicode::UString str("Not empty.");
+		EXPECT_FALSE(str.Empty());
+		EXPECT_TRUE(Unicode::UString().Empty());
+		EXPECT_TRUE(Unicode::UString(emptyVector).Empty());
+		EXPECT_TRUE(Unicode::UString(std::move(emptyVector)).Empty());
+		EXPECT_TRUE(Unicode::UString("Not empty.", 0).Empty());
+		EXPECT_TRUE(Unicode::UString("", 0).Empty());
+		EXPECT_TRUE(Unicode::UString("").Empty());
+		EXPECT_TRUE(Unicode::UString{}.Empty());
+	}
+
 	TEST_F(UStringTest, EqualsIgnoreCaseA) {
 		ASSERT_TRUE(normalString.EqualsIgnoreCaseA(0, "HELLO WORLD"));
 		ASSERT_TRUE(normalString.EqualsIgnoreCaseA(0, "hello world"));
