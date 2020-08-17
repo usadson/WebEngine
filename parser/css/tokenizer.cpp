@@ -255,7 +255,7 @@ namespace CSS {
 		std::uint32_t f = 0;
 		std::size_t d = 0;
 		int t = 1;
-		std::uint32_t e = 0;
+		std::int32_t e = 0;
 
 		auto it = std::cbegin(string);
 		if (*it == Unicode::HYPHEN_MINUS) {
