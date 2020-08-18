@@ -105,7 +105,7 @@ namespace CSS {
 		return false;
 	}
 
-	std::variant<std::monostate, uint64_t, double>
+	std::variant<std::monostate, std::int64_t, double>
 	Tokenizer::ConsumeNumber() noexcept {
 		std::vector<char> repr;
 		Unicode::CodePoint codePoint;
@@ -248,7 +248,7 @@ namespace CSS {
 		return true;
 	}
 
-	std::variant<std::monostate, std::uint64_t, double>
+	std::variant<std::monostate, std::int64_t, double>
 	Tokenizer::ConvertStringToNumber(const std::vector<Unicode::CodePoint> &string) noexcept {
 		int s = 1;
 		std::uint32_t i = 0;
