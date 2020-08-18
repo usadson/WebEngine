@@ -4,6 +4,8 @@
  * See the COPYING file for licensing information.
  */
 
+#include <limits>
+
 namespace CSS {
 
 	class TokenizerConvertStringToNumber : public ::testing::Test {
@@ -29,6 +31,14 @@ namespace CSS {
 	TEST_F(TokenizerConvertStringToNumber, SignedIntTest) {
 		const std::vector<Unicode::CodePoint> vec{ '-', '1' };
 		TestInt(vec, -1);
+	}
+
+	TEST_F(TokenizerConvertStringToNumber, MaxTest) {
+		const auto max = std::numeric_limits<std::int64_t>::max();
+		const std::string stdString = std::to_string(max);
+		const Unicode::UString testString(stdString.c_str());
+		const std::vector<Unicode::CodePoint> vec(std::cbegin(testString), std::cend(testString));
+		TestInt(vec, max);
 	}
 
 } // namespace CSS
