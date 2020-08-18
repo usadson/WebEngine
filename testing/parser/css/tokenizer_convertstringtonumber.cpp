@@ -21,4 +21,12 @@ namespace CSS {
 		EXPECT_EQ(*asInt, 1);
 	}
 
+	TEST_F(TokenizerConvertStringToNumber, SignedIntTest) {
+		const std::vector<Unicode::CodePoint> vec{ '-', '1' };
+		const auto result = tokenizer.ConvertStringToNumber(vec);
+		const auto *asInt = std::get_if<std::int64_t>(&result);
+		EXPECT_NE(asInt, nullptr);
+		EXPECT_EQ(*asInt, -1);
+	}
+
 } // namespace CSS
