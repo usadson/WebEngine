@@ -251,7 +251,7 @@ namespace CSS {
 	std::variant<std::monostate, std::int64_t, double>
 	Tokenizer::ConvertStringToNumber(const std::vector<Unicode::CodePoint> &string) noexcept {
 		int s = 1;
-		std::uint32_t i = 0;
+		std::string iAsStr;
 		std::uint32_t f = 0;
 		std::size_t d = 0;
 		int t = 1;
@@ -268,7 +268,7 @@ namespace CSS {
 		auto itBegin = it;
 		while (Unicode::IsDigit(*it++)) {
 		}
-		i = std::stoi(std::string(itBegin, it - 1));
+		iAsStr = std::string(itBegin, it - 1);
 
 		if (it != std::end(string) && *it == Unicode::FULL_STOP) {
 			itBegin = it++;
@@ -295,6 +295,11 @@ namespace CSS {
 			e = std::stoi(std::string(itBegin, it));
 		}
 
+		if (f == 0 && d == 0 && t == 1 && e == 0) {
+			return std::stol(iAsStr);
+		}
+
+		std::int32_t i = std::stoi(iAsStr);
 		return s * (i + f * std::pow(10, -d)) * std::pow(10, t * e);
 	}
 
