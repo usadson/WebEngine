@@ -16,9 +16,9 @@ namespace CSS {
 	TEST_F(TokenizerConvertStringToNumber, IntTest) {
 		const std::vector<Unicode::CodePoint> vec{ '1' };
 		const std::variant<std::monostate, std::int64_t, double> result = tokenizer.ConvertStringToNumber(vec);
-		const auto *asDouble = std::get_if<double>(&result);
-		EXPECT_NE(asDouble, nullptr);
-		EXPECT_EQ(*asDouble, 1);
+		const auto *asInt = std::get_if<std::int64_t>(&result);
+		EXPECT_NE(asInt, nullptr);
+		EXPECT_EQ(*asInt, 1);
 	}
 
 } // namespace CSS
