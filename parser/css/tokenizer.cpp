@@ -296,7 +296,10 @@ namespace CSS {
 		}
 
 		if (f == 0 && d == 0 && t == 1 && e == 0) {
-			return s * std::stol(iAsStr);
+			if (s == 1) {
+				return std::stol(iAsStr);
+			}
+			return std::stol('-' + iAsStr);
 		}
 
 		std::int32_t i = std::stoi(iAsStr);
