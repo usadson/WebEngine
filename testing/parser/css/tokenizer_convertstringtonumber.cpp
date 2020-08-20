@@ -21,6 +21,14 @@ namespace CSS {
 			EXPECT_NE(asInt, nullptr);
 			EXPECT_EQ(*asInt, expected);
 		}
+
+		void
+		TestDouble(const std::vector<Unicode::CodePoint> &in, double expected) {
+			const auto result = tokenizer.ConvertStringToNumber(in);
+			const auto *asDouble = std::get_if<double>(&result);
+			EXPECT_NE(asDouble, nullptr);
+			EXPECT_EQ(*asDouble, expected);
+		}
 	};
 
 	TEST_F(TokenizerConvertStringToNumber, IntTest) {
