@@ -41,4 +41,12 @@ namespace CSS {
 		TestInt(vec, max);
 	}
 
+	TEST_F(TokenizerConvertStringToNumber, MinTest) {
+		const auto min = std::numeric_limits<std::int64_t>::min();
+		const std::string stdString = std::to_string(min);
+		const Unicode::UString testString(stdString.c_str());
+		const std::vector<Unicode::CodePoint> vec(std::cbegin(testString), std::cend(testString));
+		TestInt(vec, min);
+	}
+
 } // namespace CSS
