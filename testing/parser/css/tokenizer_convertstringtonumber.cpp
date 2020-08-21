@@ -38,12 +38,12 @@ namespace CSS {
 	}
 
 	TEST_F(TokenizerConvertStringToNumber, SignPrefixTest) {
-		TestInt({ '2' }, 2);
-		TestInt({ '-', '2' }, -2);
-		TestInt({ '+', '2' }, 2);
-		TestDouble({ '2', '.', '0' }, 2);
-		TestDouble({ '+', '2', '.', '0' }, 2.0);
-		TestDouble({ '-', '2', '.', '0' }, -2.0);
+		TestInt({'2'}, 2);
+		TestInt({'-', '2'}, -2);
+		TestInt({'+', '2'}, 2);
+		TestDouble({'2', '.', '0'}, 2);
+		TestDouble({'+', '2', '.', '0'}, 2.0);
+		TestDouble({'-', '2', '.', '0'}, -2.0);
 	}
 
 	TEST_F(TokenizerConvertStringToNumber, MaxIntegerTest) {
