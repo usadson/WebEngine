@@ -57,9 +57,9 @@ namespace CSS {
 		TestInt(vec, min);
 	}
 
-	TEST_F(TokenizerConvertStringToNumber, DoubleTest) {
-		const std::vector<Unicode::CodePoint> vec {'1', '.', '0'};
-		TestInt(vec, 1.0);
+	TEST_F(TokenizerConvertStringToNumber, DoubleFractionalTest) {
+		const std::vector<Unicode::CodePoint> vec {'1', '.', '2'};
+		TestDouble(vec, 1.2);
 	}
 
 } // namespace CSS
