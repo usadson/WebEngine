@@ -41,7 +41,7 @@ namespace CSS {
 		TestInt(vec, -1);
 	}
 
-	TEST_F(TokenizerConvertStringToNumber, MaxTest) {
+	TEST_F(TokenizerConvertStringToNumber, MaxIntegerTest) {
 		const auto max = std::numeric_limits<std::int64_t>::max();
 		const std::string stdString = std::to_string(max);
 		const Unicode::UString testString(stdString.c_str());
@@ -49,7 +49,7 @@ namespace CSS {
 		TestInt(vec, max);
 	}
 
-	TEST_F(TokenizerConvertStringToNumber, MinTest) {
+	TEST_F(TokenizerConvertStringToNumber, MinIntegerTest) {
 		const auto min = std::numeric_limits<std::int64_t>::min();
 		const std::string stdString = std::to_string(min);
 		const Unicode::UString testString(stdString.c_str());
