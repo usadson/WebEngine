@@ -72,4 +72,9 @@ namespace CSS {
 		TestDouble(vec, 123e45);
 	}
 
+	TEST_F(TokenizerConvertStringToNumber, ExponentFractionalTest) {
+		const std::vector<Unicode::CodePoint> vec {'1', '.', '2', 'e', '3'};
+		TestDouble(vec, 1.2e3);
+	}
+
 } // namespace CSS
