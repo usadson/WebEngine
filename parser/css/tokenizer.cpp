@@ -266,12 +266,13 @@ namespace CSS {
 		}
 
 		auto itBegin = it;
-		while (Unicode::IsDigit(*it++)) {
+		while (it != std::end(string) && Unicode::IsDigit(*it)) {
+			it++;
 		}
-		iAsStr = std::string(itBegin, it - 1);
+		iAsStr = std::string(itBegin, it);
 
 		if (it != std::end(string) && *it == Unicode::FULL_STOP) {
-			itBegin = it++;
+			itBegin = ++it;
 			while (Unicode::IsDigit(*it++)) {
 			}
 			--it;
@@ -302,8 +303,8 @@ namespace CSS {
 			return std::stol('-' + iAsStr);
 		}
 
-		std::int32_t i = std::stoi(iAsStr);
-		return s * (i + f * std::pow(10, -d)) * std::pow(10, t * e);
+		const std::int32_t i = std::stoi(iAsStr);
+		return static_cast<double>(s) * (i + f / std::pow(10.0, d)) * std::pow(10.0, t * e);
 	}
 
 	bool
