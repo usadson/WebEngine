@@ -81,4 +81,9 @@ namespace CSS {
 		TestDouble(vec, 1.2e3);
 	}
 
+	TEST_F(TokenizerConvertStringToNumber, ExponentSignPrefixTest) {
+		TestDouble({'1', 'e', '+', '3'}, 1e3);
+		TestDouble({'1', 'e', '-', '3'}, 1e-3);
+	}
+
 } // namespace CSS
