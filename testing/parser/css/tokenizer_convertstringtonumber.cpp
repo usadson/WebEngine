@@ -111,7 +111,7 @@ namespace CSS {
 	}
 
 	TEST_F(TokenizerConvertStringToNumber, RandomDoubleTest) {
-		std::uniform_real_distribution<double> distributor(0, 10000);
+		std::uniform_real_distribution<double> distributor(-1e16, 1e16);
 		std::default_random_engine engine;
 
 		for (std::size_t i = 0; i < 15; i++) {
