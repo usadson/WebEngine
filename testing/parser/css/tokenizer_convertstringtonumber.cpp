@@ -91,4 +91,9 @@ namespace CSS {
 		TestDouble({'1', '.', '2', 'e', '-', '3'}, 1.2e-3);
 	}
 
+	TEST_F(TokenizerConvertStringToNumber, SignPrefixIntExponentFractionalSignPrefixTest) {
+		TestDouble({'+', '1', '.', '2', 'e', '+', '3'}, +1.2e3);
+		TestDouble({'-', '1', '.', '2', 'e', '-', '3'}, -1.2e-3);
+	}
+
 } // namespace CSS
