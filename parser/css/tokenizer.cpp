@@ -252,10 +252,10 @@ namespace CSS {
 	Tokenizer::ConvertStringToNumber(const std::vector<Unicode::CodePoint> &string) noexcept {
 		int s = 1;
 		std::string iAsStr;
-		std::uint32_t f = 0;
+		std::uint64_t f = 0;
 		std::size_t d = 0;
 		int t = 1;
-		std::int32_t e = 0;
+		std::int64_t e = 0;
 
 		auto it = std::cbegin(string);
 		if (*it == Unicode::HYPHEN_MINUS) {
@@ -276,9 +276,8 @@ namespace CSS {
 			while (Unicode::IsDigit(*it++)) {
 			}
 			--it;
-			f = std::stoi(std::string(itBegin, it));
+			f = std::stol(std::string(itBegin, it));
 			d = std::distance(itBegin, it);
-			++it;
 		}
 
 		if (it + 1 < std::end(string)
@@ -291,9 +290,10 @@ namespace CSS {
 				++it;
 			}
 			itBegin = it;
-			while (Unicode::IsDigit(*it++)) {
+			while (it != std::end(string) && Unicode::IsDigit(*it)) {
+				it++;
 			}
-			e = std::stoi(std::string(itBegin, it));
+			e = std::stol(std::string(itBegin, it));
 		}
 
 		if (f == 0 && d == 0 && t == 1 && e == 0) {
@@ -303,7 +303,7 @@ namespace CSS {
 			return std::stol('-' + iAsStr);
 		}
 
-		const std::int32_t i = std::stoi(iAsStr);
+		const std::int64_t i = std::stol(iAsStr);
 		return static_cast<double>(s) * (i + f / std::pow(10.0, d)) * std::pow(10.0, t * e);
 	}
 
