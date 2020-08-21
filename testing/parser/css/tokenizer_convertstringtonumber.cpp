@@ -6,6 +6,8 @@
 
 #include <limits>
 
+#include <cmath>
+
 namespace CSS {
 
 	class TokenizerConvertStringToNumber : public ::testing::Test {
@@ -27,7 +29,7 @@ namespace CSS {
 			const auto result = tokenizer.ConvertStringToNumber(in);
 			const auto *asDouble = std::get_if<double>(&result);
 			EXPECT_NE(asDouble, nullptr);
-			EXPECT_EQ(*asDouble, expected);
+			EXPECT_LT(std::abs(*asDouble - expected), 1e-6) << " output=" << *asDouble << " != expected=" << expected;
 		}
 	};
 
