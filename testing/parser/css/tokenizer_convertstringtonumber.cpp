@@ -66,29 +66,36 @@ namespace CSS {
 
 	TEST_F(TokenizerConvertStringToNumber, ExponentTest) {
 		TestDouble({'1', 'e', '2'}, 1e2);
+		TestDouble({'2', 'E', '1'}, 2E1);
 	}
 
 	TEST_F(TokenizerConvertStringToNumber, BigExponentTest) {
 		TestDouble({'1', '2', '3', 'e', '4', '5'}, 123e45);
+		TestDouble({'9', '8', '7', 'e', '6', '5'}, 987E65);
 	}
 
 	TEST_F(TokenizerConvertStringToNumber, ExponentFractionalTest) {
 		TestDouble({'1', '.', '2', 'e', '3'}, 1.2e3);
+		TestDouble({'9', '.', '8', 'E', '7'}, 9.8E7);
 	}
 
 	TEST_F(TokenizerConvertStringToNumber, ExponentSignPrefixTest) {
-		TestDouble({'1', 'e', '+', '3'}, 1e3);
-		TestDouble({'1', 'e', '-', '3'}, 1e-3);
+		TestDouble({'1', 'e', '+', '2'}, 1e2);
+		TestDouble({'2', 'e', '-', '4'}, 2e-4);
+		TestDouble({'5', 'E', '+', '6'}, 5E6);
+		TestDouble({'7', 'E', '-', '8'}, 7E-8);
 	}
 
 	TEST_F(TokenizerConvertStringToNumber, ExponentFractionalSignPrefixTest) {
 		TestDouble({'1', '.', '2', 'e', '+', '3'}, 1.2e3);
 		TestDouble({'1', '.', '2', 'e', '-', '3'}, 1.2e-3);
+		TestDouble({'4', '.', '5', 'e', '+', '6'}, 4.5e6);
+		TestDouble({'7', '.', '8', 'e', '-', '9'}, 7.8e-9);
 	}
 
 	TEST_F(TokenizerConvertStringToNumber, SignPrefixIntExponentFractionalSignPrefixTest) {
 		TestDouble({'+', '1', '.', '2', 'e', '+', '3'}, +1.2e3);
-		TestDouble({'-', '1', '.', '2', 'e', '-', '3'}, -1.2e-3);
+		TestDouble({'-', '4', '.', '5', 'e', '-', '6'}, -4.5e-6);
 	}
 
 } // namespace CSS
