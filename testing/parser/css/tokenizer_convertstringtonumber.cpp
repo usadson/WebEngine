@@ -32,8 +32,7 @@ namespace CSS {
 	};
 
 	TEST_F(TokenizerConvertStringToNumber, IntTest) {
-		const std::vector<Unicode::CodePoint> vec {'1'};
-		TestInt(vec, 1);
+		TestInt({'1'}, 1);
 	}
 
 	TEST_F(TokenizerConvertStringToNumber, SignPrefixTest) {
@@ -62,23 +61,19 @@ namespace CSS {
 	}
 
 	TEST_F(TokenizerConvertStringToNumber, DoubleFractionalTest) {
-		const std::vector<Unicode::CodePoint> vec {'1', '.', '2'};
-		TestDouble(vec, 1.2);
+		TestDouble({'1', '.', '2'}, 1.2);
 	}
 
 	TEST_F(TokenizerConvertStringToNumber, ExponentTest) {
-		const std::vector<Unicode::CodePoint> vec {'1', 'e', '2'};
-		TestDouble(vec, 1e2);
+		TestDouble({'1', 'e', '2'}, 1e2);
 	}
 
 	TEST_F(TokenizerConvertStringToNumber, BigExponentTest) {
-		const std::vector<Unicode::CodePoint> vec {'1', '2', '3', 'e', '4', '5'};
-		TestDouble(vec, 123e45);
+		TestDouble({'1', '2', '3', 'e', '4', '5'}, 123e45);
 	}
 
 	TEST_F(TokenizerConvertStringToNumber, ExponentFractionalTest) {
-		const std::vector<Unicode::CodePoint> vec {'1', '.', '2', 'e', '3'};
-		TestDouble(vec, 1.2e3);
+		TestDouble({'1', '.', '2', 'e', '3'}, 1.2e3);
 	}
 
 	TEST_F(TokenizerConvertStringToNumber, ExponentSignPrefixTest) {
