@@ -110,4 +110,17 @@ namespace CSS {
 		}
 	}
 
+	TEST_F(TokenizerConvertStringToNumber, RandomDoubleTest) {
+		std::uniform_real_distribution<double> distributor(0, 10000);
+		std::default_random_engine engine;
+
+		for (std::size_t i = 0; i < 15; i++) {
+			const auto value = distributor(engine);
+			const std::string string = std::to_string(value);
+			const Unicode::UString ustring(string.c_str());
+			const std::vector<Unicode::CodePoint> vec(std::cbegin(ustring), std::cend(ustring));
+			TestDouble(vec, value);
+		}
+	}
+
 } // namespace CSS
