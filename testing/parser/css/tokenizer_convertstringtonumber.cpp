@@ -98,4 +98,14 @@ namespace CSS {
 		TestDouble({'-', '4', '.', '5', 'e', '-', '6'}, -4.5e-6);
 	}
 
+	TEST_F(TokenizerConvertStringToNumber, RandomIntegerTest) {
+		for (std::size_t i = 0; i < 15; i++) {
+			const auto value = std::rand();
+			const std::string string = std::to_string(value);
+			const Unicode::UString ustring(string.c_str());
+			const std::vector<Unicode::CodePoint> vec(std::cbegin(ustring), std::cend(ustring));
+			TestInt(vec, value);
+		}
+	}
+
 } // namespace CSS
