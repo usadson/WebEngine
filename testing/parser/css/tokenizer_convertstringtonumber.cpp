@@ -62,4 +62,9 @@ namespace CSS {
 		TestDouble(vec, 1.2);
 	}
 
+	TEST_F(TokenizerConvertStringToNumber, DoubleExponentTest) {
+		const std::vector<Unicode::CodePoint> vec {'1', 'e', '2'};
+		TestDouble(vec, 1e2);
+	}
+
 } // namespace CSS
