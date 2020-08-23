@@ -68,7 +68,7 @@ namespace CSS {
 		// Title: CSS Syntax Module Level 3
 		// Section: 4.3.12.
 		// URL: https://www.w3.org/TR/css-syntax-3/#consume-a-number
-		[[nodiscard]] std::variant<std::monostate, std::int64_t, double>
+		[[nodiscard]] std::variant<std::monostate, CSS::IntegerType, CSS::NumberType>
 		ConsumeNumber() noexcept;
 
 		// The 'consume a numeric token' tokenizer algorithm.
@@ -104,7 +104,7 @@ namespace CSS {
 		// Title: CSS Syntax Module Level 3
 		// Section: 4.3.13.
 		// URL: https://www.w3.org/TR/css-syntax-3/#convert-string-to-number
-		[[nodiscard]] std::variant<std::monostate, std::int64_t, double>
+		[[nodiscard]] std::variant<std::monostate, CSS::IntegerType, CSS::NumberType>
 		ConvertStringToNumber(const std::vector<Unicode::CodePoint> &) noexcept;
 
 		// Will try to run the algorithm of ConsumeToken when the code point is
