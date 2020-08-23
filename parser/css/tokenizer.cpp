@@ -426,6 +426,20 @@ namespace CSS {
 	}
 
 	bool
+	Tokenizer::SkipWhitespace() noexcept {
+		while (true) {
+			if (!stream.Next(&codePoint)) {
+				Logger::Debug("ConsumeIdentLikeToken", "Failed to read next cp (#62825)");
+				return false;
+			}
+			if (!IsWhitespace(codePoint)) {
+				break;
+			}
+		}
+		return true;
+	}
+
+	bool
 	Tokenizer::TryParseHashTokenName() noexcept {
 		Unicode::CodePoint next;
 		if (!stream.Peek(&next) || (!IsNameCodePoint(next) && !IsValidEscape(stream))) {

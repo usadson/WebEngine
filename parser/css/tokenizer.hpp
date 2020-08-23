@@ -134,6 +134,9 @@ namespace CSS {
 
 		[[nodiscard]] bool
 		ConsumeTokenHelperHyphenMinus(Unicode::CodePoint) noexcept;
+
+		[[nodiscard]] bool
+		SkipWhitespace() noexcept;
 	};
 } // namespace CSS
 
