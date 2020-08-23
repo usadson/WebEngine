@@ -295,7 +295,7 @@ namespace CSS {
 				tokens.push_back(CSS::MakeToken<CSS::TokenType::PAREN_CLOSE>());
 				return true;
 			case Unicode::PLUS_SIGN:
-				if (stream.Peek(&character) && Unicode::IsDigit(character)) {
+				if (DoesStreamStartWithNumber()) {
 					stream.Reconsume();
 					return ConsumeNumericToken();
 				}
@@ -365,6 +365,18 @@ namespace CSS {
 
 		const std::int64_t i = std::stol(iAsStr);
 		return static_cast<double>(s) * (i + f / std::pow(10.0, d)) * std::pow(10.0, t * e);
+	}
+
+	bool
+	Tokenizer::DoesStreamStartWithNumber() const noexcept {
+		Unicode::CodePoint character;
+		if (stream.Peek(&character) && Unicode::IsDigit(character)) {
+			return true;
+		}
+		if (character == Unicode::FULL_STOP && stream.Peek(&character, 1) && Unicode::IsDigit(character)) {
+			return true;
+		}
+		return false;
 	}
 
 	bool

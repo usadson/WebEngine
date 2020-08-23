@@ -118,6 +118,10 @@ namespace CSS {
 		// URL: https://www.w3.org/TR/css-syntax-3/#consume-token
 		[[nodiscard]] bool
 		TryParseHashTokenName() noexcept;
+
+		// --- // --- // Helper Functions // --- // --- //
+		[[nodiscard]] bool
+		DoesStreamStartWithNumber() const noexcept;
 	};
 } // namespace CSS
 
