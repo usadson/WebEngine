@@ -58,6 +58,7 @@ namespace ParseErrorTester {
 #include "tokenizer_consumestringtoken.cpp"
 #include "tokenizer_consumetoken.cpp"
 #include "tokenizer_convertstringtonumber.cpp"
+#include "tokenizer_consumenumerictoken.cpp"
 
 int
 main(int argc, char **argv) {

@@ -147,6 +147,7 @@ bin/testing/parser/css/tokenizer: testing/parser/css/tokenizer.cpp \
 	testing/parser/css/tokenizer_consumeescapedcodepoint.cpp \
 	testing/parser/css/tokenizer_consumename.cpp \
 	testing/parser/css/tokenizer_consumenumber.cpp \
+	testing/parser/css/tokenizer_consumenumerictoken.cpp \
 	testing/parser/css/tokenizer_consumestringtoken.cpp \
 	testing/parser/css/tokenizer_consumetoken.cpp \
 	testing/parser/css/tokenizer_convertstringtonumber.cpp \
