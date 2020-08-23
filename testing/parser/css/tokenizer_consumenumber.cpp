@@ -84,7 +84,6 @@ namespace CSS {
 	}
 
 	TEST_F(TokenizerConsumeNumber, OverConsumeTest) {
-		;
 		const std::array<OverConsumeInputs, 7> inputs = {{
 			{true, true, 1, 0.0, {'1'}},
 			{false, true, 0, 1.0, {'1', '.', '0'}},
@@ -108,6 +107,16 @@ namespace CSS {
 			EXPECT_TRUE(tokenizer.stream.Next(&codePoint));
 			EXPECT_EQ(codePoint, ending);
 		}
+	}
+
+	TEST_F(TokenizerConsumeNumber, OverConsumeLongTest) {
+		TestInteger({'1', 'p', 'x'}, 1);
+
+		Unicode::CodePoint codePoint;
+		ASSERT_TRUE(tokenizer.stream.Next(&codePoint));
+		EXPECT_EQ(codePoint, 'p');
+		ASSERT_TRUE(tokenizer.stream.Next(&codePoint));
+		EXPECT_EQ(codePoint, 'x');
 	}
 
 } // namespace CSS
