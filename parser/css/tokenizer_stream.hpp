@@ -9,14 +9,21 @@
 #include <iosfwd>
 
 #include "data/text/unicode.hpp"
-
-namespace Unicode { class UString; }
+#include "data/text/ustring.hpp"
 
 namespace CSS {
 	class TokenizerStream {
 	  public:
 		explicit
 		TokenizerStream(const Unicode::UString *string) noexcept;
+
+		// Returns how many code points there are left to be read.
+		// Assures that you can call Next this many times succesfully, or Peek
+		// with offset of `CodePointsLeft() - 1`.
+		[[nodiscard]] inline std::size_t
+		CodePointsLeft() const noexcept {
+			return string->length() - position;
+		}
 
 		// Consumes the character if possible.
 		// If destination is nullptr, it won't fail.
