@@ -41,7 +41,7 @@ namespace Unicode {
 	constexpr CodePoint QUOTATION_MARK = 0x0022;			// '"'
 	constexpr CodePoint NUMBER_SIGN = 0x0023;				// '#'
 	constexpr CodePoint DOLLAR_SIGN = 0x0024;				// '$'
-	constexpr CodePoint PERCENT_SIGN = 0x0025;				// '%'
+	constexpr CodePoint PERCENTAGE_SIGN = 0x0025;			// '%'
 	constexpr CodePoint AMPERSAND = 0x0026;					// '&'
 	constexpr CodePoint APOSTROPHE = 0x0027;				// '''
 	constexpr CodePoint LEFT_PARENTHESIS = 0x0028;			// '('
