@@ -120,6 +120,7 @@ namespace CSS {
 			repr.push_back(codePoint);
 
 			if (!stream.Next(&codePoint)) {
+				std::cerr << "ErrorReturn #5295\n";
 				// NOTE check if we can return from here or that we need to
 				// convert the integer now.
 				return {};
@@ -128,6 +129,7 @@ namespace CSS {
 
 		Unicode::CodePoint codePointNext;
 		if (!stream.Next(&codePointNext)) {
+			std::cerr << "ErrorReturn #7392\n";
 			// NOTE check if we can return from here or that we need to convert
 			// the integer now.
 			return {};
@@ -138,6 +140,7 @@ namespace CSS {
 			repr.push_back(codePointNext);
 			isInteger = true;
 			if (!stream.Next(&codePoint) || !stream.Next(&codePointNext)) {
+				std::cerr << "ErrorReturn #6405\n";
 				// NOTE check if we can return from here or that we need to
 				// convert the integer now.
 				return {};
@@ -155,6 +158,7 @@ namespace CSS {
 
 			while (true) {
 				if (!stream.Next(&codePoint)) {
+					std::cerr << "ErrorReturn #7390\n";
 					// NOTE check if we can return from here or that we need to
 					// convert the integer now.
 					return {};
@@ -166,6 +170,8 @@ namespace CSS {
 				}
 			}
 		}
+		repr.push_back('\0');
+		std::cout << "repr=" << repr.data() << '\n';
 		return {};
 	}
 
