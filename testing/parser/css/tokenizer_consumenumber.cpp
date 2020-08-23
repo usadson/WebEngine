@@ -67,4 +67,45 @@ namespace CSS {
 		TestDouble({'+', '9', '.', '0' }, 9.0);
 	}
 
+	TEST_F(TokenizerConsumeNumber, OverConsumeTest) {
+		Unicode::CodePoint codePoint{};
+		auto ending = GetRandomNonNumericCodePoint();
+		TestInt({'1', ending}, 1);
+		EXPECT_TRUE(tokenizer.stream.Next(&codePoint));
+		EXPECT_EQ(codePoint, ending);
+
+		ending = GetRandomNonNumericCodePoint();
+		TestDouble({'1', '.', '0', ending}, 1.0);
+		EXPECT_TRUE(tokenizer.stream.Next(&codePoint));
+		EXPECT_EQ(codePoint, ending);
+
+		ending = GetRandomNonNumericCodePoint();
+		TestDouble({'2', 'e', '1', ending}, 20);
+		EXPECT_TRUE(tokenizer.stream.Next(&codePoint));
+		EXPECT_EQ(codePoint, ending);
+
+		ending = GetRandomNonNumericCodePoint();
+		TestDouble({'2', 'e', '1', ending}, 20);
+		EXPECT_TRUE(tokenizer.stream.Next(&codePoint));
+		EXPECT_EQ(codePoint, ending);
+
+		ending = GetRandomNonNumericCodePoint();
+		TestDouble({'3', '.', '5', 'e', '6', ending}, 3.5e6);
+		EXPECT_TRUE(tokenizer.stream.Next(&codePoint));
+		EXPECT_EQ(codePoint, ending);
+
+		ending = GetRandomNonNumericCodePoint();
+		TestDouble({'-', '2', '.', '7', 'e', '9', ending}, -2.7e9);
+		EXPECT_TRUE(tokenizer.stream.Next(&codePoint));
+		EXPECT_EQ(codePoint, ending);
+
+		TestDouble({'-', '2', '.', '7', 'e', '9', 'e'}, -2.7e9);
+		EXPECT_TRUE(tokenizer.stream.Next(&codePoint));
+		EXPECT_EQ(codePoint, 'e');
+
+		TestDouble({'-', '2', '.', '7', 'e', '9', 'E'}, -2.7e9);
+		EXPECT_TRUE(tokenizer.stream.Next(&codePoint));
+		EXPECT_EQ(codePoint, 'E');
+	}
+
 } // namespace CSS
