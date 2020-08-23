@@ -38,4 +38,12 @@ namespace CSS {
 		TestInt({'+', '4', '0', '9', '6'}, 4096);
 	}
 
+	TEST_F(TokenizerConsumeNumber, DoubleTest) {
+		TestDouble({'1', '.', '0'}, 1.0);
+		TestDouble({'2', 'e', '3', }, 2000.0);
+		TestDouble({'4', 'e', '-', '5'}, 4e-5);
+		TestDouble({'-', '6', '.', '7', 'e', '8' }, -6.7e8);
+		TestDouble({'+', '9', '.', '0' }, 9.0);
+	}
+
 } // namespace CSS
