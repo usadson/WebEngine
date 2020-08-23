@@ -47,4 +47,21 @@ namespace CSS {
 		EXPECT_EQ(tokenData.integer, 100);
 	}
 
+	TEST_F(TokenizerConsumeNumericToken, DimensionTest) {
+		Unicode::CodePoint codePoint;
+		Tokenize({'3', '5', '0', 'p', 'x', ' '});
+		EXPECT_EQ(tokenizer.stream.CodePointsLeft(), 1);
+		EXPECT_TRUE(tokenizer.stream.Peek(&codePoint));
+		EXPECT_EQ(codePoint, ' ');
+		ASSERT_EQ(tokenizer.tokens.size(), 1);
+		const CSS::Token &token = tokenizer.tokens[0];
+		ASSERT_EQ(token.type, TokenType::DIMENSION);
+
+		const auto &tokenData = std::get<TokenDimensionData>(token.data);
+		EXPECT_EQ(tokenData.type, TokenNumericType::INTEGER);
+		EXPECT_EQ(tokenData.integer, 350);
+		const std::vector<Unicode::CodePoint> expected = {'p', 'x'};
+		EXPECT_EQ(tokenData.codePoints, expected);
+	}
+
 } // namespace CSS
