@@ -86,7 +86,7 @@ namespace CSS {
 			}
 		}
 
-		unsigned long int value = std::stoul(s, nullptr, 16);
+		uint64_t value = std::stoul(s, nullptr, 16);
 
 		if (value == 0 || Unicode::IsSurrogate(value) || value > Unicode::LAST_ALLOWED_CODE_POINT) {
 			return Unicode::REPLACEMENT_CHARACTER;
@@ -120,7 +120,6 @@ namespace CSS {
 		std::vector<Unicode::CodePoint> repr;
 		Unicode::CodePoint codePoint;
 		Unicode::CodePoint codePointNext;
-		bool isInteger = true;
 
 		static_cast<void>(stream.Next(&codePoint));
 		if (codePoint == Unicode::PLUS_SIGN || codePoint == Unicode::HYPHEN_MINUS) {
@@ -152,7 +151,6 @@ namespace CSS {
 		if (codePoint == Unicode::FULL_STOP && Unicode::IsDigit(codePointNext)) {
 			repr.push_back(codePoint);
 			repr.push_back(codePointNext);
-			isInteger = true;
 			if (!stream.Peek(&codePoint, 1)) {
 				return ConvertStringToNumber(repr);
 			}
@@ -161,7 +159,6 @@ namespace CSS {
 		}
 
 		if (codePoint == Unicode::LATIN_SMALL_LETTER_E || codePoint == Unicode::LATIN_CAPITAL_LETTER_E) {
-			isInteger = true;
 			repr.push_back(codePoint);
 			if (codePointNext == Unicode::PLUS_SIGN || codePointNext == Unicode::HYPHEN_MINUS) {
 				repr.push_back(codePointNext);
@@ -169,10 +166,8 @@ namespace CSS {
 				stream.Reconsume();
 			}
 
-			while (true) {
-				if (!stream.Next(&codePoint)) {
-					return ConvertStringToNumber(repr);
-				} else if (Unicode::IsDigit(codePoint)) {
+			while (stream.Next(&codePoint)) {
+				if (Unicode::IsDigit(codePoint)) {
 					repr.push_back(codePoint);
 				} else {
 					stream.Reconsume();
