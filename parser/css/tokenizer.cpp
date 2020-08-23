@@ -185,7 +185,7 @@ namespace CSS {
 	bool
 	Tokenizer::ConsumeNumericToken() noexcept {
 		auto number = ConsumeNumber();
-		Unicode::CodePoint codePoint{};
+		Unicode::CodePoint codePoint {};
 
 		if (WillStartIdentifier(stream)) {
 			TokenDimensionData data;
