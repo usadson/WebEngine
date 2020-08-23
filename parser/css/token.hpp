@@ -13,6 +13,9 @@
 
 namespace CSS {
 
+	using IntegerType = std::int64_t;
+	using NumberType = double;
+
 	enum class TokenType {
 		IDENT,        // <ident-token>
 		FUNCTION,     // <function-token>
@@ -61,8 +64,8 @@ namespace CSS {
 	struct TokenNumericData {
 		TokenNumericType type { TokenNumericType::INTEGER };
 		union {
-			uint64_t integer;
-			double number;
+			IntegerType integer;
+			NumberType number;
 		};
 	};
 
