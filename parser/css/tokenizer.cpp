@@ -143,7 +143,6 @@ namespace CSS {
 		}
 
 		if (!stream.Peek(nullptr, 1)) {
-			std::cout << "ReturnCheckpoint[#9204] repr=" << repr << '\n';
 			return ConvertStringToNumber(repr);
 		}
 
@@ -155,7 +154,6 @@ namespace CSS {
 			repr.push_back(codePointNext);
 			isInteger = true;
 			if (!stream.Peek(&codePoint, 1)) {
-				std::cout << "ReturnCheckpoint[#3732] repr=" << repr << '\n';
 				return ConvertStringToNumber(repr);
 			}
 			static_cast<void>(stream.Next(&codePoint));
@@ -173,7 +171,6 @@ namespace CSS {
 
 			while (true) {
 				if (!stream.Next(&codePoint)) {
-					std::cout << "ReturnCheckpoint[#5612] repr=" << repr << '\n';
 					return ConvertStringToNumber(repr);
 				} else if (Unicode::IsDigit(codePoint)) {
 					repr.push_back(codePoint);
@@ -183,7 +180,6 @@ namespace CSS {
 				}
 			}
 		}
-		std::cout << "ReturnCheckpoint[#1556] repr=" << repr << '\n';
 		return ConvertStringToNumber(repr);
 	}
 
