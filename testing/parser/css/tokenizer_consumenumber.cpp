@@ -9,12 +9,30 @@ namespace CSS {
 	class TokenizerConsumeNumber : public ::testing::Test {
 	public:
 		Context context {&ParseErrorTester::ReporterEndpoint};
+		const Unicode::UString initialString{};
+		Tokenizer tokenizer{ context, initialString };
+
+		void
+		TestInt(Unicode::UString string, std::int64_t expected) {
+			tokenizer.stream.SetString(&string);
+			const auto result = tokenizer.ConsumeNumber();
+			const auto *asInt = std::get_if<std::int64_t>(&result);
+			EXPECT_NE(asInt, nullptr);
+			EXPECT_EQ(*asInt, expected);
+		}
+
+		void
+		TestDouble(Unicode::UString string, double expected) {
+			tokenizer.stream.SetString(&string);
+			const auto result = tokenizer.ConsumeNumber();
+			const auto *asDouble = std::get_if<double>(&result);
+			EXPECT_NE(asDouble, nullptr);
+			EXPECT_LT(std::abs(*asDouble - expected), 1e-6) << " output=" << *asDouble << " != expected=" << expected;
+		}
 	};
 
-	TEST_F(TokenizerConsumeNumber, TestInt) {
-		const Unicode::UString input{'1'};
-		Tokenizer tokenizer(context, input);
-		static_cast<void>(tokenizer.ConsumeNumber());
+	TEST_F(TokenizerConsumeNumber, IntTest) {
+		TestInt({'1'}, 1);
 	}
 
 } // namespace CSS
