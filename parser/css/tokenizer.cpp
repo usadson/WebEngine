@@ -98,6 +98,31 @@ namespace CSS {
 
 	bool
 	Tokenizer::ConsumeIdentLikeToken() noexcept {
+		static const std::vector<Unicode::CodePoint> urlString{'u', 'r', 'l'};
+		Unicode::CodePoint codePoint;
+
+		std::vector<Unicode::CodePoint> string;
+		if (!ConsumeName(string)) {
+			Logger::Debug("ConsumeIdentLikeToken", "Failed to ConsumeName");
+			return false;
+		}
+
+		if (string == urlString && stream.Peek(&codePoint) && codePoint == Unicode::LEFT_PARENTHESIS) {
+			stream.Skip();
+			if (!SkipWhitespace()) {
+				return false;
+			}
+			if (!stream.Peek(&codePoint)) {
+				Logger::Debug("ConsumeIdentLikeToken", "Failed to peek");
+				return false;
+			}
+			if (codePoint == Unicode::QUOTATION_MARK || codePoint == Unicode::APOSTROPHE) {
+// 				tokens.push_back(
+				// FIXME spec here is very weird
+			}
+			// TODO call consume URL token
+		}
+
 		return true;
 	}
 
@@ -428,11 +453,13 @@ namespace CSS {
 	bool
 	Tokenizer::SkipWhitespace() noexcept {
 		while (true) {
+			Unicode::CodePoint codePoint;
 			if (!stream.Next(&codePoint)) {
-				Logger::Debug("ConsumeIdentLikeToken", "Failed to read next cp (#62825)");
+				Logger::Debug("SkipWhitespace", "Failed to read next cp");
 				return false;
 			}
 			if (!IsWhitespace(codePoint)) {
+				stream.Reconsume();
 				break;
 			}
 		}
