@@ -30,19 +30,19 @@ namespace CSS {
 	bool
 	Tokenizer::ConsumeComments() noexcept {
 		std::vector<Unicode::CodePoint> data(std::cbegin(inputString), std::cend(inputString));
-		std::vector<Unicode::CodePoint>::iterator commentStart = std::end(data);
+		auto commentStart = std::cend(data);
 		bool inComment = false;
 
-		for (auto iterator = std::begin(data); iterator < std::end(data); ++iterator) {
+		for (auto iterator = std::cbegin(data); iterator < std::cend(data); ++iterator) {
 			if (inComment) {
-				if (iterator + 1 != std::end(data) && *iterator == Unicode::ASTERISK
+				if (iterator + 1 != std::cend(data) && *iterator == Unicode::ASTERISK
 					&& *(iterator + 1) == Unicode::SOLIDUS) {
 					inComment = false;
 					iterator++;								// Consume '/' aswell
 					data.erase(commentStart, iterator + 1); // +1 because std::vector<T>::erase is exclusive
 					iterator = commentStart;
 				}
-			} else if (iterator + 1 != std::end(data) && *iterator == Unicode::SOLIDUS
+			} else if (iterator + 1 != std::cend(data) && *iterator == Unicode::SOLIDUS
 					   && *(iterator + 1) == Unicode::ASTERISK) {
 				inComment = true;
 				commentStart = iterator;
