@@ -5,10 +5,10 @@
  */
 
 struct OverConsumeInputs {
-	bool isInt;
+	bool isInteger;
 	bool appendRandom;
-	std::uint64_t intValue;
-	double numberValue;
+	CSS::IntegerType intValue;
+	CSS::NumberType numberValue;
 	Unicode::UString string;
 	Unicode::CodePoint customEnding{};
 };
@@ -23,23 +23,23 @@ namespace CSS {
 		const Unicode::UString initialString {};
 
 		void
-		TestInt(Unicode::UString &&string, std::int64_t expected) {
+		TestInteger(Unicode::UString &&string, CSS::IntegerType expected) {
 			streamContents = std::move(string);
 			tokenizer.stream.SetString(&streamContents);
 			const auto result = tokenizer.ConsumeNumber();
-			const auto *asInt = std::get_if<std::int64_t>(&result);
-			EXPECT_NE(asInt, nullptr);
-			EXPECT_EQ(*asInt, expected);
+			const auto *asInteger = std::get_if<CSS::IntegerType>(&result);
+			EXPECT_NE(asInteger, nullptr);
+			EXPECT_EQ(*asInteger, expected);
 		}
 
 		void
-		TestDouble(Unicode::UString &&string, double expected) {
+		TestNumber(Unicode::UString &&string, CSS::NumberType expected) {
 			streamContents = std::move(string);
 			tokenizer.stream.SetString(&streamContents);
 			const auto result = tokenizer.ConsumeNumber();
-			const auto *asDouble = std::get_if<double>(&result);
-			EXPECT_NE(asDouble, nullptr);
-			EXPECT_LT(std::abs(*asDouble - expected), 1e-6) << " output=" << *asDouble << " != expected=" << expected;
+			const auto *asNumber = std::get_if<CSS::NumberType>(&result);
+			EXPECT_NE(asNumber, nullptr);
+			EXPECT_LT(std::abs(*asNumber - expected), 1e-6) << " output=" << *asNumber << " != expected=" << expected;
 		}
 
 		[[nodiscard]] Unicode::CodePoint
@@ -62,25 +62,25 @@ namespace CSS {
 		}
 	};
 
-	TEST_F(TokenizerConsumeNumber, IntTest) {
-		TestInt({'1'}, 1);
-		TestInt({'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'}, 1234567890);
-		TestInt({'-', '2', '0', '4', '8'}, -2048);
-		TestInt({'+', '4', '0', '9', '6'}, 4096);
+	TEST_F(TokenizerConsumeNumber, IntegerTest) {
+		TestInteger({'1'}, 1);
+		TestInteger({'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'}, 1234567890);
+		TestInteger({'-', '2', '0', '4', '8'}, -2048);
+		TestInteger({'+', '4', '0', '9', '6'}, 4096);
 	}
 
-	TEST_F(TokenizerConsumeNumber, DoubleTest) {
-		TestDouble({'1', '.', '0'}, 1.0);
-		TestDouble(
+	TEST_F(TokenizerConsumeNumber, NumberTest) {
+		TestNumber({'1', '.', '0'}, 1.0);
+		TestNumber(
 			{
 				'2',
 				'e',
 				'3',
 			},
 			2000.0);
-		TestDouble({'4', 'e', '-', '5'}, 4e-5);
-		TestDouble({'-', '6', '.', '7', 'e', '8'}, -6.7e8);
-		TestDouble({'+', '9', '.', '0'}, 9.0);
+		TestNumber({'4', 'e', '-', '5'}, 4e-5);
+		TestNumber({'-', '6', '.', '7', 'e', '8'}, -6.7e8);
+		TestNumber({'+', '9', '.', '0'}, 9.0);
 	}
 
 
@@ -100,10 +100,10 @@ namespace CSS {
 			auto ending = input.customEnding != 0 ? input.customEnding : GetRandomNonNumericCodePoint();
 			auto string = input.string;
 			string += ending;
-			if (input.isInt) {
-				TestInt(std::move(string), input.intValue);
+			if (input.isInteger) {
+				TestInteger(std::move(string), input.intValue);
 			} else {
-				TestDouble(std::move(string), input.numberValue);
+				TestNumber(std::move(string), input.numberValue);
 			}
 			EXPECT_TRUE(tokenizer.stream.Next(&codePoint));
 			EXPECT_EQ(codePoint, ending);
