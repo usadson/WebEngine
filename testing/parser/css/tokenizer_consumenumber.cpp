@@ -11,8 +11,6 @@ namespace CSS {
 		Context context {&ParseErrorTester::ReporterEndpoint};
 		Unicode::UString streamContents{};
 		Tokenizer tokenizer{ context, streamContents };
-		const Unicode::UString initialString {};
-		Tokenizer tokenizer {context, initialString};
 
 		void
 		TestInt(Unicode::UString &&string, std::int64_t expected) {
