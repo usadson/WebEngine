@@ -53,6 +53,15 @@ namespace CSS {
 		[[nodiscard]] Unicode::CodePoint
 		ConsumeEscapedCodePoint() noexcept;
 
+		// The 'consume an ident-linke token' tokenizer algorithm.
+		//
+		// [Spec]
+		// Title: CSS Syntax Module Level 3
+		// Section: 4.3.4.
+		// URL: https://www.w3.org/TR/css-syntax-3/#consume-an-ident-like-token
+		[[nodiscard]] bool
+		ConsumeIdentLikeToken() noexcept;
+
 		// The 'consume a name' tokenizer algorithm.
 		//
 		// [Spec]

@@ -97,6 +97,11 @@ namespace CSS {
 	}
 
 	bool
+	Tokenizer::ConsumeIdentLikeToken() noexcept {
+		return true;
+	}
+
+	bool
 	Tokenizer::ConsumeName(std::vector<Unicode::CodePoint> &result) noexcept {
 		Unicode::CodePoint codePoint;
 		while (stream.Next(&codePoint)) {
