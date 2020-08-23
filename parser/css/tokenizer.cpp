@@ -15,7 +15,7 @@
 
 #include "parser/css/tokenizer_algorithms.hpp"
 
-template<typename T>
+template <typename T>
 std::ostream &
 operator<<(std::ostream &stream, const std::vector<T> &vector) {
 	stream << '[' << vector.size() << "]{ ";
