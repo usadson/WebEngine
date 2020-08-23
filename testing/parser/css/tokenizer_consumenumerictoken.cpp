@@ -35,4 +35,16 @@ namespace CSS {
 		EXPECT_EQ(tokenData.number, 1.0);
 	}
 
+	TEST_F(TokenizerConsumeNumericToken, PercentageTest) {
+		Tokenize({'1', '0', '0', '%'});
+		EXPECT_EQ(tokenizer.stream.CodePointsLeft(), 0);
+		ASSERT_EQ(tokenizer.tokens.size(), 1);
+		const CSS::Token &token = tokenizer.tokens[0];
+		EXPECT_EQ(token.type, TokenType::PERCENTAGE);
+
+		const auto &tokenData = std::get<TokenNumericData>(token.data);
+		EXPECT_EQ(tokenData.type, TokenNumericType::INTEGER);
+		EXPECT_EQ(tokenData.integer, 100);
+	}
+
 } // namespace CSS
