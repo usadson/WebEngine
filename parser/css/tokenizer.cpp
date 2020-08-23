@@ -15,6 +15,16 @@
 
 #include "parser/css/tokenizer_algorithms.hpp"
 
+template<typename T>
+std::ostream &
+operator<<(std::ostream &stream, const std::vector<T> &vector) {
+	stream << '[' << vector.size() << "]{ ";
+	for (const auto &value : vector) {
+		stream << value << ' ';
+	}
+	return stream << '}';
+}
+
 namespace CSS {
 
 	bool
@@ -133,6 +143,7 @@ namespace CSS {
 		}
 
 		if (!stream.Peek(nullptr, 1)) {
+			std::cout << "ReturnCheckpoint[#9204] repr=" << repr << '\n';
 			// NOTE Convert
 			return {};
 		}
@@ -145,6 +156,7 @@ namespace CSS {
 			repr.push_back(codePointNext);
 			isInteger = true;
 			if (!stream.Peek(&codePoint, 1)) {
+				std::cout << "ReturnCheckpoint[#3732] repr=" << repr << '\n';
 				// NOTE Convert
 				return {};
 			}
@@ -163,7 +175,7 @@ namespace CSS {
 
 			while (true) {
 				if (!stream.Next(&codePoint)) {
-					std::cerr << "ErrorReturn #7390\n";
+					std::cout << "ReturnCheckpoint[#5612] repr=" << repr << '\n';
 					// NOTE check if we can return from here or that we need to
 					// convert the integer now.
 					return {};
@@ -175,8 +187,7 @@ namespace CSS {
 				}
 			}
 		}
-		repr.push_back('\0');
-		std::cout << "repr=" << repr.data() << '\n';
+		std::cout << "ReturnCheckpoint[#1556] repr=" << repr << '\n';
 		return {};
 	}
 
