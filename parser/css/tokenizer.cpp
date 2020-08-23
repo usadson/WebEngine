@@ -301,6 +301,9 @@ namespace CSS {
 				}
 				tokens.emplace_back(TokenType::DELIM, Unicode::PLUS_SIGN);
 				return true;
+			case Unicode::COMMA:
+				tokens.emplace_back(TokenType::COMMA);
+				return true;
 		}
 		return true;
 	}
