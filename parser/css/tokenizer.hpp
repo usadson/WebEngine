@@ -122,6 +122,9 @@ namespace CSS {
 		// --- // --- // Helper Functions // --- // --- //
 		[[nodiscard]] bool
 		DoesStreamStartWithNumber() const noexcept;
+
+		[[nodiscard]] bool
+		ConsumeTokenHelperHyphenMinus(Unicode::CodePoint) noexcept;
 	};
 } // namespace CSS
 

@@ -304,7 +304,32 @@ namespace CSS {
 			case Unicode::COMMA:
 				tokens.emplace_back(TokenType::COMMA);
 				return true;
+			case Unicode::HYPHEN_MINUS:
+				return ConsumeTokenHelperHyphenMinus(character);
 		}
+		return true;
+	}
+
+	bool
+	Tokenizer::ConsumeTokenHelperHyphenMinus(Unicode::CodePoint character) noexcept {
+		if (DoesStreamStartWithNumber()) {
+			stream.Reconsume();
+			return ConsumeNumericToken();
+		}
+
+		if (stream.Peek(&character) && character == Unicode::HYPHEN_MINUS && stream.Peek(&character) && character == Unicode::GREATER_THAN_SIGN) {
+			stream.Skip();
+			stream.Skip();
+			tokens.emplace_back(TokenType::CDC);
+			return true;
+		}
+
+		stream.Reconsume();
+		if (WillStartIdentifier(stream)) {
+			return ConsumeIdentLikeToken();
+		}
+
+		tokens.emplace_back(TokenType::DELIM, Unicode::HYPHEN_MINUS);
 		return true;
 	}
 
