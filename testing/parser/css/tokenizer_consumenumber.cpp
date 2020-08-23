@@ -33,6 +33,9 @@ namespace CSS {
 
 	TEST_F(TokenizerConsumeNumber, IntTest) {
 		TestInt({'1'}, 1);
+		TestInt({'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'}, 1234567890);
+		TestInt({'-', '2', '0', '4', '8'}, -2048);
+		TestInt({'+', '4', '0', '9', '6'}, 4096);
 	}
 
 } // namespace CSS
