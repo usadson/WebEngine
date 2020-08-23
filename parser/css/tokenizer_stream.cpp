@@ -15,28 +15,26 @@ namespace CSS {
 
 	bool
 	TokenizerStream::Next(Unicode::CodePoint *dest) noexcept {
-		if (position >= string->length()) {
-			return false;
+		if (position < string->length()) {
+			if (dest != nullptr) {
+				*dest = string->operator[](position++);
+			}
+			return true;
 		}
 
-		if (dest != nullptr) {
-			*dest = string->operator[](position++);
-		}
-
-		return true;
+		return false;
 	}
 
 	bool
 	TokenizerStream::Peek(Unicode::CodePoint *dest, std::size_t offset) const noexcept {
-		if (position + offset >= string->length()) {
-			return false;
+		if (position + offset < string->length()) {
+			if (dest != nullptr) {
+				*dest = string->operator[](position + offset);
+			}
+			return true;
 		}
 
-		if (dest) {
-			*dest = string->operator[](position + offset);
-		}
-
-		return true;
+		return false;
 	}
 
 	void
