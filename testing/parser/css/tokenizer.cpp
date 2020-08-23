@@ -54,6 +54,7 @@ namespace ParseErrorTester {
 #include "tokenizer_consumecomments.cpp"
 #include "tokenizer_consumeescapedcodepoint.cpp"
 #include "tokenizer_consumename.cpp"
+#include "tokenizer_consumenumber.cpp"
 #include "tokenizer_consumestringtoken.cpp"
 #include "tokenizer_consumetoken.cpp"
 #include "tokenizer_convertstringtonumber.cpp"
