@@ -109,6 +109,7 @@ namespace CSS {
 	Tokenizer::ConsumeNumber() noexcept {
 		std::vector<char> repr;
 		Unicode::CodePoint codePoint;
+		Unicode::CodePoint codePointNext;
 		bool isInteger = true;
 
 		static_cast<void>(stream.Next(&codePoint));
@@ -120,10 +121,7 @@ namespace CSS {
 
 		while (true) {
 			if (!stream.Next(&codePoint)) {
-				std::cerr << "ErrorReturn #5295\n";
-				// NOTE check if we can return from here or that we need to
-				// convert the integer now.
-				return {};
+				break;
 			}
 
 			if (!Unicode::IsDigit(codePoint)) {
@@ -134,26 +132,24 @@ namespace CSS {
 			repr.push_back(codePoint);
 		}
 
-		Unicode::CodePoint codePointNext;
-		if (!stream.Next(&codePointNext)) {
-			std::cout << "repr(" << repr.size() << ")={ ";
-			for (const auto character : repr) std::cout << character << ' ';
-			std::cerr << "}\nErrorReturn #7392\n";
-			// NOTE check if we can return from here or that we need to convert
-			// the integer now.
+		if (!stream.Peek(nullptr, 1)) {
+			// NOTE Convert
 			return {};
 		}
+
+		static_cast<void>(stream.Next(&codePoint));
+		static_cast<void>(stream.Next(&codePointNext));
 
 		if (codePoint == Unicode::FULL_STOP && Unicode::IsDigit(codePointNext)) {
 			repr.push_back(codePoint);
 			repr.push_back(codePointNext);
 			isInteger = true;
-			if (!stream.Next(&codePoint) || !stream.Next(&codePointNext)) {
-				std::cerr << "ErrorReturn #6405\n";
-				// NOTE check if we can return from here or that we need to
-				// convert the integer now.
+			if (!stream.Peek(&codePoint, 1)) {
+				// NOTE Convert
 				return {};
 			}
+			static_cast<void>(stream.Next(&codePoint));
+			static_cast<void>(stream.Next(&codePointNext));
 		}
 
 		if (codePoint == Unicode::LATIN_SMALL_LETTER_E || codePoint == Unicode::LATIN_CAPITAL_LETTER_E) {
