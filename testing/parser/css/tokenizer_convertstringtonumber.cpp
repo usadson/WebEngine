@@ -17,87 +17,87 @@ namespace CSS {
 		Tokenizer tokenizer {context, simulatedInput};
 
 		void
-		TestInt(const std::vector<Unicode::CodePoint> &in, std::int64_t expected) {
+		TestInteger(const std::vector<Unicode::CodePoint> &in, CSS::IntegerType expected) {
 			const auto result = tokenizer.ConvertStringToNumber(in);
-			const auto *asInt = std::get_if<std::int64_t>(&result);
-			EXPECT_NE(asInt, nullptr);
-			EXPECT_EQ(*asInt, expected);
+			const auto *asInteger = std::get_if<CSS::IntegerType>(&result);
+			EXPECT_NE(asInteger, nullptr);
+			EXPECT_EQ(*asInteger, expected);
 		}
 
 		void
-		TestDouble(const std::vector<Unicode::CodePoint> &in, double expected) {
+		TestNumber(const std::vector<Unicode::CodePoint> &in, CSS::NumberType expected) {
 			const auto result = tokenizer.ConvertStringToNumber(in);
-			const auto *asDouble = std::get_if<double>(&result);
-			EXPECT_NE(asDouble, nullptr);
-			EXPECT_LT(std::abs(*asDouble - expected), 1e-6) << " output=" << *asDouble << " != expected=" << expected;
+			const auto *asNumber = std::get_if<CSS::NumberType>(&result);
+			EXPECT_NE(asNumber, nullptr);
+			EXPECT_LT(std::abs(*asNumber - expected), 1e-6) << " output=" << *asNumber << " != expected=" << expected;
 		}
 	};
 
 	TEST_F(TokenizerConvertStringToNumber, IntTest) {
-		TestInt({'1'}, 1);
+		TestInteger({'1'}, 1);
 	}
 
 	TEST_F(TokenizerConvertStringToNumber, SignPrefixTest) {
-		TestInt({'2'}, 2);
-		TestInt({'-', '2'}, -2);
-		TestInt({'+', '2'}, 2);
-		TestDouble({'2', '.', '0'}, 2);
-		TestDouble({'+', '2', '.', '0'}, 2.0);
-		TestDouble({'-', '2', '.', '0'}, -2.0);
+		TestInteger({'2'}, 2);
+		TestInteger({'-', '2'}, -2);
+		TestInteger({'+', '2'}, 2);
+		TestNumber({'2', '.', '0'}, 2);
+		TestNumber({'+', '2', '.', '0'}, 2.0);
+		TestNumber({'-', '2', '.', '0'}, -2.0);
 	}
 
 	TEST_F(TokenizerConvertStringToNumber, MaxIntegerTest) {
-		const auto max = std::numeric_limits<std::int64_t>::max();
+		const auto max = std::numeric_limits<CSS::IntegerType>::max();
 		const std::string stdString = std::to_string(max);
 		const Unicode::UString testString(stdString.c_str());
 		const std::vector<Unicode::CodePoint> vec(std::cbegin(testString), std::cend(testString));
-		TestInt(vec, max);
+		TestInteger(vec, max);
 	}
 
 	TEST_F(TokenizerConvertStringToNumber, MinIntegerTest) {
-		const auto min = std::numeric_limits<std::int64_t>::min();
+		const auto min = std::numeric_limits<CSS::IntegerType>::min();
 		const std::string stdString = std::to_string(min);
 		const Unicode::UString testString(stdString.c_str());
 		const std::vector<Unicode::CodePoint> vec(std::cbegin(testString), std::cend(testString));
-		TestInt(vec, min);
+		TestInteger(vec, min);
 	}
 
-	TEST_F(TokenizerConvertStringToNumber, DoubleFractionalTest) {
-		TestDouble({'1', '.', '2'}, 1.2);
+	TEST_F(TokenizerConvertStringToNumber, NumberFractionalTest) {
+		TestNumber({'1', '.', '2'}, 1.2);
 	}
 
 	TEST_F(TokenizerConvertStringToNumber, ExponentTest) {
-		TestDouble({'1', 'e', '2'}, 1e2);
-		TestDouble({'2', 'E', '1'}, 2E1);
+		TestNumber({'1', 'e', '2'}, 1e2);
+		TestNumber({'2', 'E', '1'}, 2E1);
 	}
 
 	TEST_F(TokenizerConvertStringToNumber, BigExponentTest) {
-		TestDouble({'1', '2', '3', 'e', '4', '5'}, 123e45);
-		TestDouble({'9', '8', '7', 'e', '6', '5'}, 987E65);
+		TestNumber({'1', '2', '3', 'e', '4', '5'}, 123e45);
+		TestNumber({'9', '8', '7', 'e', '6', '5'}, 987E65);
 	}
 
 	TEST_F(TokenizerConvertStringToNumber, ExponentFractionalTest) {
-		TestDouble({'1', '.', '2', 'e', '3'}, 1.2e3);
-		TestDouble({'9', '.', '8', 'E', '7'}, 9.8E7);
+		TestNumber({'1', '.', '2', 'e', '3'}, 1.2e3);
+		TestNumber({'9', '.', '8', 'E', '7'}, 9.8E7);
 	}
 
 	TEST_F(TokenizerConvertStringToNumber, ExponentSignPrefixTest) {
-		TestDouble({'1', 'e', '+', '2'}, 1e2);
-		TestDouble({'2', 'e', '-', '4'}, 2e-4);
-		TestDouble({'5', 'E', '+', '6'}, 5E6);
-		TestDouble({'7', 'E', '-', '8'}, 7E-8);
+		TestNumber({'1', 'e', '+', '2'}, 1e2);
+		TestNumber({'2', 'e', '-', '4'}, 2e-4);
+		TestNumber({'5', 'E', '+', '6'}, 5E6);
+		TestNumber({'7', 'E', '-', '8'}, 7E-8);
 	}
 
 	TEST_F(TokenizerConvertStringToNumber, ExponentFractionalSignPrefixTest) {
-		TestDouble({'1', '.', '2', 'e', '+', '3'}, 1.2e3);
-		TestDouble({'1', '.', '2', 'e', '-', '3'}, 1.2e-3);
-		TestDouble({'4', '.', '5', 'e', '+', '6'}, 4.5e6);
-		TestDouble({'7', '.', '8', 'e', '-', '9'}, 7.8e-9);
+		TestNumber({'1', '.', '2', 'e', '+', '3'}, 1.2e3);
+		TestNumber({'1', '.', '2', 'e', '-', '3'}, 1.2e-3);
+		TestNumber({'4', '.', '5', 'e', '+', '6'}, 4.5e6);
+		TestNumber({'7', '.', '8', 'e', '-', '9'}, 7.8e-9);
 	}
 
 	TEST_F(TokenizerConvertStringToNumber, SignPrefixIntExponentFractionalSignPrefixTest) {
-		TestDouble({'+', '1', '.', '2', 'e', '+', '3'}, +1.2e3);
-		TestDouble({'-', '4', '.', '5', 'e', '-', '6'}, -4.5e-6);
+		TestNumber({'+', '1', '.', '2', 'e', '+', '3'}, +1.2e3);
+		TestNumber({'-', '4', '.', '5', 'e', '-', '6'}, -4.5e-6);
 	}
 
 	TEST_F(TokenizerConvertStringToNumber, RandomIntegerTest) {
@@ -106,12 +106,12 @@ namespace CSS {
 			const std::string string = std::to_string(value);
 			const Unicode::UString ustring(string.c_str());
 			const std::vector<Unicode::CodePoint> vec(std::cbegin(ustring), std::cend(ustring));
-			TestInt(vec, value);
+			TestInteger(vec, value);
 		}
 	}
 
-	TEST_F(TokenizerConvertStringToNumber, RandomDoubleTest) {
-		std::uniform_real_distribution<double> distributor(-1e16, 1e16);
+	TEST_F(TokenizerConvertStringToNumber, RandomNumberTest) {
+		std::uniform_real_distribution<CSS::NumberType> distributor(-1e16, 1e16);
 		std::default_random_engine engine;
 
 		for (std::size_t i = 0; i < 15; i++) {
@@ -119,7 +119,7 @@ namespace CSS {
 			const std::string string = std::to_string(value);
 			const Unicode::UString ustring(string.c_str());
 			const std::vector<Unicode::CodePoint> vec(std::cbegin(ustring), std::cend(ustring));
-			TestDouble(vec, value);
+			TestNumber(vec, value);
 		}
 	}
 
