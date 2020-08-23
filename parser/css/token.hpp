@@ -106,6 +106,10 @@ namespace CSS {
 			: type(type), data(data) {
 		}
 
+		inline explicit Token(TokenType type) noexcept
+			: type(type), data(nullptr) {
+		}
+
 		inline explicit Token(Unicode::CodePoint codePoint) noexcept
 			: type(TokenType::DELIM), data(codePoint) {
 		}
