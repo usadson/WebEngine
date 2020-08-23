@@ -16,16 +16,6 @@
 #include "logger.hpp"
 #include "parser/css/tokenizer_algorithms.hpp"
 
-template <typename T>
-std::ostream &
-operator<<(std::ostream &stream, const std::vector<T> &vector) {
-	stream << '[' << vector.size() << "]{ ";
-	for (const auto &value : vector) {
-		stream << value << ' ';
-	}
-	return stream << '}';
-}
-
 namespace CSS {
 
 	bool
@@ -87,7 +77,7 @@ namespace CSS {
 			}
 		}
 
-		uint64_t value = std::stoul(s, nullptr, 16);
+		Unicode::CodePoint value = std::stoul(s, nullptr, 16);
 
 		if (value == 0 || Unicode::IsSurrogate(value) || value > Unicode::LAST_ALLOWED_CODE_POINT) {
 			return Unicode::REPLACEMENT_CHARACTER;
@@ -117,7 +107,6 @@ namespace CSS {
 				return false;
 			}
 			if (codePoint == Unicode::QUOTATION_MARK || codePoint == Unicode::APOSTROPHE) {
-				// 				tokens.push_back(
 				// FIXME spec here is very weird
 			}
 			// TODO call consume URL token
