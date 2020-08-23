@@ -9,8 +9,8 @@ namespace CSS {
 	class TokenizerConsumeNumber : public ::testing::Test {
 	public:
 		Context context {&ParseErrorTester::ReporterEndpoint};
-		Unicode::UString streamContents{};
-		Tokenizer tokenizer{ context, streamContents };
+		Unicode::UString streamContents {};
+		Tokenizer tokenizer {context, streamContents};
 		const Unicode::UString initialString {};
 		Tokenizer tokenizer {context, initialString};
 
@@ -76,7 +76,7 @@ namespace CSS {
 	}
 
 	TEST_F(TokenizerConsumeNumber, OverConsumeTest) {
-		Unicode::CodePoint codePoint{};
+		Unicode::CodePoint codePoint {};
 		auto ending = GetRandomNonNumericCodePoint();
 		TestInt({'1', ending}, 1);
 		EXPECT_TRUE(tokenizer.stream.Next(&codePoint));
