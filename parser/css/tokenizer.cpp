@@ -98,7 +98,7 @@ namespace CSS {
 
 	bool
 	Tokenizer::ConsumeIdentLikeToken() noexcept {
-		static const std::vector<Unicode::CodePoint> urlString{'u', 'r', 'l'};
+		static const std::vector<Unicode::CodePoint> urlString {'u', 'r', 'l'};
 		Unicode::CodePoint codePoint;
 
 		std::vector<Unicode::CodePoint> string;
@@ -117,7 +117,7 @@ namespace CSS {
 				return false;
 			}
 			if (codePoint == Unicode::QUOTATION_MARK || codePoint == Unicode::APOSTROPHE) {
-// 				tokens.push_back(
+				// 				tokens.push_back(
 				// FIXME spec here is very weird
 			}
 			// TODO call consume URL token
@@ -347,7 +347,8 @@ namespace CSS {
 			return ConsumeNumericToken();
 		}
 
-		if (stream.Peek(&character) && character == Unicode::HYPHEN_MINUS && stream.Peek(&character) && character == Unicode::GREATER_THAN_SIGN) {
+		if (stream.Peek(&character) && character == Unicode::HYPHEN_MINUS && stream.Peek(&character)
+			&& character == Unicode::GREATER_THAN_SIGN) {
 			stream.Skip();
 			stream.Skip();
 			tokens.emplace_back(TokenType::CDC);
