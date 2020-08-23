@@ -175,6 +175,9 @@ namespace CSS {
 					break;
 				}
 			}
+		} else {
+			stream.Reconsume();
+			stream.Reconsume();
 		}
 		return ConvertStringToNumber(repr);
 	}
