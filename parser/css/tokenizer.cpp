@@ -13,6 +13,7 @@
 
 #include <cmath>
 
+#include "logger.hpp"
 #include "parser/css/tokenizer_algorithms.hpp"
 
 template <typename T>
@@ -180,6 +181,50 @@ namespace CSS {
 
 	bool
 	Tokenizer::ConsumeNumericToken() noexcept {
+		auto number = ConsumeNumber();
+		Unicode::CodePoint codePoint{};
+
+		if (WillStartIdentifier(stream)) {
+			TokenDimensionData data;
+			if (auto *value = std::get_if<CSS::IntegerType>(&number)) {
+				data.integer = *value;
+			} else if (auto *value = std::get_if<CSS::NumberType>(&number)) {
+				data.number = *value;
+				data.type = TokenNumericType::NUMBER;
+			} else {
+				Logger::Debug("ConsumeNumericToken", "Dimension: Failed to parse number");
+				return false;
+			}
+
+			if (!ConsumeName(data.codePoints)) {
+				Logger::Debug("ConsumeNumericToken", "Failed to ConsumeName");
+				return false;
+			}
+
+			tokens.emplace_back(TokenType::DIMENSION, data);
+			return true;
+		}
+
+		TokenNumericData data;
+		if (auto *value = std::get_if<CSS::IntegerType>(&number)) {
+			data.integer = *value;
+		} else if (auto *value = std::get_if<CSS::NumberType>(&number)) {
+			data.number = *value;
+			data.type = TokenNumericType::NUMBER;
+		} else {
+			Logger::Debug("ConsumeNumericToken", "Percentage: Failed to parse number");
+			return false;
+		}
+
+		if (stream.Next(&codePoint)) {
+			if (codePoint == Unicode::PERCENTAGE_SIGN) {
+				tokens.emplace_back(TokenType::PERCENTAGE, data);
+				return true;
+			}
+			stream.Reconsume();
+		}
+
+		tokens.emplace_back(TokenType::NUMBER, data);
 		return true;
 	}
 
