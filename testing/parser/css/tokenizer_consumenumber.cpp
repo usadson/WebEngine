@@ -11,6 +11,8 @@ namespace CSS {
 		Context context {&ParseErrorTester::ReporterEndpoint};
 		Unicode::UString streamContents{};
 		Tokenizer tokenizer{ context, streamContents };
+		const Unicode::UString initialString {};
+		Tokenizer tokenizer {context, initialString};
 
 		void
 		TestInt(Unicode::UString &&string, std::int64_t expected) {
@@ -61,10 +63,16 @@ namespace CSS {
 
 	TEST_F(TokenizerConsumeNumber, DoubleTest) {
 		TestDouble({'1', '.', '0'}, 1.0);
-		TestDouble({'2', 'e', '3', }, 2000.0);
+		TestDouble(
+			{
+				'2',
+				'e',
+				'3',
+			},
+			2000.0);
 		TestDouble({'4', 'e', '-', '5'}, 4e-5);
-		TestDouble({'-', '6', '.', '7', 'e', '8' }, -6.7e8);
-		TestDouble({'+', '9', '.', '0' }, 9.0);
+		TestDouble({'-', '6', '.', '7', 'e', '8'}, -6.7e8);
+		TestDouble({'+', '9', '.', '0'}, 9.0);
 	}
 
 	TEST_F(TokenizerConsumeNumber, OverConsumeTest) {
