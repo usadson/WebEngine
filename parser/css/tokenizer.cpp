@@ -114,17 +114,24 @@ namespace CSS {
 		static_cast<void>(stream.Next(&codePoint));
 		if (codePoint == Unicode::PLUS_SIGN || codePoint == Unicode::HYPHEN_MINUS) {
 			repr.push_back(codePoint);
+		} else {
+			stream.Reconsume();
 		}
 
-		while (Unicode::IsDigit(codePoint)) {
-			repr.push_back(codePoint);
-
+		while (true) {
 			if (!stream.Next(&codePoint)) {
 				std::cerr << "ErrorReturn #5295\n";
 				// NOTE check if we can return from here or that we need to
 				// convert the integer now.
 				return {};
 			}
+
+			if (!Unicode::IsDigit(codePoint)) {
+				stream.Reconsume();
+				break;
+			}
+
+			repr.push_back(codePoint);
 		}
 
 		Unicode::CodePoint codePointNext;
