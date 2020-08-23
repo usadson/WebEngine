@@ -10,7 +10,7 @@ struct OverConsumeInputs {
 	CSS::IntegerType intValue;
 	CSS::NumberType numberValue;
 	Unicode::UString string;
-	Unicode::CodePoint customEnding{};
+	Unicode::CodePoint customEnding {};
 };
 
 namespace CSS {
@@ -83,8 +83,8 @@ namespace CSS {
 		TestNumber({'+', '9', '.', '0'}, 9.0);
 	}
 
-
-	TEST_F(TokenizerConsumeNumber, OverConsumeTest) {;
+	TEST_F(TokenizerConsumeNumber, OverConsumeTest) {
+		;
 		const std::array<OverConsumeInputs, 7> inputs = {{
 			{true, true, 1, 0.0, {'1'}},
 			{false, true, 0, 1.0, {'1', '.', '0'}},
@@ -95,7 +95,7 @@ namespace CSS {
 			{false, false, 0, -2.7e9, {'-', '2', '.', '7', 'e', '9'}, 'E'},
 		}};
 
-		Unicode::CodePoint codePoint{};
+		Unicode::CodePoint codePoint {};
 		for (const auto &input : inputs) {
 			auto ending = input.customEnding != 0 ? input.customEnding : GetRandomNonNumericCodePoint();
 			auto string = input.string;
