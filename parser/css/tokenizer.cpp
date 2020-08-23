@@ -129,7 +129,9 @@ namespace CSS {
 
 		Unicode::CodePoint codePointNext;
 		if (!stream.Next(&codePointNext)) {
-			std::cerr << "ErrorReturn #7392\n";
+			std::cout << "repr(" << repr.size() << ")={ ";
+			for (const auto character : repr) std::cout << character << ' ';
+			std::cerr << "}\nErrorReturn #7392\n";
 			// NOTE check if we can return from here or that we need to convert
 			// the integer now.
 			return {};
