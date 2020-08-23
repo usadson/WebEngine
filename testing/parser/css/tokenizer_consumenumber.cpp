@@ -4,6 +4,15 @@
  * See the COPYING file for licensing information.
  */
 
+struct OverConsumeInputs {
+	bool isInt;
+	bool appendRandom;
+	std::uint64_t intValue;
+	double numberValue;
+	Unicode::UString string;
+	Unicode::CodePoint customEnding{};
+};
+
 namespace CSS {
 
 	class TokenizerConsumeNumber : public ::testing::Test {
@@ -73,45 +82,30 @@ namespace CSS {
 		TestDouble({'+', '9', '.', '0'}, 9.0);
 	}
 
-	TEST_F(TokenizerConsumeNumber, OverConsumeTest) {
+	TEST_F(TokenizerConsumeNumber, OverConsumeTest) {;
+		const std::array<OverConsumeInputs, 7> inputs = {{
+			{true, true, 1, 0.0, {'1'}},
+			{false, true, 0, 1.0, {'1', '.', '0'}},
+			{false, true, 0, 2e1, {'2', 'e', '1'}},
+			{false, true, 0, 3.5e6, {'3', '.', '5', 'e', '6'}},
+			{false, true, 0, -2.7e9, {'-', '2', '.', '7', 'e', '9'}},
+			{false, false, 0, -2.7e9, {'-', '2', '.', '7', 'e', '9'}, 'e'},
+			{false, false, 0, -2.7e9, {'-', '2', '.', '7', 'e', '9'}, 'E'},
+		}};
+
 		Unicode::CodePoint codePoint{};
-		auto ending = GetRandomNonNumericCodePoint();
-		TestInt({'1', ending}, 1);
-		EXPECT_TRUE(tokenizer.stream.Next(&codePoint));
-		EXPECT_EQ(codePoint, ending);
-
-		ending = GetRandomNonNumericCodePoint();
-		TestDouble({'1', '.', '0', ending}, 1.0);
-		EXPECT_TRUE(tokenizer.stream.Next(&codePoint));
-		EXPECT_EQ(codePoint, ending);
-
-		ending = GetRandomNonNumericCodePoint();
-		TestDouble({'2', 'e', '1', ending}, 20);
-		EXPECT_TRUE(tokenizer.stream.Next(&codePoint));
-		EXPECT_EQ(codePoint, ending);
-
-		ending = GetRandomNonNumericCodePoint();
-		TestDouble({'2', 'e', '1', ending}, 20);
-		EXPECT_TRUE(tokenizer.stream.Next(&codePoint));
-		EXPECT_EQ(codePoint, ending);
-
-		ending = GetRandomNonNumericCodePoint();
-		TestDouble({'3', '.', '5', 'e', '6', ending}, 3.5e6);
-		EXPECT_TRUE(tokenizer.stream.Next(&codePoint));
-		EXPECT_EQ(codePoint, ending);
-
-		ending = GetRandomNonNumericCodePoint();
-		TestDouble({'-', '2', '.', '7', 'e', '9', ending}, -2.7e9);
-		EXPECT_TRUE(tokenizer.stream.Next(&codePoint));
-		EXPECT_EQ(codePoint, ending);
-
-		TestDouble({'-', '2', '.', '7', 'e', '9', 'e'}, -2.7e9);
-		EXPECT_TRUE(tokenizer.stream.Next(&codePoint));
-		EXPECT_EQ(codePoint, 'e');
-
-		TestDouble({'-', '2', '.', '7', 'e', '9', 'E'}, -2.7e9);
-		EXPECT_TRUE(tokenizer.stream.Next(&codePoint));
-		EXPECT_EQ(codePoint, 'E');
+		for (const auto &input : inputs) {
+			auto ending = input.customEnding != 0 ? input.customEnding : GetRandomNonNumericCodePoint();
+			auto string = input.string;
+			string += ending;
+			if (input.isInt) {
+				TestInt(std::move(string), input.intValue);
+			} else {
+				TestDouble(std::move(string), input.numberValue);
+			}
+			EXPECT_TRUE(tokenizer.stream.Next(&codePoint));
+			EXPECT_EQ(codePoint, ending);
+		}
 	}
 
 } // namespace CSS
