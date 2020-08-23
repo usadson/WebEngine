@@ -19,6 +19,18 @@ namespace CSS {
 		Unicode::CodePoint destination = 'A';
 	};
 
+	TEST_F(TokenizerStreamTest, TestCodePointsLeft) {
+		Unicode::UString emptyString;
+		const CSS::TokenizerStream emptyStream(&emptyString);
+		EXPECT_EQ(emptyStream.CodePointsLeft(), 0);
+
+		const auto count = std::rand() % 0x100;
+		std::vector<Unicode::CodePoint> vec(count, Unicode::LATIN_CAPITAL_LETTER_A);
+		Unicode::UString randomSizeString = Unicode::UString(vec);
+		const CSS::TokenizerStream randomSizeStream(&randomSizeString);
+		EXPECT_EQ(randomSizeStream.CodePointsLeft(), count);
+	}
+
 	TEST_F(TokenizerStreamTest, TestNextEmpty) {
 		Unicode::UString test;
 		CSS::TokenizerStream stream(&test);
