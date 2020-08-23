@@ -18,8 +18,9 @@ namespace CSS {
 	class TokenizerConsumeNumber : public ::testing::Test {
 	public:
 		Context context {&ParseErrorTester::ReporterEndpoint};
-		Unicode::UString streamContents{};
-		Tokenizer tokenizer{ context, streamContents };
+		Unicode::UString streamContents {};
+		Tokenizer tokenizer {context, streamContents};
+		const Unicode::UString initialString {};
 
 		void
 		TestInt(Unicode::UString &&string, std::int64_t expected) {
@@ -81,6 +82,7 @@ namespace CSS {
 		TestDouble({'-', '6', '.', '7', 'e', '8'}, -6.7e8);
 		TestDouble({'+', '9', '.', '0'}, 9.0);
 	}
+
 
 	TEST_F(TokenizerConsumeNumber, OverConsumeTest) {;
 		const std::array<OverConsumeInputs, 7> inputs = {{
