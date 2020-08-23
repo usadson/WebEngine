@@ -117,7 +117,7 @@ namespace CSS {
 
 	std::variant<std::monostate, std::int64_t, double>
 	Tokenizer::ConsumeNumber() noexcept {
-		std::vector<char> repr;
+		std::vector<Unicode::CodePoint> repr;
 		Unicode::CodePoint codePoint;
 		Unicode::CodePoint codePointNext;
 		bool isInteger = true;
@@ -144,8 +144,7 @@ namespace CSS {
 
 		if (!stream.Peek(nullptr, 1)) {
 			std::cout << "ReturnCheckpoint[#9204] repr=" << repr << '\n';
-			// NOTE Convert
-			return {};
+			return ConvertStringToNumber(repr);
 		}
 
 		static_cast<void>(stream.Next(&codePoint));
@@ -157,8 +156,7 @@ namespace CSS {
 			isInteger = true;
 			if (!stream.Peek(&codePoint, 1)) {
 				std::cout << "ReturnCheckpoint[#3732] repr=" << repr << '\n';
-				// NOTE Convert
-				return {};
+				return ConvertStringToNumber(repr);
 			}
 			static_cast<void>(stream.Next(&codePoint));
 			static_cast<void>(stream.Next(&codePointNext));
@@ -176,9 +174,7 @@ namespace CSS {
 			while (true) {
 				if (!stream.Next(&codePoint)) {
 					std::cout << "ReturnCheckpoint[#5612] repr=" << repr << '\n';
-					// NOTE check if we can return from here or that we need to
-					// convert the integer now.
-					return {};
+					return ConvertStringToNumber(repr);
 				} else if (Unicode::IsDigit(codePoint)) {
 					repr.push_back(codePoint);
 				} else {
@@ -188,7 +184,7 @@ namespace CSS {
 			}
 		}
 		std::cout << "ReturnCheckpoint[#1556] repr=" << repr << '\n';
-		return {};
+		return ConvertStringToNumber(repr);
 	}
 
 	bool
