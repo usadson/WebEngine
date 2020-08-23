@@ -31,6 +31,25 @@ namespace CSS {
 			EXPECT_NE(asDouble, nullptr);
 			EXPECT_LT(std::abs(*asDouble - expected), 1e-6) << " output=" << *asDouble << " != expected=" << expected;
 		}
+
+		[[nodiscard]] Unicode::CodePoint
+		GetRandomNonNumericCodePoint() const noexcept {
+			Unicode::CodePoint val;
+			while (true) {
+				switch (val = std::rand()) {
+					case Unicode::HYPHEN_MINUS:
+					case Unicode::PLUS_SIGN:
+					case Unicode::LATIN_CAPITAL_LETTER_E:
+					case Unicode::LATIN_SMALL_LETTER_E:
+						break;
+					default:
+						if (!Unicode::IsDigit(val)) {
+							return val;
+						}
+						break;
+				}
+			}
+		}
 	};
 
 	TEST_F(TokenizerConsumeNumber, IntTest) {
