@@ -23,7 +23,7 @@ namespace Net::HTTP {
 
 	HTTPConnectionError
 	HTTPConnection::ConsumeHTTPVersion() {
-		std::array<char, 9> protocolData;
+		std::array<char, 9> protocolData{};
 		if (!connectionInfo.Read(protocolData.data(), 8))
 			return HTTPConnectionError::FAILED_READ_HTTP_VERSION;
 
@@ -48,7 +48,7 @@ namespace Net::HTTP {
 
 	HTTPConnectionError
 	HTTPConnection::ConsumeStatusCode() {
-		std::array<char, 3> statusCode;
+		std::array<char, 3> statusCode{};
 
 		if (!connectionInfo.Read(statusCode.data(), 3)) {
 			return HTTPConnectionError::FAILED_READ_STATUS_CODE;
