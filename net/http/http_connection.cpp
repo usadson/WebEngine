@@ -23,12 +23,13 @@ namespace Net::HTTP {
 
 	HTTPConnectionError
 	HTTPConnection::ConsumeHTTPVersion() {
-		std::array<char, 9> protocolData{};
+		std::array<char, 9> protocolData {};
 		if (!connectionInfo.Read(protocolData.data(), 8))
 			return HTTPConnectionError::FAILED_READ_HTTP_VERSION;
 
 		const char prefix[] = "HTTP/";
-		if (protocolData[6] != '.' || !std::equal(std::cbegin(protocolData), std::cbegin(protocolData)+5, std::cbegin(prefix))) {
+		if (protocolData[6] != '.'
+			|| !std::equal(std::cbegin(protocolData), std::cbegin(protocolData) + 5, std::cbegin(prefix))) {
 			return HTTPConnectionError::INCORRECT_PROTOCOL;
 		}
 
@@ -49,7 +50,7 @@ namespace Net::HTTP {
 
 	HTTPConnectionError
 	HTTPConnection::ConsumeStatusCode() {
-		std::array<char, 3> statusCode{};
+		std::array<char, 3> statusCode {};
 
 		if (!connectionInfo.Read(statusCode.data(), 3)) {
 			return HTTPConnectionError::FAILED_READ_STATUS_CODE;
