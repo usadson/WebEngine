@@ -223,8 +223,7 @@ namespace Net::HTTP {
 			}
 		}
 
-		std::array<std::vector<char>, 16> invalidInputs = {{
-			{{'A', 'T', 'T', 'P', '/', '1', '.', '1'}},
+		std::array<std::vector<char>, 16> invalidInputs = {{{{'A', 'T', 'T', 'P', '/', '1', '.', '1'}},
 			{{'H', 'A', 'T', 'P', '/', '1', '.', '1'}},
 			{{'H', 'T', 'A', 'P', '/', '1', '.', '1'}},
 			{{'H', 'T', 'T', 'A', '/', '1', '.', '1'}},
