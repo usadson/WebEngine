@@ -249,6 +249,22 @@ namespace Net::HTTP {
 		Logger::SetOutputState(true);
 	}
 
+	TEST_F(HTTPConnectionTest, TrimOWS) {
+		const std::array<std::vector<char>, 4> input{{
+			{'a', 'b', ' '},
+			{'a', 'b', '\t'},
+			{'a', 'b', ' ', '\t'},
+			{'a', 'b', '\t', ' '}
+		}};
+		for (auto vec : input) {
+			connection.TrimOWS(vec);
+			ASSERT_GE(vec.size(), 3);
+			EXPECT_EQ(vec[1], 'b');
+			EXPECT_EQ(vec[1], 'b');
+			EXPECT_EQ(vec[2], '\0');
+		}
+	}
+
 } // namespace Net::HTTP
 
 int
