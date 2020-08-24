@@ -154,7 +154,7 @@ namespace Net::HTTP {
 		for (const auto &string : validInputs) {
 			input.insert(std::begin(input), std::begin(string), std::end(string));
 			connectionInfo.SetInputBuffer(input);
-			ASSERT_EQ(connection.ConsumeReasonPhrase(), Net::HTTP::HTTPConnectionError::NO_ERROR)
+			EXPECT_EQ(connection.ConsumeReasonPhrase(), Net::HTTP::HTTPConnectionError::NO_ERROR)
 				<< "String: '" << string << "\n' failed";
 		}
 
@@ -164,7 +164,7 @@ namespace Net::HTTP {
 
 			input[0] = i;
 			connectionInfo.SetInputBuffer(input);
-			ASSERT_EQ(connection.ConsumeReasonPhrase(), Net::HTTP::HTTPConnectionError::INCORRECT_REASON_PHRASE)
+			EXPECT_EQ(connection.ConsumeReasonPhrase(), Net::HTTP::HTTPConnectionError::INCORRECT_REASON_PHRASE)
 				<< "Invalid: " << static_cast<uint16_t>(i);
 		}
 	}
