@@ -23,8 +23,7 @@ namespace Net::HTTP {
 
 	HTTPConnectionError
 	HTTPConnection::ConsumeHTTPVersion() {
-		/* Read protocol version (= HTTP-version) */
-		std::vector<char> protocolData(9);
+		std::array<char, 9> protocolData;
 		if (!connectionInfo.Read(protocolData.data(), 8))
 			return HTTPConnectionError::FAILED_READ_HTTP_VERSION;
 
@@ -32,9 +31,8 @@ namespace Net::HTTP {
 		if (memcmp(protocolData.data(), "HTTP/", 5) != 0 || protocolData[6] != '.')
 			return HTTPConnectionError::INCORRECT_PROTOCOL;
 
-		/* Store HTTP Version */
-		protocolData.push_back('\0');
-		response->httpVersion = std::string(protocolData.data());
+		protocolData[8] = '\0';
+		response->httpVersion = std::string(std::cbegin(protocolData), std::cend(protocolData));
 
 		/* Check if version is 'HTTP/1.1' */
 		if (protocolData[5] != '1' || protocolData[7] != '1') {
@@ -50,8 +48,7 @@ namespace Net::HTTP {
 
 	HTTPConnectionError
 	HTTPConnection::ConsumeStatusCode() {
-		/* Read status code */
-		std::vector<char> statusCode(3);
+		std::array<char, 3> statusCode;
 
 		if (!connectionInfo.Read(statusCode.data(), 3)) {
 			return HTTPConnectionError::FAILED_READ_STATUS_CODE;
@@ -73,7 +70,7 @@ namespace Net::HTTP {
 	}
 
 	/**
-	 * Note: a reason phrase may be empty.
+	 * Reminder: a reason phrase may be empty.
 	 */
 	HTTPConnectionError
 	HTTPConnection::ConsumeReasonPhrase() {
@@ -143,10 +140,10 @@ namespace Net::HTTP {
 
 	HTTPConnectionError
 	HTTPConnection::ConsumeHeaderFieldValue(std::vector<char> *dest) {
-		/* obs-fold (optional line folding) isn't supported. */
+		// NOTE: obs-fold (optional line folding) isn't supported by this
+		// implementation.
 		std::optional<char> character;
 		while (true) {
-			/* Set next character */
 			character = connectionInfo.ReadChar();
 
 			if (!character.has_value())
@@ -173,13 +170,11 @@ namespace Net::HTTP {
 
 	HTTPConnectionError
 	HTTPConnection::ConsumeHeaderFieldName(std::vector<char> *dest) {
-		static const std::vector<char> unreservedCharacters
+		static const std::array unreservedCharacters
 			= {'!', '#', '$', '%', '&', '\'', '*', '+', '-', '.', '^', '_', '`', '|', '~'};
 
-		std::optional<char> character;
-
 		while (true) {
-			character = connectionInfo.ReadChar();
+			const auto character = connectionInfo.ReadChar();
 
 			if (!character.has_value())
 				return HTTPConnectionError::FAILED_READ_HEADER_FIELD_NAME;
