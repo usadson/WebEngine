@@ -13,7 +13,7 @@
 #include "logger.hpp"
 #include "net/connection_info.hpp"
 
-#define HTTP_CONNECTION_ENABLE_TESTING
+#define PRIVATE_VISIBILITY public
 #include "net/http/http_connection.hpp"
 
 namespace Net {
