@@ -223,7 +223,7 @@ namespace Net::HTTP {
 			}
 		}
 
-		const std::vector<char> legalInput{'H', 'T', 'T', 'P', '/', '1', '.', '1'};
+		const std::vector<char> legalInput {'H', 'T', 'T', 'P', '/', '1', '.', '1'};
 
 		for (std::size_t i = 0; i < legalInput.size(); i++) {
 			auto vector = legalInput;
@@ -237,7 +237,8 @@ namespace Net::HTTP {
 				} while (vector[i] >= '0' && vector[i] <= '9');
 			}
 			connectionInfo.SetInputBuffer(vector);
-			for (const auto &c : vector) std::cout << c;
+			for (const auto &c : vector)
+				std::cout << c;
 			std::cout << '\n';
 			EXPECT_EQ(connection.ConsumeHTTPVersion(), Net::HTTP::HTTPConnectionError::INCORRECT_PROTOCOL);
 		}
