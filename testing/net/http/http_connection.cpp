@@ -219,7 +219,7 @@ namespace Net::HTTP {
 			for (char minor = '0'; minor <= '9'; minor++) {
 				input[7] = minor;
 				connectionInfo.SetInputBuffer(input);
-				ASSERT_EQ(connection.ConsumeHTTPVersion(), Net::HTTP::HTTPConnectionError::NO_ERROR);
+				EXPECT_EQ(connection.ConsumeHTTPVersion(), Net::HTTP::HTTPConnectionError::NO_ERROR);
 			}
 		}
 
@@ -243,7 +243,7 @@ namespace Net::HTTP {
 
 		for (size_t i = 0; i < invalidInputs.size(); i++) {
 			connectionInfo.SetInputBuffer(invalidInputs[i]);
-			ASSERT_EQ(connection.ConsumeHTTPVersion(), Net::HTTP::HTTPConnectionError::INCORRECT_PROTOCOL)
+			EXPECT_EQ(connection.ConsumeHTTPVersion(), Net::HTTP::HTTPConnectionError::INCORRECT_PROTOCOL)
 				<< "invalidInputs[" << i << "]";
 		}
 
