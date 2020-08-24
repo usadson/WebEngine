@@ -90,7 +90,7 @@ namespace Net::HTTP {
 			// VCHAR    = 0x21 - 0x7E (visible character)
 			// obs-text = 0x80 - 0xFF
 			if (character == '\t' || // HTAB
-				character >= 0x20) {
+				character >= ' ') {
 				reasonPhrase.push_back(character.value());
 				continue;
 			}
@@ -105,7 +105,6 @@ namespace Net::HTTP {
 	HTTPConnection::ConsumeHeaderField(char firstCharacter) {
 		std::vector<char> fieldName;
 		std::vector<char> fieldValue;
-		char *nullCharacterPosition;
 		HTTPConnectionError subroutineError;
 
 		/* Consume field-name */
@@ -136,26 +135,9 @@ namespace Net::HTTP {
 		fieldName.push_back('\0');
 		fieldValue.push_back('\0');
 
-		/* Trim end of OWS's. */
-		char *fieldValueString = fieldValue.data();
-		char *lastSpace = strrchr(fieldValueString, ' ');
-		char *lastHTab = strrchr(fieldValueString, '\t');
+		TrimOWS(fieldValue);
 
-		if (lastSpace != nullptr)
-			if (lastHTab != nullptr)
-				if (lastHTab > lastSpace)
-					nullCharacterPosition = lastSpace;
-				else
-					nullCharacterPosition = lastHTab;
-			else
-				nullCharacterPosition = lastSpace;
-		else if (lastHTab != nullptr)
-			nullCharacterPosition = lastHTab;
-		else
-			nullCharacterPosition = fieldValueString + fieldValue.size() - 1;
-		*nullCharacterPosition = 0;
-
-		response->headers.push_back({std::string(fieldName.data()), std::string(fieldValueString)});
+		response->headers.push_back({std::string(fieldName.data()), std::string(std::cbegin(fieldValue), std::cend(fieldValue))});
 		return HTTPConnectionError::NO_ERROR;
 	}
 
@@ -321,4 +303,27 @@ namespace Net::HTTP {
 	HTTPConnection::RequestNavigation(HTTPResponseInfo *response, const std::string &path) {
 		return Request(response, "GET", path);
 	}
+
+	void
+	HTTPConnection::TrimOWS(std::vector<char> &vec) const noexcept {
+		char *fieldValueString = vec.data();
+		char *lastSpace = strrchr(fieldValueString, ' ');
+		char *lastHTab = strrchr(fieldValueString, '\t');
+		char *nullCharacterPosition{nullptr};
+
+		if (lastSpace != nullptr)
+			if (lastHTab != nullptr)
+				if (lastHTab > lastSpace)
+					nullCharacterPosition = lastSpace;
+				else
+					nullCharacterPosition = lastHTab;
+			else
+				nullCharacterPosition = lastSpace;
+		else if (lastHTab != nullptr)
+			nullCharacterPosition = lastHTab;
+		else
+			nullCharacterPosition = fieldValueString + vec.size() - 1;
+		*nullCharacterPosition = 0;
+	}
+
 } // namespace Net::HTTP

@@ -111,6 +111,9 @@ namespace Net::HTTP {
 		[[nodiscard]] HTTPConnectionError
 		ConsumeStatusCode();
 
+		void
+		TrimOWS(std::vector<char> &) const noexcept;
+
 	  public: // Methods
 		[[nodiscard]] HTTPConnectionError
 		Request(HTTPResponseInfo *, const std::string &method, const std::string &path);
