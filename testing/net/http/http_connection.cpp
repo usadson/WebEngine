@@ -250,12 +250,8 @@ namespace Net::HTTP {
 	}
 
 	TEST_F(HTTPConnectionTest, TrimOWS) {
-		const std::array<std::vector<char>, 4> input{{
-			{'a', 'b', ' '},
-			{'a', 'b', '\t'},
-			{'a', 'b', ' ', '\t'},
-			{'a', 'b', '\t', ' '}
-		}};
+		const std::array<std::vector<char>, 4> input {
+			{{'a', 'b', ' '}, {'a', 'b', '\t'}, {'a', 'b', ' ', '\t'}, {'a', 'b', '\t', ' '}}};
 		for (auto vec : input) {
 			connection.TrimOWS(vec);
 			ASSERT_GE(vec.size(), 3);

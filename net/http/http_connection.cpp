@@ -134,7 +134,8 @@ namespace Net::HTTP {
 
 		TrimOWS(fieldValue);
 
-		response->headers.push_back({std::string(fieldName.data()), std::string(std::cbegin(fieldValue), std::cend(fieldValue))});
+		response->headers.push_back(
+			{std::string(fieldName.data()), std::string(std::cbegin(fieldValue), std::cend(fieldValue))});
 		return HTTPConnectionError::NO_ERROR;
 	}
 
