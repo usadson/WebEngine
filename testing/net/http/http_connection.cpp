@@ -123,7 +123,7 @@ namespace Net::HTTP {
 		ASSERT_EQ(connection.ConsumeNewLine(), Net::HTTP::HTTPConnectionError::FAILED_READ_GENERIC);
 		connectionInfo.SetInputBuffer({'\n'});
 		ASSERT_EQ(connection.ConsumeNewLine(), Net::HTTP::HTTPConnectionError::NO_ERROR);
-		for (uint16_t i = 0; i < 255; i++) {
+		for (std::uint16_t i = 0; i < 255; i++) {
 			connectionInfo.SetInputBuffer({static_cast<char>(i)});
 			if (i == '\n')
 				EXPECT_EQ(connection.ConsumeNewLine(), Net::HTTP::HTTPConnectionError::NO_ERROR);
@@ -137,7 +137,7 @@ namespace Net::HTTP {
 		EXPECT_EQ(connection.ConsumeSingleSpace(), Net::HTTP::HTTPConnectionError::FAILED_READ_GENERIC);
 		connectionInfo.SetInputBuffer({' '});
 		EXPECT_EQ(connection.ConsumeSingleSpace(), Net::HTTP::HTTPConnectionError::NO_ERROR);
-		for (uint16_t i = 0; i < 255; i++) {
+		for (std::uint16_t i = 0; i < 255; i++) {
 			connectionInfo.SetInputBuffer({static_cast<char>(i)});
 			if (i == 0x20)
 				EXPECT_EQ(connection.ConsumeSingleSpace(), Net::HTTP::HTTPConnectionError::NO_ERROR);
@@ -165,7 +165,7 @@ namespace Net::HTTP {
 			input[0] = i;
 			connectionInfo.SetInputBuffer(input);
 			EXPECT_EQ(connection.ConsumeReasonPhrase(), Net::HTTP::HTTPConnectionError::INCORRECT_REASON_PHRASE)
-				<< "Invalid: " << static_cast<uint16_t>(i);
+				<< "Invalid: " << static_cast<std::uint16_t>(i);
 		}
 	}
 
@@ -200,7 +200,7 @@ namespace Net::HTTP {
 
 		Logger::SetOutputState(false);
 
-		for (size_t i = 0; i < invalidInputs.size(); i++) {
+		for (std::size_t i = 0; i < invalidInputs.size(); i++) {
 			connectionInfo.SetInputBuffer(invalidInputs[i]);
 			EXPECT_EQ(connection.ConsumeStatusCode(), Net::HTTP::HTTPConnectionError::INCORRECT_STATUS_CODE)
 				<< "invalidInputs[" << i << "]";
@@ -241,7 +241,7 @@ namespace Net::HTTP {
 			{{'H', 'T', 'T', 'P', '/', '1', 0x00, '1'}},
 			{{'H', 'T', 'T', 'P', '/', '1', '.', 0x00}}}};
 
-		for (size_t i = 0; i < invalidInputs.size(); i++) {
+		for (std::size_t i = 0; i < invalidInputs.size(); i++) {
 			connectionInfo.SetInputBuffer(invalidInputs[i]);
 			EXPECT_EQ(connection.ConsumeHTTPVersion(), Net::HTTP::HTTPConnectionError::INCORRECT_PROTOCOL)
 				<< "invalidInputs[" << i << "]";
