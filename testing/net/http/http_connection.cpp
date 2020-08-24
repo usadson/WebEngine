@@ -126,9 +126,9 @@ namespace Net::HTTP {
 		for (uint16_t i = 0; i < 255; i++) {
 			connectionInfo.SetInputBuffer({static_cast<char>(i)});
 			if (i == '\n')
-				ASSERT_EQ(connection.ConsumeNewLine(), Net::HTTP::HTTPConnectionError::NO_ERROR);
+				EXPECT_EQ(connection.ConsumeNewLine(), Net::HTTP::HTTPConnectionError::NO_ERROR);
 			else
-				ASSERT_EQ(connection.ConsumeNewLine(), Net::HTTP::HTTPConnectionError::NEWLINE_EXPECTED);
+				EXPECT_EQ(connection.ConsumeNewLine(), Net::HTTP::HTTPConnectionError::NEWLINE_EXPECTED);
 		}
 	}
 
