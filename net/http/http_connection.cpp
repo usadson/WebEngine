@@ -27,9 +27,10 @@ namespace Net::HTTP {
 		if (!connectionInfo.Read(protocolData.data(), 8))
 			return HTTPConnectionError::FAILED_READ_HTTP_VERSION;
 
-		/* Validate HTTP Version */
-		if (memcmp(protocolData.data(), "HTTP/", 5) != 0 || protocolData[6] != '.')
+		const char prefix[] = "HTTP/";
+		if (protocolData[6] != '.' || !std::equal(std::cbegin(protocolData), std::cbegin(protocolData)+5, std::cbegin(prefix))) {
 			return HTTPConnectionError::INCORRECT_PROTOCOL;
+		}
 
 		protocolData[8] = '\0';
 		response->httpVersion = std::string(std::cbegin(protocolData), std::cend(protocolData));
