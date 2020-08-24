@@ -179,7 +179,7 @@ namespace Net::HTTP {
 				for (char c = '0'; c <= '9'; c++) {
 					input[2] = c;
 					connectionInfo.SetInputBuffer(input);
-					ASSERT_EQ(connection.ConsumeStatusCode(), Net::HTTP::HTTPConnectionError::NO_ERROR)
+					EXPECT_EQ(connection.ConsumeStatusCode(), Net::HTTP::HTTPConnectionError::NO_ERROR)
 						<< "input: " << a << b << c;
 				}
 			}
@@ -202,7 +202,7 @@ namespace Net::HTTP {
 
 		for (size_t i = 0; i < invalidInputs.size(); i++) {
 			connectionInfo.SetInputBuffer(invalidInputs[i]);
-			ASSERT_EQ(connection.ConsumeStatusCode(), Net::HTTP::HTTPConnectionError::INCORRECT_STATUS_CODE)
+			EXPECT_EQ(connection.ConsumeStatusCode(), Net::HTTP::HTTPConnectionError::INCORRECT_STATUS_CODE)
 				<< "invalidInputs[" << i << "]";
 		}
 
