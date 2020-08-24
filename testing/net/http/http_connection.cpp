@@ -134,15 +134,15 @@ namespace Net::HTTP {
 
 	TEST_F(HTTPConnectionTest, ConsumeSingleSpace) {
 		connectionInfo.SetInputBuffer({});
-		ASSERT_EQ(connection.ConsumeSingleSpace(), Net::HTTP::HTTPConnectionError::FAILED_READ_GENERIC);
+		EXPECT_EQ(connection.ConsumeSingleSpace(), Net::HTTP::HTTPConnectionError::FAILED_READ_GENERIC);
 		connectionInfo.SetInputBuffer({' '});
-		ASSERT_EQ(connection.ConsumeSingleSpace(), Net::HTTP::HTTPConnectionError::NO_ERROR);
+		EXPECT_EQ(connection.ConsumeSingleSpace(), Net::HTTP::HTTPConnectionError::NO_ERROR);
 		for (uint16_t i = 0; i < 255; i++) {
 			connectionInfo.SetInputBuffer({static_cast<char>(i)});
 			if (i == 0x20)
-				ASSERT_EQ(connection.ConsumeSingleSpace(), Net::HTTP::HTTPConnectionError::NO_ERROR);
+				EXPECT_EQ(connection.ConsumeSingleSpace(), Net::HTTP::HTTPConnectionError::NO_ERROR);
 			else
-				ASSERT_EQ(connection.ConsumeSingleSpace(), Net::HTTP::HTTPConnectionError::WHITESPACE_EXPECTED);
+				EXPECT_EQ(connection.ConsumeSingleSpace(), Net::HTTP::HTTPConnectionError::WHITESPACE_EXPECTED);
 		}
 	}
 
