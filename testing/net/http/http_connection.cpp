@@ -223,28 +223,23 @@ namespace Net::HTTP {
 			}
 		}
 
-		std::array<std::vector<char>, 16> invalidInputs = {{
-			{{'A', 'T', 'T', 'P', '/', '1', '.', '1'}},
-			{{'H', 'A', 'T', 'P', '/', '1', '.', '1'}},
-			{{'H', 'T', 'A', 'P', '/', '1', '.', '1'}},
-			{{'H', 'T', 'T', 'A', '/', '1', '.', '1'}},
-			{{'H', 'T', 'T', 'P', 'A', '1', '.', '1'}},
-			{{'H', 'T', 'T', 'P', 'P', 'A', '.', '1'}},
-			{{'H', 'T', 'T', 'P', '/', '1', 'A', '1'}},
-			{{'H', 'T', 'T', 'P', '/', '1', '.', 'A'}},
-			{{0x00, 'T', 'T', 'P', '/', '1', '.', '1'}},
-			{{'H', 0x00, 'T', 'P', '/', '1', '.', '1'}},
-			{{'H', 'T', 0x00, 'P', '/', '1', '.', '1'}},
-			{{'H', 'T', 'T', 0x00, '/', '1', '.', '1'}},
-			{{'H', 'T', 'T', 'P', 0x00, '1', '.', '1'}},
-			{{'H', 'T', 'T', 'P', '/', 0x00, '.', '1'}},
-			{{'H', 'T', 'T', 'P', '/', '1', 0x00, '1'}},
-			{{'H', 'T', 'T', 'P', '/', '1', '.', 0x00}}}};
+		const std::vector<char> legalInput{'H', 'T', 'T', 'P', '/', '1', '.', '1'};
 
-		for (std::size_t i = 0; i < invalidInputs.size(); i++) {
-			connectionInfo.SetInputBuffer(invalidInputs[i]);
-			EXPECT_EQ(connection.ConsumeHTTPVersion(), Net::HTTP::HTTPConnectionError::INCORRECT_PROTOCOL)
-				<< "invalidInputs[" << i << "]";
+		for (std::size_t i = 0; i < legalInput.size(); i++) {
+			auto vector = legalInput;
+			if (i < 7) {
+				do {
+					vector[i] = std::rand() % 0x100;
+				} while (vector[i] == legalInput[i]);
+			} else {
+				do {
+					vector[i] = std::rand() % 0x100;
+				} while (vector[i] >= '0' && vector[i] <= '9');
+			}
+			connectionInfo.SetInputBuffer(vector);
+			for (const auto &c : vector) std::cout << c;
+			std::cout << '\n';
+			EXPECT_EQ(connection.ConsumeHTTPVersion(), Net::HTTP::HTTPConnectionError::INCORRECT_PROTOCOL);
 		}
 
 		Logger::SetOutputState(true);
