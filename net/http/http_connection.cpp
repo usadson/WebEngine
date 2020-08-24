@@ -301,24 +301,22 @@ namespace Net::HTTP {
 
 	void
 	HTTPConnection::TrimOWS(std::vector<char> &vec) const noexcept {
-		char *fieldValueString = vec.data();
-		char *lastSpace = strrchr(fieldValueString, ' ');
-		char *lastHTab = strrchr(fieldValueString, '\t');
-		char *nullCharacterPosition{nullptr};
+		auto lastSpace = std::find(std::begin(vec), std::end(vec), ' ');
+		auto lastTab = std::find(std::begin(vec), std::end(vec), '\t');
 
-		if (lastSpace != nullptr)
-			if (lastHTab != nullptr)
-				if (lastHTab > lastSpace)
-					nullCharacterPosition = lastSpace;
-				else
-					nullCharacterPosition = lastHTab;
-			else
-				nullCharacterPosition = lastSpace;
-		else if (lastHTab != nullptr)
-			nullCharacterPosition = lastHTab;
-		else
-			nullCharacterPosition = fieldValueString + vec.size() - 1;
-		*nullCharacterPosition = 0;
+		if (lastSpace != std::end(vec)) {
+			if (lastTab != std::end(vec)) {
+				if (lastTab > lastSpace) {
+					*lastSpace = '\0';
+				} else {
+					*lastTab = '\0';
+				}
+			} else {
+				*lastSpace = '\0';
+			}
+		} else if (lastTab != std::end(vec)) {
+			*lastTab = '\0';
+		}
 	}
 
 } // namespace Net::HTTP
