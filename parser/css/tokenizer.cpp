@@ -427,10 +427,11 @@ namespace CSS {
 				context.ReportParseError(CSS::ParseError::EOF_IN_CONSUMING_URL);
 				return false;
 			}
+			if (character == Unicode::RIGHT_PARENTHESIS) {
+				tokens.push_back(token);
+				return true;
+			}
 		}
-
-		tokens.push_back(token);
-		return true;
 	}
 
 	bool
