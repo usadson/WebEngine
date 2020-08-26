@@ -98,6 +98,15 @@ namespace CSS {
 		[[nodiscard]] bool
 		ConsumeStringToken(Unicode::CodePoint endingCodePoint) noexcept;
 
+		// The 'consume the remnants of a bad url' tokenizer algorithm.
+		//
+		// [Spec]
+		// Title: CSS Syntax Module Level 3
+		// Section: 4.3.14.
+		// URL: https://www.w3.org/TR/css-syntax-3/#consume-remnants-of-bad-url
+		[[nodiscard]] bool
+		ConsumeRemnantsOfBadURL() noexcept;
+
 		// The 'consume a token' tokenizer algorithm.
 		//
 		// [Spec]

@@ -288,6 +288,11 @@ namespace CSS {
 	}
 
 	bool
+	Tokenizer::ConsumeRemnantsOfBadURL() noexcept {
+		return true;
+	}
+
+	bool
 	Tokenizer::ConsumeToken(Unicode::CodePoint character) noexcept {
 		switch (character) {
 			case Unicode::LINE_FEED:
