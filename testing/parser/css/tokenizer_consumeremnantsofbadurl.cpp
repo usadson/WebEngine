@@ -18,4 +18,11 @@ namespace CSS {
 		EXPECT_EQ(tokenizer.stream.CodePointsLeft(), 4);
 	}
 
+	TEST_F(TokenizerConsumeRemnantsOfBadURL, EscapeTest) {
+		const Unicode::UString string("some text here oh! an escaped parenthesis: \\))");
+		Tokenizer tokenizer(context, string);
+		tokenizer.ConsumeRemnantsOfBadURL();
+		EXPECT_EQ(tokenizer.stream.CodePointsLeft(), 0);
+	}
+
 } // namespace CSS
