@@ -296,10 +296,10 @@ namespace CSS {
 			}
 			if (character == Unicode::REVERSE_SOLIDUS) {
 				stream.Reconsume();
-				if (IsValidEscape(stream)) {
+				bool isValidEscape = IsValidEscape(stream);
+				stream.Skip();
+				if (isValidEscape) {
 					static_cast<void>(ConsumeEscapedCodePoint());
-				} else {
-					stream.Skip();
 				}
 			}
 		}
