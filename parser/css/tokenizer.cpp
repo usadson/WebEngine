@@ -287,9 +287,22 @@ namespace CSS {
 		return true;
 	}
 
-	bool
+	void
 	Tokenizer::ConsumeRemnantsOfBadURL() noexcept {
-		return true;
+		Unicode::CodePoint character;
+		while (true) {
+			if (!stream.Next(&character) || character == Unicode::RIGHT_PARENTHESIS) {
+				return;
+			}
+			if (character == Unicode::REVERSE_SOLIDUS) {
+				stream.Reconsume();
+				if (IsValidEscape(stream)) {
+					static_cast<void>(ConsumeEscapedCodePoint());
+				} else {
+					stream.Skip();
+				}
+			}
+		}
 	}
 
 	bool
