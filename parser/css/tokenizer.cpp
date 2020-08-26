@@ -420,6 +420,12 @@ namespace CSS {
 		Token token = MakeToken<TokenType::URL>();
 		auto &codePoints = std::get<TokenCodePointsData>(token.data);
 
+		while (true) {
+			Unicode::CodePoint character;
+			if (!stream.Next(&character)) {
+			}
+		}
+
 		tokens.push_back(token);
 		return true;
 	}
