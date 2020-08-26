@@ -11,4 +11,11 @@ namespace CSS {
 		Context context {&ParseErrorTester::ReporterEndpoint};
 	};
 
+	TEST_F(TokenizerConsumeRemnantsOfBadURL, SimpleTest) {
+		const Unicode::UString string("https://example.com)TEXT");
+		Tokenizer tokenizer(context, string);
+		tokenizer.ConsumeRemnantsOfBadURL();
+		EXPECT_EQ(tokenizer.stream.CodePointsLeft(), 4);
+	}
+
 } // namespace CSS
