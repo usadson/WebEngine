@@ -424,7 +424,7 @@ namespace CSS {
 			Unicode::CodePoint character;
 			if (!stream.Next(&character)) {
 				tokens.push_back(token);
-				context.ReportParseError(CSS::ParseError::EOF_IN_CONSUMING_URL);
+				context.ReportParseError(ParseError::EOF_IN_CONSUMING_URL);
 				return false;
 			}
 			if (character == Unicode::RIGHT_PARENTHESIS) {
@@ -440,6 +440,12 @@ namespace CSS {
 					tokens.push_back(token);
 					return !eof;
 				}
+			}
+			if (character == Unicode::QUOTATION_MARK || character == Unicode::APOSTROPHE || character == Unicode::LEFT_PARENTHESIS || IsNonPrintableCodePoint(character)) {
+				context.ReportParseError(ParseError::UNEXPECTED_CHARACTER_IN_URL);
+				// TODO Consume remnants of an url
+				tokens.emplace_back(TokenType::BAD_URL);
+				return false;
 			}
 		}
 	}
