@@ -33,7 +33,24 @@ namespace Unicode {
 	constexpr CodePoint LINE_TABULATION = 0x000B;
 	constexpr CodePoint FORM_FEED = 0x000C;
 	constexpr CodePoint CARRIAGE_RETURN = 0x000D;
-	// 	--- //
+	constexpr CodePoint SHIFT_OUT = 0x000E;
+	constexpr CodePoint SHIFT_IN = 0x000F;
+	constexpr CodePoint DATA_LINK_ESCAPE = 0x0010;
+	constexpr CodePoint DEVICE_CONTROL_ONE = 0x0011;
+	constexpr CodePoint DEVICE_CONTROL_TWO = 0x0012;
+	constexpr CodePoint DEVICE_CONTROL_THREE = 0x0013;
+	constexpr CodePoint DEVICE_CONTROL_FOUR = 0x0014;
+	constexpr CodePoint NEGATIVE_ACKNOWLEDGE = 0x0015;
+	constexpr CodePoint SYNCHRONOUS_IDLE = 0x0016;
+	constexpr CodePoint END_OF_TRANSMISSION_BLOCK = 0x0017;
+	constexpr CodePoint CANCEL = 0x0018;
+	constexpr CodePoint END_OF_MEDIUM = 0x0019;
+	constexpr CodePoint SUBSTITUTE = 0x001A;
+	constexpr CodePoint ESCAPE = 0x001B;
+	constexpr CodePoint INFORMATION_SEPARATOR_FOUR = 0x001C;
+	constexpr CodePoint INFORMATION_SEPARATOR_THREE = 0x001D;
+	constexpr CodePoint INFORMATION_SEPARATOR_TWO = 0x001E;
+	constexpr CodePoint INFORMATION_SEPARATOR_ONE = 0x001F;
 
 	// ASCII punctuation and symbols
 	constexpr CodePoint SPACE = 0x0020;						// ' '
