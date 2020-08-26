@@ -38,6 +38,11 @@ namespace CSS {
 		return IsNameStartCodePoint(codePoint) || Unicode::IsDigit(codePoint) || codePoint == Unicode::HYPHEN_MINUS;
 	}
 
+	[[nodiscard]] inline constexpr bool
+	IsNonPrintableCodePoint(Unicode::CodePoint character) noexcept {
+		return character <= Unicode::BACKSPACE || character == Unicode::CHARACTER_TABULATION || (character >= Unicode::SHIFT_OUT && character <= Unicode::INFORMATION_SEPARATOR_ONE) || character == Unicode::DELETE;
+	}
+
 	[[nodiscard]] inline bool
 	IsValidEscape(const CSS::TokenizerStream &stream, std::size_t offset = 0) noexcept {
 		Unicode::CodePoint next, next2;
