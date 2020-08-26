@@ -423,6 +423,9 @@ namespace CSS {
 		while (true) {
 			Unicode::CodePoint character;
 			if (!stream.Next(&character)) {
+				tokens.push_back(token);
+				context.ReportParseError(CSS::ParseError::EOF_IN_CONSUMING_URL);
+				return false;
 			}
 		}
 
