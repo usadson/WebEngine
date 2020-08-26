@@ -418,7 +418,7 @@ namespace CSS {
 			return false;
 		}
 		Token token = MakeToken<TokenType::URL>();
-		auto &codePoints = std::get<TokenCodePointsData>(token.data);
+		auto &codePoints = std::get<TokenCodePointsData>(token.data).codePoints;
 
 		while (true) {
 			Unicode::CodePoint character;
@@ -447,6 +447,22 @@ namespace CSS {
 				tokens.emplace_back(TokenType::BAD_URL);
 				return false;
 			}
+			if (character == Unicode::REVERSE_SOLIDUS) {
+				if (!stream.Peek(&character)) {
+					tokens.push_back(token);
+					context.ReportParseError(ParseError::EOF_IN_CONSUMING_URL);
+					return false;
+				}
+				if (character != Unicode::LINE_FEED) {
+					codePoints.push_back(ConsumeEscapedCodePoint());
+					continue;
+				}
+				context.ReportParseError(ParseError::UNEXPECTED_CHARACTER_IN_URL);
+				// TODO Consume remnants of an url
+				tokens.emplace_back(TokenType::BAD_URL);
+				return false;
+			}
+			codePoints.push_back(character);
 		}
 	}
 
