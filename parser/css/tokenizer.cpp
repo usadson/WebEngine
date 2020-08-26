@@ -433,7 +433,8 @@ namespace CSS {
 			}
 			if (IsWhitespace(character)) {
 				bool eof = false;
-				if ((eof = (!SkipWhitespace() || !stream.Next(&character))) || character == Unicode::RIGHT_PARENTHESIS) {
+				if ((eof = (!SkipWhitespace() || !stream.Next(&character)))
+					|| character == Unicode::RIGHT_PARENTHESIS) {
 					if (eof) {
 						context.ReportParseError(CSS::ParseError::EOF_IN_CONSUMING_URL);
 					}
@@ -441,7 +442,8 @@ namespace CSS {
 					return !eof;
 				}
 			}
-			if (character == Unicode::QUOTATION_MARK || character == Unicode::APOSTROPHE || character == Unicode::LEFT_PARENTHESIS || IsNonPrintableCodePoint(character)) {
+			if (character == Unicode::QUOTATION_MARK || character == Unicode::APOSTROPHE
+				|| character == Unicode::LEFT_PARENTHESIS || IsNonPrintableCodePoint(character)) {
 				context.ReportParseError(ParseError::UNEXPECTED_CHARACTER_IN_URL);
 				// TODO Consume remnants of an url
 				tokens.emplace_back(TokenType::BAD_URL);
