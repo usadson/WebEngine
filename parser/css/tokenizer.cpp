@@ -431,6 +431,16 @@ namespace CSS {
 				tokens.push_back(token);
 				return true;
 			}
+			if (IsWhitespace(character)) {
+				bool eof = false;
+				if ((eof = (!SkipWhitespace() || !stream.Next(&character))) || character == Unicode::RIGHT_PARENTHESIS) {
+					if (eof) {
+						context.ReportParseError(CSS::ParseError::EOF_IN_CONSUMING_URL);
+					}
+					tokens.push_back(token);
+					return !eof;
+				}
+			}
 		}
 	}
 
