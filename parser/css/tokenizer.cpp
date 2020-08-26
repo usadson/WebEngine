@@ -414,6 +414,13 @@ namespace CSS {
 
 	bool
 	Tokenizer::ConsumeURLToken() noexcept {
+		if (!SkipWhitespace()) {
+			return false;
+		}
+		Token token = MakeToken<TokenType::URL>();
+		auto &codePoints = std::get<TokenCodePointsData>(token.data);
+
+		tokens.push_back(token);
 		return true;
 	}
 
