@@ -139,6 +139,16 @@ namespace CSS {
 		}
 	}
 
+	TEST_F(TokenizerAlgorithmsTest, IsNonPrintableCodePoint) {
+		for (Unicode::CodePoint c0 = 0x0000; c0 < 0x0020; c0++) {
+			if (c0 <= 0x0008 || c0 == 0x000B || c0 >= 0x000E) {
+				EXPECT_TRUE(IsNonPrintableCodePoint(c0));
+			} else {
+				EXPECT_FALSE(IsNonPrintableCodePoint(c0));
+			}
+		}
+	}
+
 	TEST_F(TokenizerAlgorithmsTest, IsValidEscape_Illegal) {
 		Unicode::UString string;
 		TokenizerStream stream(&string);
