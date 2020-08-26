@@ -109,7 +109,7 @@ namespace CSS {
 			if (codePoint == Unicode::QUOTATION_MARK || codePoint == Unicode::APOSTROPHE) {
 				// FIXME spec here is very weird
 			}
-			// TODO call consume URL token
+			return ConsumeURLToken();
 		}
 
 		return true;
@@ -410,6 +410,11 @@ namespace CSS {
 
 		const std::int64_t i = std::stol(iAsStr);
 		return static_cast<double>(s) * (i + f / std::pow(10.0, d)) * std::pow(10.0, t * e);
+	}
+
+	bool
+	Tokenizer::ConsumeURLToken() noexcept {
+		return true;
 	}
 
 	bool

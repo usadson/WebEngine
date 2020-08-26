@@ -116,6 +116,15 @@ namespace CSS {
 		[[nodiscard]] std::variant<std::monostate, CSS::IntegerType, CSS::NumberType>
 		ConvertStringToNumber(const std::vector<Unicode::CodePoint> &) noexcept;
 
+		// The 'convert a[n] url token' tokenizer algorithm.
+		//
+		// [Spec]
+		// Title: CSS Syntax Module Level 3
+		// Section: 4.3.6.
+		// URL: https://www.w3.org/TR/css-syntax-3/#consume-a-url-token
+		[[nodiscard]] bool
+		ConsumeURLToken() noexcept;
+
 		// Will try to run the algorithm of ConsumeToken when the code point is
 		// NUMBER SIGN. Will return false if the if-statement is failing,
 		// otherwise the algorithm will be executed.
