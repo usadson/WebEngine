@@ -40,7 +40,7 @@ namespace CSS {
 
 	[[nodiscard]] inline constexpr bool
 	IsNonPrintableCodePoint(Unicode::CodePoint character) noexcept {
-		return character <= Unicode::BACKSPACE || character == Unicode::CHARACTER_TABULATION || (character >= Unicode::SHIFT_OUT && character <= Unicode::INFORMATION_SEPARATOR_ONE) || character == Unicode::DELETE;
+		return character <= Unicode::BACKSPACE || character == Unicode::LINE_TABULATION || (character >= Unicode::SHIFT_OUT && character <= Unicode::INFORMATION_SEPARATOR_ONE) || character == Unicode::DELETE;
 	}
 
 	[[nodiscard]] inline bool
