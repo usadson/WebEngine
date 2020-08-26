@@ -147,6 +147,10 @@ namespace CSS {
 				EXPECT_FALSE(IsNonPrintableCodePoint(c0));
 			}
 		}
+		for (Unicode::CodePoint rune = 0x0020; rune < 0x007F; rune++) {
+			EXPECT_FALSE(IsNonPrintableCodePoint(rune));
+		}
+		EXPECT_TRUE(IsNonPrintableCodePoint(0x007F));
 	}
 
 	TEST_F(TokenizerAlgorithmsTest, IsValidEscape_Illegal) {
