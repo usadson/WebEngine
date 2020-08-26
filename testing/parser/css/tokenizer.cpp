@@ -56,6 +56,7 @@ namespace ParseErrorTester {
 #include "tokenizer_consumename.cpp"
 #include "tokenizer_consumenumber.cpp"
 #include "tokenizer_consumenumerictoken.cpp"
+#include "tokenizer_consumeremnantsofbadurl.cpp"
 #include "tokenizer_consumestringtoken.cpp"
 #include "tokenizer_consumetoken.cpp"
 #include "tokenizer_convertstringtonumber.cpp"
