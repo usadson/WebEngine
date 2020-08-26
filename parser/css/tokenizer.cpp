@@ -450,7 +450,7 @@ namespace CSS {
 			if (character == Unicode::QUOTATION_MARK || character == Unicode::APOSTROPHE
 				|| character == Unicode::LEFT_PARENTHESIS || IsNonPrintableCodePoint(character)) {
 				context.ReportParseError(ParseError::UNEXPECTED_CHARACTER_IN_URL);
-				// TODO Consume remnants of an url
+				ConsumeRemnantsOfBadURL();
 				tokens.emplace_back(TokenType::BAD_URL);
 				return false;
 			}
@@ -465,7 +465,7 @@ namespace CSS {
 					continue;
 				}
 				context.ReportParseError(ParseError::UNEXPECTED_CHARACTER_IN_URL);
-				// TODO Consume remnants of an url
+				ConsumeRemnantsOfBadURL();
 				tokens.emplace_back(TokenType::BAD_URL);
 				return false;
 			}
