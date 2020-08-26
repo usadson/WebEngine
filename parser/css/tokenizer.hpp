@@ -104,7 +104,7 @@ namespace CSS {
 		// Title: CSS Syntax Module Level 3
 		// Section: 4.3.14.
 		// URL: https://www.w3.org/TR/css-syntax-3/#consume-remnants-of-bad-url
-		[[nodiscard]] bool
+		void
 		ConsumeRemnantsOfBadURL() noexcept;
 
 		// The 'consume a token' tokenizer algorithm.
