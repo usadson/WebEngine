@@ -357,9 +357,9 @@ namespace CSS {
 				tokens.emplace_back(TokenType::SEMICOLON);
 				return true;
 			case Unicode::LESS_THAN_SIGN:
-				if (stream.Peek(&character) && character == Unicode::EXCLAMATION_MARK && stream.Peek(&character) &&
-					character == Unicode::HYPHEN_MINUS && stream.Peek(&character) && character == Unicode::HYPHEN_MINUS
-				) {
+				if (stream.Peek(&character) && character == Unicode::EXCLAMATION_MARK && stream.Peek(&character)
+					&& character == Unicode::HYPHEN_MINUS && stream.Peek(&character)
+					&& character == Unicode::HYPHEN_MINUS) {
 					stream.Skip();
 					stream.Skip();
 					stream.Skip();
