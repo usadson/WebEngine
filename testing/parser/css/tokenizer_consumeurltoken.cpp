@@ -9,19 +9,23 @@ namespace CSS {
 	class TokenizerConsumeURLToken : public ::testing::Test {
 	public:
 		Context context {&ParseErrorTester::ReporterEndpoint};
+
+		void
+		TestAllowed(const Unicode::UString &string, const std::vector<Unicode::CodePoint> &expected) noexcept {
+			Tokenizer tokenizer(context, string);
+			EXPECT_TRUE(tokenizer.ConsumeURLToken());
+			EXPECT_EQ(tokenizer.stream.CodePointsLeft(), 0);
+			ASSERT_EQ(tokenizer.tokens.size(), 1);
+			const auto &token = tokenizer.tokens[0];
+			ASSERT_EQ(token.type, TokenType::URL);
+			const auto &data = std::get<TokenCodePointsData>(token.data);
+			EXPECT_EQ(data.codePoints, expected);
+		}
 	};
 
 	TEST_F(TokenizerConsumeURLToken, SimpleTest) {
-		const Unicode::UString string("https://example.com)");
-		Tokenizer tokenizer(context, string);
-		EXPECT_TRUE(tokenizer.ConsumeURLToken());
-		EXPECT_EQ(tokenizer.stream.CodePointsLeft(), 0);
-		ASSERT_EQ(tokenizer.tokens.size(), 1);
-		const auto &token = tokenizer.tokens[0];
-		ASSERT_EQ(token.type, TokenType::URL);
-		const auto &data = std::get<TokenCodePointsData>(token.data);
-		const std::vector<Unicode::CodePoint> expected = {'h', 't', 't', 'p', 's', ':', '/', '/', 'e', 'x', 'a', 'm', 'p', 'l', 'e', '.', 'c', 'o', 'm'};
-		EXPECT_EQ(data.codePoints, expected);
+		const Unicode::UString expected {"https://example.com)"};
+		TestAllowed(expected, {'h', 't', 't', 'p', 's', ':', '/', '/', 'e', 'x', 'a', 'm', 'p', 'l', 'e', '.', 'c', 'o', 'm'});
 	}
 
 } // namespace CSS
