@@ -14,10 +14,13 @@ namespace CSS {
 		RunTest(bool isLegal, const Unicode::UString &string, const std::vector<Unicode::CodePoint> &expected) noexcept {
 			Tokenizer tokenizer(context, string);
 			EXPECT_EQ(tokenizer.ConsumeURLToken(), isLegal);
+
 			EXPECT_EQ(tokenizer.stream.CodePointsLeft(), 0);
 			ASSERT_EQ(tokenizer.tokens.size(), 1);
+
 			const auto &token = tokenizer.tokens[0];
 			ASSERT_EQ(token.type, TokenType::URL);
+
 			const auto &data = std::get<TokenCodePointsData>(token.data);
 			EXPECT_EQ(data.codePoints, expected);
 		}
@@ -31,8 +34,10 @@ namespace CSS {
 	TEST_F(TokenizerConsumeURLToken, WhitespaceTest) {
 		const Unicode::UString input1 {"  \t \n\t blah)"};
 		RunTest(true, input1, {'b', 'l', 'a', 'h'});
+
 		const Unicode::UString input2 {"  \t \n\t blah \t \n )"};
 		RunTest(true, input2, {'b', 'l', 'a', 'h'});
+
 		const Unicode::UString input3 {"\tblah\n)"};
 		RunTest(true, input3, {'b', 'l', 'a', 'h'});
 	}
