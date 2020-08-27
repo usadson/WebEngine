@@ -392,6 +392,12 @@ namespace CSS {
 			case Unicode::RIGHT_CURLY_BRACKET:
 				tokens.emplace_back(TokenType::CURLY_CLOSE);
 				return true;
+			default:
+				break;
+		}
+		if (Unicode::IsDigit(character)) {
+			stream.Reconsume();
+			return ConsumeNumericToken();
 		}
 		return true;
 	}
