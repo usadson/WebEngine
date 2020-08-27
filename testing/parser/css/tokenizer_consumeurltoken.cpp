@@ -4,6 +4,8 @@
  * See the COPYING file for licensing information.
  */
 
+#include "parser/css/tokenizer_algorithms.hpp"
+
 namespace CSS {
 
 	class TokenizerConsumeURLToken : public ::testing::Test {
@@ -26,6 +28,10 @@ namespace CSS {
 
 				const auto &data = std::get<TokenCodePointsData>(token.data);
 				EXPECT_EQ(data.codePoints, expected);
+				if (data.codePoints != expected) {
+					const auto mismatch = std::mismatch(std::begin(expected), std::end(expected), std::begin(data.codePoints), std::end(data.codePoints));
+					std::cout << "First mismatch is: " << *mismatch.first << ' ' << *mismatch.second << '\n';
+				}
 			}
 		}
 	};
@@ -81,6 +87,26 @@ namespace CSS {
 			RunTest(false, input, {}, true);
 			EXPECT_TRUE(ParseErrorTester::WasParseErrorFired(ParseError::UNEXPECTED_CHARACTER_IN_URL));
 		}
+	}
+
+	TEST_F(TokenizerConsumeURLToken, ValidCharactersTest) {
+		std::vector<Unicode::CodePoint> v;
+		v.reserve(0x100);
+		for (Unicode::CodePoint cp = 0; cp < 0x100; cp++) {
+			bool isVisible = cp > Unicode::BACKSPACE && cp != Unicode::LINE_TABULATION && (cp < 0xE || cp > 0x1F) && cp != Unicode::DELETE;
+			bool isNonExplicitlyForbidden = cp != Unicode::APOSTROPHE && cp != Unicode::QUOTATION_MARK && cp != Unicode::LEFT_PARENTHESIS;
+			bool isNonImplicitlyForbidden = cp != Unicode::RIGHT_PARENTHESIS && !IsWhitespace(cp) && cp != Unicode::REVERSE_SOLIDUS;
+			if (isVisible && isNonExplicitlyForbidden && isNonImplicitlyForbidden) {
+				v.push_back(cp);
+			}
+		}
+		for (std::size_t i = v.size(); i < v.capacity(); i++) {
+			v.push_back(std::rand() + 0x100);
+		}
+		Unicode::UString input(v);
+		input += Unicode::RIGHT_PARENTHESIS;
+		RunTest(true, input, v);
+		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
 	}
 
 } // namespace CSS
