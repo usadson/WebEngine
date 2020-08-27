@@ -383,6 +383,9 @@ namespace CSS {
 			case Unicode::LEFT_SQUARE_BRACKET:
 				tokens.emplace_back(TokenType::SQUARE_OPEN);
 				return true;
+			case Unicode::RIGHT_SQUARE_BRACKET:
+				tokens.emplace_back(TokenType::SQUARE_CLOSE);
+				return true;
 		}
 		return true;
 	}
