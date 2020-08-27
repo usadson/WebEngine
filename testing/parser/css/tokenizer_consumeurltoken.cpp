@@ -24,17 +24,17 @@ namespace CSS {
 	};
 
 	TEST_F(TokenizerConsumeURLToken, SimpleTest) {
-		const Unicode::UString expected {"https://example.com)"};
-		TestAllowed(expected, {'h', 't', 't', 'p', 's', ':', '/', '/', 'e', 'x', 'a', 'm', 'p', 'l', 'e', '.', 'c', 'o', 'm'});
+		const Unicode::UString input {"https://example.com)"};
+		TestAllowed(input, {'h', 't', 't', 'p', 's', ':', '/', '/', 'e', 'x', 'a', 'm', 'p', 'l', 'e', '.', 'c', 'o', 'm'});
 	}
 
 	TEST_F(TokenizerConsumeURLToken, WhitespaceTest) {
-		const Unicode::UString expected {"  \t \n\t blah)"};
-		TestAllowed(expected, {'b', 'l', 'a', 'h'});
-		const Unicode::UString expected2 {"  \t \n\t blah \t \n )"};
-		TestAllowed(expected2, {'b', 'l', 'a', 'h'});
-		const Unicode::UString expected3 {"\tblah\n)"};
-		TestAllowed(expected3, {'b', 'l', 'a', 'h'});
+		const Unicode::UString input1 {"  \t \n\t blah)"};
+		TestAllowed(input1, {'b', 'l', 'a', 'h'});
+		const Unicode::UString input2 {"  \t \n\t blah \t \n )"};
+		TestAllowed(input2, {'b', 'l', 'a', 'h'});
+		const Unicode::UString input3 {"\tblah\n)"};
+		TestAllowed(input3, {'b', 'l', 'a', 'h'});
 	}
 
 } // namespace CSS
