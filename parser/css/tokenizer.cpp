@@ -380,6 +380,9 @@ namespace CSS {
 				}
 				tokens.emplace_back(TokenType::DELIM, Unicode::COMMERCIAL_AT);
 				return true;
+			case Unicode::LEFT_SQUARE_BRACKET:
+				tokens.emplace_back(TokenType::SQUARE_OPEN);
+				return true;
 		}
 		return true;
 	}
