@@ -11,7 +11,7 @@ namespace CSS {
 		Context context {&ParseErrorTester::ReporterEndpoint};
 
 		void
-		RunTest(bool isLegal, const Unicode::UString &string, const std::vector<Unicode::CodePoint> &expected) noexcept {
+		RunTest(bool isLegal, const Unicode::UString &string, const std::vector<Unicode::CodePoint> &expected, bool isBad=false) noexcept {
 			Tokenizer tokenizer(context, string);
 			EXPECT_EQ(tokenizer.ConsumeURLToken(), isLegal);
 
@@ -19,10 +19,14 @@ namespace CSS {
 			ASSERT_EQ(tokenizer.tokens.size(), 1);
 
 			const auto &token = tokenizer.tokens[0];
-			ASSERT_EQ(token.type, TokenType::URL);
+			if (isBad) {
+				EXPECT_EQ(token.type, TokenType::BAD_URL);
+			} else {
+				ASSERT_EQ(token.type, TokenType::URL);
 
-			const auto &data = std::get<TokenCodePointsData>(token.data);
-			EXPECT_EQ(data.codePoints, expected);
+				const auto &data = std::get<TokenCodePointsData>(token.data);
+				EXPECT_EQ(data.codePoints, expected);
+			}
 		}
 	};
 
