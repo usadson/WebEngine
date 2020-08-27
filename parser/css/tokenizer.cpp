@@ -353,6 +353,9 @@ namespace CSS {
 			case Unicode::COLON:
 				tokens.emplace_back(TokenType::COLON);
 				return true;
+			case Unicode::SEMICOLON:
+				tokens.emplace_back(TokenType::SEMICOLON);
+				return true;
 		}
 		return true;
 	}
