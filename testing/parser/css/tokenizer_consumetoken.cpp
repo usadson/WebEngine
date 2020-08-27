@@ -109,4 +109,15 @@ namespace CSS {
 		EXPECT_EQ(tokenizer.tokens[1].type, TokenType::SQUARE_CLOSE);
 	}
 
+	TEST_F(TokenizerConsumeToken, TestCurlyBrackets) {
+		const Unicode::UString input;
+		Tokenizer tokenizer(context, input);
+		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::LEFT_CURLY_BRACKET));
+		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::RIGHT_CURLY_BRACKET));
+		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
+		ASSERT_EQ(tokenizer.tokens.size(), 2);
+		EXPECT_EQ(tokenizer.tokens[0].type, TokenType::CURLY_OPEN);
+		EXPECT_EQ(tokenizer.tokens[1].type, TokenType::CURLY_CLOSE);
+	}
+
 } // namespace CSS
