@@ -368,6 +368,18 @@ namespace CSS {
 					tokens.emplace_back(TokenType::DELIM, Unicode::LESS_THAN_SIGN);
 				}
 				return true;
+			case Unicode::COMMERCIAL_AT:
+				if (WillStartIdentifier(stream)) {
+					auto token = MakeToken<TokenType::AT_KEYWORD>();
+					if (!ConsumeName(std::get<TokenCodePointsData>(token.data).codePoints)) {
+						// TODO
+						return false;
+					}
+					tokens.push_back(token);
+					return true;
+				}
+				tokens.emplace_back(TokenType::DELIM, Unicode::COMMERCIAL_AT);
+				return true;
 		}
 		return true;
 	}
