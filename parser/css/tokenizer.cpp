@@ -432,9 +432,9 @@ namespace CSS {
 
 	bool
 	Tokenizer::ConsumeURLToken() noexcept {
-		if (!SkipWhitespace()) {
-			return false;
-		}
+		// If whitespace consuming fails (i.e. only due to EOF), we will take care of it later.
+		static_cast<void>(SkipWhitespace());
+
 		Token token = MakeToken<TokenType::URL>();
 		auto &codePoints = std::get<TokenCodePointsData>(token.data).codePoints;
 
