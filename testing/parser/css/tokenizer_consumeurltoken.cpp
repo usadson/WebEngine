@@ -28,4 +28,13 @@ namespace CSS {
 		TestAllowed(expected, {'h', 't', 't', 'p', 's', ':', '/', '/', 'e', 'x', 'a', 'm', 'p', 'l', 'e', '.', 'c', 'o', 'm'});
 	}
 
+	TEST_F(TokenizerConsumeURLToken, WhitespaceTest) {
+		const Unicode::UString expected {"  \t \n\t blah)"};
+		TestAllowed(expected, {'b', 'l', 'a', 'h'});
+		const Unicode::UString expected2 {"  \t \n\t blah \t \n )"};
+		TestAllowed(expected2, {'b', 'l', 'a', 'h'});
+		const Unicode::UString expected3 {"\tblah\n)"};
+		TestAllowed(expected3, {'b', 'l', 'a', 'h'});
+	}
+
 } // namespace CSS
