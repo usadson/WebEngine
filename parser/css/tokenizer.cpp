@@ -350,6 +350,9 @@ namespace CSS {
 				}
 				tokens.emplace_back(TokenType::DELIM, Unicode::FULL_STOP);
 				return true;
+			case Unicode::COLON:
+				tokens.emplace_back(TokenType::COLON);
+				return true;
 		}
 		return true;
 	}
