@@ -403,6 +403,7 @@ namespace CSS {
 			stream.Reconsume();
 			return ConsumeIdentLikeToken();
 		}
+		tokens.emplace_back(TokenType::DELIM, character);
 		return true;
 	}
 
