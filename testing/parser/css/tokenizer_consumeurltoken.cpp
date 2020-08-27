@@ -48,4 +48,10 @@ namespace CSS {
 		EXPECT_TRUE(ParseErrorTester::WasParseErrorFired(ParseError::EOF_IN_CONSUMING_URL));
 	}
 
+	TEST_F(TokenizerConsumeURLToken, EmptyTest) {
+		const Unicode::UString input;
+		RunTest(false, input, {});
+		EXPECT_TRUE(ParseErrorTester::WasParseErrorFired(ParseError::EOF_IN_CONSUMING_URL));
+	}
+
 } // namespace CSS
