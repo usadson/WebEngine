@@ -131,4 +131,16 @@ namespace CSS {
 		EXPECT_EQ(codePoint, Unicode::PLUS_SIGN);
 	}
 
+	TEST_F(TokenizerConsumeToken, TestPlusSignAsNumber) {
+		const Unicode::UString input("12 ");
+		Tokenizer tokenizer(context, input);
+		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::PLUS_SIGN));
+		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
+		ASSERT_EQ(tokenizer.tokens.size(), 1);
+		EXPECT_EQ(tokenizer.tokens[0].type, TokenType::NUMBER);
+		auto numericData = std::get<TokenNumericData>(tokenizer.tokens[0].data);
+		EXPECT_EQ(numericData.type, TokenNumericType::INTEGER);
+		EXPECT_EQ(numericData.integer, 12);
+	}
+
 } // namespace CSS
