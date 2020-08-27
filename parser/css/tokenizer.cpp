@@ -356,6 +356,18 @@ namespace CSS {
 			case Unicode::SEMICOLON:
 				tokens.emplace_back(TokenType::SEMICOLON);
 				return true;
+			case Unicode::LESS_THAN_SIGN:
+				if (stream.Peek(&character) && character == Unicode::EXCLAMATION_MARK && stream.Peek(&character) &&
+					character == Unicode::HYPHEN_MINUS && stream.Peek(&character) && character == Unicode::HYPHEN_MINUS
+				) {
+					stream.Skip();
+					stream.Skip();
+					stream.Skip();
+					tokens.emplace_back(TokenType::CDO);
+				} else {
+					tokens.emplace_back(TokenType::DELIM, Unicode::LESS_THAN_SIGN);
+				}
+				return true;
 		}
 		return true;
 	}
