@@ -155,4 +155,13 @@ namespace CSS {
 		EXPECT_EQ(numericData.integer, 12);
 	}
 
+	TEST_F(TokenizerConsumeToken, TestComma) {
+		const Unicode::UString input;
+		Tokenizer tokenizer(context, input);
+		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::COMMA));
+		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
+		ASSERT_EQ(tokenizer.tokens.size(), 1);
+		EXPECT_EQ(tokenizer.tokens[0].type, TokenType::COMMA);
+	}
+
 } // namespace CSS
