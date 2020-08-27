@@ -151,6 +151,7 @@ bin/testing/parser/css/tokenizer: testing/parser/css/tokenizer.cpp \
 	testing/parser/css/tokenizer_consumeremnantsofbadurl.cpp \
 	testing/parser/css/tokenizer_consumestringtoken.cpp \
 	testing/parser/css/tokenizer_consumetoken.cpp \
+	testing/parser/css/tokenizer_consumeurltoken.cpp \
 	testing/parser/css/tokenizer_convertstringtonumber.cpp \
 	bin/parser/css/tokenizer.o \
 	data/text/ustring.hpp
