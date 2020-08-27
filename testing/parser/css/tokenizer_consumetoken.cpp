@@ -120,4 +120,15 @@ namespace CSS {
 		EXPECT_EQ(tokenizer.tokens[1].type, TokenType::CURLY_CLOSE);
 	}
 
+	TEST_F(TokenizerConsumeToken, TestPlusSignAsDelim) {
+		const Unicode::UString input("not a number");
+		Tokenizer tokenizer(context, input);
+		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::PLUS_SIGN));
+		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
+		ASSERT_EQ(tokenizer.tokens.size(), 1);
+		EXPECT_EQ(tokenizer.tokens[0].type, TokenType::DELIM);
+		auto codePoint = std::get<Unicode::CodePoint>(tokenizer.tokens[0].data);
+		EXPECT_EQ(codePoint, Unicode::PLUS_SIGN);
+	}
+
 } // namespace CSS
