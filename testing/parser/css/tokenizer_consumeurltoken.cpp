@@ -58,4 +58,29 @@ namespace CSS {
 		EXPECT_TRUE(ParseErrorTester::WasParseErrorFired(ParseError::EOF_IN_CONSUMING_URL));
 	}
 
+	TEST_F(TokenizerConsumeURLToken, InvalidCharactersTest) {
+		// Illegal characters in this case: " ' ( \n DELETE
+		Unicode::UString input {'t', 'e', 's', 't', '?', ')'};
+		for (const auto &character : {Unicode::QUOTATION_MARK, Unicode::APOSTROPHE, Unicode::LEFT_PARENTHESIS, Unicode::LINE_TABULATION, Unicode::DELETE}) {
+			std::cout << "[1] Character is: U+" << std::hex << character << std::dec << '\n';
+			input[4] = character;
+			RunTest(false, input, {}, true);
+			EXPECT_TRUE(ParseErrorTester::WasParseErrorFired(ParseError::UNEXPECTED_CHARACTER_IN_URL));
+		}
+		// Illegal characters in this case: U+0000 to U+0008 inclusive
+		for (Unicode::CodePoint character = Unicode::NULL_CHARACTER; character <= Unicode::BACKSPACE; character++) {
+			std::cout << "[2] Character is: U+" << std::hex << character << std::dec << '\n';
+			input[4] = character;
+			RunTest(false, input, {}, true);
+			EXPECT_TRUE(ParseErrorTester::WasParseErrorFired(ParseError::UNEXPECTED_CHARACTER_IN_URL));
+		}
+		// Illegal characters in this case: U+000E to U+0001F inclusive
+		for (Unicode::CodePoint character = Unicode::SHIFT_OUT; character <= Unicode::INFORMATION_SEPARATOR_ONE; character++) {
+			std::cout << "[3] Character is: U+" << std::hex << character << std::dec << '\n';
+			input[4] = character;
+			RunTest(false, input, {}, true);
+			EXPECT_TRUE(ParseErrorTester::WasParseErrorFired(ParseError::UNEXPECTED_CHARACTER_IN_URL));
+		}
+	}
+
 } // namespace CSS
