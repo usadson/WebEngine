@@ -106,4 +106,12 @@ namespace CSS {
 		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
 	}
 
+	TEST_F(TokenizerConsumeURLToken, EscapedTest) {
+		// The function calls a function thats already been tested, so that's
+		// why it isn't roughly tested here.
+		const Unicode::UString input("Te\\000073 t)");
+		RunTest(true, input, {'T', 'e', 's', 't'});
+		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
+	}
+
 } // namespace CSS
