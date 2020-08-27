@@ -42,4 +42,10 @@ namespace CSS {
 		RunTest(true, input3, {'b', 'l', 'a', 'h'});
 	}
 
+	TEST_F(TokenizerConsumeURLToken, EOFTest) {
+		const Unicode::UString input {"hi"};
+		RunTest(false, input, {'h', 'i'});
+		EXPECT_TRUE(ParseErrorTester::WasParseErrorFired(ParseError::EOF_IN_CONSUMING_URL));
+	}
+
 } // namespace CSS
