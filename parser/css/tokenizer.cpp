@@ -343,6 +343,13 @@ namespace CSS {
 				return true;
 			case Unicode::HYPHEN_MINUS:
 				return ConsumeTokenHelperHyphenMinus(character);
+			case Unicode::FULL_STOP:
+				if (DoesStreamStartWithNumber()) {
+					stream.Reconsume();
+					return ConsumeNumericToken();
+				}
+				tokens.emplace_back(TokenType::DELIM, Unicode::FULL_STOP);
+				return true;
 		}
 		return true;
 	}
