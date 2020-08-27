@@ -13,7 +13,8 @@ namespace CSS {
 		Context context {&ParseErrorTester::ReporterEndpoint};
 
 		void
-		RunTest(bool isLegal, const Unicode::UString &string, const std::vector<Unicode::CodePoint> &expected, bool isBad=false) noexcept {
+		RunTest(bool isLegal, const Unicode::UString &string, const std::vector<Unicode::CodePoint> &expected,
+			bool isBad = false) noexcept {
 			Tokenizer tokenizer(context, string);
 			EXPECT_EQ(tokenizer.ConsumeURLToken(), isLegal);
 
@@ -29,7 +30,10 @@ namespace CSS {
 				const auto &data = std::get<TokenCodePointsData>(token.data);
 				EXPECT_EQ(data.codePoints, expected);
 				if (data.codePoints != expected) {
-					const auto mismatch = std::mismatch(std::begin(expected), std::end(expected), std::begin(data.codePoints), std::end(data.codePoints));
+					const auto mismatch = std::mismatch(std::begin(expected),
+						std::end(expected),
+						std::begin(data.codePoints),
+						std::end(data.codePoints));
 					std::cout << "First mismatch is: " << *mismatch.first << ' ' << *mismatch.second << '\n';
 				}
 			}
@@ -38,7 +42,9 @@ namespace CSS {
 
 	TEST_F(TokenizerConsumeURLToken, SimpleTest) {
 		const Unicode::UString input {"https://example.com)"};
-		RunTest(true, input, {'h', 't', 't', 'p', 's', ':', '/', '/', 'e', 'x', 'a', 'm', 'p', 'l', 'e', '.', 'c', 'o', 'm'});
+		RunTest(true,
+			input,
+			{'h', 't', 't', 'p', 's', ':', '/', '/', 'e', 'x', 'a', 'm', 'p', 'l', 'e', '.', 'c', 'o', 'm'});
 	}
 
 	TEST_F(TokenizerConsumeURLToken, WhitespaceTest) {
@@ -67,7 +73,11 @@ namespace CSS {
 	TEST_F(TokenizerConsumeURLToken, InvalidCharactersTest) {
 		// Illegal characters in this case: " ' ( \n DELETE
 		Unicode::UString input {'t', 'e', 's', 't', '?', ')'};
-		for (const auto &character : {Unicode::QUOTATION_MARK, Unicode::APOSTROPHE, Unicode::LEFT_PARENTHESIS, Unicode::LINE_TABULATION, Unicode::DELETE}) {
+		for (const auto &character : {Unicode::QUOTATION_MARK,
+				 Unicode::APOSTROPHE,
+				 Unicode::LEFT_PARENTHESIS,
+				 Unicode::LINE_TABULATION,
+				 Unicode::DELETE}) {
 			input[4] = character;
 			RunTest(false, input, {}, true);
 			EXPECT_TRUE(ParseErrorTester::WasParseErrorFired(ParseError::UNEXPECTED_CHARACTER_IN_URL));
@@ -79,7 +89,8 @@ namespace CSS {
 			EXPECT_TRUE(ParseErrorTester::WasParseErrorFired(ParseError::UNEXPECTED_CHARACTER_IN_URL));
 		}
 		// Illegal characters in this case: U+000E to U+0001F inclusive
-		for (Unicode::CodePoint character = Unicode::SHIFT_OUT; character <= Unicode::INFORMATION_SEPARATOR_ONE; character++) {
+		for (Unicode::CodePoint character = Unicode::SHIFT_OUT; character <= Unicode::INFORMATION_SEPARATOR_ONE;
+			 character++) {
 			input[4] = character;
 			RunTest(false, input, {}, true);
 			EXPECT_TRUE(ParseErrorTester::WasParseErrorFired(ParseError::UNEXPECTED_CHARACTER_IN_URL));
@@ -90,9 +101,12 @@ namespace CSS {
 		std::vector<Unicode::CodePoint> v;
 		v.reserve(0x100);
 		for (Unicode::CodePoint cp = 0; cp < 0x100; cp++) {
-			bool isVisible = cp > Unicode::BACKSPACE && cp != Unicode::LINE_TABULATION && (cp < 0xE || cp > 0x1F) && cp != Unicode::DELETE;
-			bool isNonExplicitlyForbidden = cp != Unicode::APOSTROPHE && cp != Unicode::QUOTATION_MARK && cp != Unicode::LEFT_PARENTHESIS;
-			bool isNonImplicitlyForbidden = cp != Unicode::RIGHT_PARENTHESIS && !IsWhitespace(cp) && cp != Unicode::REVERSE_SOLIDUS;
+			bool isVisible = cp > Unicode::BACKSPACE && cp != Unicode::LINE_TABULATION && (cp < 0xE || cp > 0x1F)
+							 && cp != Unicode::DELETE;
+			bool isNonExplicitlyForbidden
+				= cp != Unicode::APOSTROPHE && cp != Unicode::QUOTATION_MARK && cp != Unicode::LEFT_PARENTHESIS;
+			bool isNonImplicitlyForbidden
+				= cp != Unicode::RIGHT_PARENTHESIS && !IsWhitespace(cp) && cp != Unicode::REVERSE_SOLIDUS;
 			if (isVisible && isNonExplicitlyForbidden && isNonImplicitlyForbidden) {
 				v.push_back(cp);
 			}
