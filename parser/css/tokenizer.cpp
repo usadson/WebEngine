@@ -389,6 +389,9 @@ namespace CSS {
 			case Unicode::LEFT_CURLY_BRACKET:
 				tokens.emplace_back(TokenType::CURLY_OPEN);
 				return true;
+			case Unicode::RIGHT_CURLY_BRACKET:
+				tokens.emplace_back(TokenType::CURLY_CLOSE);
+				return true;
 		}
 		return true;
 	}
