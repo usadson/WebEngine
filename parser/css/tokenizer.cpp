@@ -399,6 +399,10 @@ namespace CSS {
 			stream.Reconsume();
 			return ConsumeNumericToken();
 		}
+		if (IsNameStartCodePoint(character)) {
+			stream.Reconsume();
+			return ConsumeIdentLikeToken();
+		}
 		return true;
 	}
 
