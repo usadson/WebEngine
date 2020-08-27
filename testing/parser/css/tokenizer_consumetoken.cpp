@@ -143,4 +143,16 @@ namespace CSS {
 		EXPECT_EQ(numericData.integer, 12);
 	}
 
+	TEST_F(TokenizerConsumeToken, TestPlusSignAsDimension) {
+		const Unicode::UString input("12br ");
+		Tokenizer tokenizer(context, input);
+		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::PLUS_SIGN));
+		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
+		ASSERT_EQ(tokenizer.tokens.size(), 1);
+		EXPECT_EQ(tokenizer.tokens[0].type, TokenType::DIMENSION);
+		auto numericData = std::get<TokenDimensionData>(tokenizer.tokens[0].data);
+		EXPECT_EQ(numericData.type, TokenNumericType::INTEGER);
+		EXPECT_EQ(numericData.integer, 12);
+	}
+
 } // namespace CSS
