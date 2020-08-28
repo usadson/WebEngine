@@ -456,11 +456,16 @@ namespace CSS {
 
 		if (it != std::end(string) && *it == Unicode::FULL_STOP) {
 			itBegin = ++it;
-			while (Unicode::IsDigit(*it++)) {
+			while (it != std::end(string) && Unicode::IsDigit(*it++)) {
 			}
 			--it;
-			f = std::stol(std::string(itBegin, it));
-			d = std::distance(itBegin, it);
+			if (it == itBegin) {
+				f = 0;
+				d = 0;
+			} else {
+				f = std::stol(std::string(itBegin, it));
+				d = std::distance(itBegin, it);
+			}
 		}
 
 		if (it + 1 < std::end(string)
