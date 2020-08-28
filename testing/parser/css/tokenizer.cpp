@@ -50,7 +50,6 @@ namespace ParseErrorTester {
 
 } // namespace ParseErrorTester
 
-
 namespace CSS {
 
 	void
@@ -96,8 +95,8 @@ namespace CSS {
 
 	template <typename T>
 	void
-	TestDimension(const Token &token, const T &expectedNumericValue,
-		const std::vector<Unicode::CodePoint> &expectedCodePoints) {
+	TestDimension(
+		const Token &token, const T &expectedNumericValue, const std::vector<Unicode::CodePoint> &expectedCodePoints) {
 		ASSERT_EQ(token.type, TokenType::DIMENSION);
 		const auto *data = std::get_if<TokenDimensionData>(&token.data);
 		ASSERT_NE(data, nullptr);
