@@ -324,12 +324,11 @@ namespace CSS {
 		switch (character) {
 			case Unicode::LINE_FEED:
 			case Unicode::CHARACTER_TABULATION:
-			case Unicode::SPACE:
-				while (stream.Next(&character) && IsWhitespace(character)) {
-					tokens.push_back(CSS::MakeToken<CSS::TokenType::WHITESPACE>());
-					return true;
-				}
-				break;
+			case Unicode::SPACE: {
+				bool ret = SkipWhitespace();
+				tokens.emplace_back(TokenType::WHITESPACE);
+				return ret;
+			}
 			case Unicode::QUOTATION_MARK:
 				return ConsumeStringToken(character);
 			case Unicode::NUMBER_SIGN:
