@@ -123,7 +123,7 @@ namespace CSS {
 		// Section: 4.3.13.
 		// URL: https://www.w3.org/TR/css-syntax-3/#convert-string-to-number
 		[[nodiscard]] std::variant<std::monostate, CSS::IntegerType, CSS::NumberType>
-		ConvertStringToNumber(const std::vector<Unicode::CodePoint> &) noexcept;
+		ConvertStringToNumber(const std::vector<char> &) noexcept;
 
 		// The 'convert a[n] url token' tokenizer algorithm.
 		//

@@ -137,7 +137,7 @@ namespace CSS {
 
 	std::variant<std::monostate, CSS::IntegerType, CSS::NumberType>
 	Tokenizer::ConsumeNumber() noexcept {
-		std::vector<Unicode::CodePoint> repr;
+		std::vector<char> repr;
 		Unicode::CodePoint codePoint;
 		Unicode::CodePoint codePointNext;
 
@@ -174,7 +174,6 @@ namespace CSS {
 			if (!stream.Peek(&codePoint, 1)) {
 				return ConvertStringToNumber(repr);
 			}
-			static_cast<void>(stream.Next(&codePoint));
 			while (true) {
 				if (!stream.Next(&codePoint)) {
 					return ConvertStringToNumber(repr);
@@ -441,7 +440,7 @@ namespace CSS {
 	}
 
 	std::variant<std::monostate, CSS::IntegerType, CSS::NumberType>
-	Tokenizer::ConvertStringToNumber(const std::vector<Unicode::CodePoint> &string) noexcept {
+	Tokenizer::ConvertStringToNumber(const std::vector<char> &string) noexcept {
 		int s = 1;
 		std::int64_t i;
 		std::uint64_t f = 0;
