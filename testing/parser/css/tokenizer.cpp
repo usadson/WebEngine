@@ -126,6 +126,21 @@ namespace CSS {
 				EXPECT_EQ(data->number, expectedNumericValue);
 			}
 		}
+
+		template <typename T>
+		void
+		TestNumber(const Token &token, const T &expectedNumericValue) {
+			ASSERT_EQ(token.type, TokenType::NUMBER);
+			const auto *data = std::get_if<TokenNumericData>(&token.data);
+			ASSERT_NE(data, nullptr);
+			if constexpr (std::is_same<T, CSS::IntegerType>::value) {
+				ASSERT_EQ(data->type, TokenNumericType::INTEGER);
+				EXPECT_EQ(data->integer, expectedNumericValue);
+			} else {
+				ASSERT_EQ(data->type, TokenNumericType::NUMBER);
+				EXPECT_EQ(data->number, expectedNumericValue);
+			}
+		}
 	};
 
 	TEST_F(TokenizerTest, RuleTest) {
