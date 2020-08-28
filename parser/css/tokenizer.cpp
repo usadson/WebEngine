@@ -603,8 +603,7 @@ namespace CSS {
 		while (true) {
 			Unicode::CodePoint codePoint;
 			if (!stream.Next(&codePoint)) {
-				Logger::Debug("SkipWhitespace", "Failed to read next cp");
-				return false;
+				break;
 			}
 			if (!IsWhitespace(codePoint)) {
 				stream.Reconsume();
