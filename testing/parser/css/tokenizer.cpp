@@ -129,6 +129,12 @@ color: red;\n\
 		EXPECT_EQ(tokenizer.tokens[3].type, TokenType::CURLY_OPEN);
 		EXPECT_EQ(tokenizer.tokens[4].type, TokenType::WHITESPACE);
 		TestIdent(tokenizer.tokens[5], {'c', 'o', 'l', 'o', 'r'});
+		EXPECT_EQ(tokenizer.tokens[6].type, TokenType::COLON);
+		EXPECT_EQ(tokenizer.tokens[7].type, TokenType::WHITESPACE);
+		TestIdent(tokenizer.tokens[8], {'r', 'e', 'd'});
+		EXPECT_EQ(tokenizer.tokens[9].type, TokenType::SEMICOLON);
+		EXPECT_EQ(tokenizer.tokens[10].type, TokenType::WHITESPACE);
+		EXPECT_EQ(tokenizer.tokens[11].type, TokenType::CURLY_CLOSE);
 	}
 
 } // namespace CSS
