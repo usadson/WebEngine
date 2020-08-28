@@ -62,6 +62,15 @@ namespace ParseErrorTester {
 #include "tokenizer_consumeurltoken.cpp"
 #include "tokenizer_convertstringtonumber.cpp"
 
+namespace CSS {
+
+	class TokenizerTest : public ::testing::Test {
+	public:
+		Context context {&ParseErrorTester::ReporterEndpoint};
+	};
+
+} // namespace CSS
+
 int
 main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);
