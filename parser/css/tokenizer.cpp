@@ -97,19 +97,24 @@ namespace CSS {
 			return false;
 		}
 
-		if (string == urlString && stream.Peek(&codePoint) && codePoint == Unicode::LEFT_PARENTHESIS) {
-			stream.Skip();
-			if (!SkipWhitespace()) {
-				return false;
+		if (stream.Peek(&codePoint) && codePoint == Unicode::LEFT_PARENTHESIS) {
+			if (string == urlString) {
+				stream.Skip();
+				if (!SkipWhitespace()) {
+					return false;
+				}
+				if (!stream.Peek(&codePoint)) {
+					Logger::Debug("ConsumeIdentLikeToken", "Failed to peek");
+					return false;
+				}
+				if (codePoint == Unicode::QUOTATION_MARK || codePoint == Unicode::APOSTROPHE) {
+					// FIXME spec here is very weird
+				}
+				return ConsumeURLToken();
 			}
-			if (!stream.Peek(&codePoint)) {
-				Logger::Debug("ConsumeIdentLikeToken", "Failed to peek");
-				return false;
-			}
-			if (codePoint == Unicode::QUOTATION_MARK || codePoint == Unicode::APOSTROPHE) {
-				// FIXME spec here is very weird
-			}
-			return ConsumeURLToken();
+
+			tokens.emplace_back(TokenType::FUNCTION, TokenCodePointsData{string});
+			return true;
 		}
 
 		return true;
@@ -132,7 +137,7 @@ namespace CSS {
 				return true;
 			}
 		}
-		return false;
+		return true;
 	}
 
 	std::variant<std::monostate, CSS::IntegerType, CSS::NumberType>
