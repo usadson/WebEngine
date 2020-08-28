@@ -139,8 +139,7 @@ namespace CSS {
 	}
 
 	TEST_F(TokenizerConsumeToken, TestSimpleTypes) {
-		const std::map<Unicode::CodePoint, TokenType> map{
-			{Unicode::COLON, TokenType::COLON},
+		const std::map<Unicode::CodePoint, TokenType> map {{Unicode::COLON, TokenType::COLON},
 			{Unicode::COMMA, TokenType::COMMA},
 			{Unicode::SEMICOLON, TokenType::SEMICOLON},
 			{Unicode::LEFT_CURLY_BRACKET, TokenType::CURLY_OPEN},
@@ -148,8 +147,7 @@ namespace CSS {
 			{Unicode::LEFT_SQUARE_BRACKET, TokenType::SQUARE_OPEN},
 			{Unicode::RIGHT_SQUARE_BRACKET, TokenType::SQUARE_CLOSE},
 			{Unicode::LEFT_PARENTHESIS, TokenType::PAREN_OPEN},
-			{Unicode::RIGHT_PARENTHESIS, TokenType::PAREN_CLOSE}
-		};
+			{Unicode::RIGHT_PARENTHESIS, TokenType::PAREN_CLOSE}};
 		const Unicode::UString input;
 		for (const auto &pair : map) {
 			Tokenizer tokenizer(context, input);
