@@ -44,4 +44,15 @@ namespace CSS {
 		EXPECT_EQ(tokenizer.tokens[3].type, TokenType::SEMICOLON);
 	}
 
+	TEST_F(TokenizerFunctionTests, StringifiedURLTest) {
+		const Unicode::UString input("url('style.css');");
+		Tokenizer tokenizer(context, input);
+		EXPECT_TRUE(tokenizer.Run());
+		ASSERT_EQ(tokenizer.tokens.size(), 4);
+		TestFunction(tokenizer.tokens[0], {'u', 'r', 'l'});
+		TestString(tokenizer.tokens[1], {'s', 't', 'y', 'l', 'e', '.', 'c', 's', 's'});
+		EXPECT_EQ(tokenizer.tokens[2].type, TokenType::PAREN_CLOSE);
+		EXPECT_EQ(tokenizer.tokens[3].type, TokenType::SEMICOLON);
+	}
+
 } // namespace CSS
