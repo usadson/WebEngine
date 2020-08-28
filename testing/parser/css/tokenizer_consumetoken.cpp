@@ -52,7 +52,7 @@ namespace CSS {
 		Tokenizer tokenizer(context, string);
 		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::NUMBER_SIGN));
 		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
-		ASSERT_EQ(tokenizer.tokens.size(), 2);
+		ASSERT_EQ(tokenizer.tokens.size(), 1);
 		EXPECT_EQ(tokenizer.tokens[0].type, TokenType::DELIM);
 		auto *data = std::get_if<Unicode::CodePoint>(&tokenizer.tokens[0].data);
 		ASSERT_NE(data, nullptr);
@@ -65,7 +65,7 @@ namespace CSS {
 		Tokenizer tokenizer(context, input);
 		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::NUMBER_SIGN));
 		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
-		ASSERT_EQ(tokenizer.tokens.size(), 2);
+		ASSERT_EQ(tokenizer.tokens.size(), 1);
 		EXPECT_EQ(tokenizer.tokens[0].type, TokenType::HASH);
 		auto *data = std::get_if<TokenHashData>(&tokenizer.tokens[0].data);
 		ASSERT_NE(data, nullptr);
@@ -79,7 +79,7 @@ namespace CSS {
 		Tokenizer tokenizer(context, input);
 		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::NUMBER_SIGN));
 		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
-		ASSERT_EQ(tokenizer.tokens.size(), 2);
+		ASSERT_EQ(tokenizer.tokens.size(), 1);
 		EXPECT_EQ(tokenizer.tokens[0].type, TokenType::HASH);
 		auto *data = std::get_if<TokenHashData>(&tokenizer.tokens[0].data);
 		ASSERT_NE(data, nullptr);

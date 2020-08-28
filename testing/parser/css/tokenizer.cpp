@@ -115,6 +115,22 @@ namespace CSS {
 		EXPECT_EQ(tokenizer.tokens[4].type, TokenType::SEMICOLON);
 	}
 
+	TEST_F(TokenizerTest, DeclarationBlockTest) {
+		const Unicode::UString input("\
+p#test {\n\
+color: red;\n\
+}");
+		Tokenizer tokenizer(context, input);
+		EXPECT_TRUE(tokenizer.Run());
+		ASSERT_EQ(tokenizer.tokens.size(), 12);
+		TestIdent(tokenizer.tokens[0], {'p'});
+		TestHash(tokenizer.tokens[1], {'t', 'e', 's', 't'});
+		EXPECT_EQ(tokenizer.tokens[2].type, TokenType::WHITESPACE);
+		EXPECT_EQ(tokenizer.tokens[3].type, TokenType::CURLY_OPEN);
+		EXPECT_EQ(tokenizer.tokens[4].type, TokenType::WHITESPACE);
+		TestIdent(tokenizer.tokens[5], {'c', 'o', 'l', 'o', 'r'});
+	}
+
 } // namespace CSS
 
 int
