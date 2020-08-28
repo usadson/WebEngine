@@ -101,6 +101,7 @@ namespace CSS {
 		TestIdent(tokenizer.tokens[0], {'w', 'i', 'd', 't', 'h'});
 		EXPECT_EQ(tokenizer.tokens[1].type, TokenType::COLON);
 		EXPECT_EQ(tokenizer.tokens[2].type, TokenType::WHITESPACE);
+		TestDimension<CSS::IntegerType>(tokenizer.tokens[3], 100, {'p', 'x'});
 	}
 
 } // namespace CSS
