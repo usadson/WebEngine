@@ -22,4 +22,15 @@ namespace CSS {
 		EXPECT_EQ(tokenizer.tokens[3].type, TokenType::SEMICOLON);
 	}
 
+	TEST_F(TokenizerFunctionTests, QuotationMarkStringTest) {
+		const Unicode::UString input("greet(\"hi\");");
+		Tokenizer tokenizer(context, input);
+		EXPECT_TRUE(tokenizer.Run());
+		ASSERT_EQ(tokenizer.tokens.size(), 4);
+		TestFunction(tokenizer.tokens[0], {'g', 'r', 'e', 'e', 't'});
+
+		EXPECT_EQ(tokenizer.tokens[2].type, TokenType::PAREN_CLOSE);
+		EXPECT_EQ(tokenizer.tokens[3].type, TokenType::SEMICOLON);
+	}
+
 } // namespace CSS

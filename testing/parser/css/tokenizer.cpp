@@ -126,6 +126,14 @@ namespace CSS {
 		}
 	}
 
+	void
+	TestString(const Token &token, const std::vector<Unicode::CodePoint> &expected) {
+		EXPECT_EQ(token.type, TokenType::STRING);
+		const auto *data = std::get_if<TokenCodePointsData>(&token.data);
+		ASSERT_NE(data, nullptr);
+		EXPECT_EQ(data->codePoints, expected);
+	}
+
 } // namespace CSS
 
 // Make sure to also add them to the ingredients in the Makefile!
