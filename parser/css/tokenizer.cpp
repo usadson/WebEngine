@@ -175,6 +175,15 @@ namespace CSS {
 				return ConvertStringToNumber(repr);
 			}
 			static_cast<void>(stream.Next(&codePoint));
+			while (true) {
+				if (!stream.Next(&codePoint)) {
+					return ConvertStringToNumber(repr);
+				}
+				if (!Unicode::IsDigit(codePoint)) {
+					break;
+				}
+				repr.push_back(codePoint);
+			}
 			static_cast<void>(stream.Next(&codePointNext));
 		}
 
