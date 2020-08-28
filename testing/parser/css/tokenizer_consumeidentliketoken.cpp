@@ -28,6 +28,7 @@ namespace CSS {
 	TEST_F(TokenizerConsumeIdentLikeToken, FunctionTest) {
 		const Unicode::UString input("rgb(255, 255, 255)");
 		const std::vector<Unicode::CodePoint> expected {'r', 'g', 'b'};
+		const std::vector<Unicode::CodePoint> next {'2', '5', '5', ',', ' ', '2', '5', '5', ',', ' ', '2', '5', '5', ',', ')'};
 		Tokenizer tokenizer(context, input);
 		tokenizer.stream.Skip();
 		EXPECT_TRUE(tokenizer.ConsumeToken(input[0]));
@@ -36,6 +37,12 @@ namespace CSS {
 		const auto *data = std::get_if<TokenCodePointsData>(&tokenizer.tokens[0].data);
 		ASSERT_NE(data, nullptr);
 		EXPECT_EQ(data->codePoints, expected);
+		EXPECT_EQ(tokenizer.stream.CodePointsLeft(), 15);
+		for (const auto &nextCP : next) {
+			Unicode::CodePoint cp;
+			EXPECT_TRUE(tokenizer.stream.Next(&cp));
+			EXPECT_EQ(nextCP, cp) << static_cast<char>(nextCP) << " != " << static_cast<char>(cp);
+		}
 	}
 
 	TEST_F(TokenizerConsumeIdentLikeToken, URLTest) {
