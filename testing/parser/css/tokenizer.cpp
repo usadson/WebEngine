@@ -85,6 +85,14 @@ namespace CSS {
 			EXPECT_EQ(data->codePoints, expected);
 		}
 
+		void
+		TestAtKeyword(const Token &token, const std::vector<Unicode::CodePoint> &expected) {
+			ASSERT_EQ(token.type, TokenType::AT_KEYWORD);
+			const auto *data = std::get_if<TokenCodePointsData>(&token.data);
+			ASSERT_NE(data, nullptr);
+			EXPECT_EQ(data->codePoints, expected);
+		}
+
 		template <typename T>
 		void
 		TestDimension(const Token &token, const T &expectedNumericValue,
