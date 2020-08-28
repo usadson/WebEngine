@@ -164,6 +164,17 @@ color: red;\n\
 		EXPECT_EQ(tokenizer.tokens[3].type, TokenType::SEMICOLON);
 	}
 
+	TEST_F(TokenizerTest, ImportBadURLTest) {
+		const Unicode::UString input("@import url(b(a);");
+		Tokenizer tokenizer(context, input);
+		EXPECT_TRUE(tokenizer.Run());
+		ASSERT_EQ(tokenizer.tokens.size(), 4);
+		TestAtKeyword(tokenizer.tokens[0], {'i', 'm', 'p', 'o', 'r', 't'});
+		EXPECT_EQ(tokenizer.tokens[1].type, TokenType::WHITESPACE);
+		EXPECT_EQ(tokenizer.tokens[2].type, TokenType::BAD_URL);
+		EXPECT_EQ(tokenizer.tokens[3].type, TokenType::SEMICOLON);
+	}
+
 } // namespace CSS
 
 int
