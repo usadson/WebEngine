@@ -87,39 +87,6 @@ namespace CSS {
 		EXPECT_EQ(data->codePoints, expected);
 	}
 
-	TEST_F(TokenizerConsumeToken, TestParenthesis) {
-		const Unicode::UString input;
-		Tokenizer tokenizer(context, input);
-		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::LEFT_PARENTHESIS));
-		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::RIGHT_PARENTHESIS));
-		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
-		ASSERT_EQ(tokenizer.tokens.size(), 2);
-		EXPECT_EQ(tokenizer.tokens[0].type, TokenType::PAREN_OPEN);
-		EXPECT_EQ(tokenizer.tokens[1].type, TokenType::PAREN_CLOSE);
-	}
-
-	TEST_F(TokenizerConsumeToken, TestSquareBrackets) {
-		const Unicode::UString input;
-		Tokenizer tokenizer(context, input);
-		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::LEFT_SQUARE_BRACKET));
-		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::RIGHT_SQUARE_BRACKET));
-		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
-		ASSERT_EQ(tokenizer.tokens.size(), 2);
-		EXPECT_EQ(tokenizer.tokens[0].type, TokenType::SQUARE_OPEN);
-		EXPECT_EQ(tokenizer.tokens[1].type, TokenType::SQUARE_CLOSE);
-	}
-
-	TEST_F(TokenizerConsumeToken, TestCurlyBrackets) {
-		const Unicode::UString input;
-		Tokenizer tokenizer(context, input);
-		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::LEFT_CURLY_BRACKET));
-		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::RIGHT_CURLY_BRACKET));
-		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
-		ASSERT_EQ(tokenizer.tokens.size(), 2);
-		EXPECT_EQ(tokenizer.tokens[0].type, TokenType::CURLY_OPEN);
-		EXPECT_EQ(tokenizer.tokens[1].type, TokenType::CURLY_CLOSE);
-	}
-
 	TEST_F(TokenizerConsumeToken, TestIntegerSignsAsDelim) {
 		const Unicode::UString input(" not a number");
 		for (const auto codePoint : {'+', '-', '.'}) {
@@ -171,13 +138,26 @@ namespace CSS {
 		}
 	}
 
-	TEST_F(TokenizerConsumeToken, TestComma) {
+	TEST_F(TokenizerConsumeToken, TestSimpleTypes) {
+		const std::map<Unicode::CodePoint, TokenType> map{
+			{Unicode::COLON, TokenType::COLON},
+			{Unicode::COMMA, TokenType::COMMA},
+			{Unicode::SEMICOLON, TokenType::SEMICOLON},
+			{Unicode::LEFT_CURLY_BRACKET, TokenType::CURLY_OPEN},
+			{Unicode::RIGHT_CURLY_BRACKET, TokenType::CURLY_CLOSE},
+			{Unicode::LEFT_SQUARE_BRACKET, TokenType::SQUARE_OPEN},
+			{Unicode::RIGHT_SQUARE_BRACKET, TokenType::SQUARE_CLOSE},
+			{Unicode::LEFT_PARENTHESIS, TokenType::PAREN_OPEN},
+			{Unicode::RIGHT_PARENTHESIS, TokenType::PAREN_CLOSE}
+		};
 		const Unicode::UString input;
-		Tokenizer tokenizer(context, input);
-		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::COMMA));
-		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
-		ASSERT_EQ(tokenizer.tokens.size(), 1);
-		EXPECT_EQ(tokenizer.tokens[0].type, TokenType::COMMA);
+		for (const auto &pair : map) {
+			Tokenizer tokenizer(context, input);
+			EXPECT_TRUE(tokenizer.ConsumeToken(pair.first));
+			EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
+			ASSERT_EQ(tokenizer.tokens.size(), 1);
+			EXPECT_EQ(tokenizer.tokens[0].type, pair.second);
+		}
 	}
 
 	TEST_F(TokenizerConsumeToken, TestFullStopAsNumber) {
