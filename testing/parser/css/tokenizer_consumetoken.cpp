@@ -134,9 +134,11 @@ namespace CSS {
 	}
 
 	TEST_F(TokenizerConsumeToken, TestIntegerSignsAsNumber) {
-		const Unicode::UString input("12 ");
+		Unicode::UString input("?12 ");
 		for (const auto codePoint : {Unicode::PLUS_SIGN, Unicode::HYPHEN_MINUS}) {
+			input[0] = codePoint;
 			Tokenizer tokenizer(context, input);
+			tokenizer.stream.Skip();
 			EXPECT_TRUE(tokenizer.ConsumeToken(codePoint));
 			EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
 			ASSERT_EQ(tokenizer.tokens.size(), 1);
