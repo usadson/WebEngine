@@ -17,7 +17,7 @@ namespace CSS {
 		Tokenizer tokenizer {context, simulatedInput};
 
 		void
-		TestInteger(const std::vector<Unicode::CodePoint> &in, CSS::IntegerType expected) {
+		TestInteger(const std::vector<char> &in, CSS::IntegerType expected) {
 			const auto result = tokenizer.ConvertStringToNumber(in);
 			const auto *asInteger = std::get_if<CSS::IntegerType>(&result);
 			EXPECT_NE(asInteger, nullptr);
@@ -25,7 +25,7 @@ namespace CSS {
 		}
 
 		void
-		TestNumber(const std::vector<Unicode::CodePoint> &in, CSS::NumberType expected) {
+		TestNumber(const std::vector<char> &in, CSS::NumberType expected) {
 			const auto result = tokenizer.ConvertStringToNumber(in);
 			const auto *asNumber = std::get_if<CSS::NumberType>(&result);
 			EXPECT_NE(asNumber, nullptr);
@@ -50,7 +50,7 @@ namespace CSS {
 		const auto max = std::numeric_limits<CSS::IntegerType>::max();
 		const std::string stdString = std::to_string(max);
 		const Unicode::UString testString(stdString.c_str());
-		const std::vector<Unicode::CodePoint> vec(std::cbegin(testString), std::cend(testString));
+		const std::vector<char> vec(std::cbegin(testString), std::cend(testString));
 		TestInteger(vec, max);
 	}
 
@@ -58,7 +58,7 @@ namespace CSS {
 		const auto min = std::numeric_limits<CSS::IntegerType>::min();
 		const std::string stdString = std::to_string(min);
 		const Unicode::UString testString(stdString.c_str());
-		const std::vector<Unicode::CodePoint> vec(std::cbegin(testString), std::cend(testString));
+		const std::vector<char> vec(std::cbegin(testString), std::cend(testString));
 		TestInteger(vec, min);
 	}
 
@@ -104,8 +104,7 @@ namespace CSS {
 		for (std::size_t i = 0; i < 15; i++) {
 			const auto value = std::rand();
 			const std::string string = std::to_string(value);
-			const Unicode::UString ustring(string.c_str());
-			const std::vector<Unicode::CodePoint> vec(std::cbegin(ustring), std::cend(ustring));
+			const std::vector<char> vec(std::cbegin(string), std::cend(string));
 			TestInteger(vec, value);
 		}
 	}
@@ -117,8 +116,7 @@ namespace CSS {
 		for (std::size_t i = 0; i < 15; i++) {
 			const auto value = distributor(engine);
 			const std::string string = std::to_string(value);
-			const Unicode::UString ustring(string.c_str());
-			const std::vector<Unicode::CodePoint> vec(std::cbegin(ustring), std::cend(ustring));
+			const std::vector<char> vec(std::cbegin(string), std::cend(string));
 			TestNumber(vec, value);
 		}
 	}
