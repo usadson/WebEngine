@@ -486,7 +486,7 @@ namespace CSS {
 			return std::stol('-' + iAsStr);
 		}
 
-		const std::int64_t i = std::stol(iAsStr);
+		std::int64_t i = iAsStr.empty() ? 0 : std::stol(iAsStr);
 		return static_cast<double>(s) * (i + f / std::pow(10.0, d)) * std::pow(10.0, t * e);
 	}
 
