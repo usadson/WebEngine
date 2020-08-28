@@ -67,6 +67,14 @@ namespace CSS {
 	class TokenizerTest : public ::testing::Test {
 	public:
 		Context context {&ParseErrorTester::ReporterEndpoint};
+
+		void
+		TestIdent(const Token &token, const std::vector<Unicode::CodePoint> &expected) {
+			ASSERT_EQ(token.type, TokenType::IDENT);
+			const auto *data = std::get_if<TokenCodePointsData>(&token.data);
+			ASSERT_NE(data, nullptr);
+			EXPECT_EQ(data->codePoints, expected);
+		}
 	};
 
 	TEST_F(TokenizerTest, RuleTest) {
@@ -74,6 +82,7 @@ namespace CSS {
 		Tokenizer tokenizer(context, input);
 		EXPECT_TRUE(tokenizer.Run());
 		ASSERT_EQ(tokenizer.tokens.size(), 4);
+		TestIdent(tokenizer.tokens[0], {'w', 'i', 'd', 't', 'h'});
 	}
 
 } // namespace CSS
