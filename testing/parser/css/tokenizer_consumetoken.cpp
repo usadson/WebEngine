@@ -222,4 +222,22 @@ namespace CSS {
 		}
 	}
 
+	TEST_F(TokenizerConsumeToken, TestCommercialAtAsDelim) {
+		const std::array inputs = {
+			Unicode::UString("@ "),
+			Unicode::UString{ '@', Unicode::BELL, ' '},
+		};
+		for (const auto &input : inputs) {
+			Tokenizer tokenizer(context, input);
+			tokenizer.stream.Skip();
+			EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::COMMERCIAL_AT));
+			EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
+			ASSERT_EQ(tokenizer.tokens.size(), 1);
+			EXPECT_EQ(tokenizer.tokens[0].type, TokenType::DELIM);
+			const auto *data = std::get_if<Unicode::CodePoint>(&tokenizer.tokens[0].data);
+			ASSERT_NE(data, nullptr);
+			EXPECT_EQ(*data, Unicode::COMMERCIAL_AT);
+		}
+	}
+
 } // namespace CSS
