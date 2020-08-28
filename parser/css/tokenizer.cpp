@@ -108,7 +108,8 @@ namespace CSS {
 					return false;
 				}
 				if (codePoint == Unicode::QUOTATION_MARK || codePoint == Unicode::APOSTROPHE) {
-					// FIXME spec here is very weird
+					tokens.emplace_back(TokenType::FUNCTION, TokenCodePointsData {string});
+					return true;
 				}
 				return ConsumeURLToken();
 			}
