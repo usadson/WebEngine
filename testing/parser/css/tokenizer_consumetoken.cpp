@@ -180,4 +180,17 @@ namespace CSS {
 		EXPECT_EQ(tokenizer.tokens[0].type, TokenType::COMMA);
 	}
 
+	TEST_F(TokenizerConsumeToken, TestFullStopAsNumber) {
+		Unicode::UString input(".34 ");
+		Tokenizer tokenizer(context, input);
+		tokenizer.stream.Skip();
+		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::FULL_STOP));
+		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
+		ASSERT_EQ(tokenizer.tokens.size(), 1);
+		EXPECT_EQ(tokenizer.tokens[0].type, TokenType::NUMBER);
+		auto numericData = std::get<TokenNumericData>(tokenizer.tokens[0].data);
+		EXPECT_EQ(numericData.type, TokenNumericType::NUMBER);
+		EXPECT_EQ(numericData.number, 0.34);
+	}
+
 } // namespace CSS
