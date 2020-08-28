@@ -335,7 +335,7 @@ namespace CSS {
 				if (!TryParseHashTokenName()) {
 					tokens.emplace_back(TokenType::DELIM, character);
 				}
-				break;
+				return true;
 			case Unicode::APOSTROPHE:
 				return ConsumeStringToken(character);
 			case Unicode::LEFT_PARENTHESIS:
