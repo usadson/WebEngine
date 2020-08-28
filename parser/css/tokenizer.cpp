@@ -549,7 +549,7 @@ namespace CSS {
 				context.ReportParseError(ParseError::UNEXPECTED_CHARACTER_IN_URL);
 				ConsumeRemnantsOfBadURL();
 				tokens.emplace_back(TokenType::BAD_URL);
-				return false;
+				return true;
 			}
 			if (character == Unicode::REVERSE_SOLIDUS) {
 				if (!stream.Peek(&character)) {
@@ -564,7 +564,7 @@ namespace CSS {
 				context.ReportParseError(ParseError::UNEXPECTED_CHARACTER_IN_URL);
 				ConsumeRemnantsOfBadURL();
 				tokens.emplace_back(TokenType::BAD_URL);
-				return false;
+				return true;
 			}
 			codePoints.push_back(character);
 		}
