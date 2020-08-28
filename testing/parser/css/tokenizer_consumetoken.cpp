@@ -152,16 +152,20 @@ namespace CSS {
 		}
 	}
 
-	TEST_F(TokenizerConsumeToken, TestPlusSignAsDimension) {
-		const Unicode::UString input("12br ");
-		Tokenizer tokenizer(context, input);
-		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::PLUS_SIGN));
-		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
-		ASSERT_EQ(tokenizer.tokens.size(), 1);
-		EXPECT_EQ(tokenizer.tokens[0].type, TokenType::DIMENSION);
-		auto numericData = std::get<TokenDimensionData>(tokenizer.tokens[0].data);
-		EXPECT_EQ(numericData.type, TokenNumericType::INTEGER);
-		EXPECT_EQ(numericData.integer, 12);
+	TEST_F(TokenizerConsumeToken, TestIntegerSignsAsDimension) {
+		Unicode::UString input("?12br ");
+		for (const auto codePoint : {Unicode::PLUS_SIGN, Unicode::HYPHEN_MINUS}) {
+			input[0] = codePoint;
+			Tokenizer tokenizer(context, input);
+			tokenizer.stream.Skip();
+			EXPECT_TRUE(tokenizer.ConsumeToken(codePoint));
+			EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
+			ASSERT_EQ(tokenizer.tokens.size(), 1);
+			EXPECT_EQ(tokenizer.tokens[0].type, TokenType::DIMENSION);
+			auto numericData = std::get<TokenDimensionData>(tokenizer.tokens[0].data);
+			EXPECT_EQ(numericData.type, TokenNumericType::INTEGER);
+			EXPECT_EQ(numericData.integer, codePoint == Unicode::PLUS_SIGN ? 12 : -12);
+		}
 	}
 
 	TEST_F(TokenizerConsumeToken, TestComma) {
