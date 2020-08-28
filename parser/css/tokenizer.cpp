@@ -97,7 +97,8 @@ namespace CSS {
 			return false;
 		}
 
-		if (stream.Next(&codePoint) && codePoint == Unicode::LEFT_PARENTHESIS) {
+		if (stream.Peek(&codePoint) && codePoint == Unicode::LEFT_PARENTHESIS) {
+			stream.Skip();
 			if (string == urlString) {
 				if (!SkipWhitespace()) {
 					return false;
