@@ -122,7 +122,7 @@ namespace CSS {
 
 	TEST_F(TokenizerConsumeToken, TestIntegerSignsAsDelim) {
 		const Unicode::UString input(" not a number");
-		for (const auto codePoint : {'+', '-'}) {
+		for (const auto codePoint : {'+', '-', '.'}) {
 			Tokenizer tokenizer(context, input);
 			EXPECT_TRUE(tokenizer.ConsumeToken(codePoint));
 			EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
