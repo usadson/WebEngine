@@ -117,6 +117,7 @@ namespace CSS {
 			return true;
 		}
 
+		tokens.emplace_back(TokenType::IDENT, TokenCodePointsData{string});
 		return true;
 	}
 
