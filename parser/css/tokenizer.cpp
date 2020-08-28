@@ -442,7 +442,7 @@ namespace CSS {
 	std::variant<std::monostate, CSS::IntegerType, CSS::NumberType>
 	Tokenizer::ConvertStringToNumber(const std::vector<char> &string) noexcept {
 		int s = 1;
-		std::int64_t i;
+		std::string iAsStr;
 		std::uint64_t f = 0;
 		std::size_t d = 0;
 		int t = 1;
@@ -460,13 +460,19 @@ namespace CSS {
 		while (it != std::end(string) && Unicode::IsDigit(*it)) {
 			it++;
 		}
-		i = itBegin == it ? 0 : std::stol(std::string(itBegin, it));
+		iAsStr = std::string(itBegin, it);
 
 		if (it != std::end(string) && *it == Unicode::FULL_STOP) {
 			itBegin = ++it;
-			while (it != std::end(string) && Unicode::IsDigit(*it++)) {
+			while (true) {
+				if (it == std::end(string)) {
+					break;
+				}
+				if (!Unicode::IsDigit(*it)) {
+					break;
+				}
+				++it;
 			}
-			--it;
 			if (it == itBegin) {
 				f = 0;
 				d = 0;
@@ -494,11 +500,12 @@ namespace CSS {
 
 		if (f == 0 && d == 0 && t == 1 && e == 0) {
 			if (s == 1) {
-				return i;
+				return std::stol(iAsStr);
 			}
-			return -i;
+			return std::stol('-' + iAsStr);
 		}
 
+		auto i = iAsStr.empty() ? 0 : std::stol(iAsStr);
 		return static_cast<double>(s) * (i + f / std::pow(10.0, d)) * std::pow(10.0, t * e);
 	}
 
