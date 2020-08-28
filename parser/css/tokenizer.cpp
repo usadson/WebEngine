@@ -385,7 +385,7 @@ namespace CSS {
 				if (WillStartIdentifier(stream)) {
 					auto token = MakeToken<TokenType::AT_KEYWORD>();
 					if (!ConsumeName(std::get<TokenCodePointsData>(token.data).codePoints)) {
-						// TODO
+						context.ReportParseError(ParseError::INVALID_AT_KEY_WORD_NAME);
 						return false;
 					}
 					tokens.push_back(token);
