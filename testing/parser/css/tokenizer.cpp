@@ -81,8 +81,10 @@ namespace CSS {
 		const Unicode::UString input("width: 100px;");
 		Tokenizer tokenizer(context, input);
 		EXPECT_TRUE(tokenizer.Run());
-		ASSERT_EQ(tokenizer.tokens.size(), 4);
+		ASSERT_EQ(tokenizer.tokens.size(), 5);
 		TestIdent(tokenizer.tokens[0], {'w', 'i', 'd', 't', 'h'});
+		EXPECT_EQ(tokenizer.tokens[1].type, TokenType::COLON);
+		EXPECT_EQ(tokenizer.tokens[2].type, TokenType::WHITESPACE);
 	}
 
 } // namespace CSS
