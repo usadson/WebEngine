@@ -254,4 +254,21 @@ namespace CSS {
 		EXPECT_EQ(data->integer, 123456789);
 	}
 
+	TEST_F(TokenizerConsumeToken, TestName) {
+		const std::array<std::pair<Unicode::UString, std::vector<Unicode::CodePoint>>, 1> inputs = {{
+			{Unicode::UString("hello"), {'h', 'e', 'l', 'l', 'o'}},
+		}};
+		for (const auto &input : inputs) {
+			Tokenizer tokenizer(context, input.first);
+			tokenizer.stream.Skip();
+			EXPECT_TRUE(tokenizer.ConsumeToken(input.first[0]));
+			EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
+			ASSERT_EQ(tokenizer.tokens.size(), 1);
+			EXPECT_EQ(tokenizer.tokens[0].type, TokenType::IDENT);
+			const auto *data = std::get_if<TokenCodePointsData>(&tokenizer.tokens[0].data);
+			ASSERT_NE(data, nullptr);
+			ASSERT_EQ(data->codePoints, input.second);
+		}
+	}
+
 } // namespace CSS
