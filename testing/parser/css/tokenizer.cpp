@@ -75,6 +75,22 @@ namespace CSS {
 			ASSERT_NE(data, nullptr);
 			EXPECT_EQ(data->codePoints, expected);
 		}
+
+		template<typename T>
+		void
+		TestDimension(const Token &token, const T &expectedNumericValue, const std::vector<Unicode::CodePoint> &expectedCodePoints) {
+			ASSERT_EQ(token.type, TokenType::DIMENSION);
+			const auto *data = std::get_if<TokenDimensionData>(&token.data);
+			ASSERT_NE(data, nullptr);
+			EXPECT_EQ(data->codePoints, expectedCodePoints);
+			if constexpr (std::is_same<T, CSS::IntegerType>::value) {
+				ASSERT_EQ(data->type, TokenNumericType::INTEGER);
+				EXPECT_EQ(data->integer, expectedNumericValue);
+			} else {
+				ASSERT_EQ(data->type, TokenNumericType::NUMBER);
+				EXPECT_EQ(data->number, expectedNumericValue);
+			}
+		}
 	};
 
 	TEST_F(TokenizerTest, RuleTest) {
