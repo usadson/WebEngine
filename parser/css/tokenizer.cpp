@@ -113,11 +113,11 @@ namespace CSS {
 				return ConsumeURLToken();
 			}
 
-			tokens.emplace_back(TokenType::FUNCTION, TokenCodePointsData{string});
+			tokens.emplace_back(TokenType::FUNCTION, TokenCodePointsData {string});
 			return true;
 		}
 
-		tokens.emplace_back(TokenType::IDENT, TokenCodePointsData{string});
+		tokens.emplace_back(TokenType::IDENT, TokenCodePointsData {string});
 		return true;
 	}
 
