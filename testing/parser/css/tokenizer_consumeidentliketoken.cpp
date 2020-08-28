@@ -22,6 +22,7 @@ namespace CSS {
 		const auto *data = std::get_if<TokenCodePointsData>(&tokenizer.tokens[0].data);
 		ASSERT_NE(data, nullptr);
 		EXPECT_EQ(data->codePoints, expected);
+		EXPECT_EQ(tokenizer.stream.CodePointsLeft(), 0);
 	}
 
 	TEST_F(TokenizerConsumeIdentLikeToken, FunctionTest) {
