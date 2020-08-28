@@ -204,4 +204,22 @@ namespace CSS {
 		}
 	}
 
+	TEST_F(TokenizerConsumeToken, TestCommercialAtAsAtKeyword) {
+		const std::array<std::pair<Unicode::UString, std::vector<Unicode::CodePoint>>, 2> inputs = {{
+			{Unicode::UString("@hi "), {'h', 'i'}},
+			{Unicode::UString("@A "), {'A'}}
+		}};
+		for (const auto &input : inputs) {
+			Tokenizer tokenizer(context, input.first);
+			tokenizer.stream.Skip();
+			EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::COMMERCIAL_AT));
+			EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
+			ASSERT_EQ(tokenizer.tokens.size(), 1);
+			EXPECT_EQ(tokenizer.tokens[0].type, TokenType::AT_KEYWORD);
+			const auto *data = std::get_if<TokenCodePointsData>(&tokenizer.tokens[0].data);
+			ASSERT_NE(data, nullptr);
+			EXPECT_EQ(data->codePoints, input.second);
+		}
+	}
+
 } // namespace CSS
