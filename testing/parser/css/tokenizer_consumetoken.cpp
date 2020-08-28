@@ -162,9 +162,12 @@ namespace CSS {
 			EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
 			ASSERT_EQ(tokenizer.tokens.size(), 1);
 			EXPECT_EQ(tokenizer.tokens[0].type, TokenType::DIMENSION);
-			auto numericData = std::get<TokenDimensionData>(tokenizer.tokens[0].data);
-			EXPECT_EQ(numericData.type, TokenNumericType::INTEGER);
-			EXPECT_EQ(numericData.integer, codePoint == Unicode::PLUS_SIGN ? 12 : -12);
+
+			auto dimensionData = std::get<TokenDimensionData>(tokenizer.tokens[0].data);
+			EXPECT_EQ(dimensionData.type, TokenNumericType::INTEGER);
+			EXPECT_EQ(dimensionData.integer, codePoint == Unicode::PLUS_SIGN ? 12 : -12);
+			const std::vector<Unicode::CodePoint> br {'b', 'r'};
+			EXPECT_EQ(dimensionData.codePoints, br);
 		}
 	}
 
