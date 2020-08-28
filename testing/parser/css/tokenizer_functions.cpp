@@ -28,7 +28,7 @@ namespace CSS {
 		EXPECT_TRUE(tokenizer.Run());
 		ASSERT_EQ(tokenizer.tokens.size(), 4);
 		TestFunction(tokenizer.tokens[0], {'g', 'r', 'e', 'e', 't'});
-
+		TestString(tokenizer.tokens[1], {'h', 'i'});
 		EXPECT_EQ(tokenizer.tokens[2].type, TokenType::PAREN_CLOSE);
 		EXPECT_EQ(tokenizer.tokens[3].type, TokenType::SEMICOLON);
 	}
