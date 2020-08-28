@@ -123,4 +123,10 @@ namespace CSS {
 		}
 	}
 
+	TEST_F(TokenizerConvertStringToNumber, FractionalWithoutIntegerTest) {
+		TestNumber({'.', '3'}, 0.3);
+		TestNumber({'.', '4', '4'}, 0.44);
+		TestNumber({'.', '4', '4', 'e', '6'}, 0.44e6);
+	}
+
 } // namespace CSS
