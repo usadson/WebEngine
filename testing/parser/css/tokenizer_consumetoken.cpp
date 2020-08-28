@@ -171,4 +171,14 @@ namespace CSS {
 		EXPECT_EQ(numericData.number, 0.34);
 	}
 
+	TEST_F(TokenizerConsumeToken, TestLessThanSignAsCDO) {
+		const Unicode::UString input("<!--");
+		Tokenizer tokenizer(context, input);
+		tokenizer.stream.Skip();
+		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::LESS_THAN_SIGN));
+		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
+		ASSERT_EQ(tokenizer.tokens.size(), 1);
+		EXPECT_EQ(tokenizer.tokens[0].type, TokenType::CDO);
+	}
+
 } // namespace CSS
