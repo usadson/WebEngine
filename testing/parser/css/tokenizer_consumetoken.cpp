@@ -133,16 +133,21 @@ namespace CSS {
 		}
 	}
 
-	TEST_F(TokenizerConsumeToken, TestPlusSignAsNumber) {
+	TEST_F(TokenizerConsumeToken, TestIntegerSignsAsNumber) {
 		const Unicode::UString input("12 ");
-		Tokenizer tokenizer(context, input);
-		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::PLUS_SIGN));
-		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
-		ASSERT_EQ(tokenizer.tokens.size(), 1);
-		EXPECT_EQ(tokenizer.tokens[0].type, TokenType::NUMBER);
-		auto numericData = std::get<TokenNumericData>(tokenizer.tokens[0].data);
-		EXPECT_EQ(numericData.type, TokenNumericType::INTEGER);
-		EXPECT_EQ(numericData.integer, 12);
+		for (const auto codePoint : {Unicode::PLUS_SIGN, Unicode::HYPHEN_MINUS}) {
+			Tokenizer tokenizer(context, input);
+			EXPECT_TRUE(tokenizer.ConsumeToken(codePoint));
+			EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
+			ASSERT_EQ(tokenizer.tokens.size(), 1);
+			EXPECT_EQ(tokenizer.tokens[0].type, TokenType::NUMBER);
+			auto numericData = std::get<TokenNumericData>(tokenizer.tokens[0].data);
+			EXPECT_EQ(numericData.type, TokenNumericType::INTEGER);
+			if (codePoint == Unicode::HYPHEN_MINUS)
+				EXPECT_EQ(numericData.integer, -12);
+			else if (codePoint == Unicode::PLUS_SIGN)
+				EXPECT_EQ(numericData.integer, 12);
+		}
 	}
 
 	TEST_F(TokenizerConsumeToken, TestPlusSignAsDimension) {
