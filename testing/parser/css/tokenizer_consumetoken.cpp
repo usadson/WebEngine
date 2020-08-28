@@ -182,15 +182,13 @@ namespace CSS {
 	}
 
 	TEST_F(TokenizerConsumeToken, TestLessThanSignAsDelim) {
-		const std::array inputs = {
-			Unicode::UString("<-!-"),
+		const std::array inputs = {Unicode::UString("<-!-"),
 			Unicode::UString("<--!"),
 			Unicode::UString("<!- "),
 			Unicode::UString("<! --"),
 			Unicode::UString("< !--"),
 			Unicode::UString("< !- -"),
-			Unicode::UString("< ! - -")
-		};
+			Unicode::UString("< ! - -")};
 		for (const auto &input : inputs) {
 			Tokenizer tokenizer(context, input);
 			tokenizer.stream.Skip();
@@ -205,10 +203,8 @@ namespace CSS {
 	}
 
 	TEST_F(TokenizerConsumeToken, TestCommercialAtAsAtKeyword) {
-		const std::array<std::pair<Unicode::UString, std::vector<Unicode::CodePoint>>, 2> inputs = {{
-			{Unicode::UString("@hi "), {'h', 'i'}},
-			{Unicode::UString("@A "), {'A'}}
-		}};
+		const std::array<std::pair<Unicode::UString, std::vector<Unicode::CodePoint>>, 2> inputs
+			= {{{Unicode::UString("@hi "), {'h', 'i'}}, {Unicode::UString("@A "), {'A'}}}};
 		for (const auto &input : inputs) {
 			Tokenizer tokenizer(context, input.first);
 			tokenizer.stream.Skip();
@@ -225,7 +221,7 @@ namespace CSS {
 	TEST_F(TokenizerConsumeToken, TestCommercialAtAsDelim) {
 		const std::array inputs = {
 			Unicode::UString("@ "),
-			Unicode::UString{ '@', Unicode::BELL, ' '},
+			Unicode::UString {'@', Unicode::BELL, ' '},
 		};
 		for (const auto &input : inputs) {
 			Tokenizer tokenizer(context, input);
