@@ -37,4 +37,17 @@ namespace CSS {
 		EXPECT_EQ(data->codePoints, expected);
 	}
 
+	TEST_F(TokenizerConsumeIdentLikeToken, URLTest) {
+		const Unicode::UString input("url(https://test.com/)");
+		const std::vector<Unicode::CodePoint> expected {'h', 't', 't', 'p', 's', ':', '/', '/', 't', 'e', 's', 't', '.', 'c', 'o', 'm', '/'};
+		Tokenizer tokenizer(context, input);
+		tokenizer.stream.Skip();
+		EXPECT_TRUE(tokenizer.ConsumeToken(input[0]));
+		EXPECT_EQ(tokenizer.tokens.size(), 1);
+		ASSERT_EQ(tokenizer.tokens[0].type, TokenType::URL);
+		const auto *data = std::get_if<TokenCodePointsData>(&tokenizer.tokens[0].data);
+		ASSERT_NE(data, nullptr);
+		EXPECT_EQ(data->codePoints, expected);
+	}
+
 } // namespace CSS
