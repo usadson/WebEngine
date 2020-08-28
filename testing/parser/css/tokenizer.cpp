@@ -50,6 +50,84 @@ namespace ParseErrorTester {
 
 } // namespace ParseErrorTester
 
+
+namespace CSS {
+
+	void
+	TestIdent(const Token &token, const std::vector<Unicode::CodePoint> &expected) {
+		ASSERT_EQ(token.type, TokenType::IDENT);
+		const auto *data = std::get_if<TokenCodePointsData>(&token.data);
+		ASSERT_NE(data, nullptr);
+		EXPECT_EQ(data->codePoints, expected);
+	}
+
+	void
+	TestHash(const Token &token, const std::vector<Unicode::CodePoint> &expected) {
+		ASSERT_EQ(token.type, TokenType::HASH);
+		const auto *data = std::get_if<TokenHashData>(&token.data);
+		ASSERT_NE(data, nullptr);
+		// TODO test TokenHashType?
+		EXPECT_EQ(data->codePoints, expected);
+	}
+
+	void
+	TestAtKeyword(const Token &token, const std::vector<Unicode::CodePoint> &expected) {
+		ASSERT_EQ(token.type, TokenType::AT_KEYWORD);
+		const auto *data = std::get_if<TokenCodePointsData>(&token.data);
+		ASSERT_NE(data, nullptr);
+		EXPECT_EQ(data->codePoints, expected);
+	}
+
+	void
+	TestURL(const Token &token, const std::vector<Unicode::CodePoint> &expected) {
+		ASSERT_EQ(token.type, TokenType::URL);
+		const auto *data = std::get_if<TokenCodePointsData>(&token.data);
+		ASSERT_NE(data, nullptr);
+		EXPECT_EQ(data->codePoints, expected);
+	}
+
+	void
+	TestFunction(const Token &token, const std::vector<Unicode::CodePoint> &expected) {
+		ASSERT_EQ(token.type, TokenType::FUNCTION);
+		const auto *data = std::get_if<TokenCodePointsData>(&token.data);
+		ASSERT_NE(data, nullptr);
+		EXPECT_EQ(data->codePoints, expected);
+	}
+
+	template <typename T>
+	void
+	TestDimension(const Token &token, const T &expectedNumericValue,
+		const std::vector<Unicode::CodePoint> &expectedCodePoints) {
+		ASSERT_EQ(token.type, TokenType::DIMENSION);
+		const auto *data = std::get_if<TokenDimensionData>(&token.data);
+		ASSERT_NE(data, nullptr);
+		EXPECT_EQ(data->codePoints, expectedCodePoints);
+		if constexpr (std::is_same<T, CSS::IntegerType>::value) {
+			ASSERT_EQ(data->type, TokenNumericType::INTEGER);
+			EXPECT_EQ(data->integer, expectedNumericValue);
+		} else {
+			ASSERT_EQ(data->type, TokenNumericType::NUMBER);
+			EXPECT_EQ(data->number, expectedNumericValue);
+		}
+	}
+
+	template <typename T>
+	void
+	TestNumber(const Token &token, const T &expectedNumericValue) {
+		ASSERT_EQ(token.type, TokenType::NUMBER);
+		const auto *data = std::get_if<TokenNumericData>(&token.data);
+		ASSERT_NE(data, nullptr);
+		if constexpr (std::is_same<T, CSS::IntegerType>::value) {
+			ASSERT_EQ(data->type, TokenNumericType::INTEGER);
+			EXPECT_EQ(data->integer, expectedNumericValue);
+		} else {
+			ASSERT_EQ(data->type, TokenNumericType::NUMBER);
+			EXPECT_EQ(data->number, expectedNumericValue);
+		}
+	}
+
+} // namespace CSS
+
 // Make sure to also add them to the ingredients in the Makefile!
 #include "tokenizer_consumecomments.cpp"
 #include "tokenizer_consumeescapedcodepoint.cpp"
@@ -69,79 +147,6 @@ namespace CSS {
 	class TokenizerTest : public ::testing::Test {
 	public:
 		Context context {&ParseErrorTester::ReporterEndpoint};
-
-		void
-		TestIdent(const Token &token, const std::vector<Unicode::CodePoint> &expected) {
-			ASSERT_EQ(token.type, TokenType::IDENT);
-			const auto *data = std::get_if<TokenCodePointsData>(&token.data);
-			ASSERT_NE(data, nullptr);
-			EXPECT_EQ(data->codePoints, expected);
-		}
-
-		void
-		TestHash(const Token &token, const std::vector<Unicode::CodePoint> &expected) {
-			ASSERT_EQ(token.type, TokenType::HASH);
-			const auto *data = std::get_if<TokenHashData>(&token.data);
-			ASSERT_NE(data, nullptr);
-			// TODO test TokenHashType?
-			EXPECT_EQ(data->codePoints, expected);
-		}
-
-		void
-		TestAtKeyword(const Token &token, const std::vector<Unicode::CodePoint> &expected) {
-			ASSERT_EQ(token.type, TokenType::AT_KEYWORD);
-			const auto *data = std::get_if<TokenCodePointsData>(&token.data);
-			ASSERT_NE(data, nullptr);
-			EXPECT_EQ(data->codePoints, expected);
-		}
-
-		void
-		TestURL(const Token &token, const std::vector<Unicode::CodePoint> &expected) {
-			ASSERT_EQ(token.type, TokenType::URL);
-			const auto *data = std::get_if<TokenCodePointsData>(&token.data);
-			ASSERT_NE(data, nullptr);
-			EXPECT_EQ(data->codePoints, expected);
-		}
-
-		void
-		TestFunction(const Token &token, const std::vector<Unicode::CodePoint> &expected) {
-			ASSERT_EQ(token.type, TokenType::FUNCTION);
-			const auto *data = std::get_if<TokenCodePointsData>(&token.data);
-			ASSERT_NE(data, nullptr);
-			EXPECT_EQ(data->codePoints, expected);
-		}
-
-		template <typename T>
-		void
-		TestDimension(const Token &token, const T &expectedNumericValue,
-			const std::vector<Unicode::CodePoint> &expectedCodePoints) {
-			ASSERT_EQ(token.type, TokenType::DIMENSION);
-			const auto *data = std::get_if<TokenDimensionData>(&token.data);
-			ASSERT_NE(data, nullptr);
-			EXPECT_EQ(data->codePoints, expectedCodePoints);
-			if constexpr (std::is_same<T, CSS::IntegerType>::value) {
-				ASSERT_EQ(data->type, TokenNumericType::INTEGER);
-				EXPECT_EQ(data->integer, expectedNumericValue);
-			} else {
-				ASSERT_EQ(data->type, TokenNumericType::NUMBER);
-				EXPECT_EQ(data->number, expectedNumericValue);
-			}
-		}
-
-		template <typename T>
-		void
-		TestNumber(const Token &token, const T &expectedNumericValue) {
-			ASSERT_EQ(token.type, TokenType::NUMBER);
-			const auto *data = std::get_if<TokenNumericData>(&token.data);
-			ASSERT_NE(data, nullptr);
-			if constexpr (std::is_same<T, CSS::IntegerType>::value) {
-				ASSERT_EQ(data->type, TokenNumericType::INTEGER);
-				EXPECT_EQ(data->integer, expectedNumericValue);
-			} else {
-				ASSERT_EQ(data->type, TokenNumericType::NUMBER);
-				EXPECT_EQ(data->number, expectedNumericValue);
-			}
-		}
 	};
 
 	TEST_F(TokenizerTest, RuleTest) {
