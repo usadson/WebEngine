@@ -69,6 +69,13 @@ namespace CSS {
 		Context context {&ParseErrorTester::ReporterEndpoint};
 	};
 
+	TEST_F(TokenizerTest, RuleTest) {
+		const Unicode::UString input("width: 100px;");
+		Tokenizer tokenizer(context, input);
+		EXPECT_TRUE(tokenizer.Run());
+		ASSERT_EQ(tokenizer.tokens.size(), 4);
+	}
+
 } // namespace CSS
 
 int
