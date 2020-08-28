@@ -181,4 +181,27 @@ namespace CSS {
 		EXPECT_EQ(tokenizer.tokens[0].type, TokenType::CDO);
 	}
 
+	TEST_F(TokenizerConsumeToken, TestLessThanSignAsDelim) {
+		const std::array inputs = {
+			Unicode::UString("<-!-"),
+			Unicode::UString("<--!"),
+			Unicode::UString("<!- "),
+			Unicode::UString("<! --"),
+			Unicode::UString("< !--"),
+			Unicode::UString("< !- -"),
+			Unicode::UString("< ! - -")
+		};
+		for (const auto &input : inputs) {
+			Tokenizer tokenizer(context, input);
+			tokenizer.stream.Skip();
+			EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::LESS_THAN_SIGN));
+			EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
+			ASSERT_EQ(tokenizer.tokens.size(), 1);
+			EXPECT_EQ(tokenizer.tokens[0].type, TokenType::DELIM);
+			auto *data = std::get_if<Unicode::CodePoint>(&tokenizer.tokens[0].data);
+			ASSERT_NE(data, nullptr);
+			EXPECT_EQ(*data, Unicode::LESS_THAN_SIGN);
+		}
+	}
+
 } // namespace CSS
