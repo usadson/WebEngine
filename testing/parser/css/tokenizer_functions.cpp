@@ -33,4 +33,15 @@ namespace CSS {
 		EXPECT_EQ(tokenizer.tokens[3].type, TokenType::SEMICOLON);
 	}
 
+	TEST_F(TokenizerFunctionTests, ApostropheStringTest) {
+		const Unicode::UString input("bye(\'see ya later!\');");
+		Tokenizer tokenizer(context, input);
+		EXPECT_TRUE(tokenizer.Run());
+		ASSERT_EQ(tokenizer.tokens.size(), 4);
+		TestFunction(tokenizer.tokens[0], {'b', 'y', 'e'});
+		TestString(tokenizer.tokens[1], {'s', 'e', 'e', ' ', 'y', 'a', ' ', 'l', 'a', 't', 'e', 'r', '!'});
+		EXPECT_EQ(tokenizer.tokens[2].type, TokenType::PAREN_CLOSE);
+		EXPECT_EQ(tokenizer.tokens[3].type, TokenType::SEMICOLON);
+	}
+
 } // namespace CSS
