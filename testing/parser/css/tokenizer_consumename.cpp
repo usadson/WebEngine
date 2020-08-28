@@ -70,16 +70,13 @@ namespace CSS {
 	TEST_F(TokenizerNameToken, TestAsLastToken) {
 		const Unicode::UString input("test");
 		const std::vector<Unicode::CodePoint> expected {'t', 'e', 's', 't'};
-		Unicode::CodePoint codePoint;
 		std::vector<Unicode::CodePoint> output;
 
 		Tokenizer tokenizer(context, input);
 		ASSERT_TRUE(tokenizer.ConsumeName(output));
 		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
 		EXPECT_TRUE(tokenizer.tokens.empty());
-		EXPECT_TRUE(tokenizer.stream.Next(&codePoint));
-		EXPECT_EQ(codePoint, Unicode::SPACE);
-		EXPECT_EQ(output, expected);
+		EXPECT_FALSE(tokenizer.stream.Next(nullptr));
 	}
 
 } // namespace CSS
