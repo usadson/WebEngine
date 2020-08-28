@@ -62,6 +62,7 @@ namespace ParseErrorTester {
 #include "tokenizer_consumetoken.cpp"
 #include "tokenizer_consumeurltoken.cpp"
 #include "tokenizer_convertstringtonumber.cpp"
+#include "tokenizer_functions.cpp"
 
 namespace CSS {
 

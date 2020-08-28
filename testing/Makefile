@@ -154,6 +154,7 @@ bin/testing/parser/css/tokenizer: testing/parser/css/tokenizer.cpp \
 	testing/parser/css/tokenizer_consumetoken.cpp \
 	testing/parser/css/tokenizer_consumeurltoken.cpp \
 	testing/parser/css/tokenizer_convertstringtonumber.cpp \
+	testing/parser/css/tokenizer_functions.cpp \
 	bin/parser/css/tokenizer.o \
 	data/text/ustring.hpp
 	$(CXX) $(TESTING_CXXFLAGS) -o $@ testing/parser/css/tokenizer.cpp $(TESTING_LDFLAGS_CSSPARSER)
