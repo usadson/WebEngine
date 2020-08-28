@@ -153,6 +153,17 @@ color: red;\n\
 		EXPECT_EQ(tokenizer.tokens[11].type, TokenType::CURLY_CLOSE);
 	}
 
+	TEST_F(TokenizerTest, ImportURLTest) {
+		const Unicode::UString input("@import url(test.css);");
+		Tokenizer tokenizer(context, input);
+		EXPECT_TRUE(tokenizer.Run());
+		ASSERT_EQ(tokenizer.tokens.size(), 4);
+		TestAtKeyword(tokenizer.tokens[0], {'i', 'm', 'p', 'o', 'r', 't'});
+		EXPECT_EQ(tokenizer.tokens[1].type, TokenType::WHITESPACE);
+		TestURL(tokenizer.tokens[2], {'t', 'e', 's', 't', '.', 'c', 's', 's'});
+		EXPECT_EQ(tokenizer.tokens[3].type, TokenType::SEMICOLON);
+	}
+
 } // namespace CSS
 
 int
