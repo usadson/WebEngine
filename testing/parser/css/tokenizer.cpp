@@ -76,6 +76,15 @@ namespace CSS {
 			EXPECT_EQ(data->codePoints, expected);
 		}
 
+		void
+		TestHash(const Token &token, const std::vector<Unicode::CodePoint> &expected) {
+			ASSERT_EQ(token.type, TokenType::HASH);
+			const auto *data = std::get_if<TokenHashData>(&token.data);
+			ASSERT_NE(data, nullptr);
+			// TODO test TokenHashType?
+			EXPECT_EQ(data->codePoints, expected);
+		}
+
 		template <typename T>
 		void
 		TestDimension(const Token &token, const T &expectedNumericValue,
