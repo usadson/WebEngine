@@ -199,6 +199,29 @@ color: red;\n\
 		EXPECT_EQ(tokenizer.tokens[3].type, TokenType::SEMICOLON);
 	}
 
+	TEST_F(TokenizerTest, FunctionTest) {
+		const Unicode::UString input("color: rgba(12, 34, 56, 78);");
+		Tokenizer tokenizer(context, input);
+		EXPECT_TRUE(tokenizer.Run());
+		ASSERT_EQ(tokenizer.tokens.size(), 16);
+		TestIdent(tokenizer.tokens[0], {'c', 'o', 'l', 'o', 'r'});
+		EXPECT_EQ(tokenizer.tokens[1].type, TokenType::COLON);
+		EXPECT_EQ(tokenizer.tokens[2].type, TokenType::WHITESPACE);
+		TestFunction(tokenizer.tokens[3], {'r', 'g', 'b', 'a'});
+		TestNumber<CSS::IntegerType>(tokenizer.tokens[4], 12);
+		EXPECT_EQ(tokenizer.tokens[5].type, TokenType::COMMA);
+		EXPECT_EQ(tokenizer.tokens[6].type, TokenType::WHITESPACE);
+		TestNumber<CSS::IntegerType>(tokenizer.tokens[7], 34);
+		EXPECT_EQ(tokenizer.tokens[8].type, TokenType::COMMA);
+		EXPECT_EQ(tokenizer.tokens[9].type, TokenType::WHITESPACE);
+		TestNumber<CSS::IntegerType>(tokenizer.tokens[10], 56);
+		EXPECT_EQ(tokenizer.tokens[11].type, TokenType::COMMA);
+		EXPECT_EQ(tokenizer.tokens[12].type, TokenType::WHITESPACE);
+		TestNumber<CSS::IntegerType>(tokenizer.tokens[13], 78);
+		EXPECT_EQ(tokenizer.tokens[14].type, TokenType::PAREN_CLOSE);
+		EXPECT_EQ(tokenizer.tokens[15].type, TokenType::SEMICOLON);
+	}
+
 } // namespace CSS
 
 int
