@@ -365,8 +365,8 @@ namespace CSS {
 				tokens.emplace_back(TokenType::SEMICOLON);
 				return true;
 			case Unicode::LESS_THAN_SIGN:
-				if (stream.Peek(&character) && character == Unicode::EXCLAMATION_MARK && stream.Peek(&character)
-					&& character == Unicode::HYPHEN_MINUS && stream.Peek(&character)
+				if (stream.Peek(&character) && character == Unicode::EXCLAMATION_MARK && stream.Peek(&character, 1)
+					&& character == Unicode::HYPHEN_MINUS && stream.Peek(&character, 2)
 					&& character == Unicode::HYPHEN_MINUS) {
 					stream.Skip();
 					stream.Skip();
