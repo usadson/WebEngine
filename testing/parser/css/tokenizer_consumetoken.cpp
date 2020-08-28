@@ -240,4 +240,18 @@ namespace CSS {
 		}
 	}
 
+	TEST_F(TokenizerConsumeToken, TestDigit) {
+		const Unicode::UString input("0123456789");
+		Tokenizer tokenizer(context, input);
+		tokenizer.stream.Skip();
+		EXPECT_TRUE(tokenizer.ConsumeToken(input[0]));
+		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
+		ASSERT_EQ(tokenizer.tokens.size(), 1);
+		EXPECT_EQ(tokenizer.tokens[0].type, TokenType::NUMBER);
+		const auto *data = std::get_if<TokenNumericData>(&tokenizer.tokens[0].data);
+		ASSERT_NE(data, nullptr);
+		ASSERT_EQ(data->type, TokenNumericType::INTEGER);
+		EXPECT_EQ(data->integer, 123456789);
+	}
+
 } // namespace CSS
