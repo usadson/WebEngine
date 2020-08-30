@@ -68,4 +68,16 @@ namespace CSS {
 		EXPECT_EQ(tokenizer.tokens[5].type, TokenType::SEMICOLON);
 	}
 
+	TEST_F(TokenizerFunctionTests, UntrimmedURLFunctionTest) {
+		const Unicode::UString input("url( \t \t \"style\"\t  \t\n);");
+		Tokenizer tokenizer(context, input);
+		EXPECT_TRUE(tokenizer.Run());
+		ASSERT_EQ(tokenizer.tokens.size(), 5);
+		TestFunction(tokenizer.tokens[0], {'u', 'r', 'l'});
+		TestString(tokenizer.tokens[1], {'s', 't', 'y', 'l', 'e'});
+		EXPECT_EQ(tokenizer.tokens[2].type, TokenType::WHITESPACE);
+		EXPECT_EQ(tokenizer.tokens[3].type, TokenType::PAREN_CLOSE);
+		EXPECT_EQ(tokenizer.tokens[4].type, TokenType::SEMICOLON);
+	}
+
 } // namespace CSS
