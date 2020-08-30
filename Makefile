@@ -72,6 +72,7 @@ BINARIES = bin/ccompat.o \
 	   bin/net/http/http_connection.o \
 	   bin/net/http/http_response_info.o \
 	   bin/net/http2/http2_connection.o \
+	   bin/parser/css/parser.o \
 	   bin/parser/css/preprocessor.o \
 	   bin/parser/css/tokenizer.o \
 	   bin/parser/css/tokenizer_stream.o \
@@ -272,6 +273,11 @@ bin/net/http2/http2_connection.o: net/http2/http2_connection.cpp \
 	net/connection_info.hpp \
 	logger.hpp
 	$(CXX) $(CXXFLAGS) $(CONNECTION_INFO_TLS_IMPL) -c -o $@ net/http2/http2_connection.cpp
+
+bin/parser/css/parser.o: parser/css/parser.cpp \
+	parser/css/parser.hpp \
+	parser/css/tokenizer.hpp
+	$(CXX) $(CXXFLAGS) -c -o $@ parser/css/parser.cpp
 
 bin/parser/css/preprocessor.o: parser/css/preprocessor.cpp \
 	parser/css/preprocessor.hpp \
