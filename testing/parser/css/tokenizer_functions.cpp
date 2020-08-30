@@ -55,4 +55,17 @@ namespace CSS {
 		EXPECT_EQ(tokenizer.tokens[3].type, TokenType::SEMICOLON);
 	}
 
+	TEST_F(TokenizerFunctionTests, UntrimmedFunctionWithStringTest) {
+		const Unicode::UString input("greet( \t \t \"hi\"\t  \t\n);");
+		Tokenizer tokenizer(context, input);
+		EXPECT_TRUE(tokenizer.Run());
+		ASSERT_EQ(tokenizer.tokens.size(), 6);
+		TestFunction(tokenizer.tokens[0], {'g', 'r', 'e', 'e', 't'});
+		EXPECT_EQ(tokenizer.tokens[1].type, TokenType::WHITESPACE);
+		TestString(tokenizer.tokens[2], {'h', 'i'});
+		EXPECT_EQ(tokenizer.tokens[3].type, TokenType::WHITESPACE);
+		EXPECT_EQ(tokenizer.tokens[4].type, TokenType::PAREN_CLOSE);
+		EXPECT_EQ(tokenizer.tokens[5].type, TokenType::SEMICOLON);
+	}
+
 } // namespace CSS
