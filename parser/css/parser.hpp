@@ -10,6 +10,12 @@
 
 namespace CSS::Parser {
 
+	// Parse a stylesheet
+	//
+	// [Spec]
+	// Title: CSS Syntax Module Level 3
+	// Section: 5.3.2.
+	// URL: https://www.w3.org/TR/css-syntax-3/#parse-stylesheet
 	[[nodiscard]] bool
 	ParseStylesheet(const Tokenizer &) noexcept;
 
