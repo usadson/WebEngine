@@ -19,7 +19,7 @@ namespace Logger {
 	 * Error("NetworkStack::Start", "Couldn't connect to https://example.org");
 	 */
 
-	static bool shouldLog = true;
+	extern bool shouldLog;
 
 	void
 	RunAbort();

@@ -7,6 +7,12 @@
 #include "logger.hpp"
 static void (*abortFunction)() = &std::terminate;
 
+namespace Logger {
+
+	bool shouldLog = true;
+
+} // namespace Logger
+
 void
 Logger::RunAbort() {
 	abortFunction();
