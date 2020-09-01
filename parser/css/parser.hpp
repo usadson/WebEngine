@@ -23,11 +23,12 @@ namespace CSS {
 		// Title: CSS Syntax Module Level 3
 		// Section: 5.3.2.
 		// URL: https://www.w3.org/TR/css-syntax-3/#parse-stylesheet
-		[[nodiscard]] std::tuple<bool, Stylesheet>
+		[[nodiscard]] Stylesheet
 		ParseStylesheet() noexcept;
 		
 	  private:
 		const Tokenizer &tokenizer;
+		bool errorOccurred = false;
 
 		// Consume a list of rules
 		//

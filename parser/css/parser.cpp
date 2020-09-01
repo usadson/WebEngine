@@ -8,10 +8,11 @@
 
 namespace CSS {
 	
-	std::tuple<bool, Stylesheet>
+	Stylesheet
 	Parser::ParseStylesheet() noexcept {
 		Stylesheet sheet;
-		return {ConsumeListOfRules(tokenizer, true, sheet.rules), sheet};
+		errorOccurred = ConsumeListOfRules(tokenizer, true, sheet.rules);
+		return sheet;
 	}
 
 	bool
