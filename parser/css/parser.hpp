@@ -11,9 +11,23 @@
 #include "parser/css/stylesheet.hpp"
 #include "parser/css/tokenizer.hpp"
 
-namespace CSS::Parser {
+namespace CSS {
 
-	namespace Algorithms {
+	class Parser {
+	  public:
+		inline explicit Parser(const Tokenizer &tokenizer) : tokenizer(tokenizer) {}
+
+		// Parse a stylesheet
+		//
+		// [Spec]
+		// Title: CSS Syntax Module Level 3
+		// Section: 5.3.2.
+		// URL: https://www.w3.org/TR/css-syntax-3/#parse-stylesheet
+		[[nodiscard]] std::tuple<bool, Stylesheet>
+		ParseStylesheet() noexcept;
+		
+	  private:
+		const Tokenizer &tokenizer;
 
 		// Consume a list of rules
 		//
@@ -23,16 +37,6 @@ namespace CSS::Parser {
 		// URL: https://www.w3.org/TR/css-syntax-3/#consume-list-of-rules
 		[[nodiscard]] bool
 		ConsumeListOfRules(const Tokenizer &, bool topFlag, std::vector<Rule> &) noexcept;
+	};
 
-	} // namespace Algorithms
-
-	// Parse a stylesheet
-	//
-	// [Spec]
-	// Title: CSS Syntax Module Level 3
-	// Section: 5.3.2.
-	// URL: https://www.w3.org/TR/css-syntax-3/#parse-stylesheet
-	[[nodiscard]] std::tuple<bool, Stylesheet>
-	ParseStylesheet(const Tokenizer &) noexcept;
-
-} // namespace CSS::Parser
+} // namespace CSS

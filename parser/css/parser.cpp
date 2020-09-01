@@ -7,9 +7,15 @@
 #include "parser/css/parser.hpp"
 
 namespace CSS {
+	
+	std::tuple<bool, Stylesheet>
+	Parser::ParseStylesheet() noexcept {
+		Stylesheet sheet;
+		return {ConsumeListOfRules(tokenizer, true, sheet.rules), sheet};
+	}
 
 	bool
-	Parser::Algorithms::ConsumeListOfRules(const Tokenizer &tokenizer, bool topLevelFlag, std::vector<Rule> &output) noexcept {
+	Parser::ConsumeListOfRules(const Tokenizer &tokenizer, bool topLevelFlag, std::vector<Rule> &output) noexcept {
 		for (auto it = std::begin(tokenizer.tokens); it != std::end(tokenizer.tokens); ) {
 			const auto &token = *it;
 			bool wasItMutatedManually = false;
@@ -42,12 +48,6 @@ namespace CSS {
 		}
 
 		return true;
-	}
-
-	std::tuple<bool, Stylesheet>
-	Parser::ParseStylesheet(const Tokenizer &tokenizer) noexcept {
-		Stylesheet sheet;
-		return {Algorithms::ConsumeListOfRules(tokenizer, true, sheet.rules), sheet};
 	}
 
 } // namespace CSS
