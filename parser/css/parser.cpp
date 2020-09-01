@@ -36,8 +36,9 @@ namespace CSS {
 					}
 					break;
 				case Token::Type::AT_KEYWORD:
-					// wasItMutatedManually = true;
-					// if (!ConsumeAtRule(it, output)) { ... }
+					if (!ConsumeAtRule(it, output)) {
+						wasItMutatedManually = true;
+					}
 					break;
 				default:
 					if (!topLevelFlag && !ConsumeQualifiedRule(it, output)) {
