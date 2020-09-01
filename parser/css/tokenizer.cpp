@@ -108,17 +108,17 @@ namespace CSS {
 					return false;
 				}
 				if (codePoint == Unicode::QUOTATION_MARK || codePoint == Unicode::APOSTROPHE) {
-					tokens.emplace_back(TokenType::FUNCTION, TokenCodePointsData {string});
+					tokens.emplace_back(Token::Type::FUNCTION, TokenCodePointsData {string});
 					return true;
 				}
 				return ConsumeURLToken();
 			}
 
-			tokens.emplace_back(TokenType::FUNCTION, TokenCodePointsData {string});
+			tokens.emplace_back(Token::Type::FUNCTION, TokenCodePointsData {string});
 			return true;
 		}
 
-		tokens.emplace_back(TokenType::IDENT, TokenCodePointsData {string});
+		tokens.emplace_back(Token::Type::IDENT, TokenCodePointsData {string});
 		return true;
 	}
 
@@ -238,7 +238,7 @@ namespace CSS {
 				return false;
 			}
 
-			tokens.emplace_back(TokenType::DIMENSION, data);
+			tokens.emplace_back(Token::Type::DIMENSION, data);
 			return true;
 		}
 
@@ -255,19 +255,19 @@ namespace CSS {
 
 		if (stream.Next(&codePoint)) {
 			if (codePoint == Unicode::PERCENTAGE_SIGN) {
-				tokens.emplace_back(TokenType::PERCENTAGE, data);
+				tokens.emplace_back(Token::Type::PERCENTAGE, data);
 				return true;
 			}
 			stream.Reconsume();
 		}
 
-		tokens.emplace_back(TokenType::NUMBER, data);
+		tokens.emplace_back(Token::Type::NUMBER, data);
 		return true;
 	}
 
 	bool
 	Tokenizer::ConsumeStringToken(Unicode::CodePoint endingCodePoint) noexcept {
-		Token token = CSS::MakeToken<TokenType::STRING>();
+		Token token = CSS::MakeToken<Token::Type::STRING>();
 		std::vector<Unicode::CodePoint> &characters = std::get_if<TokenCodePointsData>(&token.data)->codePoints;
 
 		Unicode::CodePoint character;
@@ -280,7 +280,7 @@ namespace CSS {
 			switch (character) {
 				case Unicode::LINE_FEED:
 					context.ReportParseError(CSS::ParseError::NEWLINE_IN_CONSUMING_STRING);
-					tokens.push_back(CSS::MakeToken<CSS::TokenType::BAD_STRING>());
+					tokens.push_back(CSS::MakeToken<CSS::Token::Type::BAD_STRING>());
 					stream.Reconsume();
 					return true;
 				case Unicode::REVERSE_SOLIDUS:
@@ -327,33 +327,33 @@ namespace CSS {
 			case Unicode::CHARACTER_TABULATION:
 			case Unicode::SPACE: {
 				bool ret = SkipWhitespace();
-				tokens.emplace_back(TokenType::WHITESPACE);
+				tokens.emplace_back(Token::Type::WHITESPACE);
 				return ret;
 			}
 			case Unicode::QUOTATION_MARK:
 				return ConsumeStringToken(character);
 			case Unicode::NUMBER_SIGN:
 				if (!TryParseHashTokenName()) {
-					tokens.emplace_back(TokenType::DELIM, character);
+					tokens.emplace_back(Token::Type::DELIM, character);
 				}
 				return true;
 			case Unicode::APOSTROPHE:
 				return ConsumeStringToken(character);
 			case Unicode::LEFT_PARENTHESIS:
-				tokens.push_back(CSS::MakeToken<CSS::TokenType::PAREN_OPEN>());
+				tokens.push_back(CSS::MakeToken<CSS::Token::Type::PAREN_OPEN>());
 				return true;
 			case Unicode::RIGHT_PARENTHESIS:
-				tokens.push_back(CSS::MakeToken<CSS::TokenType::PAREN_CLOSE>());
+				tokens.push_back(CSS::MakeToken<CSS::Token::Type::PAREN_CLOSE>());
 				return true;
 			case Unicode::PLUS_SIGN:
 				if (DoesStreamStartWithNumber()) {
 					stream.Reconsume();
 					return ConsumeNumericToken();
 				}
-				tokens.emplace_back(TokenType::DELIM, Unicode::PLUS_SIGN);
+				tokens.emplace_back(Token::Type::DELIM, Unicode::PLUS_SIGN);
 				return true;
 			case Unicode::COMMA:
-				tokens.emplace_back(TokenType::COMMA);
+				tokens.emplace_back(Token::Type::COMMA);
 				return true;
 			case Unicode::HYPHEN_MINUS:
 				return ConsumeTokenHelperHyphenMinus(character);
@@ -362,13 +362,13 @@ namespace CSS {
 					stream.Reconsume();
 					return ConsumeNumericToken();
 				}
-				tokens.emplace_back(TokenType::DELIM, Unicode::FULL_STOP);
+				tokens.emplace_back(Token::Type::DELIM, Unicode::FULL_STOP);
 				return true;
 			case Unicode::COLON:
-				tokens.emplace_back(TokenType::COLON);
+				tokens.emplace_back(Token::Type::COLON);
 				return true;
 			case Unicode::SEMICOLON:
-				tokens.emplace_back(TokenType::SEMICOLON);
+				tokens.emplace_back(Token::Type::SEMICOLON);
 				return true;
 			case Unicode::LESS_THAN_SIGN:
 				if (stream.Peek(&character) && character == Unicode::EXCLAMATION_MARK && stream.Peek(&character, 1)
@@ -377,14 +377,14 @@ namespace CSS {
 					stream.Skip();
 					stream.Skip();
 					stream.Skip();
-					tokens.emplace_back(TokenType::CDO);
+					tokens.emplace_back(Token::Type::CDO);
 				} else {
-					tokens.emplace_back(TokenType::DELIM, Unicode::LESS_THAN_SIGN);
+					tokens.emplace_back(Token::Type::DELIM, Unicode::LESS_THAN_SIGN);
 				}
 				return true;
 			case Unicode::COMMERCIAL_AT:
 				if (WillStartIdentifier(stream)) {
-					auto token = MakeToken<TokenType::AT_KEYWORD>();
+					auto token = MakeToken<Token::Type::AT_KEYWORD>();
 					if (!ConsumeName(std::get<TokenCodePointsData>(token.data).codePoints)) {
 						context.ReportParseError(ParseError::INVALID_AT_KEYWORD_NAME);
 						return false;
@@ -392,19 +392,19 @@ namespace CSS {
 					tokens.push_back(token);
 					return true;
 				}
-				tokens.emplace_back(TokenType::DELIM, Unicode::COMMERCIAL_AT);
+				tokens.emplace_back(Token::Type::DELIM, Unicode::COMMERCIAL_AT);
 				return true;
 			case Unicode::LEFT_SQUARE_BRACKET:
-				tokens.emplace_back(TokenType::SQUARE_OPEN);
+				tokens.emplace_back(Token::Type::SQUARE_OPEN);
 				return true;
 			case Unicode::RIGHT_SQUARE_BRACKET:
-				tokens.emplace_back(TokenType::SQUARE_CLOSE);
+				tokens.emplace_back(Token::Type::SQUARE_CLOSE);
 				return true;
 			case Unicode::LEFT_CURLY_BRACKET:
-				tokens.emplace_back(TokenType::CURLY_OPEN);
+				tokens.emplace_back(Token::Type::CURLY_OPEN);
 				return true;
 			case Unicode::RIGHT_CURLY_BRACKET:
-				tokens.emplace_back(TokenType::CURLY_CLOSE);
+				tokens.emplace_back(Token::Type::CURLY_CLOSE);
 				return true;
 			default:
 				break;
@@ -417,7 +417,7 @@ namespace CSS {
 			stream.Reconsume();
 			return ConsumeIdentLikeToken();
 		}
-		tokens.emplace_back(TokenType::DELIM, character);
+		tokens.emplace_back(Token::Type::DELIM, character);
 		return true;
 	}
 
@@ -432,7 +432,7 @@ namespace CSS {
 			&& character == Unicode::GREATER_THAN_SIGN) {
 			stream.Skip();
 			stream.Skip();
-			tokens.emplace_back(TokenType::CDC);
+			tokens.emplace_back(Token::Type::CDC);
 			return true;
 		}
 
@@ -441,7 +441,7 @@ namespace CSS {
 			return ConsumeIdentLikeToken();
 		}
 
-		tokens.emplace_back(TokenType::DELIM, Unicode::HYPHEN_MINUS);
+		tokens.emplace_back(Token::Type::DELIM, Unicode::HYPHEN_MINUS);
 		return true;
 	}
 
@@ -520,7 +520,7 @@ namespace CSS {
 		// If whitespace consuming fails (i.e. only due to EOF), we will take care of it later.
 		static_cast<void>(SkipWhitespace());
 
-		Token token = MakeToken<TokenType::URL>();
+		Token token = MakeToken<Token::Type::URL>();
 		auto &codePoints = std::get<TokenCodePointsData>(token.data).codePoints;
 
 		while (true) {
@@ -549,7 +549,7 @@ namespace CSS {
 				|| character == Unicode::LEFT_PARENTHESIS || IsNonPrintableCodePoint(character)) {
 				context.ReportParseError(ParseError::UNEXPECTED_CHARACTER_IN_URL);
 				ConsumeRemnantsOfBadURL();
-				tokens.emplace_back(TokenType::BAD_URL);
+				tokens.emplace_back(Token::Type::BAD_URL);
 				return true;
 			}
 			if (character == Unicode::REVERSE_SOLIDUS) {
@@ -564,7 +564,7 @@ namespace CSS {
 				}
 				context.ReportParseError(ParseError::UNEXPECTED_CHARACTER_IN_URL);
 				ConsumeRemnantsOfBadURL();
-				tokens.emplace_back(TokenType::BAD_URL);
+				tokens.emplace_back(Token::Type::BAD_URL);
 				return true;
 			}
 			codePoints.push_back(character);
@@ -621,7 +621,7 @@ namespace CSS {
 			return false;
 		}
 
-		auto token = MakeToken<TokenType::HASH>();
+		auto token = MakeToken<Token::Type::HASH>();
 		auto *data = std::get_if<TokenHashData>(&token.data);
 		if (WillStartIdentifier(stream)) {
 			data->type = TokenHashType::ID;
