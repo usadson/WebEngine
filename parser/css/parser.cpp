@@ -7,7 +7,7 @@
 #include "parser/css/parser.hpp"
 
 namespace CSS {
-	
+
 	Stylesheet
 	Parser::ParseStylesheet() noexcept {
 		topLevelFlag = true;
@@ -19,7 +19,7 @@ namespace CSS {
 
 	bool
 	Parser::ConsumeListOfRules(std::vector<Rule> &output) noexcept {
-		for (auto it = std::begin(tokenizer.tokens); it != std::end(tokenizer.tokens); ) {
+		for (auto it = std::begin(tokenizer.tokens); it != std::end(tokenizer.tokens);) {
 			const auto &token = *it;
 			bool wasItMutatedManually = false;
 			// NOTE that the subroutines called from the following switch
