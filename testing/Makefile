@@ -61,6 +61,7 @@ TESTING_LDFLAGS_NET_HTTP = `pkg-config --static --libs gtest $(CONNECTION_INFO_T
 TESTING_LDFLAGS_CSSPARSER = $(TESTING_LDFLAGS) \
 	bin/data/text/ustring.o \
 	bin/data/text/encoding/utf8.o \
+	bin/parser/css/parser.o \
 	bin/parser/css/preprocessor.o \
 	bin/parser/css/tokenizer.o \
 	bin/parser/css/tokenizer_stream.o \
@@ -74,6 +75,7 @@ TESTING_TARGETS = \
 	bin/testing/data/text/ustring \
 	bin/testing/net/http/http_connection \
 	bin/testing/net/http/http_response_info \
+	bin/testing/parser/css/parser \
 	bin/testing/parser/css/preprocessor \
 	bin/testing/parser/css/tokenizer \
 	bin/testing/parser/css/tokenizer_algorithms \
@@ -88,6 +90,7 @@ test:
 	bin/testing/data/text/ustring
 	bin/testing/net/http/http_connection
 	bin/testing/net/http/http_response_info
+	bin/testing/parser/css/parser
 	bin/testing/parser/css/preprocessor
 	bin/testing/parser/css/tokenizer
 	bin/testing/parser/css/tokenizer_algorithms
@@ -136,6 +139,13 @@ bin/testing/net/http/http_response_info: testing/net/http/http_response_info.cpp
 	logger.hpp \
 	bin/net/http/http_response_info.o
 	$(CXX) $(TESTING_CXXFLAGS) -o $@ testing/net/http/http_response_info.cpp $(TESTING_LDFLAGS_NET_HTTP)
+
+bin/testing/parser/css/parser: testing/parser/css/parser.cpp \
+	parser/css/parser.hpp \
+	data/text/ustring.hpp \
+	parser/css/stylesheet.hpp \
+	parser/css/tokenizer.hpp
+	$(CXX) $(CXXFLAGS) -o $@ testing/parser/css/parser.cpp $(TESTING_LDFLAGS_CSSPARSER)
 
 bin/testing/parser/css/preprocessor: testing/parser/css/preprocessor.cpp \
 	bin/parser/css/preprocessor.o \
