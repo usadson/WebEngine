@@ -13,11 +13,11 @@ namespace CSS {
 		topLevelFlag = true;
 
 		Stylesheet sheet;
-		errorOccurred = ConsumeListOfRules(sheet.rules);
+		ConsumeListOfRules(sheet.rules);
 		return sheet;
 	}
 
-	bool
+	void
 	Parser::ConsumeListOfRules(std::vector<Rule> &output) noexcept {
 		for (auto it = std::begin(tokenizer.tokens); it != std::end(tokenizer.tokens);) {
 			const auto &token = *it;
@@ -49,8 +49,6 @@ namespace CSS {
 				++it;
 			}
 		}
-
-		return true;
 	}
 
 } // namespace CSS

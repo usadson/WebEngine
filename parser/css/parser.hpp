@@ -41,7 +41,7 @@ namespace CSS {
 		// Title: CSS Syntax Module Level 3
 		// Section: 5.4.1
 		// URL: https://www.w3.org/TR/css-syntax-3/#consume-list-of-rules
-		[[nodiscard]] bool
+		void
 		ConsumeListOfRules(std::vector<Rule> &) noexcept;
 	};
 
