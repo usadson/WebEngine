@@ -15,7 +15,7 @@
 namespace CSS {
 
 	class ParserTest : public ::testing::Test {
-	public:
+	  public:
 		template <typename T>
 		[[nodiscard]] static Tokenizer
 		Tokenize(const T &stringInput) noexcept {
@@ -34,7 +34,9 @@ namespace CSS {
 	};
 
 	TEST_F(ParserTest, RunSimple) {
-		const auto result = Parser::ParseStylesheet(Tokenize("test{}"));
+		const auto tokens = Tokenize("test{}");
+		Parser parser(tokens);
+		const auto result = parser.ParseStylesheet();
 	}
 } // namespace CSS
 
