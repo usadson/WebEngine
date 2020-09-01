@@ -16,33 +16,6 @@ namespace CSS {
 	using IntegerType = std::int64_t;
 	using NumberType = double;
 
-	enum class TokenType {
-		IDENT,        // <ident-token>
-		FUNCTION,     // <function-token>
-		AT_KEYWORD,   // <at-keyword-token>
-		HASH,         // <hash-token>
-		STRING,       // <string-token>
-		BAD_STRING,   //<bad-string-token>
-		URL,          // <url-token>
-		BAD_URL,      // <bad-url-token>
-		DELIM,        // <delim-token>
-		NUMBER,       // <number-token>
-		PERCENTAGE,   //<percentage-token>
-		DIMENSION,    // <dimension-token>
-		WHITESPACE,   // <whitespace-token>
-		CDO,          // <CDO-token>
-		CDC,          // <CDC-token>
-		COLON,        // <colon-token>
-		SEMICOLON,    // <semicolon-token>
-		COMMA,        // <comma-token>
-		SQUARE_OPEN,  // <[-token>
-		SQUARE_CLOSE, // <]-token>
-		PAREN_OPEN,   // <(-token>
-		PAREN_CLOSE,  // <)-token>
-		CURLY_OPEN,   // <{-token>
-		CURLY_CLOSE   // <}-token>
-	};
-
 	enum class TokenHashType {
 		ID,
 		UNRESTRICTED
@@ -73,7 +46,34 @@ namespace CSS {
 	};
 
 	struct Token {
-		TokenType type;
+		enum class Type {
+			IDENT,        // <ident-token>
+			FUNCTION,     // <function-token>
+			AT_KEYWORD,   // <at-keyword-token>
+			HASH,         // <hash-token>
+			STRING,       // <string-token>
+			BAD_STRING,   //<bad-string-token>
+			URL,          // <url-token>
+			BAD_URL,      // <bad-url-token>
+			DELIM,        // <delim-token>
+			NUMBER,       // <number-token>
+			PERCENTAGE,   //<percentage-token>
+			DIMENSION,    // <dimension-token>
+			WHITESPACE,   // <whitespace-token>
+			CDO,          // <CDO-token>
+			CDC,          // <CDC-token>
+			COLON,        // <colon-token>
+			SEMICOLON,    // <semicolon-token>
+			COMMA,        // <comma-token>
+			SQUARE_OPEN,  // <[-token>
+			SQUARE_CLOSE, // <]-token>
+			PAREN_OPEN,   // <(-token>
+			PAREN_CLOSE,  // <)-token>
+			CURLY_OPEN,   // <{-token>
+			CURLY_CLOSE   // <}-token>
+		};
+
+		Type type;
 
 		std::variant<
 			// For any other type:
@@ -102,36 +102,36 @@ namespace CSS {
 			TokenDimensionData> data;
 
 		template<typename T>
-		inline Token(TokenType type, T data) noexcept
+		inline Token(Type type, T data) noexcept
 			: type(type), data(data) {
 		}
 
-		inline explicit Token(TokenType type) noexcept
+		inline explicit Token(Type type) noexcept
 			: type(type), data(nullptr) {
 		}
 
 		inline explicit Token(Unicode::CodePoint codePoint) noexcept
-			: type(TokenType::DELIM), data(codePoint) {
+			: type(Type::DELIM), data(codePoint) {
 		}
 	};
 
-	template<TokenType type> Token
+	template<Token::Type type> Token
 	MakeToken() noexcept {
 		switch (type) {
-			case TokenType::IDENT:
-			case TokenType::FUNCTION:
-			case TokenType::AT_KEYWORD:
-			case TokenType::STRING:
-			case TokenType::URL:
+			case Token::Type::IDENT:
+			case Token::Type::FUNCTION:
+			case Token::Type::AT_KEYWORD:
+			case Token::Type::STRING:
+			case Token::Type::URL:
 				return Token { type, TokenCodePointsData() };
-			case TokenType::HASH:
+			case Token::Type::HASH:
 				return Token { type, TokenHashData() };
-			case TokenType::DELIM:
+			case Token::Type::DELIM:
 				return Token { type, Unicode::REPLACEMENT_CHARACTER };
-			case TokenType::NUMBER:
-			case TokenType::PERCENTAGE:
+			case Token::Type::NUMBER:
+			case Token::Type::PERCENTAGE:
 				return Token { type, TokenNumericData() };
-			case TokenType::DIMENSION:
+			case Token::Type::DIMENSION:
 				return Token { type, TokenDimensionData() };
 			default:
 				return Token { type, nullptr };
