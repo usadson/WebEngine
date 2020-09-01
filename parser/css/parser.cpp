@@ -53,8 +53,8 @@ namespace CSS {
 	}
 
 	[[nodiscard]] bool
-	Parser::ConsumeQualifiedRule(std::vector<Token>::const_iterator &it, std::vector<Rule> &) noexcept {
-		for (const auto it = it; it != std::cend(tokenizer.tokens); ++it) {
+	Parser::ConsumeQualifiedRule(std::vector<Token>::const_iterator &inputIterator, std::vector<Rule> &) noexcept {
+		for (const auto it = inputIterator; it != std::cend(tokenizer.tokens); ++it) {
 			
 		}
 
