@@ -4,8 +4,8 @@
  * See the COPYING file for licensing information.
  */
 
-#include "logger.hpp"
 #include "parser/css/parser.hpp"
+#include "logger.hpp"
 
 namespace CSS {
 
