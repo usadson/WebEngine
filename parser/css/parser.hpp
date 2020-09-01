@@ -29,6 +29,7 @@ namespace CSS {
 	  private:
 		const Tokenizer &tokenizer;
 		bool errorOccurred = false;
+		bool topLevelFlag = false;
 
 		// Consume a list of rules
 		//
@@ -37,7 +38,7 @@ namespace CSS {
 		// Section: 5.4.1
 		// URL: https://www.w3.org/TR/css-syntax-3/#consume-list-of-rules
 		[[nodiscard]] bool
-		ConsumeListOfRules(const Tokenizer &, bool topFlag, std::vector<Rule> &) noexcept;
+		ConsumeListOfRules(std::vector<Rule> &) noexcept;
 	};
 
 } // namespace CSS

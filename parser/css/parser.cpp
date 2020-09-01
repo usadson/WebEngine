@@ -10,13 +10,15 @@ namespace CSS {
 	
 	Stylesheet
 	Parser::ParseStylesheet() noexcept {
+		topLevelFlag = true;
+
 		Stylesheet sheet;
-		errorOccurred = ConsumeListOfRules(tokenizer, true, sheet.rules);
+		errorOccurred = ConsumeListOfRules(sheet.rules);
 		return sheet;
 	}
 
 	bool
-	Parser::ConsumeListOfRules(const Tokenizer &tokenizer, bool topLevelFlag, std::vector<Rule> &output) noexcept {
+	Parser::ConsumeListOfRules(std::vector<Rule> &output) noexcept {
 		for (auto it = std::begin(tokenizer.tokens); it != std::end(tokenizer.tokens); ) {
 			const auto &token = *it;
 			bool wasItMutatedManually = false;
