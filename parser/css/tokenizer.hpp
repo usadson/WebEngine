@@ -155,6 +155,8 @@ namespace CSS {
 
 		[[nodiscard]] bool
 		SkipWhitespace() noexcept;
+
+		friend class Parser;
 	};
 } // namespace CSS
 
