@@ -44,10 +44,22 @@ namespace CSS {
 		void
 		ConsumeListOfRules(std::vector<Rule> &) noexcept;
 
-		// Consume a list of rules
+		// Consume an at-rule
 		//
 		// The bool return type indicates whether the iterator was manually
-		// modified or not, i.e. if modified some tokens were consumed.
+		// modified or not, i.e. if at least one token was consumed.
+		//
+		// [Spec]
+		// Title: CSS Syntax Module Level 3
+		// Section: 5.4.2
+		// URL: https://www.w3.org/TR/css-syntax-3/#consume-at-rule
+		[[nodiscard]] bool
+		ConsumeAtRule(std::vector<Token>::const_iterator &, std::vector<Rule> &) noexcept;
+
+		// Consume a qualified rule
+		//
+		// The bool return type indicates whether the iterator was manually
+		// modified or not, i.e. if at least one token was consumed.
 		//
 		// [Spec]
 		// Title: CSS Syntax Module Level 3

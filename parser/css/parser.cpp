@@ -52,10 +52,14 @@ namespace CSS {
 		}
 	}
 
-	[[nodiscard]] bool
+	bool
+	Parser::ConsumeAtRule(std::vector<Token>::const_iterator &inputIterator, std::vector<Rule> &) noexcept {
+		return false;
+	}
+
+	bool
 	Parser::ConsumeQualifiedRule(std::vector<Token>::const_iterator &inputIterator, std::vector<Rule> &) noexcept {
 		for (const auto it = inputIterator; it != std::cend(tokenizer.tokens); ++it) {
-			
 		}
 
 		// EOF is reached, consume all the tokens but we can't make a qualified
