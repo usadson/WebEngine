@@ -15,7 +15,8 @@ namespace CSS {
 
 	std::tuple<bool, Stylesheet>
 	Parser::ParseStylesheet(const Tokenizer &tokenizer) noexcept {
-		return {true, {}};
+		Stylesheet sheet;
+		return {ConsumeListOfRules(true, sheet.rules), sheet};
 	}
 
 } // namespace CSS
