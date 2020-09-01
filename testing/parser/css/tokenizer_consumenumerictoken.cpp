@@ -26,7 +26,7 @@ namespace CSS {
 		EXPECT_EQ(tokenizer.stream.CodePointsLeft(), 1);
 		ASSERT_EQ(tokenizer.tokens.size(), 1);
 		const CSS::Token &token = tokenizer.tokens[0];
-		EXPECT_EQ(token.type, TokenType::NUMBER);
+		EXPECT_EQ(token.type, Token::Type::NUMBER);
 
 		// TokenNumericData is the base/alternative of all other types in this
 		// case.
@@ -40,7 +40,7 @@ namespace CSS {
 		EXPECT_EQ(tokenizer.stream.CodePointsLeft(), 0);
 		ASSERT_EQ(tokenizer.tokens.size(), 1);
 		const CSS::Token &token = tokenizer.tokens[0];
-		EXPECT_EQ(token.type, TokenType::PERCENTAGE);
+		EXPECT_EQ(token.type, Token::Type::PERCENTAGE);
 
 		const auto &tokenData = std::get<TokenNumericData>(token.data);
 		EXPECT_EQ(tokenData.type, TokenNumericType::INTEGER);
@@ -55,7 +55,7 @@ namespace CSS {
 		EXPECT_EQ(codePoint, ' ');
 		ASSERT_EQ(tokenizer.tokens.size(), 1);
 		const CSS::Token &token = tokenizer.tokens[0];
-		ASSERT_EQ(token.type, TokenType::DIMENSION);
+		ASSERT_EQ(token.type, Token::Type::DIMENSION);
 
 		const auto &tokenData = std::get<TokenDimensionData>(token.data);
 		EXPECT_EQ(tokenData.type, TokenNumericType::INTEGER);

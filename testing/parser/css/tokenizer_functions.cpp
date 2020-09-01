@@ -18,8 +18,8 @@ namespace CSS {
 		ASSERT_EQ(tokenizer.tokens.size(), 4);
 		TestFunction(tokenizer.tokens[0], {'t', 'w', 'e', 'l', 'v', 'e'});
 		TestNumber<CSS::IntegerType>(tokenizer.tokens[1], 12);
-		EXPECT_EQ(tokenizer.tokens[2].type, TokenType::PAREN_CLOSE);
-		EXPECT_EQ(tokenizer.tokens[3].type, TokenType::SEMICOLON);
+		EXPECT_EQ(tokenizer.tokens[2].type, Token::Type::PAREN_CLOSE);
+		EXPECT_EQ(tokenizer.tokens[3].type, Token::Type::SEMICOLON);
 	}
 
 	TEST_F(TokenizerFunctionTests, QuotationMarkStringTest) {
@@ -29,8 +29,8 @@ namespace CSS {
 		ASSERT_EQ(tokenizer.tokens.size(), 4);
 		TestFunction(tokenizer.tokens[0], {'g', 'r', 'e', 'e', 't'});
 		TestString(tokenizer.tokens[1], {'h', 'i'});
-		EXPECT_EQ(tokenizer.tokens[2].type, TokenType::PAREN_CLOSE);
-		EXPECT_EQ(tokenizer.tokens[3].type, TokenType::SEMICOLON);
+		EXPECT_EQ(tokenizer.tokens[2].type, Token::Type::PAREN_CLOSE);
+		EXPECT_EQ(tokenizer.tokens[3].type, Token::Type::SEMICOLON);
 	}
 
 	TEST_F(TokenizerFunctionTests, ApostropheStringTest) {
@@ -40,8 +40,8 @@ namespace CSS {
 		ASSERT_EQ(tokenizer.tokens.size(), 4);
 		TestFunction(tokenizer.tokens[0], {'b', 'y', 'e'});
 		TestString(tokenizer.tokens[1], {'s', 'e', 'e', ' ', 'y', 'a', ' ', 'l', 'a', 't', 'e', 'r', '!'});
-		EXPECT_EQ(tokenizer.tokens[2].type, TokenType::PAREN_CLOSE);
-		EXPECT_EQ(tokenizer.tokens[3].type, TokenType::SEMICOLON);
+		EXPECT_EQ(tokenizer.tokens[2].type, Token::Type::PAREN_CLOSE);
+		EXPECT_EQ(tokenizer.tokens[3].type, Token::Type::SEMICOLON);
 	}
 
 	TEST_F(TokenizerFunctionTests, StringifiedURLTest) {
@@ -51,8 +51,8 @@ namespace CSS {
 		ASSERT_EQ(tokenizer.tokens.size(), 4);
 		TestFunction(tokenizer.tokens[0], {'u', 'r', 'l'});
 		TestString(tokenizer.tokens[1], {'s', 't', 'y', 'l', 'e', '.', 'c', 's', 's'});
-		EXPECT_EQ(tokenizer.tokens[2].type, TokenType::PAREN_CLOSE);
-		EXPECT_EQ(tokenizer.tokens[3].type, TokenType::SEMICOLON);
+		EXPECT_EQ(tokenizer.tokens[2].type, Token::Type::PAREN_CLOSE);
+		EXPECT_EQ(tokenizer.tokens[3].type, Token::Type::SEMICOLON);
 	}
 
 	TEST_F(TokenizerFunctionTests, UntrimmedFunctionWithStringTest) {
@@ -61,11 +61,11 @@ namespace CSS {
 		EXPECT_TRUE(tokenizer.Run());
 		ASSERT_EQ(tokenizer.tokens.size(), 6);
 		TestFunction(tokenizer.tokens[0], {'g', 'r', 'e', 'e', 't'});
-		EXPECT_EQ(tokenizer.tokens[1].type, TokenType::WHITESPACE);
+		EXPECT_EQ(tokenizer.tokens[1].type, Token::Type::WHITESPACE);
 		TestString(tokenizer.tokens[2], {'h', 'i'});
-		EXPECT_EQ(tokenizer.tokens[3].type, TokenType::WHITESPACE);
-		EXPECT_EQ(tokenizer.tokens[4].type, TokenType::PAREN_CLOSE);
-		EXPECT_EQ(tokenizer.tokens[5].type, TokenType::SEMICOLON);
+		EXPECT_EQ(tokenizer.tokens[3].type, Token::Type::WHITESPACE);
+		EXPECT_EQ(tokenizer.tokens[4].type, Token::Type::PAREN_CLOSE);
+		EXPECT_EQ(tokenizer.tokens[5].type, Token::Type::SEMICOLON);
 	}
 
 	TEST_F(TokenizerFunctionTests, UntrimmedURLFunctionTest) {
@@ -75,9 +75,9 @@ namespace CSS {
 		ASSERT_EQ(tokenizer.tokens.size(), 5);
 		TestFunction(tokenizer.tokens[0], {'u', 'r', 'l'});
 		TestString(tokenizer.tokens[1], {'s', 't', 'y', 'l', 'e'});
-		EXPECT_EQ(tokenizer.tokens[2].type, TokenType::WHITESPACE);
-		EXPECT_EQ(tokenizer.tokens[3].type, TokenType::PAREN_CLOSE);
-		EXPECT_EQ(tokenizer.tokens[4].type, TokenType::SEMICOLON);
+		EXPECT_EQ(tokenizer.tokens[2].type, Token::Type::WHITESPACE);
+		EXPECT_EQ(tokenizer.tokens[3].type, Token::Type::PAREN_CLOSE);
+		EXPECT_EQ(tokenizer.tokens[4].type, Token::Type::SEMICOLON);
 	}
 
 } // namespace CSS

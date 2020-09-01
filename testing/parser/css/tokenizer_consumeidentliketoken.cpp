@@ -18,7 +18,7 @@ namespace CSS {
 		tokenizer.stream.Skip();
 		EXPECT_TRUE(tokenizer.ConsumeToken(input[0]));
 		EXPECT_EQ(tokenizer.tokens.size(), 1);
-		ASSERT_EQ(tokenizer.tokens[0].type, TokenType::IDENT);
+		ASSERT_EQ(tokenizer.tokens[0].type, Token::Type::IDENT);
 		const auto *data = std::get_if<TokenCodePointsData>(&tokenizer.tokens[0].data);
 		ASSERT_NE(data, nullptr);
 		EXPECT_EQ(data->codePoints, expected);
@@ -33,7 +33,7 @@ namespace CSS {
 		tokenizer.stream.Skip();
 		EXPECT_TRUE(tokenizer.ConsumeToken(input[0]));
 		EXPECT_EQ(tokenizer.tokens.size(), 1);
-		ASSERT_EQ(tokenizer.tokens[0].type, TokenType::FUNCTION);
+		ASSERT_EQ(tokenizer.tokens[0].type, Token::Type::FUNCTION);
 		const auto *data = std::get_if<TokenCodePointsData>(&tokenizer.tokens[0].data);
 		ASSERT_NE(data, nullptr);
 		EXPECT_EQ(data->codePoints, expected);
@@ -53,7 +53,7 @@ namespace CSS {
 		tokenizer.stream.Skip();
 		EXPECT_TRUE(tokenizer.ConsumeToken(input[0]));
 		EXPECT_EQ(tokenizer.tokens.size(), 1);
-		ASSERT_EQ(tokenizer.tokens[0].type, TokenType::URL);
+		ASSERT_EQ(tokenizer.tokens[0].type, Token::Type::URL);
 		const auto *data = std::get_if<TokenCodePointsData>(&tokenizer.tokens[0].data);
 		ASSERT_NE(data, nullptr);
 		EXPECT_EQ(data->codePoints, expected);

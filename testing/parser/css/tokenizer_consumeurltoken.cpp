@@ -23,9 +23,9 @@ namespace CSS {
 
 			const auto &token = tokenizer.tokens[0];
 			if (isBad) {
-				EXPECT_EQ(token.type, TokenType::BAD_URL);
+				EXPECT_EQ(token.type, Token::Type::BAD_URL);
 			} else {
-				ASSERT_EQ(token.type, TokenType::URL);
+				ASSERT_EQ(token.type, Token::Type::URL);
 
 				const auto &data = std::get<TokenCodePointsData>(token.data);
 				EXPECT_EQ(data.codePoints, expected);

@@ -17,7 +17,7 @@ namespace CSS {
 			ASSERT_TRUE(tokenizer.ConsumeToken(string[0]));
 			ASSERT_FALSE(ParseErrorTester::WasParseErrorFired());
 			ASSERT_EQ(tokenizer.tokens.size(), 1);
-			ASSERT_EQ(tokenizer.tokens[0].type, TokenType::WHITESPACE);
+			ASSERT_EQ(tokenizer.tokens[0].type, Token::Type::WHITESPACE);
 			ASSERT_TRUE(std::holds_alternative<std::nullptr_t>(tokenizer.tokens[0].data));
 			ASSERT_EQ(std::get<std::nullptr_t>(tokenizer.tokens[0].data), nullptr);
 		}
@@ -53,7 +53,7 @@ namespace CSS {
 		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::NUMBER_SIGN));
 		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
 		ASSERT_EQ(tokenizer.tokens.size(), 1);
-		EXPECT_EQ(tokenizer.tokens[0].type, TokenType::DELIM);
+		EXPECT_EQ(tokenizer.tokens[0].type, Token::Type::DELIM);
 		auto *data = std::get_if<Unicode::CodePoint>(&tokenizer.tokens[0].data);
 		ASSERT_NE(data, nullptr);
 		EXPECT_EQ(*data, Unicode::NUMBER_SIGN);
@@ -66,7 +66,7 @@ namespace CSS {
 		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::NUMBER_SIGN));
 		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
 		ASSERT_EQ(tokenizer.tokens.size(), 1);
-		EXPECT_EQ(tokenizer.tokens[0].type, TokenType::HASH);
+		EXPECT_EQ(tokenizer.tokens[0].type, Token::Type::HASH);
 		auto *data = std::get_if<TokenHashData>(&tokenizer.tokens[0].data);
 		ASSERT_NE(data, nullptr);
 		EXPECT_EQ(data->type, TokenHashType::ID);
@@ -80,7 +80,7 @@ namespace CSS {
 		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::NUMBER_SIGN));
 		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
 		ASSERT_EQ(tokenizer.tokens.size(), 1);
-		EXPECT_EQ(tokenizer.tokens[0].type, TokenType::HASH);
+		EXPECT_EQ(tokenizer.tokens[0].type, Token::Type::HASH);
 		auto *data = std::get_if<TokenHashData>(&tokenizer.tokens[0].data);
 		ASSERT_NE(data, nullptr);
 		EXPECT_EQ(data->type, TokenHashType::UNRESTRICTED);
@@ -94,7 +94,7 @@ namespace CSS {
 			EXPECT_TRUE(tokenizer.ConsumeToken(codePoint));
 			EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
 			ASSERT_EQ(tokenizer.tokens.size(), 1);
-			EXPECT_EQ(tokenizer.tokens[0].type, TokenType::DELIM);
+			EXPECT_EQ(tokenizer.tokens[0].type, Token::Type::DELIM);
 			auto result = std::get<Unicode::CodePoint>(tokenizer.tokens[0].data);
 			EXPECT_EQ(result, codePoint);
 		}
@@ -109,7 +109,7 @@ namespace CSS {
 			EXPECT_TRUE(tokenizer.ConsumeToken(codePoint));
 			EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
 			ASSERT_EQ(tokenizer.tokens.size(), 1);
-			EXPECT_EQ(tokenizer.tokens[0].type, TokenType::NUMBER);
+			EXPECT_EQ(tokenizer.tokens[0].type, Token::Type::NUMBER);
 			auto numericData = std::get<TokenNumericData>(tokenizer.tokens[0].data);
 			EXPECT_EQ(numericData.type, TokenNumericType::INTEGER);
 			if (codePoint == Unicode::HYPHEN_MINUS)
@@ -128,7 +128,7 @@ namespace CSS {
 			EXPECT_TRUE(tokenizer.ConsumeToken(codePoint));
 			EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
 			ASSERT_EQ(tokenizer.tokens.size(), 1);
-			EXPECT_EQ(tokenizer.tokens[0].type, TokenType::DIMENSION);
+			EXPECT_EQ(tokenizer.tokens[0].type, Token::Type::DIMENSION);
 
 			auto dimensionData = std::get<TokenDimensionData>(tokenizer.tokens[0].data);
 			EXPECT_EQ(dimensionData.type, TokenNumericType::INTEGER);
@@ -139,15 +139,15 @@ namespace CSS {
 	}
 
 	TEST_F(TokenizerConsumeToken, TestSimpleTypes) {
-		const std::map<Unicode::CodePoint, TokenType> map {{Unicode::COLON, TokenType::COLON},
-			{Unicode::COMMA, TokenType::COMMA},
-			{Unicode::SEMICOLON, TokenType::SEMICOLON},
-			{Unicode::LEFT_CURLY_BRACKET, TokenType::CURLY_OPEN},
-			{Unicode::RIGHT_CURLY_BRACKET, TokenType::CURLY_CLOSE},
-			{Unicode::LEFT_SQUARE_BRACKET, TokenType::SQUARE_OPEN},
-			{Unicode::RIGHT_SQUARE_BRACKET, TokenType::SQUARE_CLOSE},
-			{Unicode::LEFT_PARENTHESIS, TokenType::PAREN_OPEN},
-			{Unicode::RIGHT_PARENTHESIS, TokenType::PAREN_CLOSE}};
+		const std::map<Unicode::CodePoint, Token::Type> map {{Unicode::COLON, Token::Type::COLON},
+			{Unicode::COMMA, Token::Type::COMMA},
+			{Unicode::SEMICOLON, Token::Type::SEMICOLON},
+			{Unicode::LEFT_CURLY_BRACKET, Token::Type::CURLY_OPEN},
+			{Unicode::RIGHT_CURLY_BRACKET, Token::Type::CURLY_CLOSE},
+			{Unicode::LEFT_SQUARE_BRACKET, Token::Type::SQUARE_OPEN},
+			{Unicode::RIGHT_SQUARE_BRACKET, Token::Type::SQUARE_CLOSE},
+			{Unicode::LEFT_PARENTHESIS, Token::Type::PAREN_OPEN},
+			{Unicode::RIGHT_PARENTHESIS, Token::Type::PAREN_CLOSE}};
 		const Unicode::UString input;
 		for (const auto &pair : map) {
 			Tokenizer tokenizer(context, input);
@@ -165,7 +165,7 @@ namespace CSS {
 		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::FULL_STOP));
 		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
 		ASSERT_EQ(tokenizer.tokens.size(), 1);
-		EXPECT_EQ(tokenizer.tokens[0].type, TokenType::NUMBER);
+		EXPECT_EQ(tokenizer.tokens[0].type, Token::Type::NUMBER);
 		auto numericData = std::get<TokenNumericData>(tokenizer.tokens[0].data);
 		EXPECT_EQ(numericData.type, TokenNumericType::NUMBER);
 		EXPECT_EQ(numericData.number, 0.34);
@@ -178,7 +178,7 @@ namespace CSS {
 		EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::LESS_THAN_SIGN));
 		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
 		ASSERT_EQ(tokenizer.tokens.size(), 1);
-		EXPECT_EQ(tokenizer.tokens[0].type, TokenType::CDO);
+		EXPECT_EQ(tokenizer.tokens[0].type, Token::Type::CDO);
 	}
 
 	TEST_F(TokenizerConsumeToken, TestLessThanSignAsDelim) {
@@ -195,7 +195,7 @@ namespace CSS {
 			EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::LESS_THAN_SIGN));
 			EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
 			ASSERT_EQ(tokenizer.tokens.size(), 1);
-			EXPECT_EQ(tokenizer.tokens[0].type, TokenType::DELIM);
+			EXPECT_EQ(tokenizer.tokens[0].type, Token::Type::DELIM);
 			auto *data = std::get_if<Unicode::CodePoint>(&tokenizer.tokens[0].data);
 			ASSERT_NE(data, nullptr);
 			EXPECT_EQ(*data, Unicode::LESS_THAN_SIGN);
@@ -211,7 +211,7 @@ namespace CSS {
 			EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::COMMERCIAL_AT));
 			EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
 			ASSERT_EQ(tokenizer.tokens.size(), 1);
-			EXPECT_EQ(tokenizer.tokens[0].type, TokenType::AT_KEYWORD);
+			EXPECT_EQ(tokenizer.tokens[0].type, Token::Type::AT_KEYWORD);
 			const auto *data = std::get_if<TokenCodePointsData>(&tokenizer.tokens[0].data);
 			ASSERT_NE(data, nullptr);
 			EXPECT_EQ(data->codePoints, input.second);
@@ -229,7 +229,7 @@ namespace CSS {
 			EXPECT_TRUE(tokenizer.ConsumeToken(Unicode::COMMERCIAL_AT));
 			EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
 			ASSERT_EQ(tokenizer.tokens.size(), 1);
-			EXPECT_EQ(tokenizer.tokens[0].type, TokenType::DELIM);
+			EXPECT_EQ(tokenizer.tokens[0].type, Token::Type::DELIM);
 			const auto *data = std::get_if<Unicode::CodePoint>(&tokenizer.tokens[0].data);
 			ASSERT_NE(data, nullptr);
 			EXPECT_EQ(*data, Unicode::COMMERCIAL_AT);
@@ -243,7 +243,7 @@ namespace CSS {
 		EXPECT_TRUE(tokenizer.ConsumeToken(input[0]));
 		EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
 		ASSERT_EQ(tokenizer.tokens.size(), 1);
-		EXPECT_EQ(tokenizer.tokens[0].type, TokenType::NUMBER);
+		EXPECT_EQ(tokenizer.tokens[0].type, Token::Type::NUMBER);
 		const auto *data = std::get_if<TokenNumericData>(&tokenizer.tokens[0].data);
 		ASSERT_NE(data, nullptr);
 		ASSERT_EQ(data->type, TokenNumericType::INTEGER);
@@ -260,7 +260,7 @@ namespace CSS {
 			EXPECT_TRUE(tokenizer.ConsumeToken(input.first[0]));
 			EXPECT_FALSE(ParseErrorTester::WasParseErrorFired());
 			ASSERT_EQ(tokenizer.tokens.size(), 1);
-			EXPECT_EQ(tokenizer.tokens[0].type, TokenType::IDENT);
+			EXPECT_EQ(tokenizer.tokens[0].type, Token::Type::IDENT);
 			const auto *data = std::get_if<TokenCodePointsData>(&tokenizer.tokens[0].data);
 			ASSERT_NE(data, nullptr);
 			ASSERT_EQ(data->codePoints, input.second);

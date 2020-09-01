@@ -42,7 +42,7 @@ namespace CSS {
 			ASSERT_TRUE(tokenizer.ConsumeStringToken(ending));
 			ASSERT_FALSE(ParseErrorTester::WasParseErrorFired());
 			ASSERT_EQ(tokenizer.tokens.size(), 1);
-			ASSERT_EQ(tokenizer.tokens[0].type, TokenType::STRING);
+			ASSERT_EQ(tokenizer.tokens[0].type, Token::Type::STRING);
 			const auto *data = std::get_if<TokenCodePointsData>(&tokenizer.tokens[0].data);
 			ASSERT_NE(data, nullptr);
 			CompareCodePointVectors(data->codePoints, result);
@@ -64,7 +64,7 @@ namespace CSS {
 			ASSERT_TRUE(tokenizer.ConsumeStringToken(ending));
 			ASSERT_TRUE(ParseErrorTester::WasParseErrorFired(expectedError));
 			ASSERT_EQ(tokenizer.tokens.size(), 1);
-			ASSERT_EQ(tokenizer.tokens[0].type, TokenType::BAD_STRING);
+			ASSERT_EQ(tokenizer.tokens[0].type, Token::Type::BAD_STRING);
 			ASSERT_TRUE(std::holds_alternative<std::nullptr_t>(tokenizer.tokens[0].data));
 			ASSERT_EQ(std::get<std::nullptr_t>(tokenizer.tokens[0].data), nullptr);
 		}
@@ -137,7 +137,7 @@ namespace CSS {
 		ASSERT_TRUE(tokenizer.ConsumeToken(character));
 		ASSERT_FALSE(ParseErrorTester::WasParseErrorFired());
 		ASSERT_EQ(tokenizer.tokens.size(), 1);
-		ASSERT_EQ(tokenizer.tokens[0].type, TokenType::STRING);
+		ASSERT_EQ(tokenizer.tokens[0].type, Token::Type::STRING);
 		const auto *data = std::get_if<TokenCodePointsData>(&tokenizer.tokens[0].data);
 		ASSERT_NE(data, nullptr);
 		CompareCodePointVectors(data->codePoints, expected);
@@ -152,7 +152,7 @@ namespace CSS {
 		ASSERT_TRUE(tokenizer.ConsumeToken(character));
 		ASSERT_FALSE(ParseErrorTester::WasParseErrorFired());
 		ASSERT_EQ(tokenizer.tokens.size(), 1);
-		ASSERT_EQ(tokenizer.tokens[0].type, TokenType::STRING);
+		ASSERT_EQ(tokenizer.tokens[0].type, Token::Type::STRING);
 		const auto *data = std::get_if<TokenCodePointsData>(&tokenizer.tokens[0].data);
 		ASSERT_NE(data, nullptr);
 		CompareCodePointVectors(data->codePoints, expected);

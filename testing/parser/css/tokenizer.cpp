@@ -54,7 +54,7 @@ namespace CSS {
 
 	void
 	TestIdent(const Token &token, const std::vector<Unicode::CodePoint> &expected) {
-		ASSERT_EQ(token.type, TokenType::IDENT);
+		ASSERT_EQ(token.type, Token::Type::IDENT);
 		const auto *data = std::get_if<TokenCodePointsData>(&token.data);
 		ASSERT_NE(data, nullptr);
 		EXPECT_EQ(data->codePoints, expected);
@@ -62,7 +62,7 @@ namespace CSS {
 
 	void
 	TestHash(const Token &token, const std::vector<Unicode::CodePoint> &expected) {
-		ASSERT_EQ(token.type, TokenType::HASH);
+		ASSERT_EQ(token.type, Token::Type::HASH);
 		const auto *data = std::get_if<TokenHashData>(&token.data);
 		ASSERT_NE(data, nullptr);
 		// TODO test TokenHashType?
@@ -71,7 +71,7 @@ namespace CSS {
 
 	void
 	TestAtKeyword(const Token &token, const std::vector<Unicode::CodePoint> &expected) {
-		ASSERT_EQ(token.type, TokenType::AT_KEYWORD);
+		ASSERT_EQ(token.type, Token::Type::AT_KEYWORD);
 		const auto *data = std::get_if<TokenCodePointsData>(&token.data);
 		ASSERT_NE(data, nullptr);
 		EXPECT_EQ(data->codePoints, expected);
@@ -79,7 +79,7 @@ namespace CSS {
 
 	void
 	TestURL(const Token &token, const std::vector<Unicode::CodePoint> &expected) {
-		ASSERT_EQ(token.type, TokenType::URL);
+		ASSERT_EQ(token.type, Token::Type::URL);
 		const auto *data = std::get_if<TokenCodePointsData>(&token.data);
 		ASSERT_NE(data, nullptr);
 		EXPECT_EQ(data->codePoints, expected);
@@ -87,7 +87,7 @@ namespace CSS {
 
 	void
 	TestFunction(const Token &token, const std::vector<Unicode::CodePoint> &expected) {
-		ASSERT_EQ(token.type, TokenType::FUNCTION);
+		ASSERT_EQ(token.type, Token::Type::FUNCTION);
 		const auto *data = std::get_if<TokenCodePointsData>(&token.data);
 		ASSERT_NE(data, nullptr);
 		EXPECT_EQ(data->codePoints, expected);
@@ -97,7 +97,7 @@ namespace CSS {
 	void
 	TestDimension(
 		const Token &token, const T &expectedNumericValue, const std::vector<Unicode::CodePoint> &expectedCodePoints) {
-		ASSERT_EQ(token.type, TokenType::DIMENSION);
+		ASSERT_EQ(token.type, Token::Type::DIMENSION);
 		const auto *data = std::get_if<TokenDimensionData>(&token.data);
 		ASSERT_NE(data, nullptr);
 		EXPECT_EQ(data->codePoints, expectedCodePoints);
@@ -113,7 +113,7 @@ namespace CSS {
 	template <typename T>
 	void
 	TestNumber(const Token &token, const T &expectedNumericValue) {
-		ASSERT_EQ(token.type, TokenType::NUMBER);
+		ASSERT_EQ(token.type, Token::Type::NUMBER);
 		const auto *data = std::get_if<TokenNumericData>(&token.data);
 		ASSERT_NE(data, nullptr);
 		if constexpr (std::is_same<T, CSS::IntegerType>::value) {
@@ -127,7 +127,7 @@ namespace CSS {
 
 	void
 	TestString(const Token &token, const std::vector<Unicode::CodePoint> &expected) {
-		EXPECT_EQ(token.type, TokenType::STRING);
+		EXPECT_EQ(token.type, Token::Type::STRING);
 		const auto *data = std::get_if<TokenCodePointsData>(&token.data);
 		ASSERT_NE(data, nullptr);
 		EXPECT_EQ(data->codePoints, expected);
@@ -162,10 +162,10 @@ namespace CSS {
 		EXPECT_TRUE(tokenizer.Run());
 		ASSERT_EQ(tokenizer.tokens.size(), 5);
 		TestIdent(tokenizer.tokens[0], {'w', 'i', 'd', 't', 'h'});
-		EXPECT_EQ(tokenizer.tokens[1].type, TokenType::COLON);
-		EXPECT_EQ(tokenizer.tokens[2].type, TokenType::WHITESPACE);
+		EXPECT_EQ(tokenizer.tokens[1].type, Token::Type::COLON);
+		EXPECT_EQ(tokenizer.tokens[2].type, Token::Type::WHITESPACE);
 		TestDimension<CSS::IntegerType>(tokenizer.tokens[3], 100, {'p', 'x'});
-		EXPECT_EQ(tokenizer.tokens[4].type, TokenType::SEMICOLON);
+		EXPECT_EQ(tokenizer.tokens[4].type, Token::Type::SEMICOLON);
 	}
 
 	TEST_F(TokenizerTest, DeclarationBlockTest) {
@@ -178,16 +178,16 @@ color: red;\n\
 		ASSERT_EQ(tokenizer.tokens.size(), 12);
 		TestIdent(tokenizer.tokens[0], {'p'});
 		TestHash(tokenizer.tokens[1], {'t', 'e', 's', 't'});
-		EXPECT_EQ(tokenizer.tokens[2].type, TokenType::WHITESPACE);
-		EXPECT_EQ(tokenizer.tokens[3].type, TokenType::CURLY_OPEN);
-		EXPECT_EQ(tokenizer.tokens[4].type, TokenType::WHITESPACE);
+		EXPECT_EQ(tokenizer.tokens[2].type, Token::Type::WHITESPACE);
+		EXPECT_EQ(tokenizer.tokens[3].type, Token::Type::CURLY_OPEN);
+		EXPECT_EQ(tokenizer.tokens[4].type, Token::Type::WHITESPACE);
 		TestIdent(tokenizer.tokens[5], {'c', 'o', 'l', 'o', 'r'});
-		EXPECT_EQ(tokenizer.tokens[6].type, TokenType::COLON);
-		EXPECT_EQ(tokenizer.tokens[7].type, TokenType::WHITESPACE);
+		EXPECT_EQ(tokenizer.tokens[6].type, Token::Type::COLON);
+		EXPECT_EQ(tokenizer.tokens[7].type, Token::Type::WHITESPACE);
 		TestIdent(tokenizer.tokens[8], {'r', 'e', 'd'});
-		EXPECT_EQ(tokenizer.tokens[9].type, TokenType::SEMICOLON);
-		EXPECT_EQ(tokenizer.tokens[10].type, TokenType::WHITESPACE);
-		EXPECT_EQ(tokenizer.tokens[11].type, TokenType::CURLY_CLOSE);
+		EXPECT_EQ(tokenizer.tokens[9].type, Token::Type::SEMICOLON);
+		EXPECT_EQ(tokenizer.tokens[10].type, Token::Type::WHITESPACE);
+		EXPECT_EQ(tokenizer.tokens[11].type, Token::Type::CURLY_CLOSE);
 	}
 
 	TEST_F(TokenizerTest, ImportURLTest) {
@@ -196,9 +196,9 @@ color: red;\n\
 		EXPECT_TRUE(tokenizer.Run());
 		ASSERT_EQ(tokenizer.tokens.size(), 4);
 		TestAtKeyword(tokenizer.tokens[0], {'i', 'm', 'p', 'o', 'r', 't'});
-		EXPECT_EQ(tokenizer.tokens[1].type, TokenType::WHITESPACE);
+		EXPECT_EQ(tokenizer.tokens[1].type, Token::Type::WHITESPACE);
 		TestURL(tokenizer.tokens[2], {'t', 'e', 's', 't', '.', 'c', 's', 's'});
-		EXPECT_EQ(tokenizer.tokens[3].type, TokenType::SEMICOLON);
+		EXPECT_EQ(tokenizer.tokens[3].type, Token::Type::SEMICOLON);
 	}
 
 	TEST_F(TokenizerTest, ImportBadURLTest) {
@@ -207,9 +207,9 @@ color: red;\n\
 		EXPECT_TRUE(tokenizer.Run());
 		ASSERT_EQ(tokenizer.tokens.size(), 4);
 		TestAtKeyword(tokenizer.tokens[0], {'i', 'm', 'p', 'o', 'r', 't'});
-		EXPECT_EQ(tokenizer.tokens[1].type, TokenType::WHITESPACE);
-		EXPECT_EQ(tokenizer.tokens[2].type, TokenType::BAD_URL);
-		EXPECT_EQ(tokenizer.tokens[3].type, TokenType::SEMICOLON);
+		EXPECT_EQ(tokenizer.tokens[1].type, Token::Type::WHITESPACE);
+		EXPECT_EQ(tokenizer.tokens[2].type, Token::Type::BAD_URL);
+		EXPECT_EQ(tokenizer.tokens[3].type, Token::Type::SEMICOLON);
 	}
 
 	TEST_F(TokenizerTest, FunctionTest) {
@@ -218,21 +218,21 @@ color: red;\n\
 		EXPECT_TRUE(tokenizer.Run());
 		ASSERT_EQ(tokenizer.tokens.size(), 16);
 		TestIdent(tokenizer.tokens[0], {'c', 'o', 'l', 'o', 'r'});
-		EXPECT_EQ(tokenizer.tokens[1].type, TokenType::COLON);
-		EXPECT_EQ(tokenizer.tokens[2].type, TokenType::WHITESPACE);
+		EXPECT_EQ(tokenizer.tokens[1].type, Token::Type::COLON);
+		EXPECT_EQ(tokenizer.tokens[2].type, Token::Type::WHITESPACE);
 		TestFunction(tokenizer.tokens[3], {'r', 'g', 'b', 'a'});
 		TestNumber<CSS::IntegerType>(tokenizer.tokens[4], 12);
-		EXPECT_EQ(tokenizer.tokens[5].type, TokenType::COMMA);
-		EXPECT_EQ(tokenizer.tokens[6].type, TokenType::WHITESPACE);
+		EXPECT_EQ(tokenizer.tokens[5].type, Token::Type::COMMA);
+		EXPECT_EQ(tokenizer.tokens[6].type, Token::Type::WHITESPACE);
 		TestNumber<CSS::IntegerType>(tokenizer.tokens[7], 34);
-		EXPECT_EQ(tokenizer.tokens[8].type, TokenType::COMMA);
-		EXPECT_EQ(tokenizer.tokens[9].type, TokenType::WHITESPACE);
+		EXPECT_EQ(tokenizer.tokens[8].type, Token::Type::COMMA);
+		EXPECT_EQ(tokenizer.tokens[9].type, Token::Type::WHITESPACE);
 		TestNumber<CSS::IntegerType>(tokenizer.tokens[10], 56);
-		EXPECT_EQ(tokenizer.tokens[11].type, TokenType::COMMA);
-		EXPECT_EQ(tokenizer.tokens[12].type, TokenType::WHITESPACE);
+		EXPECT_EQ(tokenizer.tokens[11].type, Token::Type::COMMA);
+		EXPECT_EQ(tokenizer.tokens[12].type, Token::Type::WHITESPACE);
 		TestNumber<CSS::IntegerType>(tokenizer.tokens[13], 78);
-		EXPECT_EQ(tokenizer.tokens[14].type, TokenType::PAREN_CLOSE);
-		EXPECT_EQ(tokenizer.tokens[15].type, TokenType::SEMICOLON);
+		EXPECT_EQ(tokenizer.tokens[14].type, Token::Type::PAREN_CLOSE);
+		EXPECT_EQ(tokenizer.tokens[15].type, Token::Type::SEMICOLON);
 	}
 
 } // namespace CSS
