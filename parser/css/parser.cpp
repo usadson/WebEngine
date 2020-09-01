@@ -59,12 +59,12 @@ namespace CSS {
 
 	bool
 	Parser::ConsumeQualifiedRule(std::vector<Token>::const_iterator &inputIterator, std::vector<Rule> &) noexcept {
-		for (const auto it = inputIterator; it != std::cend(tokenizer.tokens); ++it) {
+		for (auto it = inputIterator; it != std::cend(tokenizer.tokens); ++it) {
 		}
 
 		// EOF is reached, consume all the tokens but we can't make a qualified
 		// rule out of it unfortunately :(.
-		Logger::Error(__FUNCTION__, "Parse error: EOF reached!")
+		Logger::Error(__FUNCTION__, "Parse error: EOF reached!");
 		return true;
 	}
 
