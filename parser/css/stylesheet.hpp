@@ -7,7 +7,6 @@
  */
 
 #include "parser/css/rule.hpp"
-#include "parser/css/tokenizer.hpp"
 
 namespace CSS {
 

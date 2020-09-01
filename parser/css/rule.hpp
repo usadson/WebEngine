@@ -6,8 +6,6 @@
  * See the COPYING file for licensing information.
  */
 
-#include "parser/css/tokenizer.hpp"
-
 namespace CSS {
 
 	struct Rule {
