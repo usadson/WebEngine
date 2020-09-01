@@ -9,14 +9,14 @@
 namespace CSS {
 
 	bool
-	Parser::Algorithms::ConsumeListOfRules(bool topFlag, std::vector<Rule> &output) noexcept {
+	Parser::Algorithms::ConsumeListOfRules(const Tokenizer &tokenizer, bool topFlag, std::vector<Rule> &output) noexcept {
 		return true;
 	}
 
 	std::tuple<bool, Stylesheet>
 	Parser::ParseStylesheet(const Tokenizer &tokenizer) noexcept {
 		Stylesheet sheet;
-		return {ConsumeListOfRules(true, sheet.rules), sheet};
+		return {ConsumeListOfRules(tokenizer, true, sheet.rules), sheet};
 	}
 
 } // namespace CSS

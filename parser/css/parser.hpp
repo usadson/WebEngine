@@ -22,7 +22,7 @@ namespace CSS::Parser {
 		// Section: 5.4.1
 		// URL: https://www.w3.org/TR/css-syntax-3/#consume-list-of-rules
 		[[nodiscard]] bool
-		ConsumeListOfRules(bool topFlag, std::vector<Rule> &output) noexcept;
+		ConsumeListOfRules(const Tokenizer &, bool topFlag, std::vector<Rule> &) noexcept;
 
 	} // namespace Algorithms
 
