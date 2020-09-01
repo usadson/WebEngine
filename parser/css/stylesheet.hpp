@@ -17,7 +17,7 @@ namespace CSS {
 	[[nodiscard]] bool
 	ParseStylesheet(const Tokenizer &) noexcept;
 	struct Stylesheet {
-		using Element = std::variant<TokenType/* qualified-rule, at-rule*/>;
+		using Element = std::variant<Token::Type/* qualified-rule, at-rule*/>;
 		// TokenType can be WHITESPACE, CDC and CDO
 		
 		std::vector<Element> elements;
