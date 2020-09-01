@@ -14,4 +14,4 @@ namespace CSS {
 		std::vector<Rule> rules;
 	};
 
-} // namespace CSS::Parser
+} // namespace CSS

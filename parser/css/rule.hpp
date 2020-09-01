@@ -17,4 +17,4 @@ namespace CSS {
 		Type type;
 	};
 
-} // namespace CSS::Parser
+} // namespace CSS
