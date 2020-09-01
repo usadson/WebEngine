@@ -15,7 +15,7 @@
 namespace CSS {
 
 	class ParserTest : public ::testing::Test {
-	  public:
+	public:
 		template <typename T>
 		[[nodiscard]] static Tokenizer
 		Tokenize(const T &stringInput) noexcept {
