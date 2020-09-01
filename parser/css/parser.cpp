@@ -51,8 +51,9 @@ namespace CSS {
 		}
 	}
 
-	void
+	[[nodiscard]] bool
 	Parser::ConsumeQualifiedRule(std::vector<Token>::const_iterator &, std::vector<Rule> &) noexcept {
+		return false;
 	}
 
 } // namespace CSS

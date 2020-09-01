@@ -46,11 +46,14 @@ namespace CSS {
 
 		// Consume a list of rules
 		//
+		// The bool return type indicates whether the iterator was manually
+		// modified or not, i.e. if modified some tokens were consumed.
+		//
 		// [Spec]
 		// Title: CSS Syntax Module Level 3
 		// Section: 5.4.3
 		// URL: https://www.w3.org/TR/css-syntax-3/#consume-a-qualified-rule
-		void
+		[[nodiscard]] bool
 		ConsumeQualifiedRule(std::vector<Token>::const_iterator &, std::vector<Rule> &) noexcept;
 	};
 
