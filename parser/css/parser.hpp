@@ -6,6 +6,9 @@
  * See the COPYING file for licensing information.
  */
 
+#include <tuple>
+
+#include "parser/css/stylesheet.hpp"
 #include "parser/css/tokenizer.hpp"
 
 namespace CSS::Parser {
@@ -16,7 +19,7 @@ namespace CSS::Parser {
 	// Title: CSS Syntax Module Level 3
 	// Section: 5.3.2.
 	// URL: https://www.w3.org/TR/css-syntax-3/#parse-stylesheet
-	[[nodiscard]] bool
+	[[nodiscard]] std::tuple<bool, Stylesheet>
 	ParseStylesheet(const Tokenizer &) noexcept;
 
 } // namespace CSS::Parser
