@@ -4,6 +4,7 @@
  * See the COPYING file for licensing information.
  */
 
+#include "logger.hpp"
 #include "parser/css/parser.hpp"
 
 namespace CSS {
@@ -52,8 +53,15 @@ namespace CSS {
 	}
 
 	[[nodiscard]] bool
-	Parser::ConsumeQualifiedRule(std::vector<Token>::const_iterator &, std::vector<Rule> &) noexcept {
-		return false;
+	Parser::ConsumeQualifiedRule(std::vector<Token>::const_iterator &it, std::vector<Rule> &) noexcept {
+		for (const auto it = it; it != std::cend(tokenizer.tokens); ++it) {
+			
+		}
+
+		// EOF is reached, consume all the tokens but we can't make a qualified
+		// rule out of it unfortunately :(.
+		Logger::Error(__FUNCTION__, "Parse error: EOF reached!")
+		return true;
 	}
 
 } // namespace CSS
