@@ -8,6 +8,11 @@
 
 namespace CSS {
 
+	bool
+	Parser::Algorithms::ConsumeListOfRules(bool topFlag, std::vector<Rule> &output) noexcept {
+		return true;
+	}
+
 	std::tuple<bool, Stylesheet>
 	Parser::ParseStylesheet(const Tokenizer &tokenizer) noexcept {
 		return {true, {}};
