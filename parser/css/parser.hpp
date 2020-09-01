@@ -11,6 +11,10 @@
 #include "parser/css/stylesheet.hpp"
 #include "parser/css/tokenizer.hpp"
 
+#ifndef PRIVATE_VISIBILITY
+#define PRIVATE_VISIBILITY private
+#endif
+
 namespace CSS {
 
 	class Parser {
@@ -26,7 +30,7 @@ namespace CSS {
 		[[nodiscard]] Stylesheet
 		ParseStylesheet() noexcept;
 		
-	  private:
+	  PRIVATE_VISIBILITY:
 		const Tokenizer &tokenizer;
 		bool errorOccurred = false;
 		bool topLevelFlag = false;
