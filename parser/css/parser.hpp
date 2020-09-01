@@ -43,6 +43,15 @@ namespace CSS {
 		// URL: https://www.w3.org/TR/css-syntax-3/#consume-list-of-rules
 		void
 		ConsumeListOfRules(std::vector<Rule> &) noexcept;
+
+		// Consume a list of rules
+		//
+		// [Spec]
+		// Title: CSS Syntax Module Level 3
+		// Section: 5.4.3
+		// URL: https://www.w3.org/TR/css-syntax-3/#consume-a-qualified-rule
+		void
+		ConsumeQualifiedRule(std::vector<Token>::const_iterator &, std::vector<Rule> &) noexcept;
 	};
 
 } // namespace CSS
