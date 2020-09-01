@@ -8,9 +8,9 @@
 
 namespace CSS {
 
-	bool
+	std::tuple<bool, Stylesheet>
 	Parser::ParseStylesheet(const Tokenizer &tokenizer) noexcept {
-		return true;
+		return {true, {}};
 	}
 
 } // namespace CSS
