@@ -30,9 +30,8 @@ namespace CSS {
 					break;
 				case Token::Type::CDC:
 				case Token::Type::CDO:
-					if (!topLevelFlag) {
-						// wasItMutatedManually = true;
-						// if (!ConsumeQualifiedRule(it, output)) { ... }
+					if (!topLevelFlag && !ConsumeQualifiedRule(it, output)) {
+						wasItMutatedManually = true;
 					}
 					break;
 				case Token::Type::AT_KEYWORD:
@@ -40,8 +39,9 @@ namespace CSS {
 					// if (!ConsumeAtRule(it, output)) { ... }
 					break;
 				default:
-					// wasItMutatedManually = true;
-					// if (!ConsumeAtRule(it, output)) { ... }
+					if (!topLevelFlag && !ConsumeQualifiedRule(it, output)) {
+						wasItMutatedManually = true;
+					}
 					break;
 			}
 
