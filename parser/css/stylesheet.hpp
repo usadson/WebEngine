@@ -6,6 +6,8 @@
  * See the COPYING file for licensing information.
  */
 
+#include <vector>
+
 #include "parser/css/rule.hpp"
 
 namespace CSS {
