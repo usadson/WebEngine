@@ -34,6 +34,9 @@ namespace CSS {
 		const Tokenizer &tokenizer;
 		bool errorOccurred = false;
 		bool topLevelFlag = false;
+		std::vector<Token>::const_iterator it;
+		std::vector<Token>::const_iterator endIterator;
+		std::vector<Rule> *rules;
 
 		// Consume a list of rules
 		//
@@ -42,7 +45,7 @@ namespace CSS {
 		// Section: 5.4.1
 		// URL: https://www.w3.org/TR/css-syntax-3/#consume-list-of-rules
 		void
-		ConsumeListOfRules(std::vector<Rule> &) noexcept;
+		ConsumeListOfRules() noexcept;
 
 		// Consume an at-rule
 		//
@@ -54,7 +57,7 @@ namespace CSS {
 		// Section: 5.4.2
 		// URL: https://www.w3.org/TR/css-syntax-3/#consume-at-rule
 		[[nodiscard]] bool
-		ConsumeAtRule(std::vector<Token>::const_iterator &, std::vector<Rule> &) noexcept;
+		ConsumeAtRule() noexcept;
 
 		// Consume a qualified rule
 		//
@@ -66,7 +69,7 @@ namespace CSS {
 		// Section: 5.4.3
 		// URL: https://www.w3.org/TR/css-syntax-3/#consume-a-qualified-rule
 		[[nodiscard]] bool
-		ConsumeQualifiedRule(std::vector<Token>::const_iterator &, std::vector<Rule> &) noexcept;
+		ConsumeQualifiedRule() noexcept;
 	};
 
 } // namespace CSS

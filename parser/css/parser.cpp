@@ -14,13 +14,16 @@ namespace CSS {
 		topLevelFlag = true;
 
 		Stylesheet sheet;
-		ConsumeListOfRules(sheet.rules);
+		this->rules = &sheet.rules;
+		ConsumeListOfRules();
 		return sheet;
 	}
 
 	void
-	Parser::ConsumeListOfRules(std::vector<Rule> &output) noexcept {
-		for (auto it = std::begin(tokenizer.tokens); it != std::end(tokenizer.tokens);) {
+	Parser::ConsumeListOfRules() noexcept {
+		this->it = std::begin(tokenizer.tokens);
+		this->endIterator = std::end(tokenizer.tokens);
+		for (; it != endIterator;) {
 			const auto &token = *it;
 			bool wasItMutatedManually = false;
 			// NOTE that the subroutines called from the following switch
@@ -31,17 +34,17 @@ namespace CSS {
 					break;
 				case Token::Type::CDC:
 				case Token::Type::CDO:
-					if (!topLevelFlag && !ConsumeQualifiedRule(it, output)) {
+					if (!topLevelFlag && !ConsumeQualifiedRule()) {
 						wasItMutatedManually = true;
 					}
 					break;
 				case Token::Type::AT_KEYWORD:
-					if (!ConsumeAtRule(it, output)) {
+					if (!ConsumeAtRule()) {
 						wasItMutatedManually = true;
 					}
 					break;
 				default:
-					if (!topLevelFlag && !ConsumeQualifiedRule(it, output)) {
+					if (!topLevelFlag && !ConsumeQualifiedRule()) {
 						wasItMutatedManually = true;
 					}
 					break;
@@ -54,13 +57,13 @@ namespace CSS {
 	}
 
 	bool
-	Parser::ConsumeAtRule(std::vector<Token>::const_iterator &inputIterator, std::vector<Rule> &) noexcept {
+	Parser::ConsumeAtRule() noexcept {
 		return false;
 	}
 
 	bool
-	Parser::ConsumeQualifiedRule(std::vector<Token>::const_iterator &inputIterator, std::vector<Rule> &) noexcept {
-		for (auto it = inputIterator; it != std::cend(tokenizer.tokens); ++it) {
+	Parser::ConsumeQualifiedRule() noexcept {
+		for (; it != endIterator; ++it) {
 		}
 
 		// EOF is reached, consume all the tokens but we can't make a qualified
