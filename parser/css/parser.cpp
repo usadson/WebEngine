@@ -98,9 +98,9 @@ namespace CSS {
 			case Token::Type::CURLY_OPEN:
 			case Token::Type::SQUARE_OPEN:
 			case Token::Type::PAREN_OPEN:
-				return {/* a simple block */ Block{}};
+				return {/* a simple block */ Block {}};
 			case Token::Type::FUNCTION:
-				return {/* a function */ Function{}};
+				return {/* a function */ Function {}};
 			default:
 				return {*it++};
 		}
