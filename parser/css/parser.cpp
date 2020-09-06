@@ -75,6 +75,7 @@ namespace CSS {
 	void
 	Parser::ConsumeDeclaration() noexcept {
 		const std::vector<Unicode::CodePoint> &name = std::get_if<TokenCodePointsData>(&it->data)->codePoints;
+		std::vector<ComponentValue> values;
 		while (it != endIterator && it->type == Token::Type::WHITESPACE) {
 			++it;
 		}
@@ -88,7 +89,7 @@ namespace CSS {
 		}
 		while (it != endIterator) {
 			/* consume a component value */
-			++it;
+			values.push_back(ConsumeComponentValue());
 		}
 	}
 
@@ -102,7 +103,7 @@ namespace CSS {
 			case Token::Type::FUNCTION:
 				return {/* a function */ Function{}};
 			default:
-				return {*it};
+				return {*it++};
 		}
 	}
 
