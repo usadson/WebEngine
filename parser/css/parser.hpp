@@ -79,6 +79,15 @@ namespace CSS {
 		// URL: https://www.w3.org/TR/css-syntax-3/#consume-declaration
 		void
 		ConsumeDeclaration() noexcept;
+
+		// Consume a component value
+		//
+		// [Spec]
+		// Title: CSS Syntax Module Level 3
+		// Section: 5.4.6.
+		// URL: https://www.w3.org/TR/css-syntax-3/#consume-a-component-value
+		void
+		ConsumeComponentValue() noexcept;
 	};
 
 } // namespace CSS

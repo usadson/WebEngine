@@ -86,6 +86,24 @@ namespace CSS {
 		while (it != endIterator && it->type == Token::Type::WHITESPACE) {
 			++it;
 		}
+		while (it != endIterator) {
+			/* consume a component value */
+			++it;
+		}
+	}
+
+	void
+	Parser::ConsumeComponentValue() noexcept {
+		switch (it->type) {
+			case Token::Type::CURLY_OPEN:
+			case Token::Type::SQUARE_OPEN:
+			case Token::Type::PAREN_OPEN:
+				return /* a simple block */;
+			case Token::Type::FUNCTION:
+				return /* a function */;
+			default:
+				return /* *it */;
+		}
 	}
 
 } // namespace CSS
