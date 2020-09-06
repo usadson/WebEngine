@@ -78,6 +78,11 @@ namespace CSS {
 		while (it != endIterator && it->type == Token::Type::WHITESPACE) {
 			++it;
 		}
+		if (it == endIterator || it->type != Token::Type::COLON) {
+			Logger::Error(__FUNCTION__, "Parse error: ident should be followed by a colon!");
+			return;
+		}
+		++it;
 	}
 
 } // namespace CSS
