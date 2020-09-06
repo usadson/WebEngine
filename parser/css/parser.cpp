@@ -92,17 +92,17 @@ namespace CSS {
 		}
 	}
 
-	void
+	ComponentValue
 	Parser::ConsumeComponentValue() noexcept {
 		switch (it->type) {
 			case Token::Type::CURLY_OPEN:
 			case Token::Type::SQUARE_OPEN:
 			case Token::Type::PAREN_OPEN:
-				return /* a simple block */;
+				return {/* a simple block */ Block{}};
 			case Token::Type::FUNCTION:
-				return /* a function */;
+				return {/* a function */ Function{}};
 			default:
-				return /* *it */;
+				return {*it};
 		}
 	}
 
