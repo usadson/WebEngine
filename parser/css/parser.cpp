@@ -75,7 +75,9 @@ namespace CSS {
 	void
 	Parser::ConsumeDeclaration() noexcept {
 		const std::vector<Unicode::CodePoint> &name = std::get_if<TokenCodePointsData>(&it->data)->codePoints;
-
+		while (it != endIterator && it->type == Token::Type::WHITESPACE) {
+			++it;
+		}
 	}
 
 } // namespace CSS
