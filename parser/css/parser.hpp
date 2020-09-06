@@ -29,7 +29,7 @@ namespace CSS {
 		// URL: https://www.w3.org/TR/css-syntax-3/#parse-stylesheet
 		[[nodiscard]] Stylesheet
 		ParseStylesheet() noexcept;
-		
+
 	  PRIVATE_VISIBILITY:
 		const Tokenizer &tokenizer;
 		bool errorOccurred = false;
@@ -70,6 +70,15 @@ namespace CSS {
 		// URL: https://www.w3.org/TR/css-syntax-3/#consume-a-qualified-rule
 		[[nodiscard]] bool
 		ConsumeQualifiedRule() noexcept;
+
+		// Consume a declaration
+		//
+		// [Spec]
+		// Title: CSS Syntax Module Level 3
+		// Section: 5.4.5.
+		// URL: https://www.w3.org/TR/css-syntax-3/#consume-declaration
+		void
+		ConsumeDeclaration() noexcept;
 	};
 
 } // namespace CSS

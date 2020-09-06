@@ -72,4 +72,10 @@ namespace CSS {
 		return true;
 	}
 
+	void
+	Parser::ConsumeDeclaration() noexcept {
+		const std::vector<Unicode::CodePoint> &name = std::get_if<TokenCodePointsData>(&it->data)->codePoints;
+
+	}
+
 } // namespace CSS
