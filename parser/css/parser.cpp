@@ -87,8 +87,7 @@ namespace CSS {
 		while (it != endIterator && it->type == Token::Type::WHITESPACE) {
 			++it;
 		}
-		while (it != endIterator) {
-			/* consume a component value */
+		if (it != endIterator) {
 			values.push_back(ConsumeComponentValue());
 		}
 	}

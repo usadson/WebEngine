@@ -31,6 +31,10 @@ namespace CSS {
 		std::variant<Token, Function, Block> value;
 	};
 
+	struct Declaration {
+		bool important{false};
+	};
+
 	struct Stylesheet {
 		std::vector<Rule> rules;
 	};
