@@ -83,6 +83,9 @@ namespace CSS {
 			return;
 		}
 		++it;
+		while (it != endIterator && it->type == Token::Type::WHITESPACE) {
+			++it;
+		}
 	}
 
 } // namespace CSS
