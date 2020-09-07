@@ -63,6 +63,21 @@ namespace Rendering {
 			}
 		}
 
+		const float width = window()->width / tabs.size();
+		const float height = window()->height * 0.15;
+
+		for (std::size_t i = 0; i < tabs.size(); i++) {
+			const auto &color = tabs[i].view.color;
+			glColor3ub((color & 0xFF000000) >> 24, (color & 0x00FF0000) >> 16, (color & 0x0000FF00) >> 8);
+
+			glBegin(GL_QUADS);
+			glVertex2f(width * i, 0);
+			glVertex2f(width * i, height);
+			glVertex2f(width * (i + 1), height);
+			glVertex2f(width * (i + 1), 0);
+			glEnd();
+		}
+
 		window()->SwapBuffers();
 	}
 
