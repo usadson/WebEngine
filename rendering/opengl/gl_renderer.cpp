@@ -15,6 +15,15 @@
 
 namespace Rendering {
 
+	/**
+	 * Render a quad to the screen using the old OpenGL API.
+	 *
+	 * @param color an RGB color that should be used to draw the quad
+	 * @param x a.k.a. the left bound of the quad
+	 * @param y a.k.a. the top bound of the quad
+	 * @param width combined with x will make the right bound of the quad
+	 * @param height combined with y will make the bottom bound of the quad
+	 */
 	inline static void
 	DrawQuad(
 		std::uint32_t color, std::uint32_t x, std::uint32_t y, std::uint32_t width, std::uint32_t height) noexcept {
