@@ -48,6 +48,7 @@ namespace Rendering {
 		const float height = window()->height * 0.1;
 
 		for (std::size_t i = 0; i < tabs.size(); i++) {
+			const bool isTabFocussed = focussedTab == &tabs[i];
 			const auto &color = tabs[i].view.color;
 			glColor3ub((color & 0xFF000000) >> 24, (color & 0x00FF0000) >> 16, (color & 0x0000FF00) >> 8);
 
@@ -63,12 +64,8 @@ namespace Rendering {
 			} else {
 				glColor3ub(0xBB, 0xBB, 0xBB);
 			}
-			glBegin(GL_QUADS);
-			glVertex2f(width * i, height);
-			glVertex2f(width * i, height + 4);
-			glVertex2f(width * (i + 1), height + 4);
-			glVertex2f(width * (i + 1), height);
-			glEnd();
+
+			DrawQuad(isTabFocussed ? 0xFFFFFFFF : 0xBBBBBBFF, width * i, height, width, 4);
 		}
 
 		window()->SwapBuffers();
