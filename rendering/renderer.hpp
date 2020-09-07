@@ -17,6 +17,7 @@ namespace Rendering {
 
 #include "render_object.hpp"
 #include "window/window.hpp"
+#include "rendering/input.hpp"
 
 namespace Rendering {
 
@@ -54,6 +55,10 @@ namespace Rendering {
 
 		virtual void
 		Prepare()
+			= 0;
+
+		virtual void
+		OnMouseDown(MouseButton, double x, double y)
 			= 0;
 
 		virtual inline void

@@ -81,4 +81,9 @@ namespace Rendering {
 		}
 	}
 
+	void
+	GLRenderer::OnMouseDown(MouseButton button, double x, double y) {
+
+	}
+
 } // namespace Rendering

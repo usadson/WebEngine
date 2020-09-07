@@ -40,6 +40,9 @@ namespace Rendering {
 		Enqueue(RenderObject *) override;
 
 		void
+		OnMouseDown(MouseButton, double x, double y) override;
+
+		void
 		Prepare() override;
 	};
 
