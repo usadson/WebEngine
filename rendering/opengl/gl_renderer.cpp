@@ -45,6 +45,8 @@ namespace Rendering {
 		glOrtho(0, window()->width, window()->height, 0, 0, 1);
 		// 		glGenVertexArrays(1, &VertexArrayID);
 		// 		glBindVertexArray(VertexArrayID);
+
+		CalculateDimensions();
 	}
 
 	void
