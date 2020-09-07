@@ -25,7 +25,7 @@ namespace Rendering {
 		GetSupportedRenderers() const noexcept override;
 
 		[[nodiscard]] std::pair<bool, std::optional<void *> >
-		PrepareForRenderer(RendererType) override;
+		RegisterRenderer(Renderer &) override;
 
 		bool
 		PollClose() noexcept override;

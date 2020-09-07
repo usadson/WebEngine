@@ -38,8 +38,10 @@ namespace Rendering {
 	}
 
 	std::pair<bool, std::optional<void *>>
-	WindowGLFW::PrepareForRenderer(RendererType type) {
-		switch (type) {
+	WindowGLFW::RegisterRenderer(Renderer &renderer) {
+		this->renderer = &renderer;
+
+		switch (renderer.type()) {
 			case RendererType::OPENGL:
 				return {InternalPrepareGL(), {}};
 			default:

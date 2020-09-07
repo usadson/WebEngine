@@ -20,6 +20,9 @@ namespace Rendering {
 namespace Rendering {
 
 	class WindowBase {
+	protected:
+		Renderer *renderer;
+
 	  public: // Public Properties
 		uint32_t height;
 		uint32_t width;
@@ -40,7 +43,7 @@ namespace Rendering {
 		PollClose() noexcept = 0;
 
 		virtual std::pair<bool, std::optional<void *> >
-		PrepareForRenderer(RendererType) = 0;
+		RegisterRenderer(Renderer &) = 0;
 
 		virtual void
 		SetTitle(Unicode::UString string) noexcept = 0;
