@@ -17,6 +17,10 @@
 namespace Rendering {
 
 	class GLRenderer : public Renderer {
+	private:
+		float tabWidth{};
+		float tabHeight{};
+
 	  public: // Public Properties
 		std::vector<RenderObject *> renderObjects;
 		std::vector<Tab> tabs{5};
