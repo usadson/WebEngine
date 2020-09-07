@@ -49,22 +49,7 @@ namespace Rendering {
 
 		for (std::size_t i = 0; i < tabs.size(); i++) {
 			const bool isTabFocussed = focussedTab == &tabs[i];
-			const auto &color = tabs[i].view.color;
-			glColor3ub((color & 0xFF000000) >> 24, (color & 0x00FF0000) >> 16, (color & 0x0000FF00) >> 8);
-
-			glBegin(GL_QUADS);
-			glVertex2f(width * i, 0);
-			glVertex2f(width * i, height);
-			glVertex2f(width * (i + 1), height);
-			glVertex2f(width * (i + 1), 0);
-			glEnd();
-
-			if (focussedTab == &tabs[i]) {
-				glColor3ub(0xFF, 0xFF, 0xFF);
-			} else {
-				glColor3ub(0xBB, 0xBB, 0xBB);
-			}
-
+			DrawQuad(tabs[i].view.color, width * i, 0, width, height);
 			DrawQuad(isTabFocussed ? 0xFFFFFFFF : 0xBBBBBBFF, width * i, height, width, 4);
 		}
 
