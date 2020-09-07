@@ -185,8 +185,7 @@ namespace Net::HTTP {
 			if (character.value() == ':')
 				return HTTPConnectionError::NO_ERROR;
 
-			if (std::find(std::begin(unreservedCharacters),
-					std::end(unreservedCharacters),
+			if (std::find(std::begin(unreservedCharacters), std::end(unreservedCharacters),
 					character.value())
 					!= std::end(unreservedCharacters)
 				|| (character.value() >= 0x30 && character.value() <= 0x39) || // DIGIT
@@ -281,13 +280,9 @@ namespace Net::HTTP {
 		if (!connectionInfo.Write(str.c_str(), str.length()))
 			return HTTPConnectionError::FAILED_WRITE_REQUEST;
 
-		for (const auto &subroutine : {&HTTPConnection::ConsumeHTTPVersion,
-				 &HTTPConnection::ConsumeSingleSpace,
-				 &HTTPConnection::ConsumeStatusCode,
-				 &HTTPConnection::ConsumeSingleSpace,
-				 &HTTPConnection::ConsumeReasonPhrase,
-				 &HTTPConnection::ConsumeNewLine,
-				 &HTTPConnection::ConsumeHeaders,
+		for (const auto &subroutine : {&HTTPConnection::ConsumeHTTPVersion, &HTTPConnection::ConsumeSingleSpace,
+				 &HTTPConnection::ConsumeStatusCode, &HTTPConnection::ConsumeSingleSpace,
+				 &HTTPConnection::ConsumeReasonPhrase, &HTTPConnection::ConsumeNewLine, &HTTPConnection::ConsumeHeaders,
 				 &HTTPConnection::ConsumeMessageBody}) {
 			auto error = (this->*subroutine)();
 			if (error != HTTPConnectionError::NO_ERROR)

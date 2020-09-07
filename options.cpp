@@ -41,8 +41,7 @@ namespace CommandLineParser {
 
 Options::OptionLookupResult
 Options::GetCommandLineParameter(const std::string &name) {
-	auto result = std::find_if(std::begin(CommandLineParser::outputs),
-		std::end(CommandLineParser::outputs),
+	auto result = std::find_if(std::begin(CommandLineParser::outputs), std::end(CommandLineParser::outputs),
 		[name](const auto &entry) -> bool { return strcasecmp(name.c_str(), entry.name.c_str()) == 0; });
 
 	if (result != std::end(CommandLineParser::outputs)) {
@@ -62,9 +61,8 @@ ParseEqualsOption(const std::string_view &strview, std::optional<std::string_vie
 
 	std::string name(std::begin(strview) + 2);
 
-	const auto *result = std::find_if(std::begin(inputs), std::end(inputs), [name](const auto &entry) -> bool {
-		return strcasecmp(name.c_str(), entry.name.c_str()) == 0;
-	});
+	const auto *result = std::find_if(std::begin(inputs), std::end(inputs),
+		[name](const auto &entry) -> bool { return strcasecmp(name.c_str(), entry.name.c_str()) == 0; });
 
 	if (result != std::end(inputs) && result->optionHasValue) {
 		if (isLastOption) {
@@ -115,8 +113,8 @@ Options::ParseCommandLine(int argc, const char **argv) {
 					CommandLineParser::outputs.emplace_back(std::string(std::begin(strview) + 2, equals - 2),
 						std::string(std::begin(strview) + equals + 1));
 				} else {
-					CommandLineParser::outputs.emplace_back(std::string(std::begin(strview) + 2, equals - 2),
-						std::optional<std::string>());
+					CommandLineParser::outputs.emplace_back(
+						std::string(std::begin(strview) + 2, equals - 2), std::optional<std::string>());
 				}
 			}
 		} else if (prevName.has_value()) {
@@ -126,8 +124,7 @@ Options::ParseCommandLine(int argc, const char **argv) {
 					std::optional<std::string>());
 			else
 				CommandLineParser::outputs.emplace_back(
-					std::string(std::begin(prevName.value()) + 2, std::end(prevName.value())),
-					std::string(strview));
+					std::string(std::begin(prevName.value()) + 2, std::end(prevName.value())), std::string(strview));
 			prevName.reset();
 		} else {
 			CommandLineParser::textOutput.emplace_back(strview);

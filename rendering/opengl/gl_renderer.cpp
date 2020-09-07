@@ -62,10 +62,7 @@ namespace Rendering {
 			DrawQuad(isTabFocussed ? 0xFFFFFFFF : 0xBBBBBBFF, tabWidth * i, tabHeight, tabWidth, tabLineHeight);
 
 			if (isTabFocussed) {
-				DrawQuad(tabs[i].view.color,
-					0,
-					tabHeight + tabLineHeight,
-					windowWidth,
+				DrawQuad(tabs[i].view.color, 0, tabHeight + tabLineHeight, windowWidth,
 					windowHeight - tabHeight - tabLineHeight);
 			}
 		}

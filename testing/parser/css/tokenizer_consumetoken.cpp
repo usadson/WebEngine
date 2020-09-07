@@ -140,8 +140,7 @@ namespace CSS {
 
 	TEST_F(TokenizerConsumeToken, TestSimpleTypes) {
 		const std::map<Unicode::CodePoint, Token::Type> map {{Unicode::COLON, Token::Type::COLON},
-			{Unicode::COMMA, Token::Type::COMMA},
-			{Unicode::SEMICOLON, Token::Type::SEMICOLON},
+			{Unicode::COMMA, Token::Type::COMMA}, {Unicode::SEMICOLON, Token::Type::SEMICOLON},
 			{Unicode::LEFT_CURLY_BRACKET, Token::Type::CURLY_OPEN},
 			{Unicode::RIGHT_CURLY_BRACKET, Token::Type::CURLY_CLOSE},
 			{Unicode::LEFT_SQUARE_BRACKET, Token::Type::SQUARE_OPEN},
@@ -182,13 +181,9 @@ namespace CSS {
 	}
 
 	TEST_F(TokenizerConsumeToken, TestLessThanSignAsDelim) {
-		const std::array inputs = {Unicode::UString("<-!-"),
-			Unicode::UString("<--!"),
-			Unicode::UString("<!- "),
-			Unicode::UString("<! --"),
-			Unicode::UString("< !--"),
-			Unicode::UString("< !- -"),
-			Unicode::UString("< ! - -")};
+		const std::array inputs
+			= {Unicode::UString("<-!-"), Unicode::UString("<--!"), Unicode::UString("<!- "), Unicode::UString("<! --"),
+				Unicode::UString("< !--"), Unicode::UString("< !- -"), Unicode::UString("< ! - -")};
 		for (const auto &input : inputs) {
 			Tokenizer tokenizer(context, input);
 			tokenizer.stream.Skip();

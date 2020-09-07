@@ -140,19 +140,18 @@ namespace Net {
 			timingTLS = "";
 		}
 
-		Logger::Debug("Net::ConnectionInfo::Connect",
-			"Timings:\n"
-			"\tDNS Resolving:             "
-				+ timingDNS
-				+ "\n"
-				  "\tPinging other hosts:       "
-				+ timingPing
-				+ "\n"
-				  "\tConnection Establishment:  "
-				+ timingConnect
-				+ "\n"
-				  "\tTLS Handshake:             "
-				+ timingTLS);
+		Logger::Debug("Net::ConnectionInfo::Connect", "Timings:\n"
+													  "\tDNS Resolving:             "
+														  + timingDNS
+														  + "\n"
+															"\tPinging other hosts:       "
+														  + timingPing
+														  + "\n"
+															"\tConnection Establishment:  "
+														  + timingConnect
+														  + "\n"
+															"\tTLS Handshake:             "
+														  + timingTLS);
 		return true;
 	}
 

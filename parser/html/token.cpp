@@ -19,12 +19,8 @@ namespace HTML {
 		const StartTagToken StartTagToken::INVALID_TYPE_START_TAG = StartTagToken();
 
 		std::map<TokenType, std::string> tokenTypeNames = {{TokenType::CHARACTER, "CHARACTER"},
-			{TokenType::COMMENT, "COMMENT"},
-			{TokenType::DOCTYPE, "DOCTYPE"},
-			{TokenType::ENDTAG, "ENDTAG"},
-			{TokenType::EOF_TYPE, "EOF_TYPE"},
-			{TokenType::INVALID, "EOF_TYPE"},
-			{TokenType::STARTTAG, "STARTTAG"}};
+			{TokenType::COMMENT, "COMMENT"}, {TokenType::DOCTYPE, "DOCTYPE"}, {TokenType::ENDTAG, "ENDTAG"},
+			{TokenType::EOF_TYPE, "EOF_TYPE"}, {TokenType::INVALID, "EOF_TYPE"}, {TokenType::STARTTAG, "STARTTAG"}};
 
 		void
 		AmbiguousTagToken::AddTokenAttribute(HTML::Tokenizer::Context &context) {
@@ -32,8 +28,7 @@ namespace HTML {
 				Logger::Crash(__PRETTY_FUNCTION__, "0-length attributeName");
 			}
 
-			if (std::find_if(std::cbegin(attributes),
-					std::cend(attributes),
+			if (std::find_if(std::cbegin(attributes), std::cend(attributes),
 					[this](const auto &attribute) { return attribute.first.EqualsIgnoreCase(attributeName); })
 				!= std::cend(attributes)) {
 				context.LogError(HTML::Tokenizer::ParserError::DUPLICATE_ATTRIBUTES);
@@ -60,9 +55,8 @@ namespace HTML {
 			if (name.length() == 0)
 				return std::nullopt;
 
-			auto attr = std::find_if(std::begin(attributes), std::end(attributes), [name](const auto &attribute) {
-				return attribute.first.EqualsIgnoreCase(name);
-			});
+			auto attr = std::find_if(std::begin(attributes), std::end(attributes),
+				[name](const auto &attribute) { return attribute.first.EqualsIgnoreCase(name); });
 
 			if (attr == std::end(attributes))
 				return std::nullopt;

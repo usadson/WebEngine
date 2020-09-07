@@ -30,10 +30,8 @@ namespace CSS {
 				const auto &data = std::get<TokenCodePointsData>(token.data);
 				EXPECT_EQ(data.codePoints, expected);
 				if (data.codePoints != expected) {
-					const auto mismatch = std::mismatch(std::begin(expected),
-						std::end(expected),
-						std::begin(data.codePoints),
-						std::end(data.codePoints));
+					const auto mismatch = std::mismatch(std::begin(expected), std::end(expected),
+						std::begin(data.codePoints), std::end(data.codePoints));
 					std::cout << "First mismatch is: " << *mismatch.first << ' ' << *mismatch.second << '\n';
 				}
 			}
@@ -42,8 +40,7 @@ namespace CSS {
 
 	TEST_F(TokenizerConsumeURLToken, SimpleTest) {
 		const Unicode::UString input {"https://example.com)"};
-		RunTest(true,
-			input,
+		RunTest(true, input,
 			{'h', 't', 't', 'p', 's', ':', '/', '/', 'e', 'x', 'a', 'm', 'p', 'l', 'e', '.', 'c', 'o', 'm'});
 	}
 
@@ -73,11 +70,8 @@ namespace CSS {
 	TEST_F(TokenizerConsumeURLToken, InvalidCharactersTest) {
 		// Illegal characters in this case: " ' ( \n DELETE
 		Unicode::UString input {'t', 'e', 's', 't', '?', ')'};
-		for (const auto &character : {Unicode::QUOTATION_MARK,
-				 Unicode::APOSTROPHE,
-				 Unicode::LEFT_PARENTHESIS,
-				 Unicode::LINE_TABULATION,
-				 Unicode::DELETE}) {
+		for (const auto &character : {Unicode::QUOTATION_MARK, Unicode::APOSTROPHE, Unicode::LEFT_PARENTHESIS,
+				 Unicode::LINE_TABULATION, Unicode::DELETE}) {
 			input[4] = character;
 			RunTest(true, input, {}, true);
 			EXPECT_TRUE(ParseErrorTester::WasParseErrorFired(ParseError::UNEXPECTED_CHARACTER_IN_URL));

@@ -120,8 +120,7 @@ namespace HTML {
 		HTML::Tokenizer::StartTagToken &tagToken, const Unicode::UString &nameSpace) {
 		std::optional<Unicode::UString> is;
 
-		auto attr = std::find_if(std::begin(tagToken.GetAttributes()),
-			std::end(tagToken.GetAttributes()),
+		auto attr = std::find_if(std::begin(tagToken.GetAttributes()), std::end(tagToken.GetAttributes()),
 			[](const auto &attr) { return attr.first.EqualsIgnoreCaseA(2, "is"); });
 
 		if (attr != std::end(tagToken.GetAttributes()))

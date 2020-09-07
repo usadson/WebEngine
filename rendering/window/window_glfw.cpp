@@ -135,8 +135,7 @@ namespace Rendering {
 		}
 
 		/* Center the window */
-		glfwSetWindowPos(internalWindow,
-			static_cast<uint32_t>((videoMode->width - this->width) / 2),
+		glfwSetWindowPos(internalWindow, static_cast<uint32_t>((videoMode->width - this->width) / 2),
 			static_cast<uint32_t>((videoMode->height - this->height) / 2));
 
 		glfwSetWindowUserPointer(internalWindow, this);

@@ -141,9 +141,7 @@ namespace Unicode {
 	UString::EqualsIgnoreCase(const UString &other) const noexcept {
 		if (data.size() != other.data.size())
 			return false;
-		auto pair = std::mismatch(std::cbegin(data),
-			std::cend(data),
-			std::cbegin(other.data),
+		auto pair = std::mismatch(std::cbegin(data), std::cend(data), std::cbegin(other.data),
 			[](Unicode::CodePoint a, Unicode::CodePoint b) {
 				return Unicode::ToLowerASCII(a) == Unicode::ToLowerASCII(b);
 			});

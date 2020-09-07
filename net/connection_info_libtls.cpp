@@ -62,8 +62,8 @@ namespace Net {
 		}
 
 		if (tls_config_set_alpn(config, tlsALPNProtocols.c_str()) == -1) {
-			Logger::Severe("ConnectionInfo::TLSSetup[libtls]",
-				std::string("Failed to set ALPN: ") + tls_config_error(config));
+			Logger::Severe(
+				"ConnectionInfo::TLSSetup[libtls]", std::string("Failed to set ALPN: ") + tls_config_error(config));
 			tls_config_free(config);
 			return false;
 		}
@@ -94,9 +94,9 @@ namespace Net {
 		}
 
 		if (tls_handshake(context) == -1) {
-			Logger::Warning("ConnectionInfo::TLSSetup[libtls]",
-				std::string("Failed to setup secure connection (handshake) with ") + hostName + ": "
-					+ tls_error(context));
+			Logger::Warning(
+				"ConnectionInfo::TLSSetup[libtls]", std::string("Failed to setup secure connection (handshake) with ")
+														+ hostName + ": " + tls_error(context));
 			tls_free(context);
 			return false;
 		}
