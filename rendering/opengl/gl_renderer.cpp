@@ -36,16 +36,7 @@ namespace Rendering {
 
 	void
 	GLRenderer::Prepare() {
-		std::cout << "Tabs: " << tabs.size() << '\n';
 		glewInit();
-		/* Map */
-		std::stringstream info;
-		info << "WindowSize={ width=" << window()->width << " height=" << window()->height << " }";
-		Logger::Debug(__PRETTY_FUNCTION__, info.str());
-		glOrtho(0, window()->width, window()->height, 0, 0, 1);
-		// 		glGenVertexArrays(1, &VertexArrayID);
-		// 		glBindVertexArray(VertexArrayID);
-
 		CalculateDimensions();
 	}
 
