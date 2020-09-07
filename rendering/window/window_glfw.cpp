@@ -13,12 +13,32 @@
 #include <GL/glx.h>
 
 #include "logger.hpp"
+#include "rendering/input.hpp"
 
 namespace GLFWSuite {
+
+	[[nodiscard]] inline constexpr Rendering::MouseButton
+	ResolveMouseButton(int button) noexcept {
+		switch (button) {
+			case GLFW_MOUSE_BUTTON_LEFT:
+				return Rendering::MouseButton::LEFT;
+			case GLFW_MOUSE_BUTTON_MIDDLE:
+				return Rendering::MouseButton::MIDDLE;
+			case GLFW_MOUSE_BUTTON_RIGHT:
+				return Rendering::MouseButton::RIGHT;
+			default:
+				// Unknown mouse button that we don't care abt
+				return Rendering::MouseButton::ILLEGAL;
+		}
+	}
 
 	void
 	MouseButtonCallback(GLFWwindow *window, int button, int action, int mods) {
 		const auto *renderer = reinterpret_cast<Rendering::WindowGLFW *>(glfwGetWindowUserPointer(window))->renderer;
+		const auto mouseButton = ResolveMouseButton(button);
+		if (mouseButton == Rendering::MouseButton::ILLEGAL) {
+			return;
+		}
 	}
 
 } // namespace GLFWSuite
