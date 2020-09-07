@@ -20,7 +20,7 @@ namespace Rendering {
 namespace Rendering {
 
 	class WindowBase {
-	protected:
+	public:
 		Renderer *renderer;
 
 	  public: // Public Properties
