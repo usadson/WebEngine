@@ -4,7 +4,7 @@ BasedOnStyle: GNU
 Language: Cpp
 Standard: c++17
 FixNamespaceComments: true
-BinPackArguments: false
+BinPackArguments: true
 AllowAllArgumentsOnNextLine: false
 
 SpaceBeforeCpp11BracedList: true
