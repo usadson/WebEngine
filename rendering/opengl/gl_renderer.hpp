@@ -49,6 +49,9 @@ namespace Rendering {
 	private:
 		void
 		CheckTabSwitch(double x, double y);
+
+		[[nodiscard]] std::size_t
+		GetTabIndex(double x, double y);
 	};
 
 } // namespace Rendering

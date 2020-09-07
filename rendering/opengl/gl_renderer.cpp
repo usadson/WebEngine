@@ -77,9 +77,14 @@ namespace Rendering {
 		}
 	}
 
+	std::size_t
+	GLRenderer::GetTabIndex(double x, double y) {
+		return static_cast<std::size_t>(x / (window()->width / tabs.size()));
+	}
+
 	void
 	GLRenderer::CheckTabSwitch(double x, double y) {
-		const std::size_t tabIndex = static_cast<std::size_t>(x / (window()->width / tabs.size()));
+		const auto tabIndex = GetTabIndex(x, y);
 		if (tabIndex < tabs.size()) {
 			focussedTab = &tabs[tabIndex];
 		}
