@@ -83,7 +83,14 @@ namespace Rendering {
 
 	void
 	GLRenderer::OnMouseDown(MouseButton button, double x, double y) {
-		std::cout << "[MouseDown] Btn=" << static_cast<int>(button) << " pos(" << x << ", " << y << ")\n";
+		if (y > window()->height * 0.1) {
+			return;
+		}
+
+		const std::size_t tabIndex = static_cast<std::size_t>(x / (window()->width / tabs.size()));
+		if (tabIndex < tabs.size()) {
+			focussedTab = &tabs[tabIndex];
+		}
 	}
 
 } // namespace Rendering
