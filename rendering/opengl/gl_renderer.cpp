@@ -31,37 +31,7 @@ namespace Rendering {
 
 	void
 	GLRenderer::DrawFrame() {
-		DrawRect *rect;
-
 		glClear(GL_COLOR_BUFFER_BIT);
-
-		glColor3f(1, 1, 1);
-		for (const auto &object : renderObjects) {
-			switch (object->type) {
-				case RenderObjectType::RECT:
-					rect = dynamic_cast<DrawRect *>(object);
-
-					if (rect == nullptr) {
-						Logger::Error(__PRETTY_FUNCTION__, "RenderObjectType not equal to type (i.e. DrawRect)");
-						continue;
-					}
-
-					glColor4f(rect->color.r / 255.0,
-						rect->color.g / 255.0,
-						rect->color.b / 255.0,
-						rect->color.a / 255.0);
-
-					glBegin(GL_QUADS);
-					glVertex2f(rect->bounds.left, rect->bounds.top);
-					glVertex2f(rect->bounds.left, rect->bounds.bottom);
-					glVertex2f(rect->bounds.right, rect->bounds.bottom);
-					glVertex2f(rect->bounds.right, rect->bounds.top);
-					glEnd();
-					break;
-				default:
-					break;
-			}
-		}
 
 		const float width = window()->width / tabs.size();
 		const float height = window()->height * 0.1;
