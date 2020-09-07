@@ -19,7 +19,7 @@ namespace Rendering {
 	class GLRenderer : public Renderer {
 	  public: // Public Properties
 		std::vector<RenderObject *> renderObjects;
-		std::vector<Tab> tabs{2};
+		std::vector<Tab> tabs{5};
 		Tab *focussedTab{&tabs[0]};
 
 	  public: // Con/destructors
