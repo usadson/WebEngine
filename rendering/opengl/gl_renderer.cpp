@@ -90,7 +90,7 @@ namespace Rendering {
 
 	void
 	GLRenderer::OnMouseDown(MouseButton button, double x, double y) {
-		if (y > tabHeight) {
+		if (button != MouseButton::LEFT || y > tabHeight) {
 			return;
 		}
 
