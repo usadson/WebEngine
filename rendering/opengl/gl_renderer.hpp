@@ -45,6 +45,10 @@ namespace Rendering {
 
 		void
 		Prepare() override;
+
+	private:
+		void
+		CheckTabSwitch(double x, double y);
 	};
 
 } // namespace Rendering

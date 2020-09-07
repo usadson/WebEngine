@@ -72,10 +72,13 @@ namespace Rendering {
 
 	void
 	GLRenderer::OnMouseDown(MouseButton button, double x, double y) {
-		if (button != MouseButton::LEFT || y > tabHeight) {
-			return;
+		if (button == MouseButton::LEFT && y < tabHeight) {
+			CheckTabSwitch(x, y);
 		}
+	}
 
+	void
+	GLRenderer::CheckTabSwitch(double x, double y) {
 		const std::size_t tabIndex = static_cast<std::size_t>(x / (window()->width / tabs.size()));
 		if (tabIndex < tabs.size()) {
 			focussedTab = &tabs[tabIndex];
