@@ -16,6 +16,17 @@
 
 namespace Rendering {
 
+	inline static void
+	DrawQuad(std::uint32_t color, std::uint32_t x, std::uint32_t y, std::uint32_t width, std::uint32_t height) noexcept {
+		glColor3ub((color & 0xFF000000) >> 24, (color & 0x00FF0000) >> 16, (color & 0x0000FF00) >> 8);
+		glBegin(GL_QUADS);
+		glVertex2f(x, y);
+		glVertex2f(x, y + height);
+		glVertex2f(x + width, y + height);
+		glVertex2f(x + width, y);
+		glEnd();
+	}
+
 	void
 	GLRenderer::Prepare() {
 		std::cout << "Tabs: " << tabs.size() << '\n';
