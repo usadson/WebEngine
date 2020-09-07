@@ -64,7 +64,7 @@ namespace Rendering {
 		}
 
 		const float width = window()->width / tabs.size();
-		const float height = window()->height * 0.15;
+		const float height = window()->height * 0.1;
 
 		for (std::size_t i = 0; i < tabs.size(); i++) {
 			const auto &color = tabs[i].view.color;
