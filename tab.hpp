@@ -6,9 +6,11 @@
  * See the COPYING file for licensing information.
  */
 
+class Tab;
+
 #include "rendering/view.hpp"
 
 class Tab {
 public:
-	View view{this};
+	Rendering::View view{*this};
 };
