@@ -44,13 +44,19 @@ namespace Rendering {
 	GLRenderer::DrawFrame() {
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		const float width = window()->width / tabs.size();
-		const float height = window()->height * 0.1;
+		const float wWidth = window()->width;
+		const float wHeight = window()->height;
+		const float width = wWidth / tabs.size();
+		const float height = wHeight * 0.1;
 
 		for (std::size_t i = 0; i < tabs.size(); i++) {
 			const bool isTabFocussed = focussedTab == &tabs[i];
 			DrawQuad(tabs[i].view.color, width * i, 0, width, height);
 			DrawQuad(isTabFocussed ? 0xFFFFFFFF : 0xBBBBBBFF, width * i, height, width, 4);
+
+			if (isTabFocussed) {
+				DrawQuad(tabs[i].view.color, 0, height + 4, wWidth, wHeight - height - 4);
+			}
 		}
 
 		window()->SwapBuffers();
