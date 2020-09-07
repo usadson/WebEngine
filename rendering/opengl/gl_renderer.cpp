@@ -83,7 +83,7 @@ namespace Rendering {
 
 	void
 	GLRenderer::OnMouseDown(MouseButton button, double x, double y) {
-
+		std::cout << "[MouseDown] Btn=" << static_cast<int>(button) << " pos(" << x << ", " << y << ")\n";
 	}
 
 } // namespace Rendering
