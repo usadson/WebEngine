@@ -76,6 +76,18 @@ namespace Rendering {
 			glVertex2f(width * (i + 1), height);
 			glVertex2f(width * (i + 1), 0);
 			glEnd();
+
+			if (focussedTab == &tabs[i]) {
+				glColor3ub(0xFF, 0xFF, 0xFF);
+			} else {
+				glColor3ub(0xBB, 0xBB, 0xBB);
+			}
+			glBegin(GL_QUADS);
+			glVertex2f(width * i, height);
+			glVertex2f(width * i, height + 4);
+			glVertex2f(width * (i + 1), height + 4);
+			glVertex2f(width * (i + 1), height);
+			glEnd();
 		}
 
 		window()->SwapBuffers();
