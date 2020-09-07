@@ -9,7 +9,7 @@
 namespace Rendering {
 
 	enum class MouseButton {
-		LEFT, MIDDLE, RIGHT
+		ILLEGAL, LEFT, MIDDLE, RIGHT
 	};
 
 } // namespace Rendering
