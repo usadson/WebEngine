@@ -685,8 +685,6 @@ bin/parser/html/tree/insert_intial.o: parser/html/tree/insert_initial.cpp \
 bin/rendering/opengl/gl_renderer.o: rendering/opengl/gl_renderer.cpp \
 	rendering/opengl/gl_renderer.hpp \
 	rendering/renderer.hpp \
-	rendering/drawables/draw_color.hpp \
-	rendering/drawables/draw_rect.hpp \
 	logger.hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ rendering/opengl/gl_renderer.cpp
 

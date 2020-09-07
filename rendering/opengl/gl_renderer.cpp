@@ -12,7 +12,6 @@
 #include <GL/glew.h>
 
 #include "logger.hpp"
-#include "rendering/drawables/draw_rect.hpp"
 
 namespace Rendering {
 
@@ -31,8 +30,8 @@ namespace Rendering {
 	void
 	GLRenderer::CalculateDimensions() noexcept {
 		tabWidth = window()->width / tabs.size();
-		tabHeight = window()->height * 0.1;
-		tabLineHeight = 4;
+		tabHeight = window()->height * 0.07;
+		tabLineHeight = tabHeight * 0.05;
 	}
 
 	void
@@ -68,24 +67,6 @@ namespace Rendering {
 		}
 
 		window()->SwapBuffers();
-	}
-
-	void
-	GLRenderer::Enqueue(RenderObject *object) {
-		renderObjects.push_back(object);
-	}
-
-	void
-	GLRenderer::Dequeue(RenderObject *object) {
-		auto it = std::find(renderObjects.begin(), renderObjects.end(), object);
-
-		if (it == renderObjects.end()) {
-			std::stringstream info;
-			info << "Invalid RenderObject! Pointer: " << object << " renderObjects.size: " << renderObjects.size();
-			Logger::Warning(__PRETTY_FUNCTION__, info.str());
-		} else {
-			renderObjects.erase(it);
-		}
 	}
 
 	void

@@ -23,7 +23,6 @@ namespace Rendering {
 		float tabLineHeight;
 
 	  public: // Public Properties
-		std::vector<RenderObject *> renderObjects;
 		std::vector<Tab> tabs{5};
 		Tab *focussedTab{&tabs[0]};
 
@@ -39,13 +38,7 @@ namespace Rendering {
 		CalculateDimensions() noexcept;
 
 		void
-		Dequeue(RenderObject *) override;
-
-		void
 		DrawFrame() override;
-
-		void
-		Enqueue(RenderObject *) override;
 
 		void
 		OnMouseDown(MouseButton, double x, double y) override;

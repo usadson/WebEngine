@@ -40,11 +40,7 @@
 #include "options.hpp"
 #include "parser/html/context.hpp"
 #include "parser/html/tokenizer.hpp"
-#include "rendering/drawables/draw_color.hpp"
-#include "rendering/drawables/draw_rect.hpp"
-#include "rendering/drawables/draw_text.hpp"
 #include "rendering/opengl/gl_renderer.hpp"
-#include "rendering/render_bounds.hpp"
 #include "rendering/renderer.hpp"
 #include "rendering/window/window.hpp"
 #include "rendering/window/window_glfw.hpp"
@@ -140,28 +136,9 @@ RunRenderingTest() {
 		return;
 	}
 
-	auto rectangle = std::make_shared<Rendering::DrawRect>();
-	rectangle->bounds = {0, 200, 0, 200};
-	rectangle->color = Rendering::DrawColor(0x83ff08ff);
-
-	auto text = std::make_shared<Rendering::DrawText>();
-	text->bounds = {300, 600, 300, 600};
-	text->color = Rendering::DrawColor(0x8308ffff);
-	text->text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed\
- do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
-
-	renderer->SetWindow(window);
-	renderer->Prepare();
-
-	renderer->Enqueue(rectangle.get());
-	renderer->Enqueue(text.get());
-
 	while (!window->PollClose()) {
 		renderer->DrawFrame();
 	}
-
-	renderer->Dequeue(text.get());
-	renderer->Dequeue(rectangle.get());
 }
 
 void
