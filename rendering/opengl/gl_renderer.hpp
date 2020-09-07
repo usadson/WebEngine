@@ -35,6 +35,9 @@ namespace Rendering {
 
 	  public: // Public Methods
 		void
+		CalculateDimensions() noexcept;
+
+		void
 		Dequeue(RenderObject *) override;
 
 		void

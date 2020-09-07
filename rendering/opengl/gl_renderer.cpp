@@ -29,6 +29,12 @@ namespace Rendering {
 	}
 
 	void
+	GLRenderer::CalculateDimensions() noexcept {
+		tabWidth = window()->width / tabs.size();
+		tabHeight = window()->height * 0.1;
+	}
+
+	void
 	GLRenderer::Prepare() {
 		std::cout << "Tabs: " << tabs.size() << '\n';
 		glewInit();
