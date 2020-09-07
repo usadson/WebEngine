@@ -8,6 +8,8 @@
 
 namespace Rendering { class View; }
 
+#include <cstdlib>
+
 #include "tab.hpp"
 
 namespace Rendering {
@@ -15,7 +17,9 @@ namespace Rendering {
 	// The view is the manager of contents in a tab.
 	class View {
 	public:
-		inline constexpr View(Tab &tab) noexcept : tab(tab) {
+		std::uint32_t color{0xFFFFFFFFu / RAND_MAX * static_cast<std::uint32_t>(std::rand())};
+
+		inline View(Tab &tab) noexcept : tab(tab) {
 		}
 
 	private:
