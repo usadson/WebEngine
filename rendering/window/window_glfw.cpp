@@ -14,6 +14,15 @@
 
 #include "logger.hpp"
 
+namespace GLFWSuite {
+
+	void
+	MouseButtonCallback(GLFWwindow *window, int button, int action, int mods) {
+		const auto *renderer = reinterpret_cast<Rendering::WindowGLFW *>(glfwGetWindowUserPointer(window))->renderer;
+	}
+
+} // namespace GLFWSuite
+
 namespace Rendering {
 
 	/* Since the window is the most important thing of the application, there
@@ -96,6 +105,9 @@ namespace Rendering {
 		glfwSetWindowPos(internalWindow,
 			static_cast<uint32_t>((videoMode->width - this->width) / 2),
 			static_cast<uint32_t>((videoMode->height - this->height) / 2));
+
+		glfwSetWindowUserPointer(internalWindow, this);
+		glfwSetMouseButtonCallback(internalWindow, &GLFWSuite::MouseButtonCallback);
 
 		glfwMakeContextCurrent(internalWindow);
 		return true;
