@@ -12,5 +12,5 @@ class Tab;
 
 class Tab {
 public:
-	Rendering::View view{*this};
+	Rendering::View view{this};
 };

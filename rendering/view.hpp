@@ -8,6 +8,7 @@
 
 namespace Rendering { class View; }
 
+#include <cstdint>
 #include <cstdlib>
 
 #include "tab.hpp"
@@ -19,11 +20,17 @@ namespace Rendering {
 	public:
 		std::uint32_t color{0xFFFFFFFFu / RAND_MAX * static_cast<std::uint32_t>(std::rand())};
 
-		inline View(Tab &tab) noexcept : tab(tab) {
+		inline View(Tab *tab) noexcept : tab(tab) {
 		}
 
+		virtual ~View() = default;
+		View(const View &) = default;
+		View& operator=(const View &) = default;
+		View(View&&) = default;
+		View& operator=(View &&) = default;
+
 	private:
-		const Tab &tab;
+		const Tab *tab;
 	};
 
 } // namespace Rendering
