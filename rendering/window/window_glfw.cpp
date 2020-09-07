@@ -34,10 +34,23 @@ namespace GLFWSuite {
 
 	void
 	MouseButtonCallback(GLFWwindow *window, int button, int action, int mods) {
-		const auto *renderer = reinterpret_cast<Rendering::WindowGLFW *>(glfwGetWindowUserPointer(window))->renderer;
+		static_cast<void>(mods);
+		auto *renderer = reinterpret_cast<Rendering::WindowGLFW *>(glfwGetWindowUserPointer(window))->renderer;
+
 		const auto mouseButton = ResolveMouseButton(button);
 		if (mouseButton == Rendering::MouseButton::ILLEGAL) {
 			return;
+		}
+
+		double x, y;
+		glfwGetCursorPos(window, &x, &y);
+
+		switch (action) {
+			case GLFW_PRESS:
+				renderer->OnMouseDown(mouseButton, x, y);
+				break;
+			default:
+				break;
 		}
 	}
 
