@@ -18,6 +18,7 @@ namespace Rendering {
 
 	void
 	GLRenderer::Prepare() {
+		std::cout << "Tabs: " << tabs.size() << '\n';
 		glewInit();
 		/* Map */
 		std::stringstream info;

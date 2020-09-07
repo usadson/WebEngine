@@ -12,11 +12,14 @@
 
 #include "rendering/renderer.hpp"
 
+#include "tab.hpp"
+
 namespace Rendering {
 
 	class GLRenderer : public Renderer {
 	  public: // Public Properties
 		std::vector<RenderObject *> renderObjects;
+		std::vector<Tab> tabs{2};
 
 	  public: // Con/destructors
 		inline GLRenderer() : Renderer(RendererType::OPENGL) {
