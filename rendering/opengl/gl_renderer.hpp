@@ -20,6 +20,7 @@ namespace Rendering {
 	private:
 		float tabWidth{};
 		float tabHeight{};
+		float tabLineHeight;
 
 	  public: // Public Properties
 		std::vector<RenderObject *> renderObjects;

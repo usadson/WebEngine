@@ -32,6 +32,7 @@ namespace Rendering {
 	GLRenderer::CalculateDimensions() noexcept {
 		tabWidth = window()->width / tabs.size();
 		tabHeight = window()->height * 0.1;
+		tabLineHeight = 4;
 	}
 
 	void
@@ -59,10 +60,10 @@ namespace Rendering {
 		for (std::size_t i = 0; i < tabs.size(); i++) {
 			const bool isTabFocussed = focussedTab == &tabs[i];
 			DrawQuad(tabs[i].view.color, tabWidth * i, 0, tabWidth, tabHeight);
-			DrawQuad(isTabFocussed ? 0xFFFFFFFF : 0xBBBBBBFF, tabWidth * i, tabHeight, tabWidth, 4);
+			DrawQuad(isTabFocussed ? 0xFFFFFFFF : 0xBBBBBBFF, tabWidth * i, tabHeight, tabWidth, tabLineHeight);
 
 			if (isTabFocussed) {
-				DrawQuad(tabs[i].view.color, 0, tabHeight + 4, windowWidth, windowHeight - tabHeight - 4);
+				DrawQuad(tabs[i].view.color, 0, tabHeight + tabLineHeight, windowWidth, windowHeight - tabHeight - tabLineHeight);
 			}
 		}
 
