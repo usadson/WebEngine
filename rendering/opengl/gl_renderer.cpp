@@ -46,6 +46,7 @@ namespace Rendering {
 	void
 	GLRenderer::Prepare() {
 		glewInit();
+		glOrtho(0, window()->width, window()->height, 0, 0, 1);
 		CalculateDimensions();
 	}
 
