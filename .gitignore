@@ -4,3 +4,4 @@ infer-out/
 *.log
 .kateproject
 kate.project.ctags.*
+.idea
