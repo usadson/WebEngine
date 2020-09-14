@@ -49,11 +49,11 @@ CONNECTION_INFO_TLS_OBJECT = bin/net/connection_info_$(CONNECTION_INFO_TLS_NAME_
 
 GENERAL = -std=c++17 -g
 			# -Og
-INCLUDES = -I.
+INCLUDES = -I. `pkg-config --cflags pangocairo`
 WARNINGS = -Wall -Wextra -Wpedantic
 CXXFLAGS += $(GENERAL) $(INCLUDES) $(WARNINGS) $(ADDITIONAL_CXXFLAGS)
 CXX = clang++
-LDFLAGS = `pkg-config --static --libs $(CONNECTION_INFO_TLS_PKGNAME) glfw3 glew freetype2`
+LDFLAGS = `pkg-config --static --libs $(CONNECTION_INFO_TLS_PKGNAME) glfw3 glew freetype2 pangocairo`
 
 # All the object files. By convention, each .cpp should have a corresponding
 # object file. For more information, see the explanation above.
