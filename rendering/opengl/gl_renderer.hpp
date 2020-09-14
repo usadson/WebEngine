@@ -9,6 +9,7 @@
 #include <vector>
 
 #include <GL/glew.h>
+#include <pango/pangocairo.h>
 
 #include "rendering/renderer.hpp"
 
@@ -21,6 +22,7 @@ namespace Rendering {
 		float tabWidth{};
 		float tabHeight{};
 		float tabLineHeight;
+		cairo_t *cairo;
 
 	  public: // Public Properties
 		std::vector<Tab> tabs{5};
@@ -31,6 +33,7 @@ namespace Rendering {
 		}
 
 		inline ~GLRenderer() override {
+			cairo_destroy(cairo);
 		}
 
 	  public: // Public Methods
@@ -52,6 +55,10 @@ namespace Rendering {
 
 		[[nodiscard]] std::size_t
 		GetTabIndex(double x, double y);
+
+		void
+		InitializeCairo();
+
 	};
 
 } // namespace Rendering

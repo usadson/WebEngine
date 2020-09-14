@@ -48,6 +48,7 @@ namespace Rendering {
 		glewInit();
 		glOrtho(0, window()->width, window()->height, 0, 0, 1);
 		CalculateDimensions();
+		InitializeCairo();
 	}
 
 	void
@@ -89,6 +90,13 @@ namespace Rendering {
 		if (tabIndex < tabs.size()) {
 			focussedTab = &tabs[tabIndex];
 		}
+	}
+
+	void
+	GLRenderer::InitializeCairo() {
+		cairo_surface_t *temp_surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, 0, 0);
+		cairo = cairo_create(temp_surface);
+		cairo_surface_destroy(temp_surface);
 	}
 
 } // namespace Rendering
