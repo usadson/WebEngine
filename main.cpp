@@ -8,7 +8,7 @@
  * TODO:
  *
  * In a lot of DOCTYPE handlers I do EmitDoctypeQuirksToken(),
- * but I should instead change the current doctype's flag Force-Quircks
+ * but I should instead change the current doctype's flag Force-Quirks
  * to true
  */
 
