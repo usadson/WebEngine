@@ -137,7 +137,7 @@ default: bin/test.txt $(BINARIES) engine
 
 # The 'all' target will compile all object files and generate the binary
 # executable. This is the default target for 'make'.
-all: $(default) $(TESTING_TARGETS)
+all: default $(TESTING_TARGETS)
 
 # The 'objects' target will compile all object files, but not generate the
 # binary executable.
