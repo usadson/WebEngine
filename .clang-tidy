@@ -10,6 +10,7 @@
                     -cppcoreguidelines-avoid-magic-numbers,
                     -readability-magic-numbers,
                     -google-readability-todo,
+                    -llvmlibc-implementation-in-namespace,
                     -llvm-header-guard,                             # We use #pragma once
                     # Duplicate checks:
                     -hicpp-special-member-functions,
