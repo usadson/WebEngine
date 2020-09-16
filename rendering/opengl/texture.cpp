@@ -10,15 +10,7 @@ GLTexture::GLTexture(GLuint width, GLuint height, GLenum format, const GLvoid *d
 	glGenTextures(1, &textureID);
 	bind();
 	setParameters();
-	glTexImage2D(GL_TEXTURE_2D,
-				 0,
-				 GL_RGBA,
-				 width,
-				 height,
-				 0,
-				 format,
-				 GL_UNSIGNED_BYTE,
-				 data);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 }
 
 GLTexture::~GLTexture() {
