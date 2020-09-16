@@ -9,8 +9,8 @@ before_install:
   - sudo apt update -y
   # OpenSSL
   - sudo apt -y install openssl libssl-dev
-  # GLEW + GLFW
-  - sudo apt -y install libglew-dev libglfw3-dev
+  # GLEW + GLFW + Pango + Cairo
+  - sudo apt -y install libglew-dev libglfw3-dev libpango1.0-dev
   # FreeType
   - sudo apt -y install libfreetype-dev || sudo apt -y install libfreetype6-dev
   # GoogleTest
