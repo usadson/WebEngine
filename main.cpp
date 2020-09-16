@@ -174,8 +174,8 @@ RunNetworkTest() {
 
 	Logger::Info("RunNetworkTest", information.str());
 
-//	std::cout << "====== Response Message Body ======\n"
-//			  << response.messageBody.data() << "\n===================================\n";
+	std::cout << "====== Response Message Body ======\n"
+			  << response.messageBody.data() << "\n===================================\n";
 }
 
 int
