@@ -12,7 +12,6 @@ The project is seperated into different directories. This document explains what
   * [http](../net/http) is the [HTTP/1.1](https://www.rfc-editor.org/rfc/rfc7230.html) network layer implementation, which is used to retrieve documents and resources.
 * [parser](../parser) is the directory for major parsers (see [data](data) for small parser/converters).
   * [css](../parser/css) is the directory for the CSS parser, which should follow the [CSS Standards](https://www.w3.org/Style/CSS/Overview.en.html).
-    * [token](../parser/css/token) are the components that make up the different tokens used by the CSS tokenizer.
   * [html](../parser/html) is the directory for the HTML parser, which should follow the [HTML Living Standard](https://html.spec.whatwg.org/multipage/).
     * [tokenizer](../parser/html/tokenizer) are the modularized parts of the HTML tokenizer.
     * [tree](../parser/html/tree) is the directory for the [HTML Tree Constructor](https://html.spec.whatwg.org/multipage/parsing.html#tree-construction).
