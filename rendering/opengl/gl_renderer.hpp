@@ -22,7 +22,7 @@ namespace Rendering {
 		float tabWidth{};
 		float tabHeight{};
 		float tabLineHeight;
-		cairo_t *cairo;
+		cairo_t *cairoRenderContext;
 
 	  public: // Public Properties
 		std::vector<Tab> tabs{5};
@@ -33,7 +33,7 @@ namespace Rendering {
 		}
 
 		inline ~GLRenderer() override {
-			cairo_destroy(cairo);
+			cairo_destroy(cairoRenderContext);
 		}
 
 	  public: // Public Methods

@@ -95,7 +95,7 @@ namespace Rendering {
 	void
 	GLRenderer::InitializeCairo() {
 		cairo_surface_t *temp_surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, 0, 0);
-		cairo = cairo_create(temp_surface);
+		cairoRenderContext = cairo_create(temp_surface);
 		cairo_surface_destroy(temp_surface);
 	}
 
