@@ -46,19 +46,19 @@ namespace Rendering {
 	void
 	GLRenderer::Prepare() {
 		glewInit();
-//		glOrtho(0, window()->width, window()->height, 0, 0, 1);
+		//		glOrtho(0, window()->width, window()->height, 0, 0, 1);
 
-		glClearColor (0.0f, 0.0f, 0.0f, 0.0f);
-		glDisable (GL_DEPTH_TEST);
-		glEnable (GL_BLEND);
-		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glEnable (GL_TEXTURE_2D);
-		glViewport (0, 0, window()->width, window()->height);
-		glMatrixMode (GL_PROJECTION);
-		glLoadIdentity ();
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		glDisable(GL_DEPTH_TEST);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_TEXTURE_2D);
+		glViewport(0, 0, window()->width, window()->height);
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
 		glOrtho(0, window()->width, window()->height, 0, -1, 1);
-		glMatrixMode (GL_MODELVIEW);
-		glLoadIdentity ();
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
 
 		CalculateDimensions();
 		cairoLayoutContext = CreateLayoutContext();
