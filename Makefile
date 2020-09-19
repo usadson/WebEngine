@@ -40,6 +40,7 @@
 .MAIN := default
 
 ADDITIONAL_CXXFLAGS ?=
+ADDITIONAL_LDFLAGS ?=
 
 CONNECTION_INFO_TLS_IMPL = -DCONNECTION_INFO_TLS_IMPL_OPENSSL
 CONNECTION_INFO_TLS_PKGNAME = openssl
@@ -53,7 +54,7 @@ INCLUDES = -I. `pkg-config --cflags pangocairo`
 WARNINGS = -Wall -Wextra -Wpedantic
 CXXFLAGS += $(GENERAL) $(INCLUDES) $(WARNINGS) $(ADDITIONAL_CXXFLAGS)
 CXX = clang++
-LDFLAGS = `pkg-config --static --libs $(CONNECTION_INFO_TLS_PKGNAME) glfw3 glew freetype2 pangocairo`
+LDFLAGS = `pkg-config --static --libs $(CONNECTION_INFO_TLS_PKGNAME) glfw3 glew freetype2 pangocairo` $(ADDITIONAL_LDFLAGS)
 
 # All the object files. By convention, each .cpp should have a corresponding
 # object file. For more information, see the explanation above.
