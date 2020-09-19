@@ -58,8 +58,8 @@ namespace Rendering {
 		[[nodiscard]] std::size_t
 		GetTabIndex(double x, double y);
 
-		void
-		InitializeCairoRenderContext();
+		[[nodiscard]] cairo_t *
+		InitializeCairoContext();
 
 	};
 

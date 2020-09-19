@@ -48,7 +48,8 @@ namespace Rendering {
 		glewInit();
 		glOrtho(0, window()->width, window()->height, 0, 0, 1);
 		CalculateDimensions();
-		InitializeCairoRenderContext();
+		cairoLayoutContext = InitializeCairoContext();
+		cairoRenderContext = InitializeCairoContext();
 	}
 
 	void
@@ -92,11 +93,12 @@ namespace Rendering {
 		}
 	}
 
-	void
-	GLRenderer::InitializeCairoRenderContext() {
+	cairo_t *
+	GLRenderer::InitializeCairoContext() {
 		cairo_surface_t *temp_surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, 0, 0);
-		cairoRenderContext = cairo_create(temp_surface);
+		cairo_t *context = cairo_create(temp_surface);
 		cairo_surface_destroy(temp_surface);
+		return context;
 	}
 
 } // namespace Rendering
