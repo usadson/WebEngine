@@ -30,15 +30,15 @@ namespace Rendering {
 		return cairo_create(*surf);
 	}
 
-	Text::Text(cairo_t *layoutContext, Unicode::UString contents, int x, int y)
-		: cairoLayoutContext(layoutContext), contents(contents), x(x), y(y) {
+	Text::Text(Unicode::UString contents, int x, int y)
+		: contents(contents), x(x), y(y) {
 	}
 
 	Text::~Text() {
 	}
 
 	void
-	Text::Prepare() {
+	Text::Prepare(cairo_t *cairoLayoutContext) {
 
 		const auto text = ConvertContentsToCString();
 		const char *font = "Sans Bold 18";

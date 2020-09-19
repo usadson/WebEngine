@@ -17,19 +17,16 @@ namespace Rendering {
 
 	class Text {
 	public:
-		Text(cairo_t *cairoLayoutContext, Unicode::UString contents, int x, int y);
+		Text(Unicode::UString contents, int x, int y);
 		~Text() noexcept;
 
 		void
-		Prepare();
+		Prepare(cairo_t *layoutContext);
 
 		void
 		Draw();
 
 	private:
-		// Non-owning, received from e.g. gl_renderer.hpp
-		cairo_t *cairoLayoutContext;
-
 		Unicode::UString contents;
 		int x;
 		int y;

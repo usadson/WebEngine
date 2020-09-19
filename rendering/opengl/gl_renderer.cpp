@@ -62,7 +62,7 @@ namespace Rendering {
 
 		CalculateDimensions();
 		cairoLayoutContext = CreateLayoutContext();
-		text.Prepare();
+		text.Prepare(cairoLayoutContext);
 	}
 
 	void

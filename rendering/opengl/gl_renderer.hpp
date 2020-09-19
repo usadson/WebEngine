@@ -31,7 +31,7 @@ namespace Rendering {
 		Tab *focussedTab{&tabs[0]};
 
 	  public: // Con/destructors
-		inline GLRenderer() : Renderer(RendererType::OPENGL), text(cairoLayoutContext, Unicode::UString("Test"), 0, 0) {
+		inline GLRenderer() : Renderer(RendererType::OPENGL), text(Unicode::UString("Test"), 0, 0) {
 		}
 
 		inline ~GLRenderer() override {
