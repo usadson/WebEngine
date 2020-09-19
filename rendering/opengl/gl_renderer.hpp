@@ -14,6 +14,7 @@
 #include "rendering/renderer.hpp"
 
 #include "tab.hpp"
+#include "text.hpp"
 
 namespace Rendering {
 
@@ -22,21 +23,19 @@ namespace Rendering {
 		float tabWidth{};
 		float tabHeight{};
 		float tabLineHeight;
-		cairo_t *cairoRenderContext;
 		cairo_t *cairoLayoutContext;
-		int textWidth = 0, textHeight = 0, textureID = 0;
+		Text text;
 
 	  public: // Public Properties
 		std::vector<Tab> tabs{5};
 		Tab *focussedTab{&tabs[0]};
 
 	  public: // Con/destructors
-		inline GLRenderer() : Renderer(RendererType::OPENGL) {
+		inline GLRenderer() : Renderer(RendererType::OPENGL), text(cairoLayoutContext, Unicode::UString("Test"), 0, 0) {
 		}
 
 		inline ~GLRenderer() override {
 			cairo_destroy(cairoLayoutContext);
-			cairo_destroy(cairoRenderContext);
 		}
 
 	  public: // Public Methods
@@ -61,15 +60,6 @@ namespace Rendering {
 
 		[[nodiscard]] cairo_t *
 		CreateLayoutContext();
-
-		void
-		CreateTestTexture();
-
-		void
-		CalculateTextSize(PangoLayout *layout, int *width, int *height);
-
-		void
-		DrawTestTexture();
 
 	};
 
