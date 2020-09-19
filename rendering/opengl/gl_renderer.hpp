@@ -24,6 +24,7 @@ namespace Rendering {
 		float tabLineHeight;
 		cairo_t *cairoRenderContext;
 		cairo_t *cairoLayoutContext;
+		int textWidth = 0, textHeight = 0, textureID = 0;
 
 	  public: // Public Properties
 		std::vector<Tab> tabs{5};
@@ -59,7 +60,16 @@ namespace Rendering {
 		GetTabIndex(double x, double y);
 
 		[[nodiscard]] cairo_t *
-		InitializeCairoContext();
+		CreateLayoutContext();
+
+		void
+		CreateTestTexture();
+
+		void
+		CalculateTextSize(PangoLayout *layout, int *width, int *height);
+
+		void
+		DrawTestTexture();
 
 	};
 
