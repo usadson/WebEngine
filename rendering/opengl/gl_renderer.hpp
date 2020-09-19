@@ -59,7 +59,7 @@ namespace Rendering {
 		GetTabIndex(double x, double y);
 
 		void
-		InitializeCairo();
+		InitializeCairoRenderContext();
 
 	};
 
