@@ -111,58 +111,46 @@ namespace Rendering {
 		*height /= PANGO_SCALE;
 	}
 
-	cairo_t*
+	cairo_t *
 	create_cairo_context(int width, int height, int channels, cairo_surface_t **surf, unsigned char **buffer) {
 		*buffer = static_cast<unsigned char *>(calloc(channels * width * height, sizeof(unsigned char)));
-		*surf = cairo_image_surface_create_for_data(*buffer,
-			CAIRO_FORMAT_ARGB32,
-			width,
-			height,
-			channels * width);
+		*surf = cairo_image_surface_create_for_data(*buffer, CAIRO_FORMAT_ARGB32, width, height, channels * width);
 		return cairo_create(*surf);
 	}
 
 	void
 	GLRenderer::DrawTestTexture() {
 		/* Render a texture in immediate mode. */
-		glMatrixMode (GL_MODELVIEW);
-		glLoadIdentity ();
-		glClear (GL_COLOR_BUFFER_BIT);
-		glPushMatrix ();
-		glBindTexture (GL_TEXTURE_2D, textureID);
-		glColor3f (1.f, 1.0f, 1.0f);
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glClear(GL_COLOR_BUFFER_BIT);
+		glPushMatrix();
+		glBindTexture(GL_TEXTURE_2D, textureID);
+		glColor3f(1.f, 1.0f, 1.0f);
 
-		glBegin (GL_QUADS);
-		glTexCoord2f (0.0f, 0.0f);
-		glVertex2f (0.0f, 0.0f);
-		glTexCoord2f (1.0f, 0.0f);
-		glVertex2f (textWidth, 0.0f);
-		glTexCoord2f (1.0f, 1.0f);
-		glVertex2f (textWidth , textHeight);
-		glTexCoord2f (0.0f, 1.0f);
-		glVertex2f (0.0f, textHeight);
-		glEnd ();
+		glBegin(GL_QUADS);
+		glTexCoord2f(0.0f, 0.0f);
+		glVertex2f(0.0f, 0.0f);
+		glTexCoord2f(1.0f, 0.0f);
+		glVertex2f(textWidth, 0.0f);
+		glTexCoord2f(1.0f, 1.0f);
+		glVertex2f(textWidth, textHeight);
+		glTexCoord2f(0.0f, 1.0f);
+		glVertex2f(0.0f, textHeight);
+		glEnd();
 
-		glPopMatrix ();
+		glPopMatrix();
 	}
 
 	unsigned int
 	create_texture(unsigned int width, unsigned int height, unsigned char *pixels) {
 		unsigned int texture_id;
 
-		glGenTextures (1, &texture_id);
-		glBindTexture (GL_TEXTURE_2D, texture_id);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexImage2D (GL_TEXTURE_2D,
-					  0,
-					  GL_RGBA,
-					  width,
-					  height,
-					  0,
-					  GL_BGRA,
-					  GL_UNSIGNED_BYTE,
-					  pixels);
+		glGenTextures(1, &texture_id);
+		glBindTexture(GL_TEXTURE_2D, texture_id);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_BGRA, GL_UNSIGNED_BYTE, pixels);
 
 		return texture_id;
 	}
@@ -174,7 +162,7 @@ namespace Rendering {
 
 		cairo_surface_t *temp_surface;
 		cairo_surface_t *surface;
-		unsigned char* surface_data = NULL;
+		unsigned char *surface_data = NULL;
 		PangoFontDescription *desc;
 
 		/* Create a PangoLayout, set the font and text */
