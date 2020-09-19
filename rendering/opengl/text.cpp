@@ -35,7 +35,6 @@ namespace Rendering {
 	}
 
 	Text::~Text() {
-
 	}
 
 	void
