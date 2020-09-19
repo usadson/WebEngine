@@ -39,6 +39,10 @@
 .DEFAULT_GOAL := default
 .MAIN := default
 
+# To add additional flags to clang, use
+#   ADDITIONAL_CXXFLAGS for flags before output file
+#   ADDITIONAL_LDFLAGS  for flags after output file
+
 ADDITIONAL_CXXFLAGS ?=
 ADDITIONAL_LDFLAGS ?=
 
