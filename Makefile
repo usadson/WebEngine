@@ -134,6 +134,7 @@ BINARIES = bin/ccompat.o \
 	   bin/parser/html/tree/insert_intial.o \
 	   bin/parser/html/tree_constructor.o \
 	   bin/rendering/opengl/gl_renderer.o \
+	   bin/rendering/opengl/text.o \
 	   bin/rendering/opengl/texture.o \
 	   bin/rendering/window/window_glfw.o
 
@@ -693,6 +694,10 @@ bin/rendering/opengl/gl_renderer.o: rendering/opengl/gl_renderer.cpp \
 	rendering/renderer.hpp \
 	logger.hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ rendering/opengl/gl_renderer.cpp
+
+bin/rendering/opengl/text.o: rendering/opengl/text.cpp \
+	rendering/opengl/text.hpp
+	$(CXX) $(CXXFLAGS) -c -o $@ rendering/opengl/text.cpp
 
 bin/rendering/opengl/texture.o: rendering/opengl/texture.cpp \
 	rendering/opengl/texture.hpp
