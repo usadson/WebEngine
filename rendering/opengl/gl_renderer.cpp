@@ -136,7 +136,6 @@ namespace Rendering {
 		/* Render a texture in immediate mode. */
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
-		glClear(GL_COLOR_BUFFER_BIT);
 		glPushMatrix();
 		glBindTexture(GL_TEXTURE_2D, textureID);
 		glColor3f(1.f, 1.0f, 1.0f);
@@ -152,6 +151,7 @@ namespace Rendering {
 		glVertex2f(0.0f, textHeight);
 		glEnd();
 
+		glBindTexture(GL_TEXTURE_2D, 0);
 		glPopMatrix();
 	}
 
