@@ -30,8 +30,7 @@ namespace Rendering {
 		return cairo_create(*surf);
 	}
 
-	Text::Text(Unicode::UString contents, int x, int y)
-		: contents(contents), x(x), y(y) {
+	Text::Text(Unicode::UString contents, int x, int y) : contents(contents), x(x), y(y) {
 	}
 
 	Text::~Text() {
