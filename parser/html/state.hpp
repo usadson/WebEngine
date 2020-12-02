@@ -7,6 +7,7 @@
  */
 
 #include <map>
+#include <string>
 
 namespace HTML::Tokenizer {
 	enum class ParserState {

@@ -7,6 +7,7 @@
  */
 
 #include <map>
+#include <string>
 
 namespace HTML {
 	enum class InsertionModeType {

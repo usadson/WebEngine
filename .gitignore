@@ -1,7 +1,12 @@
+# Regular used binary folders
 bin/
-engine
+cmake-build-*/
 infer-out/
-*.log
+
+# IDE-related
+.idea/
 .kateproject
 kate.project.ctags.*
-.idea
+
+# Debugging
+*.log

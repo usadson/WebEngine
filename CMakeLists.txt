@@ -1,0 +1,242 @@
+cmake_minimum_required(VERSION 3.17)
+project(WebEngine)
+
+set(CMAKE_CXX_STANDARD 17)
+
+include_directories(.)
+include_directories(data/text)
+include_directories(data/text/encoding)
+include_directories(dom)
+include_directories(misc)
+include_directories(net)
+include_directories(net/http)
+include_directories(net/http2)
+include_directories(parser/css)
+include_directories(parser/html)
+include_directories(parser/html/tokenizer)
+include_directories(parser/html/tree)
+include_directories(rendering)
+include_directories(rendering/opengl)
+include_directories(rendering/window)
+include_directories(resources)
+
+add_compile_options(-DCONNECTION_INFO_TLS_IMPL_OPENSSL)
+
+find_package(OpenSSL REQUIRED)
+
+find_package(gl3w REQUIRED)
+find_package(glfw3 REQUIRED)
+find_package(OpenGL REQUIRED)
+
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(PANGOCAIRO REQUIRED IMPORTED_TARGET pangocairo)
+pkg_check_modules(GLEW REQUIRED IMPORTED_TARGET glew)
+
+add_executable(WebEngine
+        data/text/encoding/encoder_engine.cpp
+        data/text/encoding/encoder_engine.hpp
+        data/text/encoding/encoding.hpp
+        data/text/encoding/single_byte_encoding.cpp
+        data/text/encoding/single_byte_encoding.hpp
+        data/text/encoding/utf8.cpp
+        data/text/encoding/utf8.hpp
+        data/text/named_characters.cpp
+        data/text/named_characters.hpp
+        data/text/unicode.hpp
+        data/text/ustring.cpp
+        data/text/ustring.hpp
+        docs/building.md
+        docs/code-style.md
+        docs/directory-structure.md
+        docs/license.md
+        docs/readme.md
+        docs/testing.md
+        dom/character_data.hpp
+        dom/comment.hpp
+        dom/document.hpp
+        dom/document_type.hpp
+        dom/element.hpp
+        dom/element_internals.hpp
+        dom/html_element.hpp
+        dom/html_head_element.hpp
+        dom/html_html_element.hpp
+        dom/node.hpp
+        dom/resettable_element.hpp
+        misc/credits.cpp
+        misc/credits.hpp
+        net/http/http_connection.cpp
+        net/http/http_connection.hpp
+        net/http/http_header_field.hpp
+        net/http/http_response_info.cpp
+        net/http/http_response_info.hpp
+        net/http2/constants.hpp
+        net/http2/frame.hpp
+        net/http2/http2_connection.cpp
+        net/http2/http2_connection.hpp
+        net/alpn_protocols.hpp
+        net/connection_info.cpp
+        net/connection_info.hpp
+#        net/connection_info_libtls.cpp
+        net/connection_info_openssl.cpp
+        parser/css/context.hpp
+        parser/css/parse_error.hpp
+        parser/css/parser.cpp
+        parser/css/parser.hpp
+        parser/css/preprocessor.cpp
+        parser/css/preprocessor.hpp
+        parser/css/rule.hpp
+        parser/css/stylesheet.hpp
+        parser/css/token.hpp
+        parser/css/tokenizer.cpp
+        parser/css/tokenizer.hpp
+        parser/css/tokenizer_algorithms.hpp
+        parser/css/tokenizer_stream.cpp
+        parser/css/tokenizer_stream.hpp
+        parser/html/tokenizer/after_attribute_name.cpp
+        parser/html/tokenizer/after_attribute_name.hpp
+        parser/html/tokenizer/after_attribute_value_quoted.cpp
+        parser/html/tokenizer/after_attribute_value_quoted.hpp
+        parser/html/tokenizer/after_doctype_name.cpp
+        parser/html/tokenizer/after_doctype_name.hpp
+        parser/html/tokenizer/after_doctype_public_identifier.cpp
+        parser/html/tokenizer/after_doctype_public_identifier.hpp
+        parser/html/tokenizer/after_doctype_public_keyword.cpp
+        parser/html/tokenizer/after_doctype_public_keyword.hpp
+        parser/html/tokenizer/after_doctype_system_identifier.cpp
+        parser/html/tokenizer/after_doctype_system_identifier.hpp
+        parser/html/tokenizer/after_doctype_system_keyword.cpp
+        parser/html/tokenizer/after_doctype_system_keyword.hpp
+        parser/html/tokenizer/attribute_name.cpp
+        parser/html/tokenizer/attribute_name.hpp
+        parser/html/tokenizer/attribute_value_dq.cpp
+        parser/html/tokenizer/attribute_value_dq.hpp
+        parser/html/tokenizer/attribute_value_nq.cpp
+        parser/html/tokenizer/attribute_value_nq.hpp
+        parser/html/tokenizer/attribute_value_sq.cpp
+        parser/html/tokenizer/attribute_value_sq.hpp
+        parser/html/tokenizer/before_attribute_name.cpp
+        parser/html/tokenizer/before_attribute_name.hpp
+        parser/html/tokenizer/before_attribute_value.cpp
+        parser/html/tokenizer/before_attribute_value.hpp
+        parser/html/tokenizer/before_doctype_name.cpp
+        parser/html/tokenizer/before_doctype_name.hpp
+        parser/html/tokenizer/before_doctype_public_identifier.cpp
+        parser/html/tokenizer/before_doctype_public_identifier.hpp
+        parser/html/tokenizer/before_doctype_system_identifier.cpp
+        parser/html/tokenizer/before_doctype_system_identifier.hpp
+        parser/html/tokenizer/between_doctype_public_system_identifier.cpp
+        parser/html/tokenizer/between_doctype_public_system_identifier.hpp
+        parser/html/tokenizer/bogus_doctype.cpp
+        parser/html/tokenizer/bogus_doctype.hpp
+        parser/html/tokenizer/character_reference.cpp
+        parser/html/tokenizer/character_reference.hpp
+        parser/html/tokenizer/comment.cpp
+        parser/html/tokenizer/comment.hpp
+        parser/html/tokenizer/comment_end.cpp
+        parser/html/tokenizer/comment_end.hpp
+        parser/html/tokenizer/comment_end_bang.cpp
+        parser/html/tokenizer/comment_end_bang.hpp
+        parser/html/tokenizer/comment_end_dash.cpp
+        parser/html/tokenizer/comment_end_dash.hpp
+        parser/html/tokenizer/comment_lts.cpp
+        parser/html/tokenizer/comment_lts.hpp
+        parser/html/tokenizer/comment_lts_bang.cpp
+        parser/html/tokenizer/comment_lts_bang.hpp
+        parser/html/tokenizer/comment_lts_bang_dash.cpp
+        parser/html/tokenizer/comment_lts_bang_dash.hpp
+        parser/html/tokenizer/comment_lts_bang_dash_dash.cpp
+        parser/html/tokenizer/comment_lts_bang_dash_dash.hpp
+        parser/html/tokenizer/comment_start.cpp
+        parser/html/tokenizer/comment_start.hpp
+        parser/html/tokenizer/comment_start_dash.cpp
+        parser/html/tokenizer/comment_start_dash.hpp
+        parser/html/tokenizer/data.cpp
+        parser/html/tokenizer/data.hpp
+        parser/html/tokenizer/doctype.cpp
+        parser/html/tokenizer/doctype.hpp
+        parser/html/tokenizer/doctype_name.cpp
+        parser/html/tokenizer/doctype_name.hpp
+        parser/html/tokenizer/doctype_public_identifier_dq.cpp
+        parser/html/tokenizer/doctype_public_identifier_dq.hpp
+        parser/html/tokenizer/doctype_public_identifier_sq.cpp
+        parser/html/tokenizer/doctype_public_identifier_sq.hpp
+        parser/html/tokenizer/doctype_system_identifier_dq.cpp
+        parser/html/tokenizer/doctype_system_identifier_dq.hpp
+        parser/html/tokenizer/doctype_system_identifier_sq.cpp
+        parser/html/tokenizer/doctype_system_identifier_sq.hpp
+        parser/html/tokenizer/markup_declaration_open.cpp
+        parser/html/tokenizer/markup_declaration_open.hpp
+        parser/html/tokenizer/self_closing_start.cpp
+        parser/html/tokenizer/self_closing_start.hpp
+        parser/html/tokenizer/tag_end_open.cpp
+        parser/html/tokenizer/tag_end_open.hpp
+        parser/html/tokenizer/tag_name.cpp
+        parser/html/tokenizer/tag_name.hpp
+        parser/html/tokenizer/tag_open.cpp
+        parser/html/tokenizer/tag_open.hpp
+        parser/html/tokenizer/tokenizer_parser.hpp
+        parser/html/tree/insert_before_head.cpp
+        parser/html/tree/insert_before_head.hpp
+        parser/html/tree/insert_before_html.cpp
+        parser/html/tree/insert_before_html.hpp
+        parser/html/tree/insert_in_head.cpp
+        parser/html/tree/insert_in_head.hpp
+        parser/html/tree/insert_initial.cpp
+        parser/html/tree/insert_initial.hpp
+        parser/html/tree/insertion_mode.hpp
+        parser/html/constants.hpp
+        parser/html/context.cpp
+        parser/html/context.hpp
+        parser/html/error.cpp
+        parser/html/error.hpp
+        parser/html/insertion_mode.cpp
+        parser/html/insertion_mode.hpp
+        parser/html/state.cpp
+        parser/html/state.hpp
+        parser/html/token.cpp
+        parser/html/token.hpp
+        parser/html/tokenizer.cpp
+        parser/html/tokenizer.hpp
+        parser/html/tree_constructor.cpp
+        parser/html/tree_constructor.hpp
+        rendering/opengl/gl_renderer.cpp
+        rendering/opengl/gl_renderer.hpp
+        rendering/opengl/text.cpp
+        rendering/opengl/text.hpp
+        rendering/opengl/texture.cpp
+        rendering/opengl/texture.hpp
+        rendering/window/window.hpp
+        rendering/window/window_glfw.cpp
+        rendering/window/window_glfw.hpp
+        rendering/input.hpp
+        rendering/renderer.hpp
+        rendering/view.hpp
+        resources/document.hpp
+        resources/media_type.hpp
+        resources/resource.hpp
+        tools/build-fast.sh
+        tools/formatter.sh
+        tools/style_linter.py
+        ccompat.cpp
+        ccompat.hpp
+        COPYING
+        hooks.cpp
+        hooks.hpp
+        lgtm.yml
+        logger.cpp
+        logger.hpp
+        main.cpp
+        Makefile
+        options.cpp
+        options.hpp
+        README.md
+        tab.hpp)
+
+target_link_libraries(WebEngine PUBLIC
+        OpenSSL::SSL
+        PkgConfig::PANGOCAIRO
+        PkgConfig::GLEW
+        OpenGL
+        gl3w
+        glfw
+)
