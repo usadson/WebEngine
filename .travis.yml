@@ -3,7 +3,7 @@ language: c
 compiler:
   - clang
   - gcc
-script: tools/build-fast.sh
+script: mkdir build && cd build && cmake .. && cmake --build .
 before_install:
   # Apt update database
   - sudo apt update -y

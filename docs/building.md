@@ -6,8 +6,8 @@ This project uses the modern [Clang](https://clang.llvm.org/) compiler.
 This compiler is aiming as a drop-in replacement for GCC, so if you have experience with that compiler, you'll probably feel comfortable with the tool.
 The project is maintained by various respected companies, like Apple, ARM, Google, Mozilla, Sony etc.
 
-### Make
-The project uses [Makefile](https://pubs.opengroup.org/onlinepubs/9699919799/utilities/make.html)s as the automatic building tool.
+### CMake
+The project uses the [CMake](https://cmake.org/) build system.
 
 ### pkg-config
 The project uses [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/) for finding and linking dependencies. It is by default installed on most Linux distributions, but is available in most *nix package managers (like homebrew, pkg, etc.).
@@ -72,9 +72,8 @@ sudo apt -y install libfreetype-dev || sudo apt -y install libfreetype6-dev
 ## Building
 With all the dependencies setup, building the project is quite simple:
 ```sh
-make
-```
-The following tool will run the make recipes single-threadedly. Use the following tool for fast compilation:
-```sh
-tools/build-fast.sh
+mkdir build
+cd build
+cmake ..
+cmake --build .
 ```

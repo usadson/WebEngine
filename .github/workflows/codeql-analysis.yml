@@ -36,7 +36,7 @@ jobs:
 
     - run: |
        sudo apt -y install openssl libssl-dev libglew-dev libglfw3-dev libfreetype6-dev googletest libgtest-dev libpango1.0-dev
-       tools/build-fast.sh
+       mkdir build && cd build && cmake .. && cmake --build . && cd ..
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
